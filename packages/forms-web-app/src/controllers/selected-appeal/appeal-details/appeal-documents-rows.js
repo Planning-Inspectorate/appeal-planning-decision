@@ -107,13 +107,12 @@ exports.documentsRows = (caseData) => {
 		{
 			keyText: 'Planning obligation status',
 			valueText: formatPlanningObligationStatus(caseData.statusPlanningObligation),
-			condition: (caseData) =>
-				(isS20orS78 || isLDC) && isNotUndefinedOrNull(caseData.statusPlanningObligation)
+			condition: (caseData) => isS20orS78 && isNotUndefinedOrNull(caseData.statusPlanningObligation)
 		},
 		{
 			keyText: 'Planning obligation',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANNING_OBLIGATION),
-			condition: () => isS20orS78 || isLDC,
+			condition: () => isS20orS78,
 			isEscaped: true
 		},
 		{

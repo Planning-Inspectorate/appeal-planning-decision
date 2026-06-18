@@ -23,7 +23,6 @@ condition: () => !shouldDisplayGridReference(response, config);
 condition: () => shouldDisplayGridReference(response, config);
 ```
 
-- boolean `/green-belt/` Is the appeal site in a green belt?
 - radio `/inspector-need-access/` Will an inspector need to access your land or property?
 - radio `/health-safety-issues/` Health and safety issues
 - single-line-input `/reference-number/` What is the application reference number?
@@ -128,27 +127,6 @@ condition: () =>
 
 ```js
 condition: () => shouldDisplayUploadDecisionLetter(response);
-```
-
-- boolean `/submit-planning-obligation/` Do you plan to submit a planning obligation to support your appeal?
-- radio `/status-planning-obligation/` What is the status of your planning obligation?
-
-```js
-condition: () => questionHasAnswer(response, questions.submitPlanningObligation, 'yes');
-```
-
-- multi-file-upload `/upload-planning-obligation/` Upload your planning obligation
-
-```js
-condition: () =>
-	questionsHaveAnswers(
-		response,
-		[
-			[questions.submitPlanningObligation, 'yes'],
-			[questions.planningObligationStatus, 'finalised']
-		],
-		{ logicalCombinator: 'and' }
-	);
 ```
 
 - multi-file-upload `/upload-appeal-statement/` Upload your appeal statement

@@ -153,7 +153,7 @@ const CASE_TYPES = Object.freeze({
 /**
  * @param {any} value value to lookup
  * @param {'processCode'|'id'|'type'} lookupProp property to check
- * @param {Record<string, boolean>} featureFlags feature flags to check
+ * @param {Record<string, boolean>} [featureFlags] feature flags to check
  * @returns {CASE_TYPE|undefined} result based on the returnProp
  */
 const caseTypeLookup = (value, lookupProp, featureFlags) => {
