@@ -40,7 +40,6 @@ const makeSections = (response) => {
 			.withCondition(() => !shouldDisplayGridReference(response, config))
 			.addQuestion(questions.appealSiteGridReference)
 			.withCondition(() => shouldDisplayGridReference(response, config))
-			.addQuestion(questions.appellantGreenBelt)
 			.addQuestion(questions.inspectorAccess)
 			.addQuestion(questions.healthAndSafety)
 			.addQuestion(questions.enterApplicationReference)
@@ -119,20 +118,6 @@ const makeSections = (response) => {
 			)
 			.addQuestion(questions.uploadApplicationDecisionLetter)
 			.withCondition(() => shouldDisplayUploadDecisionLetter(response))
-			.addQuestion(questions.submitPlanningObligation)
-			.addQuestion(questions.planningObligationStatus)
-			.withCondition(() => questionHasAnswer(response, questions.submitPlanningObligation, 'yes'))
-			.addQuestion(questions.uploadPlanningObligation)
-			.withCondition(() =>
-				questionsHaveAnswers(
-					response,
-					[
-						[questions.submitPlanningObligation, 'yes'],
-						[questions.planningObligationStatus, 'finalised']
-					],
-					{ logicalCombinator: 'and' }
-				)
-			)
 			.addQuestion(questions.uploadAppellantStatement)
 			.addQuestion(questions.uploadStatementCommonGround)
 			.withCondition(() =>

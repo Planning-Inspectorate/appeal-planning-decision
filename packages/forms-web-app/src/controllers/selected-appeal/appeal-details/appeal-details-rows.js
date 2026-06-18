@@ -201,7 +201,7 @@ const getStandardDetailsRows = (caseData, context) => {
 		{
 			keyText: 'Is the site in a green belt',
 			valueText: formatYesOrNo(caseData, 'isGreenBelt'),
-			condition: (caseData) => caseData.isGreenBelt != null
+			condition: (caseData) => !isLDC && caseData.isGreenBelt != null
 		},
 		{
 			keyText: 'Site fully owned',

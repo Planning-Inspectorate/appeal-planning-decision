@@ -14940,53 +14940,6 @@ exports[`Dynamic forms journey tests appellant Lawful development certificate La
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Lawful development certificate Lawful development certificate should render the green-belt question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"></div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <form action="/appeals/ldc/prepare-appeal/green-belt?id=appeal-ref" method="post"
-            novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="appellantGreenBelt-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Is the appeal site in a green belt?</h1>
-                        </legend>
-                        <div id="appellantGreenBelt-hint" class="govuk-hint"></div>
-                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="appellantGreenBelt" name="appellantGreenBelt"
-                                type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="appellantGreenBelt">Yes</label>
-                            </div>
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="appellantGreenBelt-2" name="appellantGreenBelt"
-                                type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="appellantGreenBelt-2">No</label>
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
-            </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/appeals/ldc/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
 exports[`Dynamic forms journey tests appellant Lawful development certificate Lawful development certificate should render the grid-reference question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -15514,104 +15467,6 @@ exports[`Dynamic forms journey tests appellant Lawful development certificate La
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Lawful development certificate Lawful development certificate should render the status-planning-obligation question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"></div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Upload documents</span>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <form action="/appeals/ldc/upload-documents/status-planning-obligation?id=appeal-ref"
-            method="post" novalidate=null>
-                <fieldset class="govuk-fieldset">
-                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                        <h1 class="govuk-fieldset__heading"> What is the status of your planning obligation?</h1>
-                    </legend>
-                    <div class="govuk-form-group">
-                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="statusPlanningObligation" name="statusPlanningObligation"
-                                type="radio" value="finalised" data-cy="answer-finalised">
-                                <label class="govuk-label govuk-radios__label" for="statusPlanningObligation">Finalised and ready to submit</label>
-                            </div>
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="statusPlanningObligation-2" name="statusPlanningObligation"
-                                type="radio" value="not started yet" data-aria-controls="conditional-statusPlanningObligation-2"
-                                data-cy="answer-not started yet">
-                                <label class="govuk-label govuk-radios__label" for="statusPlanningObligation-2">Not started yet</label>
-                            </div>
-                            <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
-                            id="conditional-statusPlanningObligation-2">The deadline to submit your finalised planning obligation is around 6
-                                weeks after you submit your appeal. We’ll tell you the exact date when
-                                we confirm your appeal.</div>
-                        </div>
-                    </div>
-                </fieldset>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
-            </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/appeals/ldc/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
-exports[`Dynamic forms journey tests appellant Lawful development certificate Lawful development certificate should render the submit-planning-obligation question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"></div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Upload documents</span>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <form action="/appeals/ldc/upload-documents/submit-planning-obligation?id=appeal-ref"
-            method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="planningObligation-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Do you plan to submit a planning obligation to support your appeal?</h1>
-                        </legend>
-                        <div id="planningObligation-hint" class="govuk-hint"></div>
-                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="planningObligation" name="planningObligation"
-                                type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="planningObligation">Yes</label>
-                            </div>
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="planningObligation-2" name="planningObligation"
-                                type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="planningObligation-2">No</label>
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
-            </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/appeals/ldc/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
 exports[`Dynamic forms journey tests appellant Lawful development certificate Lawful development certificate should render the upload-appeal-costs-application question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -16007,50 +15862,6 @@ exports[`Dynamic forms journey tests appellant Lawful development certificate La
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Lawful development certificate Lawful development certificate should render the upload-planning-obligation question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Upload documents</span>
-            <h1 class="govuk-heading-l">Upload your planning obligation</h1>
-            <form action="/appeals/ldc/upload-documents/upload-planning-obligation?id=appeal-ref"
-            method="post" novalidate=null enctype="multipart/form-data">
-                <div class="moj-multi-file-upload">
-                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
-                        </div>
-                    </div>
-                    <div class="moj-multi-file-upload__upload">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-label--m" for="uploadPlanningObligation">Upload files</label>
-                            <div id="uploadPlanningObligation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                than 1GB</div>
-                            <input class="govuk-file-upload moj-multi-file-upload__input"
-                            id="uploadPlanningObligation" name="uploadPlanningObligation" type="file"
-                            aria-describedby="uploadPlanningObligation-hint" multiple="">
-                        </div>
-                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
-                    </div>
-                </div>
-                <div class="govuk-button-group">
-                    <button type="submit" class="govuk-button" data-module="govuk-button"
-                    data-cy="button-save-and-continue">Continue</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/appeals/ldc/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
 exports[`Dynamic forms journey tests appellant Lawful development certificate Lawful development certificate should render the upload-plans-drawings-documents question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -16245,12 +16056,6 @@ exports[`Dynamic forms journey tests appellant Lawful development certificate re
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/ldc/prepare-appeal/appeal-site-address?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What is the address of the appeal site?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the appeal site in a green belt?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/ldc/prepare-appeal/green-belt?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Is the appeal site in a green belt?</span></a>
-                                </dd>
-                        </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Access for inspection</dt>
                             <dd class="govuk-summary-list__value">Not started</dd>
                             <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/ldc/prepare-appeal/inspector-need-access?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Will an inspector need to access your land or property?</span></a>
@@ -16314,12 +16119,6 @@ exports[`Dynamic forms journey tests appellant Lawful development certificate re
                             <dd class="govuk-summary-list__value">Not started</dd>
                             <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/ldc/upload-documents/upload-decision-letter?id=appeal-ref">Upload<span class="govuk-visually-hidden"> the decision letter from the local planning authority</span></a>
                             </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Do you plan to submit a planning obligation to support your appeal?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/ldc/upload-documents/submit-planning-obligation?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Do you plan to submit a planning obligation to support your appeal?</span></a>
-                                </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Appeal statement</dt>
                             <dd class="govuk-summary-list__value">Not started</dd>

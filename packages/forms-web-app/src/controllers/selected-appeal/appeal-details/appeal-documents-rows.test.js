@@ -88,11 +88,7 @@ describe('appeal-documents-rows', () => {
 			6,
 			[CASE_TYPES.S78.processCode, CASE_TYPES.S20.processCode, CASE_TYPES.LDC.processCode]
 		],
-		[
-			'Planning obligation',
-			8,
-			[CASE_TYPES.S78.processCode, CASE_TYPES.S20.processCode, CASE_TYPES.LDC.processCode]
-		],
+		['Planning obligation', 8, [CASE_TYPES.S78.processCode, CASE_TYPES.S20.processCode]],
 		[
 			'New supporting documents',
 			9,

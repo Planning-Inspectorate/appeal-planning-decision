@@ -487,7 +487,6 @@ module.exports = ({
 				...submissionData.common,
 				...submissionData.withAppellant,
 				...submissionData.procedurePreference,
-				...submissionData.planningObligation,
 				...submissionData.ldc,
 				id: crypto.randomUUID(),
 				appealTypeCode: 'LDC',
@@ -500,11 +499,12 @@ module.exports = ({
 					...expectedData.site,
 					...expectedData.common,
 					...expectedData.procedurePreference,
-					...expectedData.planningObligation,
 					...expectedData.ldc,
 					caseType: 'X',
 					typeOfPlanningApplication: 'lawful-development-certificate',
-					caseSubmissionDueDate: null
+					caseSubmissionDueDate: null,
+					planningObligation: null,
+					statusPlanningObligation: null
 				},
 				documents: expectedData.documents,
 				users: expectedData.appellantUsers,

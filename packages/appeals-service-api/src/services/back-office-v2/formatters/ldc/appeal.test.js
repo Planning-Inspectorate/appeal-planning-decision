@@ -118,8 +118,8 @@ describe('LDC formatter', () => {
 				appellantProcedurePreferenceDetails: 'details',
 				appellantProcedurePreferenceDuration: 13,
 				appellantProcedurePreferenceWitnessCount: 3,
-				statusPlanningObligation: 'finalised',
-				planningObligation: true,
+				statusPlanningObligation: null,
+				planningObligation: null,
 				applicationMadeUnderActSection:
 					APPEAL_APPLICATION_MADE_UNDER_ACT_SECTION.PROPOSED_CHANGES_TO_A_LISTED_BUILDING,
 				siteUseAtTimeOfApplication: 'lorum ipsum'

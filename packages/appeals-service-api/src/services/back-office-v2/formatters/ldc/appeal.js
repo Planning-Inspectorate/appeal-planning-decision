@@ -1,6 +1,5 @@
 const {
 	formatApplicationSubmissionUsers,
-	formatPlanningObligationStatus,
 	getAppellantProcedurePreference,
 	getCommonAppellantSubmissionFields,
 	getDocuments,
@@ -24,10 +23,9 @@ exports.formatter = async (appellantSubmission, lpa) => {
 			...getCommonAppellantSubmissionFields(appellantSubmission, lpa),
 			...getAppellantProcedurePreference(appellantSubmission),
 			...getLdcSpecificAppealSubmissionFields(appellantSubmission),
-			planningObligation: appellantSubmission.planningObligation ?? null,
-			statusPlanningObligation: formatPlanningObligationStatus(
-				appellantSubmission.statusPlanningObligation
-			)
+			// no longer needed - can be removed after next release
+			planningObligation: null,
+			statusPlanningObligation: null
 		},
 		documents: await getDocuments(appellantSubmission),
 		users: formatApplicationSubmissionUsers(appellantSubmission)
