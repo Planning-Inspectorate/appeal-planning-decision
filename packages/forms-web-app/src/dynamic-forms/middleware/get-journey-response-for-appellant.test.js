@@ -131,7 +131,8 @@ describe('getJourneyResponseForAppellant', () => {
 			applicationDate: convertedResponse?.onApplicationDate,
 			eligibility: {
 				applicationDecision: convertedResponse?.applicationDecision
-			}
+			},
+			appealTypeCode: convertedResponse?.appealTypeCode
 		});
 		expect(next).toHaveBeenCalled();
 	});
