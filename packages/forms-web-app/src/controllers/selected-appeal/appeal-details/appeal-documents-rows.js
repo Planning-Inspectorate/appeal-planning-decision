@@ -57,7 +57,16 @@ exports.documentsRows = (caseData) => {
 		{
 			keyText: 'Plans, drawings and supporting documents',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANS_DRAWINGS),
-			condition: () => caseData.appealTypeCode !== CASE_TYPES.HAS.processCode, // in lpaq for HAS
+			condition: () => {
+				if (
+					(caseData.appealTypeCode === CASE_TYPES.CAS_PLANNING.processCode ||
+						caseData.appealTypeCode === CASE_TYPES.CAS_ADVERTS.processCode) &&
+					isExpeditedAppealDate(caseData.applicationDate)
+				) {
+					return false;
+				}
+				return caseData.appealTypeCode !== CASE_TYPES.HAS.processCode;
+			},
 			isEscaped: true
 		},
 		{
