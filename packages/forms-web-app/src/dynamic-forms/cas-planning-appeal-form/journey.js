@@ -105,6 +105,7 @@ const makeSections = (response) => {
 					questionHasAnswer(response, questions.designAccessStatement, 'yes')
 			)
 			.addQuestion(questions.uploadPlansDrawingsDocuments)
+			.withCondition(() => isBeforeExpeditedCutoff(response))
 	];
 };
 

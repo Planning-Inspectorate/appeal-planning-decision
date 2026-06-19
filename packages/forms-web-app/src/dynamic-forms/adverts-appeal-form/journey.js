@@ -160,6 +160,7 @@ const makeSections = (response) => {
 			.addQuestion(questions.uploadCostApplication)
 			.withCondition(() => questionHasAnswer(response, questions.costApplication, 'yes'))
 			.addQuestion(questions.uploadPlansDrawingsDocuments)
+			.withCondition(() => isBeforeExpeditedCutoff(response))
 	];
 };
 

@@ -340,4 +340,54 @@ describe('ADVERTS Appeal Form Journey', () => {
 			expect(dateQuestion?.shouldDisplay(journey.response)).toBe(false);
 		});
 	});
+
+	describe('uploadPlansDrawingsDocuments condition', () => {
+		it('should include uploadPlansDrawingsDocuments if application date is before April 1st 2026', () => {
+			const answers = { onApplicationDate: '2026-03-30T12:00:00.000Z' };
+			const journey = new Journey({
+				...params,
+				response: {
+					...mockResponse,
+					answers
+				}
+			});
+			const uploadSection = journey.getSection('upload-documents');
+			const plansQuestion = uploadSection?.questions?.find(
+				(q) => q.fieldName === 'uploadPlansDrawings'
+			);
+			expect(plansQuestion?.shouldDisplay(journey.response)).toBe(true);
+		});
+
+		it('should not include uploadPlansDrawingsDocuments if application date is on or after April 1st 2026', () => {
+			const answers = { onApplicationDate: '2026-04-01T00:00:00.000Z' };
+			const journey = new Journey({
+				...params,
+				response: {
+					...mockResponse,
+					answers
+				}
+			});
+			const uploadSection = journey.getSection('upload-documents');
+			const plansQuestion = uploadSection?.questions?.find(
+				(q) => q.fieldName === 'uploadPlansDrawings'
+			);
+			expect(plansQuestion?.shouldDisplay(journey.response)).toBe(false);
+		});
+
+		it('should include uploadPlansDrawingsDocuments if application date is not set', () => {
+			const answers = {};
+			const journey = new Journey({
+				...params,
+				response: {
+					...mockResponse,
+					answers
+				}
+			});
+			const uploadSection = journey.getSection('upload-documents');
+			const plansQuestion = uploadSection?.questions?.find(
+				(q) => q.fieldName === 'uploadPlansDrawings'
+			);
+			expect(plansQuestion?.shouldDisplay(journey.response)).toBe(true);
+		});
+	});
 });

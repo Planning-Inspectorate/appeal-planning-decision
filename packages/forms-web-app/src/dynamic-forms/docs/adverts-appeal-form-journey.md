@@ -198,3 +198,7 @@ condition: () => questionHasAnswer(response, questions.costApplication, 'yes');
 ```
 
 - multi-file-upload `/upload-plans-drawings-documents/` Upload your plans, drawings and supporting documents you submitted with your application
+
+```js
+condition: () => isBeforeExpeditedCutoff(response);
+```

@@ -447,4 +447,56 @@ describe('appeal-documents-rows - CAS Planning conditional design and access sta
 		expect(row).toBeDefined();
 		expect(row?.condition(caseData)).toBe(true);
 	});
+
+	describe('CAS Planning and CAS Adverts conditional plans, drawings and supporting documents', () => {
+		test.each([
+			['CAS Planning', CASE_TYPES.CAS_PLANNING.processCode],
+			['CAS Adverts', CASE_TYPES.CAS_ADVERTS.processCode]
+		])(
+			'should display plans, drawings and supporting documents for %s if applicationDate is before April 1st 2026',
+			(_, processCode) => {
+				const caseData = {
+					appealTypeCode: processCode,
+					applicationDate: '2026-03-30T12:00:00.000Z'
+				};
+				const rows = documentsRows(caseData);
+				const row = rows.find((r) => r.keyText === 'Plans, drawings and supporting documents');
+				expect(row).toBeDefined();
+				expect(row?.condition(caseData)).toBe(true);
+			}
+		);
+
+		test.each([
+			['CAS Planning', CASE_TYPES.CAS_PLANNING.processCode],
+			['CAS Adverts', CASE_TYPES.CAS_ADVERTS.processCode]
+		])(
+			'should not display plans, drawings and supporting documents for %s if applicationDate is on or after April 1st 2026',
+			(_, processCode) => {
+				const caseData = {
+					appealTypeCode: processCode,
+					applicationDate: '2026-04-01T00:00:00.000Z'
+				};
+				const rows = documentsRows(caseData);
+				const row = rows.find((r) => r.keyText === 'Plans, drawings and supporting documents');
+				expect(row).toBeDefined();
+				expect(row?.condition(caseData)).toBe(false);
+			}
+		);
+
+		test.each([
+			['CAS Planning', CASE_TYPES.CAS_PLANNING.processCode],
+			['CAS Adverts', CASE_TYPES.CAS_ADVERTS.processCode]
+		])(
+			'should display plans, drawings and supporting documents for %s if applicationDate is not set',
+			(_, processCode) => {
+				const caseData = {
+					appealTypeCode: processCode
+				};
+				const rows = documentsRows(caseData);
+				const row = rows.find((r) => r.keyText === 'Plans, drawings and supporting documents');
+				expect(row).toBeDefined();
+				expect(row?.condition(caseData)).toBe(true);
+			}
+		);
+	});
 });
