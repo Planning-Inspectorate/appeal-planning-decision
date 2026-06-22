@@ -139,19 +139,31 @@ router.get(
 // costs
 router.get(
 	'/:appealNumber/appellant-cost-application',
-	costsController.get({ userType, costsType: APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_APPLICATION })
+	costsController.get(
+		{ userType, costsType: APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_APPLICATION },
+		'layouts/lpa-dashboard/main.njk'
+	)
 );
 router.get(
 	'/:appealNumber/lpa-cost-application',
-	costsController.get({ userType, costsType: APPEAL_DOCUMENT_TYPE.LPA_COSTS_APPLICATION })
+	costsController.get(
+		{ userType, costsType: APPEAL_DOCUMENT_TYPE.LPA_COSTS_APPLICATION },
+		'layouts/lpa-dashboard/main.njk'
+	)
 );
 router.get(
 	'/:appealNumber/appellant-cost-comments',
-	costsController.get({ userType, costsType: APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_CORRESPONDENCE })
+	costsController.get(
+		{ userType, costsType: APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_CORRESPONDENCE },
+		'layouts/lpa-dashboard/main.njk'
+	)
 );
 router.get(
 	'/:appealNumber/lpa-cost-comments',
-	costsController.get({ userType, costsType: APPEAL_DOCUMENT_TYPE.LPA_COSTS_CORRESPONDENCE })
+	costsController.get(
+		{ userType, costsType: APPEAL_DOCUMENT_TYPE.LPA_COSTS_CORRESPONDENCE },
+		'layouts/lpa-dashboard/main.njk'
+	)
 );
 
 module.exports = router;
