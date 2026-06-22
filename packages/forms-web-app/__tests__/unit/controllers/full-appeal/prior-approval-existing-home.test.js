@@ -96,6 +96,10 @@ describe('controllers/full-appeal/submit-appeal/prior-approval-existing-home', (
 			isLpaInFeatureFlag.mockReturnValueOnce(false);
 			fullAppealCopy[sectionName].hasPriorApprovalForExistingHome = true;
 			fullAppealCopy.appealType = '1001';
+			fullAppealCopy.appealSiteSection.siteOwnership = {
+				ownsWholeSite: null,
+				haveOtherOwnersBeenTold: null
+			};
 
 			const submittedAppeal = {
 				...fullAppealCopy,
@@ -113,14 +117,8 @@ describe('controllers/full-appeal/submit-appeal/prior-approval-existing-home', (
 
 			await postPriorApprovalExistingHome(req, res);
 
-			// const appealCopy = JSON.parse(JSON.stringify(fullAppealCopy));
-			fullAppealCopy.appealSiteSection.siteOwnership = {
-				haveOtherOwnersBeenTold: null,
-				ownsWholeSite: null
-			};
-
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(fullAppealCopy);
-			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/granted-or-refused-householder');
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/application-date');
 			expect(req.session.appeal).toEqual(submittedAppeal);
 		});
 
@@ -128,7 +126,6 @@ describe('controllers/full-appeal/submit-appeal/prior-approval-existing-home', (
 			isLpaInFeatureFlag.mockReturnValueOnce(true); //s20
 			isLpaInFeatureFlag.mockReturnValueOnce(true); //s78
 			fullAppealCopy[sectionName].hasPriorApprovalForExistingHome = false;
-			fullAppealCopy.appealType = '1005';
 
 			const submittedAppeal = {
 				...fullAppealCopy,
@@ -147,7 +144,7 @@ describe('controllers/full-appeal/submit-appeal/prior-approval-existing-home', (
 			await postPriorApprovalExistingHome(req, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(fullAppealCopy);
-			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/granted-or-refused');
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/application-date');
 			expect(req.session.appeal).toEqual(submittedAppeal);
 		});
 	});

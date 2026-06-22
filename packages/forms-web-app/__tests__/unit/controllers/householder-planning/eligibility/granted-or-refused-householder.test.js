@@ -1,4 +1,4 @@
-const appeal = require('@pins/business-rules/test/data/householder-appeal');
+const rawAppeal = require('@pins/business-rules/test/data/householder-appeal');
 const v8 = require('v8');
 const {
 	getGrantedOrRefusedHouseholder,
@@ -22,17 +22,15 @@ jest.mock('../../../../../src/lib/logger');
 describe('controllers/householder-planning/eligibility/granted-or-refused-householder', () => {
 	let req;
 	let res;
+	let appeal;
 	const bannerHtmlOverride =
 		config.betaBannerText +
 		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('HAS'));
 
 	beforeEach(() => {
-		req = v8.deserialize(
-			v8.serialize({
-				...mockReq(appeal),
-				body: {}
-			})
-		);
+		appeal = v8.deserialize(v8.serialize(rawAppeal));
+		req = mockReq(appeal);
+		req.body = {};
 		res = mockRes();
 
 		jest.resetAllMocks();
@@ -77,8 +75,6 @@ describe('controllers/householder-planning/eligibility/granted-or-refused-househ
 			const error = new Error('Api call error');
 			const applicationDecision = 'granted';
 
-			appeal.appealType = '1005';
-
 			req.body = {
 				'granted-or-refused': applicationDecision
 			};
@@ -102,8 +98,6 @@ describe('controllers/householder-planning/eligibility/granted-or-refused-househ
 		it(`'should redirect to '/before-you-start/decision-date-householder' if 'applicationDecision' is 'refused'`, async () => {
 			const applicationDecision = 'refused';
 
-			appeal.appealType = '1001';
-			appeal.eligibility.applicationDecision = applicationDecision;
 			req.body = {
 				'granted-or-refused': applicationDecision
 			};
@@ -115,11 +109,9 @@ describe('controllers/householder-planning/eligibility/granted-or-refused-househ
 			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/decision-date-householder');
 		});
 
-		it(`should redirect to '/before-you-start/decision-date-householder' if 'applicationDecision' is 'granted'`, async () => {
+		it(`should redirect to '/before-you-start/decision-date' if 'applicationDecision' is 'granted'`, async () => {
 			const applicationDecision = 'granted';
 
-			appeal.appealType = '1005';
-			appeal.eligibility.applicationDecision = applicationDecision;
 			req.body = {
 				'granted-or-refused': applicationDecision
 			};
@@ -130,10 +122,9 @@ describe('controllers/householder-planning/eligibility/granted-or-refused-househ
 			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/decision-date');
 		});
 
-		it(`should redirect to '/before-you-start/date-decision-due-householder' if 'applicationDecision' is 'nodecisionreceived'`, async () => {
+		it(`should redirect to '/before-you-start/date-decision-due' if 'applicationDecision' is 'nodecisionreceived'`, async () => {
 			const applicationDecision = 'nodecisionreceived';
 
-			appeal.eligibility.applicationDecision = applicationDecision;
 			req.body = {
 				'granted-or-refused': applicationDecision
 			};

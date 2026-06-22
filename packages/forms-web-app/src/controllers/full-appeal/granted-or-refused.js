@@ -69,6 +69,28 @@ exports.postGrantedOrRefused = async (req, res) => {
 				? appeal.appealType // leave as current appeal type (either CAS planning or S78 based on planning application about answer)
 				: (appeal.appealType = APPEAL_ID.PLANNING_SECTION_78);
 	}
+	if (
+		appeal.typeOfPlanningApplication === TYPE_OF_PLANNING_APPLICATION.PRIOR_APPROVAL &&
+		appeal.eligibility?.hasPriorApprovalForExistingHome
+	) {
+		if (applicationDecision === APPLICATION_DECISION.REFUSED) {
+			appeal.appealType = APPEAL_ID.HOUSEHOLDER;
+			appeal.appealSiteSection.siteOwnership = {
+				ownsWholeSite: null,
+				haveOtherOwnersBeenTold: null
+			};
+		} else {
+			appeal.appealType = APPEAL_ID.PLANNING_SECTION_78;
+			appeal.appealSiteSection.siteOwnership = {
+				ownsSomeOfTheLand: null,
+				ownsAllTheLand: null,
+				knowsTheOwners: null,
+				hasIdentifiedTheOwners: null,
+				tellingTheLandowners: null,
+				advertisingYourAppeal: null
+			};
+		}
+	}
 
 	try {
 		req.session.appeal = await createOrUpdateAppeal(appeal);
@@ -85,6 +107,10 @@ exports.postGrantedOrRefused = async (req, res) => {
 
 	if (appeal.appealType === APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT) {
 		return res.redirect('/before-you-start/application-date');
+	}
+
+	if (appeal.appealType === APPEAL_ID.HOUSEHOLDER) {
+		return res.redirect('/before-you-start/decision-date-householder');
 	}
 
 	res.redirect(`${this.forwardPage(selectedApplicationStatus)}`);

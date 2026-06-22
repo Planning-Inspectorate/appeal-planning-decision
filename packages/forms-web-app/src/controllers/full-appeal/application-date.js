@@ -47,16 +47,43 @@ const postApplicationDate = async (req, res) => {
 			body['application-date-day']
 		);
 
-		req.session.appeal = await createOrUpdateAppeal({
-			...appeal,
-			applicationDate: enteredDate.toISOString()
-		});
+		appeal.applicationDate = enteredDate.toISOString();
+
+		if (appeal.typeOfPlanningApplication === TYPE_OF_PLANNING_APPLICATION.PRIOR_APPROVAL) {
+			appeal.appealType = APPEAL_ID.PLANNING_SECTION_78;
+			appeal.appealSiteSection.siteOwnership = {
+				ownsSomeOfTheLand: null,
+				ownsAllTheLand: null,
+				knowsTheOwners: null,
+				hasIdentifiedTheOwners: null,
+				tellingTheLandowners: null,
+				advertisingYourAppeal: null
+			};
+			if (appeal.eligibility?.hasPriorApprovalForExistingHome) {
+				appeal.appealType = APPEAL_ID.HOUSEHOLDER;
+				appeal.appealSiteSection.siteOwnership = {
+					ownsWholeSite: null,
+					haveOtherOwnersBeenTold: null
+				};
+			}
+		}
+
+		req.session.appeal = await createOrUpdateAppeal(appeal);
 
 		if (appeal.appealType === APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT) {
 			return res.redirect('/before-you-start/decision-date');
 		}
 
 		if (appeal.typeOfPlanningApplication === TYPE_OF_PLANNING_APPLICATION.HOUSEHOLDER_PLANNING) {
+			return res.redirect('/before-you-start/granted-or-refused-householder');
+		}
+		if (
+			appeal.typeOfPlanningApplication === TYPE_OF_PLANNING_APPLICATION.PRIOR_APPROVAL &&
+			appeal.eligibility?.hasPriorApprovalForExistingHome
+		) {
+			if (appeal.appealType === APPEAL_ID.PLANNING_SECTION_78) {
+				return res.redirect('/before-you-start/granted-or-refused');
+			}
 			return res.redirect('/before-you-start/granted-or-refused-householder');
 		}
 

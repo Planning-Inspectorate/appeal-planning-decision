@@ -41,10 +41,23 @@ const postGrantedOrRefusedHouseholder = async (req, res) => {
 
 	try {
 		appeal.eligibility.applicationDecision = applicationDecision;
-		appeal.appealType =
-			applicationDecision === APPLICATION_DECISION.REFUSED
-				? APPEAL_ID.HOUSEHOLDER
-				: APPEAL_ID.PLANNING_SECTION_78;
+		if (applicationDecision === APPLICATION_DECISION.REFUSED) {
+			appeal.appealType = APPEAL_ID.HOUSEHOLDER;
+			appeal.appealSiteSection.siteOwnership = {
+				ownsWholeSite: null,
+				haveOtherOwnersBeenTold: null
+			};
+		} else {
+			appeal.appealType = APPEAL_ID.PLANNING_SECTION_78;
+			appeal.appealSiteSection.siteOwnership = {
+				ownsSomeOfTheLand: null,
+				ownsAllTheLand: null,
+				knowsTheOwners: null,
+				hasIdentifiedTheOwners: null,
+				tellingTheLandowners: null,
+				advertisingYourAppeal: null
+			};
+		}
 		req.session.appeal = await createOrUpdateAppeal(appeal);
 	} catch (err) {
 		logger.error(err);
