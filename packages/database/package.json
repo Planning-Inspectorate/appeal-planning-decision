@@ -23,7 +23,6 @@
 		"@prisma/client": "*"
 	},
 	"devDependencies": {
-		"dotenv": "*",
 		"prisma": "*",
 		"typescript": "*"
 	}

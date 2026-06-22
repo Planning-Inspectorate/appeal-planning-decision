@@ -2,7 +2,8 @@
 const { defineConfig } = require('cypress');
 const baseConfig = require('./cypress.config');
 
-require('dotenv').config();
+// prettier-ignore
+try { require('node:process').loadEnvFile(); } catch {/* ignore errors*/}
 
 // use front office and backoffice defaults if not set
 if (!baseConfig.e2e.appeals_beta_base_url) {

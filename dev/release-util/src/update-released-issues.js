@@ -1,8 +1,8 @@
-const dotenv = require('dotenv');
 const { docopt } = require('docopt');
 const { JiraApi } = require('./jira-api');
 
-dotenv.config(); // load from .env
+// prettier-ignore
+try { require('node:process').loadEnvFile(); } catch {/* ignore errors*/} // load from .env
 const username = process.env.JIRA_USERNAME;
 const apiKey = process.env.JIRA_API_KEY;
 const baseUrl = process.env.JIRA_BASE_URL;

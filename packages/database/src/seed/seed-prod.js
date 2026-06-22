@@ -1,5 +1,5 @@
-const dotenv = require('dotenv');
-dotenv.config();
+// prettier-ignore
+try { require('node:process').loadEnvFile(); } catch {/* ignore errors*/}
 
 const createPrismaClient = require('../create-client');
 const { seedStaticData } = require('./data-static');
