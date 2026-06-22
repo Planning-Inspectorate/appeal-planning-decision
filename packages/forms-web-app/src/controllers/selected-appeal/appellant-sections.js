@@ -191,7 +191,7 @@ exports.sections = [
 		heading: 'Costs',
 		links: [
 			{
-				url: '/appellant-cost-application',
+				url: '/your-cost-application',
 				text: 'View your costs applications',
 				condition: (appealCase) =>
 					appealCase.Documents.some(
@@ -200,7 +200,7 @@ exports.sections = [
 					)
 			},
 			{
-				url: '/lpa-cost-application',
+				url: '/local-planning-authority-costs-applications',
 				text: 'View local planning authority cost applications',
 				condition: (appealCase) =>
 					appealCase.Documents.some(
@@ -210,7 +210,7 @@ exports.sections = [
 					)
 			},
 			{
-				url: '/appellant-cost-comments',
+				url: '/your-cost-comments',
 				text: 'View your costs comments',
 				condition: (appealCase) =>
 					appealCase.Documents.some(
@@ -219,7 +219,7 @@ exports.sections = [
 					)
 			},
 			{
-				url: '/lpa-cost-comments',
+				url: '/local-planning-authority-costs-comments',
 				text: 'View local planning authority costs comments',
 				condition: (appealCase) =>
 					appealCase.Documents.some(
