@@ -2,7 +2,8 @@
 const { defineConfig } = require('cypress');
 const baseConfig = require('./cypress.config');
 
-require('dotenv').config();
+// prettier-ignore
+try { require('node:process').loadEnvFile(); } catch {/* ignore errors*/}
 
 const e2eOverride = {
 	appeals_beta_base_url: 'https://appeals-service-dev.planninginspectorate.gov.uk',

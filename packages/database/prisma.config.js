@@ -1,5 +1,5 @@
-const dotenv = require('dotenv');
-dotenv.config();
+// prettier-ignore
+try { require('node:process').loadEnvFile(); } catch {/* ignore errors*/}
 
 const { defineConfig } = require('prisma/config');
 const path = require('path');

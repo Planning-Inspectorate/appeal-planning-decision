@@ -7,7 +7,8 @@ const {
 } = require('./cypress/support/cypressUtils');
 const { generateTestJpg } = require('./cypress/fixtures/generate-jpg.js');
 
-require('dotenv').config();
+// prettier-ignore
+try { require('node:process').loadEnvFile(); } catch {/* ignore errors*/}
 
 module.exports = defineConfig({
   pageLoadTimeout: 300000,

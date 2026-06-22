@@ -37,7 +37,6 @@
 		"uuid": "*"
 	},
 	"devDependencies": {
-		"dotenv": "*",
 		"jest": "*",
 		"jest-each": "*",
 		"jest-junit": "*",

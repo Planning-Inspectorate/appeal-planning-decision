@@ -3,7 +3,7 @@
 	"version": "0.0.0",
 	"private": true,
 	"engines": {
-		"node": ">=22.0.0 <23.0.0"
+		"node": ">=22.21.0 <23.0.0"
 	},
 	"description": "Appeal a planning decision - these are utility scripts for the whole repo",
 	"workspaces": [
@@ -50,7 +50,7 @@
 		"lint:web": "cd packages/forms-web-app && eslint ./",
 		"lint:web:fix": "cd packages/forms-web-app && eslint ./ --fix",
 		"prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\"",
-		"seed:blob": "cd packages/document-service-api && dotenv -- npm run seed:dev",
+		"seed:blob": "cd packages/document-service-api && npm run seed:dev",
 		"test": "cross-env run-s --continue-on-error --print-label \"test:*\"",
 		"test-cov": "cross-env run-s --continue-on-error --print-label \"test-cov:*\"",
 		"test:appeals-api": "cd packages/appeals-service-api && npm run test",
@@ -125,7 +125,6 @@
 		"cors": "^2.8.6",
 		"date-fns": "^2.30.0",
 		"date-fns-tz": "^2.0.0",
-		"dotenv": "^17.3.1",
 		"escape-html": "^1.0.3",
 		"express": "^4.22.1",
 		"express-async-errors": "^3.1.1",
