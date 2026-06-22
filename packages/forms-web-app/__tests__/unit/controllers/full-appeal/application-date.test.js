@@ -124,6 +124,80 @@ describe('controllers/full-appeal/application-date', () => {
 			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/granted-or-refused');
 		});
 
+		it('should redirect to granted-or-refused-householder and set appealType to HOUSEHOLDER if typeOfPlanningApplication is PRIOR_APPROVAL, hasPriorApprovalForExistingHome is true, and date is on or after the cutoff date', async () => {
+			const applicationDate = new Date('2026-04-01T00:00:00.000Z');
+			const mockRequest = {
+				...req,
+				body: {
+					'application-date-year': getYear(applicationDate),
+					'application-date-month': getMonth(applicationDate) + 1,
+					'application-date-day': getDate(applicationDate)
+				},
+				session: {
+					appeal: {
+						...appeal,
+						typeOfPlanningApplication: constants.TYPE_OF_PLANNING_APPLICATION.PRIOR_APPROVAL,
+						eligibility: {
+							hasPriorApprovalForExistingHome: true
+						},
+						appealSiteSection: {}
+					}
+				}
+			};
+
+			await postApplicationDate(mockRequest, res);
+
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith(
+				expect.objectContaining({
+					appealType: constants.APPEAL_ID.HOUSEHOLDER,
+					appealSiteSection: {
+						siteOwnership: {
+							ownsWholeSite: null,
+							haveOtherOwnersBeenTold: null
+						}
+					}
+				})
+			);
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/granted-or-refused-householder');
+		});
+
+		it('should redirect to granted-or-refused-householder and set appealType to HOUSEHOLDER if typeOfPlanningApplication is PRIOR_APPROVAL, hasPriorApprovalForExistingHome is true, and date is before the cutoff date', async () => {
+			const applicationDate = new Date('2026-03-30T12:00:00.000Z');
+			const mockRequest = {
+				...req,
+				body: {
+					'application-date-year': getYear(applicationDate),
+					'application-date-month': getMonth(applicationDate) + 1,
+					'application-date-day': getDate(applicationDate)
+				},
+				session: {
+					appeal: {
+						...appeal,
+						typeOfPlanningApplication: constants.TYPE_OF_PLANNING_APPLICATION.PRIOR_APPROVAL,
+						eligibility: {
+							hasPriorApprovalForExistingHome: true
+						},
+						appealSiteSection: {}
+					}
+				}
+			};
+
+			await postApplicationDate(mockRequest, res);
+
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith(
+				expect.objectContaining({
+					appealType: constants.APPEAL_ID.HOUSEHOLDER,
+					appealSiteSection: {
+						siteOwnership: {
+							ownsWholeSite: null,
+							haveOtherOwnersBeenTold: null
+						}
+					}
+				})
+			);
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/granted-or-refused-householder');
+		});
+
 		it('should display the application date template with errors if any field is invalid', async () => {
 			const mockRequest = {
 				...req,

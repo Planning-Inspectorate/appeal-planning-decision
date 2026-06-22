@@ -29,6 +29,9 @@ const getNextPageFromCanUseServicePage = async (appeal) => {
 			}
 			return nextPage.fullAppeal;
 		case PRIOR_APPROVAL:
+			if (appeal.appealType === APPEAL_ID.PLANNING_SECTION_78) {
+				return nextPage.fullAppeal;
+			}
 			if (hasPriorApprovalForExistingHome && applicationDecision === REFUSED) {
 				return nextPage.householderPlanning;
 			}

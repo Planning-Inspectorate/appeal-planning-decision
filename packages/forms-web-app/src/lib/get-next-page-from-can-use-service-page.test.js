@@ -84,6 +84,18 @@ describe('getNextPageFromCanUseServicePage', () => {
 		expect(await getNextPageFromCanUseServicePage(appeal)).toEqual(householderNextPage);
 	});
 
+	it('returns correct page (full appeal) for prior approval - refused householder that was upgraded to S78', async () => {
+		const appeal = {
+			appealType: APPEAL_ID.PLANNING_SECTION_78,
+			typeOfPlanningApplication: PRIOR_APPROVAL,
+			eligibility: {
+				applicationDecision: REFUSED,
+				hasPriorApprovalForExistingHome: true
+			}
+		};
+		expect(await getNextPageFromCanUseServicePage(appeal)).toEqual(fullAppealNextPage);
+	});
+
 	it('returns correct page (listed building if removal or variation of conditions application and s20 appeal type', async () => {
 		const appeal = {
 			appealType: APPEAL_ID.PLANNING_LISTED_BUILDING,

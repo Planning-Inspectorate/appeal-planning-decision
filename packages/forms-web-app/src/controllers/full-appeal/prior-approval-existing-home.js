@@ -1,6 +1,3 @@
-const {
-	constants: { APPEAL_ID }
-} = require('@pins/business-rules');
 const logger = require('../../lib/logger');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const {
@@ -8,6 +5,7 @@ const {
 		FULL_APPEAL: { PRIOR_APPROVAL_EXISTING_HOME }
 	}
 } = require('../../lib/views');
+const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 
 const sectionName = 'eligibility';
 
@@ -67,12 +65,7 @@ const postPriorApprovalExistingHome = async (req, res) => {
 			errorSummary: [{ text: err.toString(), href: '#' }]
 		});
 	}
-
-	if (hasPriorApprovalForExistingHome) {
-		return res.redirect('/before-you-start/granted-or-refused-householder');
-	}
-
-	return res.redirect('/before-you-start/granted-or-refused');
+	return res.redirect('/before-you-start/application-date');
 };
 
 module.exports = {
