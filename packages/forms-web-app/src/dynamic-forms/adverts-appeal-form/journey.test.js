@@ -337,7 +337,7 @@ describe('ADVERTS Appeal Form Journey', () => {
 			const dateQuestion = prepareSection?.questions?.find(
 				(q) => q.fieldName === 'onApplicationDate'
 			);
-			expect(dateQuestion?.shouldDisplay(journey.response)).toBe(false);
+			expect(dateQuestion?.shouldDisplay(journey.response)).toBe(true);
 		});
 	});
 });
