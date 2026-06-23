@@ -74,6 +74,7 @@ const makeSections = (response) => {
 			.addQuestion(questions.inspectorAccess)
 			.addQuestion(questions.healthAndSafety)
 			.addQuestion(questions.enterApplicationReference)
+			.addQuestion(questions.planningApplicationDate)
 			.addQuestion(questions.enterDevelopmentDescription)
 			.addQuestion(questions.updateDevelopmentDescription)
 			.addQuestion(questions.whyAreYouAppealingPart1)
