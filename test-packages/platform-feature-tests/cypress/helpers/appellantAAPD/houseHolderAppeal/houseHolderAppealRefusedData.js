@@ -17,7 +17,52 @@ const documents = {
 };
 export const houseHolderAppealRefusedTestCases = [
     {
-        tags: ['smoke'],
+       tags: ['smoke','expedited'],
+        statusOfOriginalApplication: 'refused',
+        typeOfDecisionRequested: 'written',
+        statusOfPlanningObligation: 'in draft',
+        typeOfPlanningApplication: 'answer-householder-planning',
+        endToEndIntegration: true,
+        expeditedAppeal: true,
+        applicationForm: {
+            isAppellant: true,
+            //areaUnits:'hectare',
+            appellantInGreenBelt: true,
+            isOwnsAllLand: false,
+            isOwnsSomeLand: true,
+            knowsAllOwners: 'no',
+            knowsOtherOwners: 'yes',
+            //isAgriculturalHolding: false,
+            isTenantAgricultureHolding: true,
+            anyOtherTenants: true,
+            isInspectorNeedAccess: true,
+            isAppellantSiteSafety: true,
+            iaUpdateDevelopmentDescription: true,
+            appellantProcedurePreference: 'hearing',
+            anyOtherAppeals: true,
+            isAppellantLinkedCaseAdd: false
+        },
+        uploadDocuments: {
+            submitPlanningObligation: true,
+            finalisedPlanningStatus: 'ready',
+            isApplyAwardCost: true,
+            isSubmitDesignAndAccessStmt: true,
+            isNewPlanOrDrawingAvailable: true,
+            isOtherNewDocumentAvailable: true
+        },
+        documents,
+        otherAppeals: [{
+            appealReferenceNumber: '1234567'
+        }, {
+            appealReferenceNumber: '7654321'
+        }],
+        finalComments: {
+            check: false, // TODO: set these to true after feature flag introduced
+            uploadAdditionalDocuments: false
+        }
+    },
+    {
+       tags: ['smoke'],
         statusOfOriginalApplication: 'refused',
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',

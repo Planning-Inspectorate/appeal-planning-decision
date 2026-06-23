@@ -27,6 +27,7 @@ describe('Submit House Holder Appeal Refused Test Cases',{ tags:'@HAS-refused' }
 			typeOfDecisionRequested,
 			statusOfPlanningObligation,
 			typeOfPlanningApplication,
+			expeditedAppeal,
 			applicationForm,
 			questionnaireTestCases
 		} = context;
@@ -58,6 +59,7 @@ describe('Submit House Holder Appeal Refused Test Cases',{ tags:'@HAS-refused' }
 				typeOfDecisionRequested,
 				statusOfPlanningObligation,
 				planning: typeOfPlanningApplication,
+				expeditedAppeal,
 				context,
 				prepareAppealData,
 				lpaManageAppealsData,

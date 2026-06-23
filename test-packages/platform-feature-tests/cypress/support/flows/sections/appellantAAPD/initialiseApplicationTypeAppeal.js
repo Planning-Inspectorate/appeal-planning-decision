@@ -24,7 +24,7 @@ module.exports = (statusOfOriginalApplication, planning, expeditedAppeal, contex
 	cy.get(`[data-cy="${planning}"]`).click();
 	cy.advanceToNextPage();
 
-	if (planning === prepareAppealSelector?._selectors?.answerFullAppeal) {
+	if (planning === prepareAppealSelector?._selectors?.answerFullAppeal || planning === prepareAppealSelector?._selectors?.answerHouseholderPlanning || planning === prepareAppealSelector?._selectors?.answerMinorCommercialDevelopment || planning === prepareAppealSelector?._selectors?.answerMinorCommercialAdvertisement) {
 		if (expeditedAppeal) {
 			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateDay).clear()
 			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateDay).type(date.today());
@@ -87,7 +87,7 @@ module.exports = (statusOfOriginalApplication, planning, expeditedAppeal, contex
 		initialiseListedBuilding(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.listedBuildingText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
 	} else if (planning === prepareAppealSelector?._selectors?.answerHouseholderPlanning) {
 		statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ?
-			initialiseHouseHolderPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases) : initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+			initialiseHouseHolderPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, expeditedAppeal,context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases) : initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
 	} else if (planning === prepareAppealSelector?._selectors?.answerMinorCommercialDevelopment) {
 		if (context?.selectAllPlanningApplicationAbout) {
 			//s78 route
