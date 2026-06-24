@@ -330,7 +330,7 @@ describe('appeal-documents-rows - expedited part 1', () => {
 
 	it('should create rows for an expedited part 1 appeal', () => {
 		const rows = documentsRows(expeditedCaseData);
-		expect(rows.length).toEqual(7);
+		expect(rows.length).toEqual(6);
 	});
 
 	it('should have the correct rows in the correct order', () => {
@@ -340,7 +340,6 @@ describe('appeal-documents-rows - expedited part 1', () => {
 			'Decision letter',
 			'Separate ownership certificate in application',
 			'Evidence of agreement to change description of development',
-			'Appeal statement',
 			'Environmental statement',
 			'Costs application'
 		];
@@ -363,7 +362,7 @@ describe('appeal-documents-rows - expedited part 1', () => {
 		// Evidence of agreement to change description
 		expect(rows[3].condition(minimalCaseData)).toEqual(false);
 		// Costs application
-		expect(rows[6].condition(minimalCaseData)).toEqual(false);
+		expect(rows[5].condition(minimalCaseData)).toEqual(false);
 	});
 });
 
