@@ -1,9 +1,9 @@
 const express = require('express');
 const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
-const typeOfPlanningApplicationController = require('../../controllers/full-appeal/type-of-planning-application');
+const typeOfPlanningApplicationController = require('../../controllers/full-appeal/about-appeal');
 const {
 	rules: typeOfPlanningDepartmentValidationRules
-} = require('../../validators/full-appeal/type-of-planning-application');
+} = require('../../validators/full-appeal/about-appeal');
 const { validationErrorHandler } = require('../../validators/validation-error-handler');
 
 const router = express.Router();
@@ -11,11 +11,17 @@ const router = express.Router();
 router.get(
 	'/type-of-planning-application',
 	[fetchExistingAppealMiddleware],
+	typeOfPlanningApplicationController.redirectToNewAppealAboutUrl
+);
+
+router.get(
+	'/about-appeal',
+	[fetchExistingAppealMiddleware],
 	typeOfPlanningApplicationController.getTypeOfPlanningApplication
 );
 
 router.post(
-	'/type-of-planning-application',
+	'/about-appeal',
 	typeOfPlanningDepartmentValidationRules(),
 	validationErrorHandler,
 	typeOfPlanningApplicationController.postTypeOfPlanningApplication

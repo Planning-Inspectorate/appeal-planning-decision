@@ -2,7 +2,7 @@ const { use } = require('../router-mock');
 
 const grantedOrRefusedRouter = require('../../../../src/routes/full-appeal/granted-or-refused');
 const localPlanningAuthorityRouter = require('../../../../src/routes/before-you-start/local-planning-authority');
-const typeOfPlanningRouter = require('../../../../src/routes/before-you-start/type-of-planning-application');
+const typeOfPlanningRouter = require('../../../../src/routes/before-you-start/about-appeal');
 const useExistingServiceApplicationType = require('../../../../src/routes/before-you-start/use-existing-service-application-type');
 const outOfTimeRouter = require('../../../../src/routes/full-appeal/you-cannot-appeal');
 const dateDecisionDueRouter = require('../../../../src/routes/full-appeal/date-decision-due');

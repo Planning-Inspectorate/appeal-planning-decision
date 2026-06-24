@@ -5,7 +5,6 @@ const {
 	APPEAL_APPLICATION_DECISION,
 	APPEAL_CASE_PROCEDURE,
 	APPEAL_CASE_TYPE,
-	// APPEAL_TYPE_OF_PLANNING_APPLICATION,
 	SERVICE_USER_TYPE
 } = require('@planning-inspectorate/data-model');
 const { fieldValues } = require('@pins/common/src/dynamic-forms/field-values');

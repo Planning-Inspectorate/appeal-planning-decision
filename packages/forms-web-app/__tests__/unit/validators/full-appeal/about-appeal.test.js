@@ -2,10 +2,10 @@ const { validationResult } = require('express-validator');
 const {
 	constants: { TYPE_OF_PLANNING_APPLICATION }
 } = require('@pins/business-rules');
-const { rules } = require('../../../../src/validators/full-appeal/type-of-planning-application');
+const { rules } = require('../../../../src/validators/full-appeal/about-appeal');
 const { testExpressValidatorMiddleware } = require('../validation-middleware-helper');
 
-describe('validators/planning-department', () => {
+describe('validators/about-appeal', () => {
 	describe('rules', () => {
 		it('is configured with the expected rules', () => {
 			const rule = rules()[0].builder.build();
@@ -15,9 +15,7 @@ describe('validators/planning-department', () => {
 			expect(rule.locations).toEqual(['body']);
 			expect(rule.optional).toBeFalsy();
 			expect(rule.stack).toHaveLength(3);
-			expect(rule.stack[0].message).toEqual(
-				'Select which type of planning application your appeal is about, or if you have not made a planning application'
-			);
+			expect(rule.stack[0].message).toEqual('Select which option your appeal is about');
 		});
 	});
 	describe('validator', () => {
@@ -43,9 +41,7 @@ describe('validators/planning-department', () => {
 				expected: (result) => {
 					expect(result.errors).toHaveLength(1);
 					expect(result.errors[0].location).toEqual('body');
-					expect(result.errors[0].msg).toEqual(
-						'Select which type of planning application your appeal is about, or if you have not made a planning application'
-					);
+					expect(result.errors[0].msg).toEqual('Select which option your appeal is about');
 					expect(result.errors[0].path).toEqual('type-of-planning-application');
 				}
 			},
@@ -59,9 +55,7 @@ describe('validators/planning-department', () => {
 				expected: (result) => {
 					expect(result.errors).toHaveLength(1);
 					expect(result.errors[0].location).toEqual('body');
-					expect(result.errors[0].msg).toEqual(
-						'Select which type of planning application your appeal is about, or if you have not made a planning application'
-					);
+					expect(result.errors[0].msg).toEqual('Select which option your appeal is about');
 					expect(result.errors[0].path).toEqual('type-of-planning-application');
 				}
 			}
