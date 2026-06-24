@@ -32986,54 +32986,6 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
 </main>"
 `;
 
-exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the enforcement-notice-date-application question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"></div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Planning officer’s report and supporting documents</span>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <form action="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/enforcement-notice-date-application"
-            method="post" novalidate=null>
-                <h1 class="govuk-heading-l">Existing enforcement notice</h1>
-                <p class="govuk-body">Applicants may apply for planning permission retrospectively, after the
-                    LPA has issued an enforcement notice, or on Ground (a).</p>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Was there an enforcement notice in place at the date of the application?</legend>
-                        <div
-                        class="govuk-radios govuk-radios" data-module="govuk-radios">
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="noticeDateApplication" name="noticeDateApplication"
-                                type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="noticeDateApplication">Yes</label>
-                            </div>
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="noticeDateApplication-2" name="noticeDateApplication"
-                                type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="noticeDateApplication-2">No</label>
-                            </div>
-                </div>
-                </fieldset>
-        </div>
-        <button type="submit" class="govuk-button" data-module="govuk-button"
-        data-cy="button-save-and-continue">Continue</button>
-        </form>
-    </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
 exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the environmental-statement question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -35252,37 +35204,36 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
 exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the upload-enforcement-notice question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Planning officer’s report and supporting documents</span>
-            <h1
-            class="govuk-heading-l">Upload the enforcement notice</h1>
-                <form action="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/upload-enforcement-notice"
-                method="post" novalidate=null enctype="multipart/form-data">
-                    <div class="moj-multi-file-upload">
-                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
-                            </div>
-                        </div>
-                        <div class="moj-multi-file-upload__upload">
-                            <div class="govuk-form-group">
-                                <label class="govuk-label govuk-label--m" for="noticeDateApplicationUpload">Upload files</label>
-                                <div id="noticeDateApplicationUpload-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                    than 1GB</div>
-                                <input class="govuk-file-upload moj-multi-file-upload__input"
-                                id="noticeDateApplicationUpload" name="noticeDateApplicationUpload" type="file"
-                                aria-describedby="noticeDateApplicationUpload-hint" multiple="">
-                            </div>
-                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Notifying relevant parties</span>
+            <h1 class="govuk-heading-l">Upload the enforcement notice</h1>
+            <form action="/manage-appeals/questionnaire/appeal-ref/notified/upload-enforcement-notice"
+            method="post" novalidate=null enctype="multipart/form-data">
+                <div class="moj-multi-file-upload">
+                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
                         </div>
                     </div>
-                    <div class="govuk-button-group">
-                        <button type="submit" class="govuk-button" data-module="govuk-button"
-                        data-cy="button-save-and-continue">Continue</button>
+                    <div class="moj-multi-file-upload__upload">
+                        <div class="govuk-form-group">
+                            <label class="govuk-label govuk-label--m" for="noticeDateApplicationUpload">Upload files</label>
+                            <div id="noticeDateApplicationUpload-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                than 1GB</div>
+                            <input class="govuk-file-upload moj-multi-file-upload__input"
+                            id="noticeDateApplicationUpload" name="noticeDateApplicationUpload" type="file"
+                            aria-describedby="noticeDateApplicationUpload-hint" multiple="">
+                        </div>
+                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
                     </div>
-                </form>
+                </div>
+                <div class="govuk-button-group">
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+                </div>
+            </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -35297,37 +35248,36 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
 exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the upload-enforcement-notice-plan question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Planning officer’s report and supporting documents</span>
-            <h1
-            class="govuk-heading-l">Upload the enforcement notice plan</h1>
-                <form action="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/upload-enforcement-notice-plan"
-                method="post" novalidate=null enctype="multipart/form-data">
-                    <div class="moj-multi-file-upload">
-                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
-                            </div>
-                        </div>
-                        <div class="moj-multi-file-upload__upload">
-                            <div class="govuk-form-group">
-                                <label class="govuk-label govuk-label--m" for="noticePlanUpload">Upload files</label>
-                                <div id="noticePlanUpload-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                    than 1GB</div>
-                                <input class="govuk-file-upload moj-multi-file-upload__input"
-                                id="noticePlanUpload" name="noticePlanUpload" type="file" aria-describedby="noticePlanUpload-hint"
-                                multiple="">
-                            </div>
-                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Notifying relevant parties</span>
+            <h1 class="govuk-heading-l">Upload the enforcement notice plan</h1>
+            <form action="/manage-appeals/questionnaire/appeal-ref/notified/upload-enforcement-notice-plan"
+            method="post" novalidate=null enctype="multipart/form-data">
+                <div class="moj-multi-file-upload">
+                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
                         </div>
                     </div>
-                    <div class="govuk-button-group">
-                        <button type="submit" class="govuk-button" data-module="govuk-button"
-                        data-cy="button-save-and-continue">Continue</button>
+                    <div class="moj-multi-file-upload__upload">
+                        <div class="govuk-form-group">
+                            <label class="govuk-label govuk-label--m" for="noticePlanUpload">Upload files</label>
+                            <div id="noticePlanUpload-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                than 1GB</div>
+                            <input class="govuk-file-upload moj-multi-file-upload__input"
+                            id="noticePlanUpload" name="noticePlanUpload" type="file" aria-describedby="noticePlanUpload-hint"
+                            multiple="">
+                        </div>
+                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
                     </div>
-                </form>
+                </div>
+                <div class="govuk-button-group">
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+                </div>
+            </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -36095,6 +36045,18 @@ exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">3. </span> Notifying relevant parties<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload the enforcement notice</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-enforcement-notice">Upload<span class="govuk-visually-hidden"> enforcement notice</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload the enforcement notice plan</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-enforcement-notice-plan">Upload<span class="govuk-visually-hidden"> enforcement notice plan</span></a>
+                                </dd>
+                        </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload the list of people you served the enforcement notice to</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
@@ -36154,12 +36116,6 @@ exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/previous-planning-permission">Answer<span class="govuk-visually-hidden"> Did you previously grant any planning permission for this development?</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Was there any enforcement notice in place at the date of the application?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/enforcement-notice-date-application">Answer<span class="govuk-visually-hidden"> Existing enforcement notice</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did you serve a planning contravention notice?</dt>
