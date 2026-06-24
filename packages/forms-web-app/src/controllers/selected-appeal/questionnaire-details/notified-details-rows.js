@@ -5,6 +5,7 @@ const {
 	documentExists
 } = require('@pins/common');
 const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 /**
  * @param {import('appeals-service-api').Api.AppealCaseDetailed } caseData
@@ -12,6 +13,8 @@ const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
  */
 exports.notifiedRows = (caseData) => {
 	const documents = caseData.Documents || [];
+	const isLDCAppeal = caseData.appealTypeCode === CASE_TYPES.LDC.processCode;
+
 	return [
 		{
 			keyText: "List of neighbours' addresses that you notified about the application",
@@ -47,15 +50,28 @@ exports.notifiedRows = (caseData) => {
 			isEscaped: true
 		},
 		{
-			keyText: 'Appeal notification letter and the list of people that you notified',
-			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.APPEAL_NOTIFICATION),
-			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.APPEAL_NOTIFICATION),
+			keyText: 'Enforcement notice',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE),
+			condition: () =>
+				!isLDCAppeal && documentExists(documents, APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE), // ldc shown in constraints section
+			isEscaped: true
+		},
+		{
+			keyText: 'Enforcement notice plan',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE_PLAN),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE_PLAN),
 			isEscaped: true
 		},
 		{
 			keyText: 'List of people sent enforcement notice',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.ENFORCEMENT_LIST),
 			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.ENFORCEMENT_LIST),
+			isEscaped: true
+		},
+		{
+			keyText: 'Appeal notification letter and the list of people that you notified',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.APPEAL_NOTIFICATION),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.APPEAL_NOTIFICATION),
 			isEscaped: true
 		}
 	];

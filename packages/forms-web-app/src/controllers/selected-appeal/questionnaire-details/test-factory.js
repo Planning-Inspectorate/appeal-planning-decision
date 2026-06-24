@@ -213,7 +213,9 @@ const makeNotifiedPartiesSectionData = (appealTypeCode) => {
 		return {
 			Documents: [
 				makeDocument(APPEAL_DOCUMENT_TYPE.ENFORCEMENT_LIST),
-				makeDocument(APPEAL_DOCUMENT_TYPE.APPEAL_NOTIFICATION)
+				makeDocument(APPEAL_DOCUMENT_TYPE.APPEAL_NOTIFICATION),
+				makeDocument(APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE),
+				makeDocument(APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE_PLAN)
 			]
 		};
 	}
@@ -321,8 +323,6 @@ const makePlanningOfficerReportSectionData = (appealTypeCode) => {
 					makeDocument(APPEAL_DOCUMENT_TYPE.OTHER_RELEVANT_POLICIES),
 					makeDocument(APPEAL_DOCUMENT_TYPE.LOCAL_DEVELOPMENT_ORDER),
 					makeDocument(APPEAL_DOCUMENT_TYPE.PLANNING_PERMISSION),
-					makeDocument(APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE),
-					makeDocument(APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE_PLAN),
 					makeDocument(APPEAL_DOCUMENT_TYPE.PLANNING_CONTRAVENTION_NOTICE)
 				]
 			};
@@ -336,9 +336,7 @@ const makePlanningOfficerReportSectionData = (appealTypeCode) => {
 					makeDocument(APPEAL_DOCUMENT_TYPE.OTHER_RELEVANT_POLICIES),
 					makeDocument(APPEAL_DOCUMENT_TYPE.COMMUNITY_INFRASTRUCTURE_LEVY),
 					makeDocument(APPEAL_DOCUMENT_TYPE.LOCAL_DEVELOPMENT_ORDER),
-					makeDocument(APPEAL_DOCUMENT_TYPE.PLANNING_PERMISSION),
-					makeDocument(APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE),
-					makeDocument(APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE_PLAN)
+					makeDocument(APPEAL_DOCUMENT_TYPE.PLANNING_PERMISSION)
 				]
 			};
 		case CASE_TYPES.LDC.processCode:
@@ -452,7 +450,7 @@ const makeCaseTypeRows = (appealTypeCode, section, scheduleType) => {
 		case 'consultation':
 			return makeConsultationResponsesSectionData(appealTypeCode);
 		case 'notifiedParties':
-			return makeNotifiedPartiesSectionData();
+			return makeNotifiedPartiesSectionData(appealTypeCode);
 		case 'planningOfficersReport':
 			return makePlanningOfficerReportSectionData(appealTypeCode);
 		case 'siteAccess':
@@ -470,7 +468,7 @@ const makeCaseTypeRows = (appealTypeCode, section, scheduleType) => {
 					makeConstraintsSectionData(appealTypeCode),
 					makeEiaSectionData(scheduleType),
 					makeConsultationResponsesSectionData(appealTypeCode),
-					makeNotifiedPartiesSectionData(),
+					makeNotifiedPartiesSectionData(appealTypeCode),
 					makePlanningOfficerReportSectionData(appealTypeCode),
 					makeSiteAccessSectionData(),
 					makeAppealProcessSectionData(appealTypeCode)
@@ -479,7 +477,7 @@ const makeCaseTypeRows = (appealTypeCode, section, scheduleType) => {
 				return [
 					makeConstraintsSectionData(appealTypeCode),
 					makeConsultationResponsesSectionData(appealTypeCode),
-					makeNotifiedPartiesSectionData(),
+					makeNotifiedPartiesSectionData(appealTypeCode),
 					makePlanningOfficerReportSectionData(appealTypeCode),
 					makeSiteAccessSectionData(),
 					makeAppealProcessSectionData(appealTypeCode)

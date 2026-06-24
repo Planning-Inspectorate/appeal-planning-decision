@@ -147,14 +147,6 @@ describe('planningOfficerReportRows', () => {
 			value: 'name.pdf - awaiting review'
 		},
 		{
-			title: 'Uploaded enforcement notice',
-			value: 'name.pdf - awaiting review'
-		},
-		{
-			title: 'Uploaded enforcement notice plan',
-			value: 'name.pdf - awaiting review'
-		},
-		{
 			title: 'Uploaded planning contravention notice',
 			value: 'name.pdf - awaiting review'
 		}
@@ -200,9 +192,7 @@ describe('planningOfficerReportRows', () => {
 	const DATE_COMMUNITY_INFRASTRUCTURE_LEVY_EXPECTED_TO_BE_ADOPTED_ROW = 14;
 	const UPLOADED_LOCAL_DEVELOPMENT_DOCUMENTS_ORDER_ROW = 15;
 	const UPLOADED_PLANNING_PERMISSION_DOCUMENTS_ROW = 16;
-	const UPLOADED_LPA_ENFORCEMENT_NOTICE_DOCUMENTS_ROW = 17;
-	const UPLOADED_LPA_ENFORCEMENT_NOTICE_PLAN_DOCUMENTS_ROW = 18;
-	const UPLOADED_PLANNING_CONTRAVENTION_NOTICE_DOCUMENTS_ROW = 19;
+	const UPLOADED_PLANNING_CONTRAVENTION_NOTICE_DOCUMENTS_ROW = 17;
 
 	it('should create row with correct data if relevant case fields exist and files uploaded/field values otherwise populated', () => {
 		const caseData = {
@@ -269,18 +259,6 @@ describe('planningOfficerReportRows', () => {
 					redacted: true
 				},
 				{
-					documentType: APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE,
-					id: '12354',
-					filename: 'lpa-enforcement-notice.pdf',
-					redacted: true
-				},
-				{
-					documentType: APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE_PLAN,
-					id: '12355',
-					filename: 'lpa-enforcement-notice-plan.pdf',
-					redacted: true
-				},
-				{
 					documentType: APPEAL_DOCUMENT_TYPE.PLANNING_CONTRAVENTION_NOTICE,
 					id: '12356',
 					filename: 'planning-contravention-notice.pdf',
@@ -290,7 +268,7 @@ describe('planningOfficerReportRows', () => {
 		};
 
 		const rows = planningOfficerReportRows(caseData);
-		expect(rows.length).toEqual(21);
+		expect(rows.length).toEqual(19);
 
 		expect(rows[PLANNING_OFFICER_REPORT_ROW].condition()).toEqual(true);
 		expect(rows[PLANNING_OFFICER_REPORT_ROW].isEscaped).toEqual(true);
@@ -419,24 +397,6 @@ describe('planningOfficerReportRows', () => {
 			'<a href="/published-document/12353" class="govuk-link">planning-permission.pdf</a>'
 		);
 
-		expect(rows[UPLOADED_LPA_ENFORCEMENT_NOTICE_DOCUMENTS_ROW].condition()).toEqual(true);
-		expect(rows[UPLOADED_LPA_ENFORCEMENT_NOTICE_DOCUMENTS_ROW].isEscaped).toEqual(true);
-		expect(rows[UPLOADED_LPA_ENFORCEMENT_NOTICE_DOCUMENTS_ROW].keyText).toEqual(
-			'Uploaded enforcement notice'
-		);
-		expect(rows[UPLOADED_LPA_ENFORCEMENT_NOTICE_DOCUMENTS_ROW].valueText).toEqual(
-			'<a href="/published-document/12354" class="govuk-link">lpa-enforcement-notice.pdf</a>'
-		);
-
-		expect(rows[UPLOADED_LPA_ENFORCEMENT_NOTICE_PLAN_DOCUMENTS_ROW].condition()).toEqual(true);
-		expect(rows[UPLOADED_LPA_ENFORCEMENT_NOTICE_PLAN_DOCUMENTS_ROW].isEscaped).toEqual(true);
-		expect(rows[UPLOADED_LPA_ENFORCEMENT_NOTICE_PLAN_DOCUMENTS_ROW].keyText).toEqual(
-			'Uploaded enforcement notice plan'
-		);
-		expect(rows[UPLOADED_LPA_ENFORCEMENT_NOTICE_PLAN_DOCUMENTS_ROW].valueText).toEqual(
-			'<a href="/published-document/12355" class="govuk-link">lpa-enforcement-notice-plan.pdf</a>'
-		);
-
 		expect(rows[UPLOADED_PLANNING_CONTRAVENTION_NOTICE_DOCUMENTS_ROW].condition()).toEqual(true);
 		expect(rows[UPLOADED_PLANNING_CONTRAVENTION_NOTICE_DOCUMENTS_ROW].isEscaped).toEqual(true);
 		expect(rows[UPLOADED_PLANNING_CONTRAVENTION_NOTICE_DOCUMENTS_ROW].keyText).toEqual(
@@ -497,7 +457,7 @@ describe('planningOfficerReportRows', () => {
 	it('should return correct conditions if no fields/files exist', () => {
 		const rows = planningOfficerReportRows({ Documents: [] });
 
-		expect(rows.length).toEqual(21);
+		expect(rows.length).toEqual(19);
 		expect(rows[PLANNING_OFFICER_REPORT_ROW].condition()).toEqual(false);
 		expect(rows[HIGHWAY_TRAFFIC_SAFETY_ROW].condition()).toEqual(false);
 		expect(rows[COMPLETE_PHOTOS_PLANS_ROW].condition()).toEqual(false);
@@ -517,8 +477,6 @@ describe('planningOfficerReportRows', () => {
 		);
 		expect(rows[UPLOADED_LOCAL_DEVELOPMENT_DOCUMENTS_ORDER_ROW].condition()).toEqual(false);
 		expect(rows[UPLOADED_PLANNING_PERMISSION_DOCUMENTS_ROW].condition()).toEqual(false);
-		expect(rows[UPLOADED_LPA_ENFORCEMENT_NOTICE_DOCUMENTS_ROW].condition()).toEqual(false);
-		expect(rows[UPLOADED_LPA_ENFORCEMENT_NOTICE_PLAN_DOCUMENTS_ROW].condition()).toEqual(false);
 		expect(rows[UPLOADED_PLANNING_CONTRAVENTION_NOTICE_DOCUMENTS_ROW].condition()).toEqual(false);
 	});
 

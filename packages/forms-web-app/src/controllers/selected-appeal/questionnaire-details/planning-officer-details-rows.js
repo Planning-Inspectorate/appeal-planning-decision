@@ -128,19 +128,6 @@ exports.planningOfficerReportRows = (caseData) => {
 			isEscaped: true
 		},
 		{
-			keyText: 'Uploaded enforcement notice',
-			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE),
-			condition: () =>
-				!isLDCAppeal && documentExists(documents, APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE), // ldc shown in contrainsts section
-			isEscaped: true
-		},
-		{
-			keyText: 'Uploaded enforcement notice plan',
-			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE_PLAN),
-			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE_PLAN),
-			isEscaped: true
-		},
-		{
 			keyText: 'Uploaded planning contravention notice',
 			valueText: formatDocumentDetails(
 				documents,

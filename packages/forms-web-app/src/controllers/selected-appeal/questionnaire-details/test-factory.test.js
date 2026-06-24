@@ -454,6 +454,32 @@ describe('makeNotifiedPartiesSectionData', () => {
 				size: 100000,
 				sourceSystem: '',
 				stage: ''
+			},
+			{
+				caseReference: '0000001',
+				dateCreated: '2023-01-01',
+				documentType: 'lpaEnforcementNotice',
+				documentURI: '',
+				filename: 'name.pdf',
+				id: '',
+				origin: '',
+				originalFilename: 'nameOg.pdf',
+				size: 100000,
+				sourceSystem: '',
+				stage: ''
+			},
+			{
+				caseReference: '0000001',
+				dateCreated: '2023-01-01',
+				documentType: 'lpaEnforcementNoticePlan',
+				documentURI: '',
+				filename: 'name.pdf',
+				id: '',
+				origin: '',
+				originalFilename: 'nameOg.pdf',
+				size: 100000,
+				sourceSystem: '',
+				stage: ''
 			}
 		]
 	};
@@ -711,32 +737,6 @@ describe('makePlanningOfficerReportSectionData', () => {
 				stage: '',
 				dateCreated: '2023-01-01',
 				documentType: 'planningPermission'
-			},
-			{
-				id: '',
-				filename: 'name.pdf',
-				originalFilename: 'nameOg.pdf',
-				size: 100000,
-				documentURI: '',
-				sourceSystem: '',
-				caseReference: '0000001',
-				origin: '',
-				stage: '',
-				dateCreated: '2023-01-01',
-				documentType: 'lpaEnforcementNotice'
-			},
-			{
-				id: '',
-				filename: 'name.pdf',
-				originalFilename: 'nameOg.pdf',
-				size: 100000,
-				documentURI: '',
-				sourceSystem: '',
-				caseReference: '0000001',
-				origin: '',
-				stage: '',
-				dateCreated: '2023-01-01',
-				documentType: 'lpaEnforcementNoticePlan'
 			}
 		]
 	};
