@@ -279,12 +279,6 @@ const getExpeditedDocumentsRows = (caseData) => {
 			isEscaped: true
 		},
 		{
-			keyText: 'Appeal statement',
-			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.APPELLANT_STATEMENT),
-			condition: () => true,
-			isEscaped: true
-		},
-		{
 			keyText: 'Environmental statement',
 			valueText: formatDocumentDetails(
 				documents,
