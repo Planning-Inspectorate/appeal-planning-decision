@@ -3,7 +3,7 @@ const { notifiedRows } = require('./notified-details-rows');
 const { caseTypeLPAQFactory } = require('./test-factory');
 
 describe('notifiedDetailsRows', () => {
-	it('should create rows with correct data if relevant case data fields exist and files uploaded/field values otherwise populated', () => {
+	it('should create rows with correct data if relevant case data fields exist and files uploaded/field values otherwise populated - non enforcement', () => {
 		const caseData = caseTypeLPAQFactory(CASE_TYPES.S20.processCode, 'notifiedParties');
 
 		const expectedRows = [
@@ -19,11 +19,74 @@ describe('notifiedDetailsRows', () => {
 			},
 			{ title: 'Press advert', value: 'name.pdf - awaiting review' },
 			{
+				title: 'List of people sent enforcement notice',
+				value: 'name.pdf - awaiting review'
+			},
+			{
 				title: 'Appeal notification letter and the list of people that you notified',
+				value: 'name.pdf - awaiting review'
+			}
+		];
+
+		const visibleRows = notifiedRows(caseData)
+			.filter((row) => row.condition(caseData))
+			.map((visibleRow) => {
+				return { title: visibleRow.keyText, value: visibleRow.valueText };
+			});
+		expect(visibleRows).toEqual(expectedRows);
+	});
+
+	it('should create rows with correct data if relevant case data fields exist and files uploaded/field values otherwise populated - enforcement', () => {
+		const caseData = caseTypeLPAQFactory(CASE_TYPES.ENFORCEMENT.processCode, 'notifiedParties');
+
+		const expectedRows = [
+			{
+				title: 'Enforcement notice',
+				value: 'name.pdf - awaiting review'
+			},
+			{
+				title: 'Enforcement notice plan',
 				value: 'name.pdf - awaiting review'
 			},
 			{
 				title: 'List of people sent enforcement notice',
+				value: 'name.pdf - awaiting review'
+			},
+			{
+				title: 'Appeal notification letter and the list of people that you notified',
+				value: 'name.pdf - awaiting review'
+			}
+		];
+
+		const visibleRows = notifiedRows(caseData)
+			.filter((row) => row.condition(caseData))
+			.map((visibleRow) => {
+				return { title: visibleRow.keyText, value: visibleRow.valueText };
+			});
+		expect(visibleRows).toEqual(expectedRows);
+	});
+
+	it('should create rows with correct data if relevant case data fields exist and files uploaded/field values otherwise populated - enforcement listed', () => {
+		const caseData = caseTypeLPAQFactory(
+			CASE_TYPES.ENFORCEMENT_LISTED.processCode,
+			'notifiedParties'
+		);
+
+		const expectedRows = [
+			{
+				title: 'Enforcement notice',
+				value: 'name.pdf - awaiting review'
+			},
+			{
+				title: 'Enforcement notice plan',
+				value: 'name.pdf - awaiting review'
+			},
+			{
+				title: 'List of people sent enforcement notice',
+				value: 'name.pdf - awaiting review'
+			},
+			{
+				title: 'Appeal notification letter and the list of people that you notified',
 				value: 'name.pdf - awaiting review'
 			}
 		];
@@ -46,8 +109,10 @@ describe('notifiedDetailsRows', () => {
 			{ title: 'Site notice', value: 'No' },
 			{ title: 'Letter sent to neighbours', value: 'No' },
 			{ title: 'Press advert', value: 'No' },
-			{ title: 'Appeal notification letter and the list of people that you notified', value: 'No' },
-			{ title: 'List of people sent enforcement notice', value: 'No' }
+			{ title: 'Enforcement notice', value: 'No' },
+			{ title: 'Enforcement notice plan', value: 'No' },
+			{ title: 'List of people sent enforcement notice', value: 'No' },
+			{ title: 'Appeal notification letter and the list of people that you notified', value: 'No' }
 		];
 
 		const visibleRows = notifiedRows({
