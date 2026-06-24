@@ -117,6 +117,8 @@ condition: () => questionHasAnswer(response, questions.screeningOpinion, 'yes');
 
 ## Notifying relevant parties
 
+- multi-file-upload `/upload-enforcement-notice/` Upload the enforcement notice
+- multi-file-upload `/upload-enforcement-notice-plan/` Upload the enforcement notice plan
 - multi-file-upload `/upload-enforcement-list/` Upload the list of people and the addresses where you served the notices.
 - multi-file-upload `/appeal-notification-letter/` Upload the appeal notification letter and the list of people that you notified
 
@@ -195,19 +197,6 @@ condition: () => questionHasAnswer(response, questions.localDevelopmentOrder, 'y
 
 ```js
 condition: () => questionHasAnswer(response, questions.previousPlanningPermission, 'yes');
-```
-
-- radio `/enforcement-notice-date-application/` Existing enforcement notice
-- multi-file-upload `/upload-enforcement-notice/` Upload the enforcement notice
-
-```js
-condition: () => questionHasAnswer(response, questions.enforcementNoticeDateApplication, 'yes');
-```
-
-- multi-file-upload `/upload-enforcement-notice-plan/` Upload the enforcement notice plan
-
-```js
-condition: () => questionHasAnswer(response, questions.enforcementNoticeDateApplication, 'yes');
 ```
 
 ## Site access
