@@ -4084,7 +4084,7 @@ exports.getQuestionProps = (response) => ({
 	},
 	enforcementNoticePlanUpload: {
 		type: 'multi-file-upload',
-		title: 'The enforcement notice plan',
+		title: 'Upload the enforcement notice plan',
 		question: 'Upload the enforcement notice plan',
 		fieldName: 'noticePlanUpload',
 		url: 'upload-enforcement-notice-plan',

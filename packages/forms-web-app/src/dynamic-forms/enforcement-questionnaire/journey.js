@@ -117,6 +117,8 @@ const makeSections = (response) => {
 		// new section with enforcement specific questions
 		// new Section('Notifying relevant parties', 'notified'),
 		new Section('Notifying relevant parties', 'notified')
+			.addQuestion(questions.enforcementNoticeDateApplicationUpload)
+			.addQuestion(questions.enforcementNoticePlanUpload)
 			.addQuestion(questions.listOfPeopleSentEnforcementNotice)
 			.addQuestion(questions.appealNotification),
 
@@ -163,15 +165,6 @@ const makeSections = (response) => {
 			.addQuestion(questions.previousPlanningPermission)
 			.addQuestion(questions.previousPlanningPermissionUpload)
 			.withCondition(() => questionHasAnswer(response, questions.previousPlanningPermission, 'yes'))
-			.addQuestion(questions.enforcementNoticeDateApplication)
-			.addQuestion(questions.enforcementNoticeDateApplicationUpload)
-			.withCondition(() =>
-				questionHasAnswer(response, questions.enforcementNoticeDateApplication, 'yes')
-			)
-			.addQuestion(questions.enforcementNoticePlanUpload)
-			.withCondition(() =>
-				questionHasAnswer(response, questions.enforcementNoticeDateApplication, 'yes')
-			)
 			.addQuestion(questions.planningContraventionNotice)
 			.addQuestion(questions.planningContraventionNoticeUpload)
 			.withCondition(() =>

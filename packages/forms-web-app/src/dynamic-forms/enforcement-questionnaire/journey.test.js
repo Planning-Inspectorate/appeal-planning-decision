@@ -274,22 +274,41 @@ describe('Enforcement Journey', () => {
 		if (notifiedSection) {
 			const questions = notifiedSection.questions || [];
 
+			const expectedQuestions = [
+				{
+					fieldName: 'noticeDateApplicationUpload',
+					question: 'Upload the enforcement notice',
+					urlSegment: 'upload-enforcement-notice'
+				},
+				{
+					fieldName: 'noticePlanUpload',
+					question: 'Upload the enforcement notice plan',
+					urlSegment: 'upload-enforcement-notice-plan'
+				},
+				{
+					fieldName: 'listOfPeopleSentEnforcementNotice',
+					question: 'Upload the list of people and the addresses where you served the notices.',
+					urlSegment: 'upload-enforcement-list'
+				},
+				{
+					fieldName: 'appealNotification',
+					question:
+						'Upload the appeal notification letter and the list of people that you notified',
+					urlSegment: 'appeal-notification-letter'
+				}
+			];
+
 			expect(notifiedSection.name).toBe(sectionTitle);
-			expect(questions.length).toBe(2);
+			expect(questions.length).toBe(4);
 
-			const question1 = questions[0];
-			expect(question1.title).toBe(
-				'Upload the list of people you served the enforcement notice to'
-			);
-			expect(question1.fieldName).toBe('listOfPeopleSentEnforcementNotice');
-			expect(question1.url).toContain('upload-enforcement-list');
+			expectedQuestions.forEach((expected, index) => {
+				const actual = questions[index];
 
-			const question2 = questions[1];
-			expect(question2.title).toBe(
-				'Upload the appeal notification letter and the list of people that you notified'
-			);
-			expect(question2.fieldName).toBe('appealNotification');
-			expect(question2.url).toContain('appeal-notification-letter');
+				expect(actual).toBeDefined();
+				expect(actual.fieldName).toBe(expected.fieldName);
+				expect(actual.url).toBe(expected.urlSegment);
+				expect(actual.question).toBe(expected.question);
+			});
 		}
 	});
 
@@ -389,21 +408,6 @@ describe('Enforcement Journey', () => {
 				fieldName: 'previousPlanningPermissionUpload',
 				question: 'Upload the planning permission and any other relevant documents',
 				urlSegment: 'upload-planning-permission'
-			},
-			{
-				fieldName: 'noticeDateApplication',
-				question: 'Existing enforcement notice',
-				urlSegment: 'enforcement-notice-date-application'
-			},
-			{
-				fieldName: 'noticeDateApplicationUpload',
-				question: 'Upload the enforcement notice',
-				urlSegment: 'upload-enforcement-notice'
-			},
-			{
-				fieldName: 'noticePlanUpload',
-				question: 'Upload the enforcement notice plan',
-				urlSegment: 'upload-enforcement-notice-plan'
 			},
 			{
 				fieldName: 'planningContraventionNotice',
