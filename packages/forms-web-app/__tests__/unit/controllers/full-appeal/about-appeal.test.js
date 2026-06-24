@@ -2,12 +2,12 @@ const v8 = require('v8');
 const {
 	getTypeOfPlanningApplication,
 	postTypeOfPlanningApplication
-} = require('../../../../src/controllers/full-appeal/type-of-planning-application');
+} = require('../../../../src/controllers/full-appeal/about-appeal');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../src/lib/logger');
 const {
 	VIEW: {
-		FULL_APPEAL: { TYPE_OF_PLANNING_APPLICATION }
+		FULL_APPEAL: { ABOUT_APPEAL }
 	}
 } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
@@ -49,7 +49,7 @@ jest.mock('../../../../src/lib/logger');
 jest.mock('../../../../src/lib/is-lpa-in-feature-flag');
 jest.mock('../../../../src/lib/type-of-planning-application-radio-items');
 
-describe('controllers/full-appeal/type-of-planning-application', () => {
+describe('controllers/full-appeal/about-appeal', () => {
 	let req;
 	let res;
 	let appeal;
@@ -72,7 +72,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			await getTypeOfPlanningApplication(req, res);
 
 			expect(typeOfPlanningApplicationRadioItems).toHaveBeenCalledWith(true, false, 'full-appeal');
-			expect(res.render).toHaveBeenCalledWith(TYPE_OF_PLANNING_APPLICATION, {
+			expect(res.render).toHaveBeenCalledWith(ABOUT_APPEAL, {
 				typeOfPlanningApplication: 'full-appeal',
 				titleText: 'What type of application is your appeal about?',
 				hint: {
@@ -91,7 +91,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			await getTypeOfPlanningApplication(req, res);
 
 			expect(typeOfPlanningApplicationRadioItems).toHaveBeenCalledWith(true, true, 'full-appeal');
-			expect(res.render).toHaveBeenCalledWith(TYPE_OF_PLANNING_APPLICATION, {
+			expect(res.render).toHaveBeenCalledWith(ABOUT_APPEAL, {
 				typeOfPlanningApplication: 'full-appeal',
 				titleText: 'What is your appeal about?',
 				hint: {},
@@ -405,7 +405,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
-			expect(res.render).toHaveBeenCalledWith(TYPE_OF_PLANNING_APPLICATION, {
+			expect(res.render).toHaveBeenCalledWith(ABOUT_APPEAL, {
 				typeOfPlanningApplication: undefined,
 				hint: {
 					text: 'You can check this on your application form.'
@@ -438,7 +438,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(logger.error).toHaveBeenCalledWith(error);
 
-			expect(res.render).toHaveBeenCalledWith(TYPE_OF_PLANNING_APPLICATION, {
+			expect(res.render).toHaveBeenCalledWith(ABOUT_APPEAL, {
 				typeOfPlanningApplication: OUTLINE_PLANNING,
 				radioItems: mockRadioItems,
 				errors: {},

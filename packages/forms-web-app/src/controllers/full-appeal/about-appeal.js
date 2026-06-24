@@ -22,7 +22,7 @@ const logger = require('../../lib/logger');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const {
 	VIEW: {
-		FULL_APPEAL: { TYPE_OF_PLANNING_APPLICATION }
+		FULL_APPEAL: { ABOUT_APPEAL }
 	}
 } = require('../../lib/views');
 const { mapPlanningApplication } = require('../../lib/full-appeal/map-planning-application');
@@ -32,6 +32,10 @@ const {
 	typeOfPlanningApplicationRadioItems
 } = require('#lib/type-of-planning-application-radio-items');
 
+const redirectToNewAppealAboutUrl = async (_, res) => {
+	return res.redirect(`before-you-start/about-appeal`);
+};
+
 const getTypeOfPlanningApplication = async (req, res) => {
 	const { appeal } = req.session;
 
@@ -40,7 +44,7 @@ const getTypeOfPlanningApplication = async (req, res) => {
 		isLpaInFeatureFlag(appeal.lpaCode, FLAG.NEW_BYS_ENFORCEMENT)
 	]);
 
-	res.render(TYPE_OF_PLANNING_APPLICATION, {
+	res.render(ABOUT_APPEAL, {
 		typeOfPlanningApplication: appeal.typeOfPlanningApplication,
 		titleText: isNewBYSFlow
 			? 'What is your appeal about?'
@@ -81,7 +85,7 @@ const postTypeOfPlanningApplication = async (req, res) => {
 		typeOfPlanningApplication === ENFORCEMENT_LISTED_BUILDING;
 
 	if (errors['type-of-planning-application']) {
-		return res.render(TYPE_OF_PLANNING_APPLICATION, {
+		return res.render(ABOUT_APPEAL, {
 			typeOfPlanningApplication,
 			titleText: isNewBYSFlow
 				? 'What is your appeal about?'
@@ -109,7 +113,7 @@ const postTypeOfPlanningApplication = async (req, res) => {
 		req.session.appeal = await createOrUpdateAppeal(appeal);
 	} catch (err) {
 		logger.error(err);
-		return res.render(TYPE_OF_PLANNING_APPLICATION, {
+		return res.render(ABOUT_APPEAL, {
 			typeOfPlanningApplication,
 			radioItems: typeOfPlanningApplicationRadioItems(
 				isV2forLDC,
@@ -156,5 +160,6 @@ const postTypeOfPlanningApplication = async (req, res) => {
 
 module.exports = {
 	getTypeOfPlanningApplication,
-	postTypeOfPlanningApplication
+	postTypeOfPlanningApplication,
+	redirectToNewAppealAboutUrl
 };

@@ -64,7 +64,7 @@ exports.postPlanningDepartment = async (req, res) => {
 
 	const isNewBYSFlow = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.NEW_BYS_ENFORCEMENT);
 
-	if (isNewBYSFlow) return res.redirect(`/before-you-start/type-of-planning-application`);
+	if (isNewBYSFlow) return res.redirect(`/before-you-start/about-appeal`);
 
 	return res.redirect(`/before-you-start/enforcement-notice`);
 };

@@ -15,7 +15,7 @@ exports.getEnforcementNotice = async (req, res) => {
 	const { appeal } = req.session;
 	const isNewBYSFlow = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.NEW_BYS_ENFORCEMENT);
 
-	if (isNewBYSFlow) return res.redirect(`/before-you-start/type-of-planning-application`);
+	if (isNewBYSFlow) return res.redirect(`/before-you-start/about-appeal`);
 
 	res.render(ENFORCEMENT_NOTICE, {
 		appeal

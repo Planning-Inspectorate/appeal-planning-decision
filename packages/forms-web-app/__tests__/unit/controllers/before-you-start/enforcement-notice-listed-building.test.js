@@ -53,7 +53,7 @@ describe('controllers/before-you-start/enforcement-notice-listed-building', () =
 			isLpaInFeatureFlag.mockResolvedValueOnce(true);
 			await getEnforcementNoticeListedBuilding(req, res);
 
-			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/type-of-planning-application');
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/about-appeal');
 		});
 	});
 

@@ -55,7 +55,7 @@ describe('controllers/before-you-start/enforcement-notice', () => {
 			isLpaInFeatureFlag.mockResolvedValueOnce(true);
 			await getEnforcementNotice(req, res);
 
-			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/type-of-planning-application');
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/about-appeal');
 		});
 	});
 
@@ -161,7 +161,7 @@ describe('controllers/before-you-start/enforcement-notice', () => {
 			expect(res.redirect).toHaveBeenCalledWith(navigationPages.enforcementPage);
 		});
 
-		it('should redirect to `/before-you-start/type-of-planning-application` if `enforcement-notice` is `no`', async () => {
+		it('should redirect to `/before-you-start/about-appeal` if `enforcement-notice` is `no`', async () => {
 			const mockRequest = {
 				...req,
 				body: {

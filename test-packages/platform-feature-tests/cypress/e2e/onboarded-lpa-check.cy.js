@@ -13,7 +13,7 @@ describe('Check access to appeals service for granted LPAs',{ tags:'@onboarded' 
 	before(() => {
 		cy.login(users.appeals.authUser);
 	});
-	beforeEach(() => {		
+	beforeEach(() => {
 		cy.visit(`${Cypress.config('appeals_beta_base_url')}/before-you-start`);
 		basePage.clickContinueBtn();
 
@@ -37,7 +37,7 @@ describe('Check access to appeals service for granted LPAs',{ tags:'@onboarded' 
 			cy.advanceToNextPage();
 
 			// Step 7: Checks we are on the type of planning application page
-			cy.url().should('include', '/type-of-planning-application');
+			cy.url().should('include', '/about-appeal');
 		});
 	});
 });
