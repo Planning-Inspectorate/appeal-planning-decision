@@ -218,7 +218,7 @@ exports.sections = [
 					)
 			},
 			{
-				url: '/appellant-cost-application',
+				url: '/appellant-costs-applications',
 				text: 'View the appellant costs applications',
 				condition: (appealCase) =>
 					appealCase.Documents.some(
@@ -237,7 +237,7 @@ exports.sections = [
 					)
 			},
 			{
-				url: '/appellant-cost-comments',
+				url: '/appellant-costs-comments',
 				text: 'View the appellant costs comments',
 				condition: (appealCase) =>
 					appealCase.Documents.some(
