@@ -17,6 +17,12 @@ const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 /** @typedef {function({documentType: string, published: boolean}): boolean} CostsCondition */
 
 /**
+ * @param {import ('appeals-service-api').Api.AppealCase} appealCase
+ * @returns {boolean}
+ */
+const caseValid = (appealCase) => !!appealCase.caseValidDate;
+
+/**
  * @type {import("@pins/common/src/view-model-maps/sections/def").Sections}
  */
 exports.sections = [
@@ -26,7 +32,7 @@ exports.sections = [
 			{
 				url: '/appeal-details',
 				text: 'View appeal details',
-				condition: (appealCase) => !!appealCase.caseValidDate
+				condition: caseValid
 			}
 		]
 	},
@@ -221,6 +227,7 @@ exports.sections = [
 				url: '/appellant-costs-applications',
 				text: 'View the appellant costs applications',
 				condition: (appealCase) =>
+					caseValid(appealCase) &&
 					appealCase.Documents.some(
 						/** @type {CostsCondition} */
 						(doc) =>
@@ -240,6 +247,7 @@ exports.sections = [
 				url: '/appellant-costs-comments',
 				text: 'View the appellant costs comments',
 				condition: (appealCase) =>
+					caseValid(appealCase) &&
 					appealCase.Documents.some(
 						/** @type {CostsCondition} */
 						(doc) =>
