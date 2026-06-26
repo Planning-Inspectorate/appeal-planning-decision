@@ -7,7 +7,10 @@ const {
 	LPA_USER_ROLE
 } = require('@pins/common/src/constants');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
-const { APPEAL_REPRESENTATION_STATUS } = require('@planning-inspectorate/data-model');
+const {
+	APPEAL_DOCUMENT_TYPE,
+	APPEAL_REPRESENTATION_STATUS
+} = require('@planning-inspectorate/data-model');
 
 const { addDays } = require('date-fns');
 
@@ -372,6 +375,81 @@ describe('LPA and Appellant Sections', () => {
 			it("should not show 'View proof of evidence and witnesses from other parties' when no rule proofs are published", () => {
 				const section = findSectionByHeading(lpaSections, 'Proof of evidence and witnesses');
 				const link = findLinkByUrl(section, '/other-party-proof-evidence');
+				expect(link?.condition(appealCase)).toBe(false);
+			});
+		});
+
+		describe('Costs', () => {
+			it('should show own costs applications when docs are present', () => {
+				appealCase.Documents = [
+					{
+						documentType: APPEAL_DOCUMENT_TYPE.LPA_COSTS_APPLICATION,
+						published: true
+					}
+				];
+				const section = findSectionByHeading(lpaSections, 'Costs');
+				const link = findLinkByUrl(section, '/your-cost-application');
+				expect(link?.condition(appealCase)).toBe(true);
+				expect(link?.text).toBe('View your costs applications');
+			});
+			it('should show own costs correspondence when docs are present', () => {
+				appealCase.Documents = [
+					{
+						documentType: APPEAL_DOCUMENT_TYPE.LPA_COSTS_CORRESPONDENCE,
+						published: true
+					}
+				];
+				const section = findSectionByHeading(lpaSections, 'Costs');
+				const link = findLinkByUrl(section, '/your-cost-comments');
+				expect(link?.condition(appealCase)).toBe(true);
+				expect(link?.text).toBe('View your costs comments');
+			});
+			it('should show appellant costs applications when docs are present', () => {
+				appealCase.Documents = [
+					{
+						documentType: APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_APPLICATION,
+						published: true
+					}
+				];
+				const section = findSectionByHeading(lpaSections, 'Costs');
+				const link = findLinkByUrl(section, '/appellant-costs-applications');
+				expect(link?.condition(appealCase)).toBe(true);
+				expect(link?.text).toBe('View the appellant costs applications');
+			});
+			it('should show appellant costs comments when docs are present', () => {
+				appealCase.Documents = [
+					{
+						documentType: APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_CORRESPONDENCE,
+						published: true
+					}
+				];
+				const section = findSectionByHeading(lpaSections, 'Costs');
+				const link = findLinkByUrl(section, '/appellant-costs-comments');
+				expect(link?.condition(appealCase)).toBe(true);
+				expect(link?.text).toBe('View the appellant costs comments');
+			});
+			it('should not show appellant costs applications when docs are present', () => {
+				appealCase.caseValidDate = null;
+				appealCase.Documents = [
+					{
+						documentType: APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_APPLICATION,
+						published: true
+					}
+				];
+				const section = findSectionByHeading(lpaSections, 'Costs');
+				const link = findLinkByUrl(section, '/appellant-costs-applications');
+				expect(link?.condition(appealCase)).toBe(false);
+			});
+			it('should not show appellant costs comments when docs are present', () => {
+				appealCase.caseValidDate = null;
+				appealCase.Documents = [
+					{
+						documentType: APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_CORRESPONDENCE,
+						published: true
+					}
+				];
+				const section = findSectionByHeading(lpaSections, 'Costs');
+				const link = findLinkByUrl(section, '/appellant-costs-comments');
 				expect(link?.condition(appealCase)).toBe(false);
 			});
 		});
