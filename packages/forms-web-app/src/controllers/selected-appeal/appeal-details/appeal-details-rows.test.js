@@ -1573,7 +1573,38 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 			anySignificantChanges_localPlanSignificantChanges: 'Local plan details',
 			anySignificantChanges_otherSignificantChanges: 'Other details',
 			appellantProcedurePreference: 'Inquiry',
+			appellantProcedurePreferenceDetails: 'For reasons',
 			appellantCostsAppliedFor: true
+		};
+		const nonExpeditedCaseData = {
+			appealTypeCode: CASE_TYPES.S78.processCode,
+			typeOfPlanningApplication: 'full-appeal',
+			applicationDecision: 'refused',
+			applicationDate: '2026-03-10',
+			applicationReference: 'APP/Q9999/W/22/1234567',
+			users: [appellant],
+			siteAddressLine1: '123 Test Road',
+			siteAddressTown: 'Test Town',
+			siteAddressPostcode: 'TE1 1ST',
+			siteAreaSquareMetres: 100,
+			isGreenBelt: true,
+			ownsAllLand: true,
+			agriculturalHolding: false,
+			siteAccessDetails: ['Is accessible'],
+			siteHealthAndSafetyDetails: ['Safe'],
+			developmentType: 'major-dwellings',
+			originalDevelopmentDescription: 'Large development',
+			changedDevelopmentDescription: true,
+			reasonForAppealAppellant: 'The reason for appeal',
+			anySignificantChanges: 'adopted-a-new-local-plan, other',
+			anySignificantChanges_localPlanSignificantChanges: 'Local plan details',
+			anySignificantChanges_otherSignificantChanges: 'Other details',
+			appellantProcedurePreference: 'Inquiry',
+			appellantProcedurePreferenceDetails: 'For reasons',
+			appellantCostsAppliedFor: true,
+			expedited: false,
+			appellantProcedurePreferenceDuration: 1,
+			appellantProcedurePreferenceWitnessCount: 1
 		};
 
 		it('should create expedited rows in the correct order', () => {
@@ -1610,6 +1641,23 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 			const rows = detailsRows(caseData, APPEAL_USER_ROLES.APPELLANT);
 			const row = rows.find((r) => r.keyText === 'Significant changes since application');
 			expect(row.condition(caseData)).toBe(false);
+		});
+
+		it('should not display the appellant Expected procedure duration if not expedited', () => {
+			const caseData = {
+				...nonExpeditedCaseData
+			};
+			const rows = detailsRows(caseData, APPEAL_USER_ROLES.APPELLANT);
+			const row = rows.find((r) => r.keyText === 'Expected procedure duration');
+			expect(row.condition(caseData)).toBe(true);
+		});
+		it('should not display the appellant Expected witness count if not expedited', () => {
+			const caseData = {
+				...nonExpeditedCaseData
+			};
+			const rows = detailsRows(caseData, APPEAL_USER_ROLES.APPELLANT);
+			const row = rows.find((r) => r.keyText === 'Expected witness count');
+			expect(row.condition(caseData)).toBe(true);
 		});
 	});
 });
