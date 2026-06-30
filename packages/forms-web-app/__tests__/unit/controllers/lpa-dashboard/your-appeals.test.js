@@ -1,3 +1,11 @@
+const { getCaseFixture } = require('@pins/common/__tests__/fixtures/appeal-cases.fixture.js');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const {
+	APPEAL_CASE_STATUS,
+	APPEAL_CASE_PROCEDURE,
+	APPEAL_CASE_VALIDATION_OUTCOME
+} = require('@planning-inspectorate/data-model');
+
 const { getYourAppeals } = require('../../../../src/controllers/lpa-dashboard/your-appeals');
 const { getUserFromSession } = require('../../../../src/services/user.service');
 
@@ -5,15 +13,9 @@ const { VIEW } = require('../../../../src/lib/views');
 const { baseHASUrl } = require('../../../../src/dynamic-forms/has-questionnaire/journey');
 
 const { mockReq, mockRes } = require('../../mocks');
-const {
-	mapToLPADashboardDisplayData,
-	isToDoLPADashboard,
-	updateChildAppealDisplayData
-} = require('../../../../src/lib/dashboard-functions');
 const { isFeatureActive } = require('../../../../src/featureFlag');
 
 jest.mock('../../../../src/services/user.service');
-jest.mock('../../../../src/lib/dashboard-functions');
 jest.mock('../../../../src/featureFlag');
 
 const req = {
@@ -27,17 +29,50 @@ const mockUser = {
 	lpaName: 'test-lpa'
 };
 
-const mockAppealData = {
-	_id: '89aa8504-773c-42be-bb68-029716ad9756',
-	LPAApplicationReference: '12/3456789/PLA',
-	caseReference: 'APP/Q9999/W/22/3221288',
-	questionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00',
-	appealType: 'Full Planning (S78) Appeal',
-	siteAddressLine1: 'Test Address 1',
-	siteAddressLine2: 'Test Address 2',
-	siteAddressTown: 'Test Town',
-	siteAddressPostcode: 'TS1 1TT'
-};
+const now = new Date();
+const monthAgo = new Date(now.setMonth(now.getMonth() - 1));
+const mockAppealData = [
+	{
+		...getCaseFixture(
+			CASE_TYPES.HAS.processCode,
+			APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE,
+			APPEAL_CASE_PROCEDURE.WRITTEN
+		),
+		lpaQuestionnaireDueDate: new Date(),
+		lpaQuestionnaireSubmittedDate: new Date()
+	},
+	{
+		...getCaseFixture(
+			CASE_TYPES.HAS.processCode,
+			APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE,
+			APPEAL_CASE_PROCEDURE.WRITTEN
+		),
+		lpaQuestionnaireDueDate: new Date()
+	},
+	{
+		...getCaseFixture(
+			CASE_TYPES.HAS.processCode,
+			APPEAL_CASE_STATUS.INVALID,
+			APPEAL_CASE_PROCEDURE.WRITTEN
+		).setValidationOutcome(APPEAL_CASE_VALIDATION_OUTCOME.INVALID),
+		lpaQuestionnaireDueDate: new Date()
+	},
+	{
+		...getCaseFixture(
+			CASE_TYPES.HAS.processCode,
+			APPEAL_CASE_STATUS.INVALID,
+			APPEAL_CASE_PROCEDURE.WRITTEN
+		).setValidationOutcome(APPEAL_CASE_VALIDATION_OUTCOME.INVALID, monthAgo),
+		lpaQuestionnaireDueDate: monthAgo
+	},
+	{
+		...getCaseFixture(
+			CASE_TYPES.HAS.processCode,
+			APPEAL_CASE_STATUS.WITHDRAWN,
+			APPEAL_CASE_PROCEDURE.WRITTEN
+		).markAsWithdrawn()
+	}
+];
 
 const mockDecidedCount = {
 	count: 1
@@ -55,42 +90,10 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 	});
 
 	describe('getYourAppeals', () => {
-		it('should render the view with a link to add-remove', async () => {
+		it('should render the view with correct counts and appeals', async () => {
 			getUserFromSession.mockReturnValue(mockUser);
-			req.appealsApiClient.getAppealsCaseDataV2.mockResolvedValue([mockAppealData]);
-			req.appealsApiClient.getAppealsCasesByLpaAndStatus.mockResolvedValue([]);
+			req.appealsApiClient.getAppealsCaseDataV2.mockResolvedValue(mockAppealData);
 			req.appealsApiClient.getDecidedAppealsCountV2.mockResolvedValue(mockDecidedCount);
-			mapToLPADashboardDisplayData.mockReturnValue(mockAppealData);
-			updateChildAppealDisplayData.mockReturnValue([mockAppealData]);
-			isToDoLPADashboard.mockReturnValue(true);
-			isFeatureActive.mockResolvedValueOnce(false);
-
-			await getYourAppeals(req, res);
-
-			expect(getUserFromSession).toHaveBeenCalledWith(req);
-			expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.DASHBOARD, {
-				lpaName: mockUser.lpaName,
-				addOrRemoveLink: `/${VIEW.LPA_DASHBOARD.ADD_REMOVE_USERS}`,
-				toDoAppeals: [mockAppealData],
-				waitingForReviewAppeals: [],
-				appealDetailsLink: `/${VIEW.LPA_DASHBOARD.APPEAL_DETAILS}`,
-				appealQuestionnaireLink: baseHASUrl,
-				decidedAppealsLink: `/${VIEW.LPA_DASHBOARD.DECIDED_APPEALS}`,
-				decidedAppealsCount: 1,
-				noToDoAppeals: false,
-				withdrawnAppealsCount: 0,
-				withdrawnAppealsLink: `/${VIEW.LPA_DASHBOARD.WITHDRAWN_APPEALS}`
-			});
-		});
-
-		it('should show questionnaire ', async () => {
-			getUserFromSession.mockReturnValue(mockUser);
-			req.appealsApiClient.getAppealsCaseDataV2.mockResolvedValue([mockAppealData]);
-			req.appealsApiClient.getAppealsCasesByLpaAndStatus.mockResolvedValue([]);
-			req.appealsApiClient.getDecidedAppealsCountV2.mockResolvedValue(mockDecidedCount);
-			mapToLPADashboardDisplayData.mockReturnValue(mockAppealData);
-			updateChildAppealDisplayData.mockReturnValue([mockAppealData]);
-			isToDoLPADashboard.mockReturnValue(true);
 			isFeatureActive.mockResolvedValueOnce(true);
 
 			await getYourAppeals(req, res);
@@ -99,30 +102,74 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 			expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.DASHBOARD, {
 				lpaName: mockUser.lpaName,
 				addOrRemoveLink: `/${VIEW.LPA_DASHBOARD.ADD_REMOVE_USERS}`,
-				toDoAppeals: [mockAppealData],
-				waitingForReviewAppeals: [],
-				appealDetailsLink: `/${VIEW.LPA_DASHBOARD.APPEAL_DETAILS}`,
+				toDoAppeals: [
+					expect.objectContaining({
+						isNewAppeal: false,
+						displayInvalid: true,
+						displayNextJourneyLink: true,
+						nextJourneyDue: {
+							deadline: null,
+							dueInDays: -100000,
+							journeyDue: null
+						}
+					}),
+					expect.objectContaining({
+						isNewAppeal: false,
+						displayInvalid: false,
+						displayNextJourneyLink: true,
+						nextJourneyDue: {
+							baseUrl: expect.stringContaining('/manage-appeals/questionnaire/'),
+							deadline: expect.any(Date),
+							dueInDays: 0,
+							journeyDue: 'Questionnaire'
+						}
+					})
+				],
+				waitingForReviewAppeals: [
+					expect.objectContaining({
+						displayInvalid: false,
+						displayNextJourneyLink: true,
+						isNewAppeal: false,
+						nextJourneyDue: {
+							baseUrl: null,
+							deadline: null,
+							dueInDays: 100000,
+							journeyDue: null
+						}
+					})
+				],
 				appealQuestionnaireLink: baseHASUrl,
 				decidedAppealsLink: `/${VIEW.LPA_DASHBOARD.DECIDED_APPEALS}`,
-				withdrawnAppealsLink: `/${VIEW.LPA_DASHBOARD.WITHDRAWN_APPEALS}`,
 				decidedAppealsCount: 1,
-				withdrawnAppealsCount: 0,
-				noToDoAppeals: false
+				noToDoAppeals: false,
+				withdrawnAppealsCount: 2,
+				withdrawnAppealsLink: `/${VIEW.LPA_DASHBOARD.WITHDRAWN_APPEALS}`
 			});
 		});
 
-		it('should call API to fetch appeals case data', async () => {
+		it('should render the view when no appeals', async () => {
 			getUserFromSession.mockReturnValue(mockUser);
-			req.appealsApiClient.getAppealsCaseDataV2.mockResolvedValue([mockAppealData]);
-			req.appealsApiClient.getAppealsCasesByLpaAndStatus.mockResolvedValue([]);
-			req.appealsApiClient.getDecidedAppealsCountV2.mockResolvedValue(mockDecidedCount);
-			mapToLPADashboardDisplayData.mockReturnValue(mockAppealData);
-			updateChildAppealDisplayData.mockReturnValue([mockAppealData]);
-			isToDoLPADashboard.mockReturnValue(true);
+			req.appealsApiClient.getAppealsCaseDataV2.mockResolvedValue([]);
+			req.appealsApiClient.getDecidedAppealsCountV2.mockResolvedValue({
+				count: 0
+			});
+			isFeatureActive.mockResolvedValueOnce(true);
 
 			await getYourAppeals(req, res);
 
-			expect(req.appealsApiClient.getAppealsCaseDataV2).toHaveBeenCalledWith(mockUser.lpaCode);
+			expect(getUserFromSession).toHaveBeenCalledWith(req);
+			expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.DASHBOARD, {
+				lpaName: mockUser.lpaName,
+				addOrRemoveLink: `/${VIEW.LPA_DASHBOARD.ADD_REMOVE_USERS}`,
+				toDoAppeals: [],
+				waitingForReviewAppeals: [],
+				appealQuestionnaireLink: baseHASUrl,
+				decidedAppealsLink: `/${VIEW.LPA_DASHBOARD.DECIDED_APPEALS}`,
+				decidedAppealsCount: 0,
+				noToDoAppeals: true,
+				withdrawnAppealsCount: 0,
+				withdrawnAppealsLink: `/${VIEW.LPA_DASHBOARD.WITHDRAWN_APPEALS}`
+			});
 		});
 	});
 });

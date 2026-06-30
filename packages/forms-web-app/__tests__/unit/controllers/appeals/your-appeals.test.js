@@ -1,71 +1,121 @@
+const { getCaseFixture } = require('@pins/common/__tests__/fixtures/appeal-cases.fixture.js');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const {
+	APPEAL_CASE_STATUS,
+	APPEAL_CASE_PROCEDURE,
+	APPEAL_CASE_DECISION_OUTCOME,
+	APPEAL_CASE_VALIDATION_OUTCOME
+} = require('@planning-inspectorate/data-model');
+
 const { get } = require('../../../../src/controllers/appeals/your-appeals');
 
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
-const {
-	mapToAppellantDashboardDisplayData,
-	isToDoAppellantDashboard,
-	updateChildAppealDisplayData
-} = require('../../../../src/lib/dashboard-functions');
 
-jest.mock('../../../../src/lib/dashboard-functions');
+jest.mock('../../../../src/featureFlag');
+const { isFeatureActive } = require('../../../../src/featureFlag');
+
+const now = new Date();
+const monthAgo = new Date(now.setMonth(now.getMonth() - 1));
+
+const mockAppealData = [
+	// final comments submitted, show in waiting for review appeals
+	{
+		...getCaseFixture(
+			CASE_TYPES.HAS.processCode,
+			APPEAL_CASE_STATUS.FINAL_COMMENTS,
+			APPEAL_CASE_PROCEDURE.WRITTEN
+		),
+		finalCommentsDueDate: new Date(),
+		appellantCommentsSubmittedDate: new Date()
+	},
+	// final comments due show in todo appeals
+	{
+		...getCaseFixture(
+			CASE_TYPES.HAS.processCode,
+			APPEAL_CASE_STATUS.FINAL_COMMENTS,
+			APPEAL_CASE_PROCEDURE.WRITTEN
+		),
+		finalCommentsDueDate: new Date()
+	},
+	// validated invalid, show in todo appeals as invalid
+	{
+		...getCaseFixture(
+			CASE_TYPES.HAS.processCode,
+			APPEAL_CASE_STATUS.INVALID,
+			APPEAL_CASE_PROCEDURE.WRITTEN
+		).setValidationOutcome(APPEAL_CASE_VALIDATION_OUTCOME.INVALID),
+		finalCommentsDueDate: new Date()
+	},
+	// old invalid - counted with withdrawn
+	{
+		...getCaseFixture(
+			CASE_TYPES.HAS.processCode,
+			APPEAL_CASE_STATUS.INVALID,
+			APPEAL_CASE_PROCEDURE.WRITTEN
+		).setValidationOutcome(APPEAL_CASE_VALIDATION_OUTCOME.INVALID, monthAgo),
+		finalCommentsDueDate: monthAgo
+	},
+	// decided allowed
+	{
+		...getCaseFixture(
+			CASE_TYPES.HAS.processCode,
+			APPEAL_CASE_STATUS.COMPLETE,
+			APPEAL_CASE_PROCEDURE.WRITTEN
+		).setDecisionOutcome(APPEAL_CASE_DECISION_OUTCOME.ALLOWED, true)
+	},
+	// decided invalid
+	{
+		...getCaseFixture(
+			CASE_TYPES.HAS.processCode,
+			APPEAL_CASE_STATUS.INVALID,
+			APPEAL_CASE_PROCEDURE.WRITTEN
+		).setDecisionOutcome(APPEAL_CASE_DECISION_OUTCOME.INVALID, true),
+		caseValidationOutcome: APPEAL_CASE_VALIDATION_OUTCOME.VALID
+	},
+	// withdrawn
+	{
+		...getCaseFixture(
+			CASE_TYPES.HAS.processCode,
+			APPEAL_CASE_STATUS.WITHDRAWN,
+			APPEAL_CASE_PROCEDURE.WRITTEN
+		).markAsWithdrawn()
+	},
+	// v2 draft
+	{
+		id: 'abc',
+		AppellantSubmission: {
+			submitted: false,
+			appealTypeCode: 'HAS',
+			applicationDecisionDate: new Date(),
+			applicationDecision: 'refused',
+			siteAddress: null,
+			SubmissionAddress: null,
+			enforcementEffectiveDate: null,
+			hasContactedPlanningInspectorate: null,
+			isListedBuilding: false
+		}
+	},
+	// v2 submitted draft
+	{
+		id: 'abc123',
+		AppellantSubmission: {
+			submitted: true,
+			appealTypeCode: 'HAS',
+			applicationDecisionDate: new Date(),
+			applicationDecision: 'refused',
+			siteAddress: null,
+			SubmissionAddress: null,
+			enforcementEffectiveDate: null,
+			hasContactedPlanningInspectorate: null,
+			isListedBuilding: false
+		}
+	}
+];
 
 describe('controllers/appeals/your-appeals', () => {
-	let appeal;
 	let req;
 	let res;
-
-	const toDoData = {
-		appealNumber: '0000001',
-		address: 'toDoAddress',
-		appealType: 'an appeal',
-		nextJourneyDue: {
-			deadline: 'a future date',
-			dueInDays: 1,
-			journeyDue: 'Final comments'
-		},
-		isDraft: false,
-		appealDecision: null
-	};
-
-	const waitingForReviewData = {
-		appealNumber: '0000002',
-		address: 'wfrAddress',
-		appealType: 'an overdue appeal',
-		nextJourneyDue: {
-			deadline: 'a past date',
-			dueInDays: -1,
-			journeyDue: 'testDocument'
-		},
-		isDraft: false,
-		appealDecision: null
-	};
-
-	const completedData = {
-		appealNumber: '0000003',
-		address: 'completedAddress',
-		appealType: 'an appeal',
-		nextJourneyDue: {
-			deadline: null,
-			dueInDays: 100000,
-			journeyDue: null
-		},
-		isDraft: false,
-		appealDecision: null
-	};
-
-	const decidedData = {
-		appealNumber: '0000004',
-		address: 'decidedAddress',
-		appealType: 'an appeal',
-		nextJourneyDue: {
-			deadline: null,
-			dueInDays: 100000,
-			journeyDue: null
-		},
-		isDraft: false,
-		appealDecision: 'allowed'
-	};
 
 	beforeEach(() => {
 		req = mockReq();
@@ -73,109 +123,86 @@ describe('controllers/appeals/your-appeals', () => {
 
 		jest.resetAllMocks();
 
-		appeal = { id: 'appeal123' };
 		req.appealsApiClient = {
 			getUserAppeals: jest.fn()
 		};
-		req.appealsApiClient.getUserAppeals.mockImplementation(() => Promise.resolve([appeal]));
 	});
 
-	describe('Get - To Do appeals', () => {
-		it('Displays appeal in to do list if it passes all criteria', async () => {
-			mapToAppellantDashboardDisplayData.mockReturnValue(toDoData);
-			updateChildAppealDisplayData.mockReturnValue([toDoData]);
-			isToDoAppellantDashboard.mockReturnValue(true);
+	describe('Get - Your appeals', () => {
+		it('should render the view with correct counts and appeals', async () => {
+			req.appealsApiClient.getUserAppeals.mockResolvedValue(mockAppealData);
+			isFeatureActive.mockResolvedValueOnce(true);
+
 			await get(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPEALS.YOUR_APPEALS, {
-				toDoAppeals: [toDoData],
-				waitingForReviewAppeals: [],
+				toDoAppeals: [
+					expect.objectContaining({
+						appealId: expect.any(String),
+						appealNumber: expect.any(String),
+						appealType: expect.any(String),
+						nextJourneyDue: {
+							deadline: null,
+							dueInDays: -100000,
+							journeyDue: 'Invalid'
+						},
+						isDraft: false,
+						displayInvalid: true,
+						displayNextJourneyLink: true
+					}),
+					expect.objectContaining({
+						appealId: expect.any(String),
+						appealNumber: expect.any(String),
+						appealType: expect.any(String),
+						nextJourneyDue: {
+							baseUrl: expect.stringContaining('/appeals/final-comments/'),
+							deadline: expect.any(Date),
+							dueInDays: 0,
+							journeyDue: 'Final comments'
+						},
+						isDraft: false,
+						displayInvalid: false,
+						displayNextJourneyLink: true
+					}),
+					expect.objectContaining({
+						nextJourneyDue: {
+							deadline: expect.any(Date),
+							dueInDays: expect.any(Number),
+							journeyDue: 'Continue'
+						},
+						isDraft: true,
+						displayInvalid: false,
+						displayNextJourneyLink: true
+					})
+				],
+				waitingForReviewAppeals: [
+					expect.objectContaining({
+						appealNumber: mockAppealData[0].caseReference,
+						displayInvalid: false,
+						displayNextJourneyLink: true,
+						nextJourneyDue: {
+							baseUrl: null,
+							deadline: null,
+							dueInDays: 100000,
+							journeyDue: null
+						}
+					})
+				],
 				noToDoAppeals: false,
 				decidedAppealsLink: `/${VIEW.YOUR_APPEALS.DECIDED_APPEALS}`,
-				decidedAppealsCount: 0,
-				withdrawnAppealsCount: 0,
+				decidedAppealsCount: 2,
+				withdrawnAppealsCount: 2,
 				withdrawnAppealsLink: `/${VIEW.YOUR_APPEALS.WITHDRAWN_APPEALS}`
 			});
 		});
 
-		it('Does not display appeal in to do list if all documents have been submitted', async () => {
-			mapToAppellantDashboardDisplayData.mockReturnValue(completedData);
-			updateChildAppealDisplayData.mockReturnValue([completedData]);
+		it('should render the view when no appeals', async () => {
+			req.appealsApiClient.getUserAppeals.mockResolvedValue([]);
+			isFeatureActive.mockResolvedValueOnce(true);
 
 			await get(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPEALS.YOUR_APPEALS, {
-				toDoAppeals: [],
-				waitingForReviewAppeals: [completedData],
-				noToDoAppeals: true,
-				decidedAppealsLink: `/${VIEW.YOUR_APPEALS.DECIDED_APPEALS}`,
-				decidedAppealsCount: 0,
-				withdrawnAppealsCount: 0,
-				withdrawnAppealsLink: `/${VIEW.YOUR_APPEALS.WITHDRAWN_APPEALS}`
-			});
-		});
-
-		it('Does not display appeal in to do list or WFR list if it has been decided', async () => {
-			mapToAppellantDashboardDisplayData.mockReturnValue(decidedData);
-			updateChildAppealDisplayData.mockReturnValue([]);
-
-			await get(req, res);
-			expect(updateChildAppealDisplayData).toHaveBeenCalledWith([]);
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPEALS.YOUR_APPEALS, {
-				toDoAppeals: [],
-				waitingForReviewAppeals: [],
-				noToDoAppeals: true,
-				decidedAppealsLink: `/${VIEW.YOUR_APPEALS.DECIDED_APPEALS}`,
-				decidedAppealsCount: 0,
-				withdrawnAppealsCount: 0,
-				withdrawnAppealsLink: `/${VIEW.YOUR_APPEALS.WITHDRAWN_APPEALS}`
-			});
-		});
-
-		it('Does not display appeal in to do list if the next document due is overdue', async () => {
-			mapToAppellantDashboardDisplayData.mockReturnValue(waitingForReviewData);
-			updateChildAppealDisplayData.mockReturnValue([waitingForReviewData]);
-
-			await get(req, res);
-
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPEALS.YOUR_APPEALS, {
-				toDoAppeals: [],
-				waitingForReviewAppeals: [waitingForReviewData],
-				noToDoAppeals: true,
-				decidedAppealsLink: `/${VIEW.YOUR_APPEALS.DECIDED_APPEALS}`,
-				decidedAppealsCount: 0,
-				withdrawnAppealsCount: 0,
-				withdrawnAppealsLink: `/${VIEW.YOUR_APPEALS.WITHDRAWN_APPEALS}`
-			});
-		});
-
-		it('hides appeals where hideFromDashboard is true', async () => {
-			req.appealsApiClient.getUserAppeals.mockResolvedValue([
-				{ appeal: { hideFromDashboard: true, status: 'confirmed' } },
-				{ appeal: { hideFromDashboard: false, status: 'confirmed' } },
-				{ appeal: { hideFromDashboard: false, status: 'confirmed' } }
-			]);
-
-			mapToAppellantDashboardDisplayData.mockImplementation((data) => {
-				if (data.appeal?.hideFromDashboard === true)
-					throw new Error('Should not map hidden appeal');
-				return toDoData;
-			});
-			updateChildAppealDisplayData.mockImplementation((arr) => arr);
-			isToDoAppellantDashboard.mockReturnValue(true);
-
-			await get(req, res);
-
-			expect(mapToAppellantDashboardDisplayData).toHaveBeenCalledTimes(2);
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPEALS.YOUR_APPEALS, {
-				toDoAppeals: [toDoData, toDoData],
-				waitingForReviewAppeals: [],
-				noToDoAppeals: false,
-				decidedAppealsLink: `/${VIEW.YOUR_APPEALS.DECIDED_APPEALS}`,
-				decidedAppealsCount: 0,
-				withdrawnAppealsCount: 0,
-				withdrawnAppealsLink: `/${VIEW.YOUR_APPEALS.WITHDRAWN_APPEALS}`
-			});
+			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPEALS.NO_APPEALS}`);
 		});
 	});
 });

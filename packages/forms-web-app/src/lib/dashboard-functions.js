@@ -91,6 +91,13 @@ const { calculateDaysSinceInvalidated } = require('./calculate-days-since-invali
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 const { formatGridReference } = require('@pins/common/src/lib/format-grid-reference');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const {
+	ifInvalidOnlyOldValidation,
+	INVALID_APPEAL_TIME_LIMIT
+} = require('@pins/business-rules/src/lib/filter-invalid-validation-one-month');
+
+const { filterAppealsWithinGivenDate } = require('#lib/filter-decided-appeals');
+const { filterTime } = require('../config');
 
 const questionnaireBaseUrl = '/manage-appeals/questionnaire';
 const statementBaseUrl = '/manage-appeals/appeal-statement';
@@ -103,8 +110,6 @@ const appellantStatementBaseUrl = '/appeals/statement';
 
 const rule6StatementBaseUrl = '/rule-6/appeal-statement';
 const rule6ProofsBaseUrl = '/rule-6/proof-evidence';
-
-const INVALID_APPEAL_TIME_LIMIT = 28;
 
 // MAP DATABASE RETURN OBJECTS TO DASHBOARD DISPLAY DATA
 
@@ -529,6 +534,55 @@ const getAppealType = (appealCaseData) => {
 	return caseTypeNameWithDefault(appealCaseData?.appealTypeCode);
 };
 
+/**
+ * Used by LPA and appellant dashboards
+ * @param {AppealCaseDetailed[]} appealsCaseData
+ * @returns {AppealCaseDetailed[]}
+ */
+const withdrawnAppeals = (appealsCaseData) =>
+	appealsCaseData
+		.filter((appeal) => appeal.caseWithdrawnDate)
+		.filter(Boolean)
+		.filter((appeal) =>
+			filterAppealsWithinGivenDate(
+				appeal,
+				'caseWithdrawnDate',
+				filterTime.FIVE_YEARS_IN_MILISECONDS
+			)
+		);
+
+/**
+ * Used by LPA and appellant dashboards
+ * @param {AppealCaseDetailed[]} appealsCaseData
+ * @returns {AppealCaseDetailed[]}
+ */
+const oldInvalidAppeals = (appealsCaseData) =>
+	appealsCaseData
+		.filter((appeal) => appeal.caseValidationOutcome === APPEAL_CASE_STATUS.INVALID)
+		.filter((appeal) => ifInvalidOnlyOldValidation(appeal))
+		.filter((appeal) =>
+			filterAppealsWithinGivenDate(
+				appeal,
+				'caseValidationDate',
+				filterTime.FIVE_YEARS_IN_MILISECONDS
+			)
+		);
+
+/**
+ * @param {AppealCaseDetailed[]} appealsCaseData
+ * @returns {AppealCaseDetailed[]}
+ */
+const decidedAppeals = (appealsCaseData) =>
+	appealsCaseData
+		.filter((appeal) => appeal.caseDecisionOutcomeDate)
+		.filter((appeal) =>
+			filterAppealsWithinGivenDate(
+				appeal,
+				'caseDecisionOutcomeDate',
+				filterTime.FIVE_YEARS_IN_MILISECONDS
+			)
+		);
+
 module.exports = {
 	formatAddress,
 	determineJourneyToDisplayLPADashboard,
@@ -539,5 +593,8 @@ module.exports = {
 	mapToAppellantDashboardDisplayData,
 	mapToRule6DashboardDisplayData,
 	isToDoRule6Dashboard,
-	updateChildAppealDisplayData
+	updateChildAppealDisplayData,
+	withdrawnAppeals,
+	oldInvalidAppeals,
+	decidedAppeals
 };
