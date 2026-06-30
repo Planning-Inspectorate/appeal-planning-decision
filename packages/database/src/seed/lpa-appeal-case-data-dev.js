@@ -2,7 +2,8 @@ const { pickRandom, datesNMonthsAgo, datesNMonthsAhead } = require('./util');
 const {
 	APPEAL_CASE_STATUS,
 	APPEAL_CASE_DECISION_OUTCOME,
-	APPEAL_CASE_PROCEDURE
+	APPEAL_CASE_PROCEDURE,
+	APPEAL_CASE_VALIDATION_OUTCOME
 } = require('@planning-inspectorate/data-model');
 
 const lpaAppealIds = {
@@ -37,6 +38,7 @@ const lpaAppealIds = {
 	appeal75: '7b8312e0-c724-4969-b7d4-441c60c6741b',
 	appealTP1: '7c8412e0-c734-4969-b7d4-441c60c6840b',
 	appealTP2: '7c8412e0-c734-4969-b7d4-441c60c6841b',
+	appealTP3: '7c8412e0-c734-4969-b7d4-441c60c6841c',
 	appealKN1: '7c8412e0-c676-4969-b7d4-231c60c6845b',
 	appealTestPOE: '7c8412e0-c676-4969-b7d4-231c60c6845c'
 };
@@ -76,6 +78,7 @@ const lpaAppeals = [
 	{ id: lpaAppealIds.appeal75 },
 	{ id: lpaAppealIds.appealTP1 },
 	{ id: lpaAppealIds.appealTP2 },
+	{ id: lpaAppealIds.appealTP3 },
 	{ id: lpaAppealIds.appealKN1 },
 	{ id: lpaAppealIds.appealTestPOE }
 ];
@@ -590,17 +593,15 @@ const lpaAppealCaseData = [
 		},
 		...commonAppealCaseDataProperties,
 		caseReference: '8087801',
-		siteAddressLine1: 'Invalid',
+		siteAddressLine1: 'Invalid validation',
 		siteAddressLine2: null,
 		siteAddressTown: 'within 28 days',
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
 		developmentDescription: 'test description',
-		CaseDecisionOutcome: {
-			connect: { key: APPEAL_CASE_DECISION_OUTCOME.INVALID }
+		CaseValidationOutcome: {
+			connect: { key: APPEAL_CASE_VALIDATION_OUTCOME.INVALID }
 		},
-		caseDecisionPublishedDate: new Date(),
-		caseDecisionOutcomeDate: new Date(),
 		CaseType: { connect: { processCode: 'S78' } },
 		CaseStatus: {
 			connect: { key: APPEAL_CASE_STATUS.INVALID }
@@ -614,9 +615,31 @@ const lpaAppealCaseData = [
 		},
 		...commonAppealCaseDataProperties,
 		caseReference: '8087802',
-		siteAddressLine1: 'Invalid',
+		siteAddressLine1: 'Invalid validation',
 		siteAddressLine2: null,
 		siteAddressTown: 'more than 28 days',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		developmentDescription: 'test description',
+		CaseType: { connect: { processCode: 'S78' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.INVALID }
+		},
+		caseValidationDate: pickRandom(datesNMonthsAgo(2)),
+		CaseValidationOutcome: {
+			connect: { key: APPEAL_CASE_VALIDATION_OUTCOME.INVALID }
+		},
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
+	},
+	{
+		Appeal: {
+			connect: { id: lpaAppealIds.appealTP3 }
+		},
+		...commonAppealCaseDataProperties,
+		caseReference: '8087803',
+		siteAddressLine1: 'Invalid',
+		siteAddressLine2: null,
+		siteAddressTown: 'decision issued',
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
 		developmentDescription: 'test description',

@@ -1,15 +1,19 @@
+const { getCaseFixture } = require('@pins/common/__tests__/fixtures/appeal-cases.fixture.js');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const {
+	APPEAL_CASE_STATUS,
+	APPEAL_CASE_PROCEDURE,
+	APPEAL_CASE_VALIDATION_OUTCOME
+} = require('@planning-inspectorate/data-model');
+
 const {
 	getWithdrawnAppeals
 } = require('../../../../src/controllers/lpa-dashboard/withdrawn-appeals');
 const { getUserFromSession } = require('../../../../src/services/user.service');
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
-const { mapToLPADashboardDisplayData } = require('../../../../src/lib/dashboard-functions');
-const { sortByDateFieldDesc } = require('@pins/common/src/lib/appeal-sorting');
 
 jest.mock('../../../../src/services/user.service');
-jest.mock('../../../../src/lib/dashboard-functions');
-jest.mock('@pins/common/src/lib/appeal-sorting');
 
 describe('controllers/lpa-dashboard/withdrawn-appeals', () => {
 	let req;
@@ -20,12 +24,23 @@ describe('controllers/lpa-dashboard/withdrawn-appeals', () => {
 		lpaName: 'Test LPA'
 	};
 
-	const mockWithdrawnData = {
-		appealNumber: '1234567',
-		address: '123 Test Lane',
-		caseWithdrawnDate: '2025-12-01',
-		appealType: 'Planning'
-	};
+	const mockWithdrawnData = [
+		{
+			...getCaseFixture(
+				CASE_TYPES.HAS.processCode,
+				APPEAL_CASE_STATUS.WITHDRAWN,
+				APPEAL_CASE_PROCEDURE.WRITTEN
+			).markAsWithdrawn()
+		},
+		{
+			...getCaseFixture(
+				CASE_TYPES.HAS.processCode,
+				APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE,
+				APPEAL_CASE_PROCEDURE.WRITTEN
+			).setValidationOutcome(APPEAL_CASE_VALIDATION_OUTCOME.INVALID, new Date('2025-12-01')),
+			lpaQuestionnaireDueDate: new Date('2025-12-01')
+		}
+	];
 
 	beforeEach(() => {
 		jest.resetAllMocks();
@@ -41,21 +56,34 @@ describe('controllers/lpa-dashboard/withdrawn-appeals', () => {
 	});
 
 	it('should render the withdrawn appeals view with correctly mapped and filtered data', async () => {
-		const rawApiData = [
-			{ caseReference: '1234567', caseWithdrawnDate: '2025-12-01' },
-			{ caseReference: '7654321' }
-		];
-
-		req.appealsApiClient.getAppealsCaseDataV2.mockResolvedValue(rawApiData);
-		mapToLPADashboardDisplayData.mockReturnValue(mockWithdrawnData);
-		sortByDateFieldDesc.mockReturnValue(() => 0);
+		req.appealsApiClient.getAppealsCaseDataV2.mockResolvedValue(mockWithdrawnData);
 
 		await getWithdrawnAppeals(req, res);
 
 		expect(req.appealsApiClient.getAppealsCaseDataV2).toHaveBeenCalledWith(mockUser.lpaCode);
 		expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.WITHDRAWN_APPEALS, {
 			lpaName: mockUser.lpaName,
-			withdrawnAppeals: [mockWithdrawnData],
+			withdrawnAppeals: [
+				expect.objectContaining({
+					caseWithdrawnDate: expect.any(Date)
+				}),
+				expect.objectContaining({
+					caseWithdrawnDate: expect.any(Date)
+				})
+			],
+			yourAppealsLink: `/${VIEW.LPA_DASHBOARD.DASHBOARD}`
+		});
+	});
+
+	it('should render the withdrawn appeals view with no data', async () => {
+		req.appealsApiClient.getAppealsCaseDataV2.mockResolvedValue([]);
+
+		await getWithdrawnAppeals(req, res);
+
+		expect(req.appealsApiClient.getAppealsCaseDataV2).toHaveBeenCalledWith(mockUser.lpaCode);
+		expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.WITHDRAWN_APPEALS, {
+			lpaName: mockUser.lpaName,
+			withdrawnAppeals: [],
 			yourAppealsLink: `/${VIEW.LPA_DASHBOARD.DASHBOARD}`
 		});
 	});
