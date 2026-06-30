@@ -17,6 +17,9 @@ const sortByCaseReference = (a, b) => {
 /** @type {AppealSorter} */
 const sortByCaseDecisionDate = sortByDateFieldDesc('caseDecisionOutcomeDate');
 
+/** @type {AppealSorter} */
+const sortByWithdrawnDate = sortByDateFieldDesc('caseWithdrawnDate');
+
 /**
  * @param {string} field
  * @returns {function(any, any): number}
@@ -41,5 +44,6 @@ function sortByDateFieldDesc(field) {
 module.exports = {
 	sortByCaseReference,
 	sortByCaseDecisionDate,
+	sortByWithdrawnDate,
 	sortByDateFieldDesc
 };

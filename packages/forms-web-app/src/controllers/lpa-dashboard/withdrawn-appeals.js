@@ -1,9 +1,11 @@
 const { getUserFromSession } = require('../../services/user.service');
-const { mapToLPADashboardDisplayData } = require('../../lib/dashboard-functions');
-const { sortByDateFieldDesc } = require('@pins/common/src/lib/appeal-sorting');
+const {
+	mapToLPADashboardDisplayData,
+	withdrawnAppeals,
+	oldInvalidAppeals
+} = require('../../lib/dashboard-functions');
+const { sortByWithdrawnDate } = require('@pins/common/src/lib/appeal-sorting');
 const logger = require('../../lib/logger');
-const { filterAppealsWithinGivenDate } = require('../../lib/filter-decided-appeals');
-const { filterTime } = require('../../config');
 
 const {
 	VIEW: {
@@ -23,21 +25,19 @@ const getWithdrawnAppeals = async (req, res) => {
 
 		const appealsCaseData = await req.appealsApiClient.getAppealsCaseDataV2(user.lpaCode);
 
-		const withdrawnAppeals = appealsCaseData
-			.filter((appeal) => appeal.caseWithdrawnDate)
+		const withdrawnCases = withdrawnAppeals(appealsCaseData);
+		const oldInvalidatedCases = oldInvalidAppeals(appealsCaseData).map((appeal) => ({
+			...appeal,
+			caseWithdrawnDate: appeal.caseValidationDate
+		}));
+
+		const appealsToDisplay = [...withdrawnCases, ...oldInvalidatedCases]
 			.map(mapToLPADashboardDisplayData)
-			.filter(Boolean)
-			.filter((appeal) =>
-				filterAppealsWithinGivenDate(
-					appeal,
-					'caseWithdrawnDate',
-					filterTime.FIVE_YEARS_IN_MILISECONDS
-				)
-			);
+			.filter(Boolean);
 
-		withdrawnAppeals.sort(sortByDateFieldDesc('caseWithdrawnDate'));
+		appealsToDisplay.sort(sortByWithdrawnDate);
 
-		viewContext.withdrawnAppeals = withdrawnAppeals;
+		viewContext.withdrawnAppeals = appealsToDisplay;
 
 		return res.render(WITHDRAWN_APPEALS, viewContext);
 	} catch (error) {

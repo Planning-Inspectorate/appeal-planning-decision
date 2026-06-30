@@ -56,6 +56,7 @@ const dashboardSelect = {
 
 	// outcome
 	caseDecisionOutcome: true,
+	caseValidationOutcome: true,
 
 	// case dates
 	caseSubmittedDate: true,

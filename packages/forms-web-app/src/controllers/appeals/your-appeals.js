@@ -1,7 +1,10 @@
 const {
 	mapToAppellantDashboardDisplayData,
 	isToDoAppellantDashboard,
-	updateChildAppealDisplayData
+	updateChildAppealDisplayData,
+	withdrawnAppeals,
+	decidedAppeals,
+	oldInvalidAppeals
 } = require('../../lib/dashboard-functions');
 const { VIEW } = require('../../lib/views');
 const logger = require('../../lib/logger');
@@ -15,10 +18,11 @@ const {
 	}
 } = require('../../lib/views');
 
-const { filterAppealsWithinGivenDate } = require('../../lib/filter-decided-appeals');
-const { filterTime } = require('../../config');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const { isFeatureActive } = require('../../featureFlag');
+const {
+	ifInvalidOnlyRecentValidation
+} = require('@pins/business-rules/src/lib/filter-invalid-validation-one-month');
 
 exports.get = async (req, res) => {
 	let viewContext = {};
@@ -36,44 +40,23 @@ exports.get = async (req, res) => {
 			)
 		};
 
-		logger.debug({ appeals }, 'appeals');
-
-		const withdrawnAppealsCount = appeals
-			.filter((appeal) => appeal.caseWithdrawnDate)
-			.map((a) => mapToAppellantDashboardDisplayData(a, flags))
-			.filter(Boolean)
-			.filter((appeal) =>
-				filterAppealsWithinGivenDate(
-					appeal,
-					'caseWithdrawnDate',
-					filterTime.FIVE_YEARS_IN_MILISECONDS
-				)
-			).length;
+		const decidedAppealsCount = decidedAppeals(appeals).length;
+		const withdrawnAppealsCount = withdrawnAppeals(appeals).length;
+		const oldInvalidAppealCount = oldInvalidAppeals(appeals).length;
 
 		const validAppeals = appeals
 			.filter((data) => data.appeal?.hideFromDashboard !== true)
 			.filter(isNotWithdrawn)
-			.filter(isNotTransferred);
+			.filter(isNotTransferred)
+			.filter((appeal) => ifInvalidOnlyRecentValidation(appeal));
 
 		const mappedAppeals = validAppeals
 			.map((a) => mapToAppellantDashboardDisplayData(a, flags))
 			.filter(Boolean);
 
-		const decidedAppealsCount = mappedAppeals
-			.filter((appeal) => appeal.appealDecision)
-			.filter((appeal) =>
-				filterAppealsWithinGivenDate(
-					appeal,
-					'caseDecisionOutcomeDate',
-					filterTime.FIVE_YEARS_IN_MILISECONDS
-				)
-			).length;
-
 		const undecidedAppeals = mappedAppeals.filter(
 			(appeal) => !appeal.appealDecision || appeal.displayInvalid
 		);
-
-		logger.debug({ undecidedAppeals }, 'undecided appeals');
 
 		// aligns child's nextJourneyDue information with lead linked case
 		const undecidedWithUpdatedChildAppealDisplayData =
@@ -93,9 +76,6 @@ exports.get = async (req, res) => {
 				{ toDoAppeals: [], waitingForReviewAppeals: [] }
 			);
 
-		logger.debug({ toDoAppeals }, 'toDoAppeals');
-		logger.debug({ waitingForReviewAppeals }, 'waitingForReviewAppeals');
-
 		toDoAppeals.sort((a, b) => a.nextJourneyDue.dueInDays - b.nextJourneyDue.dueInDays);
 		waitingForReviewAppeals.sort((a, b) => a.appealNumber - b.appealNumber);
 		const noToDoAppeals = !arrayHasItems(toDoAppeals);
@@ -105,7 +85,7 @@ exports.get = async (req, res) => {
 			waitingForReviewAppeals,
 			noToDoAppeals,
 			decidedAppealsCount,
-			withdrawnAppealsCount,
+			withdrawnAppealsCount: withdrawnAppealsCount + oldInvalidAppealCount,
 			decidedAppealsLink: `/${DECIDED_APPEALS}`,
 			withdrawnAppealsLink: `/${WITHDRAWN_APPEALS}`
 		};
