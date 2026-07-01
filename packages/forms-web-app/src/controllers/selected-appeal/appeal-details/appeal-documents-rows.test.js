@@ -411,6 +411,12 @@ describe('appeal-documents-rows - HAS and CAS conditional appeal statement', () 
 		});
 		const casRow = casRows.find((row) => row.keyText === 'Appeal statement');
 		expect(casRow.condition()).toBe(true);
+
+		const casAdvertsRows = documentsRows({
+			appealTypeCode: CASE_TYPES.CAS_ADVERTS.processCode
+		});
+		const casAdvertsRow = casAdvertsRows.find((row) => row.keyText === 'Appeal statement');
+		expect(casAdvertsRow.condition()).toBe(true);
 	});
 });
 
