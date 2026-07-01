@@ -1,33 +1,40 @@
+const { getCaseFixture } = require('@pins/common/__tests__/fixtures/appeal-cases.fixture.js');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const {
+	APPEAL_CASE_STATUS,
+	APPEAL_CASE_PROCEDURE,
+	APPEAL_CASE_DECISION_OUTCOME
+} = require('@planning-inspectorate/data-model');
+
 const { get } = require('../../../../../src/controllers/appeals/your-appeals/decided-appeals');
 
 const { VIEW } = require('../../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../../mocks');
-const {
-	mapToAppellantDashboardDisplayData
-} = require('../../../../../src/lib/dashboard-functions');
-const { filterAppealsWithinGivenDate } = require('../../../../../src/lib/filter-decided-appeals');
 
-jest.mock('../../../../../src/lib/dashboard-functions');
-jest.mock('../../../../../src/lib/filter-decided-appeals');
-
+const now = new Date();
+const hourAgo = new Date(now.setHours(now.getHours() - 1));
 describe('controllers/appeals/your-appeals/decided-appeals', () => {
-	let appeal;
 	let req;
 	let res;
 
-	const decidedData = {
-		appealNumber: '0000004',
-		address: 'decidedAddress',
-		appealType: 'an appeal',
-		nextJourneyDue: {
-			deadline: null,
-			dueInDays: 100000,
-			journeyDue: null
+	const mockAppealData = [
+		{
+			...getCaseFixture(
+				CASE_TYPES.HAS.processCode,
+				APPEAL_CASE_STATUS.COMPLETE,
+				APPEAL_CASE_PROCEDURE.WRITTEN
+			).setDecisionOutcome(APPEAL_CASE_DECISION_OUTCOME.ALLOWED, true),
+			caseDecisionOutcomeDate: now
 		},
-		isDraft: false,
-		appealDecision: 'allowed',
-		caseDecisionOutcomeDate: 'a date'
-	};
+		{
+			...getCaseFixture(
+				CASE_TYPES.HAS.processCode,
+				APPEAL_CASE_STATUS.INVALID,
+				APPEAL_CASE_PROCEDURE.WRITTEN
+			).setDecisionOutcome(APPEAL_CASE_DECISION_OUTCOME.INVALID, false),
+			caseDecisionOutcomeDate: hourAgo
+		}
+	];
 
 	beforeEach(() => {
 		req = mockReq();
@@ -35,21 +42,35 @@ describe('controllers/appeals/your-appeals/decided-appeals', () => {
 
 		jest.resetAllMocks();
 
-		appeal = [{ id: 'appeal123', decisionOutcome: 'allowed' }];
 		req.appealsApiClient = {
 			getUserAppeals: jest.fn()
 		};
-		req.appealsApiClient.getUserAppeals.mockImplementation(() => Promise.resolve([appeal]));
 	});
 
-	it('Test get method calls the correct template and view context', async () => {
-		mapToAppellantDashboardDisplayData.mockReturnValue(decidedData);
-		filterAppealsWithinGivenDate.mockReturnValue(true);
-		const decidedAppeals = [decidedData];
+	it('should render the decided appeals view with correctly mapped and filtered data', async () => {
+		req.appealsApiClient.getUserAppeals.mockImplementation(() => Promise.resolve(mockAppealData));
+
 		await get(req, res);
 
 		expect(res.render).toHaveBeenCalledWith(VIEW.YOUR_APPEALS.DECIDED_APPEALS, {
-			decidedAppeals
+			decidedAppeals: [
+				expect.objectContaining({
+					caseDecisionOutcomeDate: expect.any(Date),
+					appealDecision: 'Allowed'
+				}),
+				expect.objectContaining({
+					caseDecisionOutcomeDate: expect.any(Date),
+					appealDecision: 'Invalid'
+				})
+			]
 		});
+	});
+
+	it('should render the decided appeals view with no data', async () => {
+		req.appealsApiClient.getUserAppeals.mockImplementation(() => Promise.resolve([]));
+
+		await get(req, res);
+
+		expect(res.render).toHaveBeenCalledWith(VIEW.YOUR_APPEALS.DECIDED_APPEALS, {});
 	});
 });

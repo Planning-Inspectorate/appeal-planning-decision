@@ -1,7 +1,12 @@
 const { subYears } = require('date-fns');
 
 /**
- * @param {import('./dashboard-functions').DashboardDisplayData} appeal
+ * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
+ * @typedef {import('./dashboard-functions').DashboardDisplayData} DashboardDisplayData
+ */
+
+/**
+ * @param {DashboardDisplayData|AppealCaseDetailed} appeal
  * @param {string} dateToFilterBy
  * @param {number} timeInMiliseconds
  * @returns {boolean}

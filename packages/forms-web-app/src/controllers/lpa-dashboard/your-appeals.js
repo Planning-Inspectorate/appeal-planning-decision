@@ -2,27 +2,23 @@ const { getUserFromSession } = require('../../services/user.service');
 const {
 	mapToLPADashboardDisplayData,
 	isToDoLPADashboard,
-	updateChildAppealDisplayData
+	updateChildAppealDisplayData,
+	withdrawnAppeals,
+	oldInvalidAppeals
 } = require('../../lib/dashboard-functions');
 const { arrayHasItems } = require('@pins/common/src/lib/array-has-items');
-const { filterAppealsWithinGivenDate } = require('../../lib/filter-decided-appeals');
-const { filterTime } = require('../../config');
-
 const { isNotWithdrawn } = require('@pins/business-rules/src/lib/filter-withdrawn-appeal');
 const { isNotTransferred } = require('@pins/business-rules/src/lib/filter-transferred-appeal');
 const {
+	ifInvalidOnlyRecentValidation
+} = require('@pins/business-rules/src/lib/filter-invalid-validation-one-month');
+
+const {
 	VIEW: {
-		LPA_DASHBOARD: {
-			DASHBOARD,
-			ADD_REMOVE_USERS,
-			APPEAL_DETAILS,
-			DECIDED_APPEALS,
-			WITHDRAWN_APPEALS
-		}
+		LPA_DASHBOARD: { DASHBOARD, ADD_REMOVE_USERS, DECIDED_APPEALS, WITHDRAWN_APPEALS }
 	}
 } = require('../../lib/views');
 const { baseHASUrl } = require('../../dynamic-forms/has-questionnaire/journey');
-const { APPEAL_CASE_STATUS } = require('@planning-inspectorate/data-model');
 
 const getYourAppeals = async (req, res) => {
 	const user = getUserFromSession(req);
@@ -31,29 +27,14 @@ const getYourAppeals = async (req, res) => {
 
 	const appealsCaseData = await req.appealsApiClient.getAppealsCaseDataV2(lpaCode);
 
-	const withdrawnAppealsCount = appealsCaseData
-		.filter((appeal) => appeal.caseWithdrawnDate)
-		.map(mapToLPADashboardDisplayData)
-		.filter(Boolean)
-		.filter((appeal) =>
-			filterAppealsWithinGivenDate(
-				appeal,
-				'caseWithdrawnDate',
-				filterTime.FIVE_YEARS_IN_MILISECONDS
-			)
-		).length;
-
-	const invalidAppeals = await req.appealsApiClient.getAppealsCasesByLpaAndStatus({
-		lpaCode,
-		caseStatus: APPEAL_CASE_STATUS.INVALID,
-		decidedOnly: true
-	});
-
 	const decidedAppealsCount = await req.appealsApiClient.getDecidedAppealsCountV2(lpaCode);
+	const withdrawnAppealsCount = withdrawnAppeals(appealsCaseData).length;
+	const oldInvalidAppealCount = oldInvalidAppeals(appealsCaseData).length;
 
-	const appealsForDisplay = [...appealsCaseData, ...invalidAppeals]
-		.filter(isNotWithdrawn)
-		.filter(isNotTransferred)
+	const appealsForDisplay = appealsCaseData
+		.filter((appeal) => isNotWithdrawn(appeal))
+		.filter((appeal) => isNotTransferred(appeal))
+		.filter((appeal) => ifInvalidOnlyRecentValidation(appeal))
 		.map(mapToLPADashboardDisplayData);
 
 	const appealsWithUpdatedChildAppealDisplayData = updateChildAppealDisplayData(appealsForDisplay);
@@ -81,12 +62,11 @@ const getYourAppeals = async (req, res) => {
 		addOrRemoveLink: `/${ADD_REMOVE_USERS}`,
 		toDoAppeals: toDoAppeals,
 		waitingForReviewAppeals: waitingForReviewAppeals,
-		appealDetailsLink: `/${APPEAL_DETAILS}`,
 		appealQuestionnaireLink: baseHASUrl,
 		decidedAppealsLink: `/${DECIDED_APPEALS}`,
 		withdrawnAppealsLink: `/${WITHDRAWN_APPEALS}`,
 		decidedAppealsCount: decidedAppealsCount.count,
-		withdrawnAppealsCount,
+		withdrawnAppealsCount: withdrawnAppealsCount + oldInvalidAppealCount,
 		noToDoAppeals
 	});
 };
