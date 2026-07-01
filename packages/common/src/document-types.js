@@ -1061,7 +1061,7 @@ const documentTypes = {
 		displayName: '',
 		involvement: '',
 		owner: (_appealTypeCode) => pinsOwner,
-		publiclyAccessible: false,
+		publiclyAccessible: true,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
@@ -1072,7 +1072,7 @@ const documentTypes = {
 		displayName: '',
 		involvement: '',
 		owner: (_appealTypeCode) => pinsOwner,
-		publiclyAccessible: false,
+		publiclyAccessible: true,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},

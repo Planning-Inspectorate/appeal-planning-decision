@@ -35,5 +35,8 @@ exports.formatCommentDecidedData = (appeal) => {
  */
 const filterDecisionDocuments = (documents) =>
 	documents.filter(
-		(document) => document.documentType === APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER
+		(document) =>
+			document.documentType === APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER ||
+			document.documentType === APPEAL_DOCUMENT_TYPE.LPA_COSTS_DECISION_LETTER ||
+			document.documentType === APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_DECISION_LETTER
 	);
