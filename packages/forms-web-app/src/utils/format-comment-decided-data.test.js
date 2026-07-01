@@ -7,7 +7,9 @@ describe('formatCommentDecidedData', () => {
 		caseDecisionOutcome: 'allowed',
 		Documents: [
 			{ documentType: APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER, id: 'doc1' },
-			{ documentType: 'other', id: 'doc2' }
+			{ documentType: APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_DECISION_LETTER, id: 'doc2' },
+			{ documentType: APPEAL_DOCUMENT_TYPE.LPA_COSTS_DECISION_LETTER, id: 'doc3' },
+			{ documentType: 'other', id: 'doc4' }
 		]
 	};
 
@@ -22,7 +24,11 @@ describe('formatCommentDecidedData', () => {
 			formattedCaseDecisionDate: '31 December 2024',
 			formattedDecisionColour: 'green',
 			caseDecisionOutcome: 'Allowed',
-			decisionDocuments: [{ documentType: APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER, id: 'doc1' }]
+			decisionDocuments: [
+				{ documentType: APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER, id: 'doc1' },
+				{ documentType: APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_DECISION_LETTER, id: 'doc2' },
+				{ documentType: APPEAL_DOCUMENT_TYPE.LPA_COSTS_DECISION_LETTER, id: 'doc3' }
+			]
 		});
 	});
 
@@ -35,7 +41,9 @@ describe('formatCommentDecidedData', () => {
 	it('should filter decision documents correctly', () => {
 		const result = formatCommentDecidedData(appeal);
 		expect(result.decisionDocuments).toEqual([
-			{ documentType: APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER, id: 'doc1' }
+			{ documentType: APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER, id: 'doc1' },
+			{ documentType: APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_DECISION_LETTER, id: 'doc2' },
+			{ documentType: APPEAL_DOCUMENT_TYPE.LPA_COSTS_DECISION_LETTER, id: 'doc3' }
 		]);
 	});
 });
