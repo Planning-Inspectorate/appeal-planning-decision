@@ -2887,7 +2887,6 @@ exports.getQuestionProps = (response) => ({
 		html: 'resources/appellant-final-comments/content.html',
 		fieldName: 'appellantFinalCommentDetails',
 		textEntryCheckbox: {
-			header: 'Your comments',
 			name: 'sensitiveInformationCheckbox',
 			text: 'I confirm that I have not included any sensitive information in my final comments'
 		},
@@ -2949,7 +2948,6 @@ exports.getQuestionProps = (response) => ({
 		html: 'resources/lpa-final-comments/comment-details.html',
 		fieldName: 'lpaFinalCommentDetails',
 		textEntryCheckbox: {
-			header: 'Your comments',
 			name: 'sensitiveInformationCheckbox',
 			text: 'I confirm that I have not included any sensitive information in my final comments'
 		},
