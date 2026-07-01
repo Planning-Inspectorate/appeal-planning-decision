@@ -97,9 +97,10 @@ exports.documentsRows = (caseData) => {
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.APPELLANT_STATEMENT),
 			condition: () => {
 				if (
-					caseData &&
-					(caseData.appealTypeCode === CASE_TYPES.HAS.processCode ||
-						caseData.appealTypeCode === CASE_TYPES.CAS_PLANNING.processCode)
+					(caseData &&
+						(caseData.appealTypeCode === CASE_TYPES.HAS.processCode ||
+							caseData.appealTypeCode === CASE_TYPES.CAS_PLANNING.processCode)) ||
+					caseData.appealTypeCode === CASE_TYPES.CAS_ADVERTS.processCode
 				) {
 					return !isExpeditedAppealDate(caseData.applicationDate);
 				}
