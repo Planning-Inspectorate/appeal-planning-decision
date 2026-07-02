@@ -1,10 +1,6 @@
-const { get, post } = require('../router-mock');
+const { get } = require('../router-mock');
 const enforcementNoticeController = require('../../../../src/controllers/before-you-start/enforcement-notice');
 const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
-const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
-const {
-	rules: enforcementNoticeValidationRules
-} = require('../../../../src/validators/before-you-start/enforcement-notice');
 
 jest.mock('../../../../src/validators/before-you-start/enforcement-notice');
 
@@ -19,12 +15,6 @@ describe('routes/full-appeal/enforcement-notice', () => {
 			'/enforcement-notice',
 			[fetchExistingAppealMiddleware],
 			enforcementNoticeController.getEnforcementNotice
-		);
-		expect(post).toHaveBeenCalledWith(
-			'/enforcement-notice',
-			enforcementNoticeValidationRules(),
-			validationErrorHandler,
-			enforcementNoticeController.postEnforcementNotice
 		);
 	});
 });

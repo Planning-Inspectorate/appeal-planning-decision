@@ -1,8 +1,14 @@
 const {
 	TYPE_OF_PLANNING_APPLICATION: {
 		FULL_APPEAL,
+		HOUSEHOLDER_PLANNING,
 		LISTED_BUILDING,
 		OUTLINE_PLANNING,
+		PRIOR_APPROVAL,
+		RESERVED_MATTERS,
+		REMOVAL_OR_VARIATION_OF_CONDITIONS,
+		SOMETHING_ELSE,
+		I_HAVE_NOT_MADE_A_PLANNING_APPLICATION,
 		MINOR_COMMERCIAL_DEVELOPMENT,
 		ADVERTISEMENT,
 		LAWFUL_DEVELOPMENT_CERTIFICATE,
@@ -15,45 +21,35 @@ const {
 } = require('./type-of-planning-application-radio-items');
 
 describe('typeOfPlanningApplicationRadioItems', () => {
-	it('returns items list with LISTED_BUILDING', () => {
-		const itemsList = typeOfPlanningApplicationRadioItems(false, false);
-		expect(itemsList.length).toEqual(12);
-		expect(itemsList[2].value).toEqual(LISTED_BUILDING);
-	});
-
-	it('returns items list with OUTLINE_PLANNING', () => {
-		const itemsList = typeOfPlanningApplicationRadioItems(false, false);
-		expect(itemsList.length).toEqual(12);
-		expect(itemsList[5].value).toEqual(OUTLINE_PLANNING);
-	});
-
-	it('returns minor commercial', () => {
-		const itemsList = typeOfPlanningApplicationRadioItems(false, false);
-		expect(itemsList.length).toEqual(12);
-		expect(itemsList[4].value).toEqual(MINOR_COMMERCIAL_DEVELOPMENT);
-	});
-
-	it('returns advertisement', () => {
-		const itemsList = typeOfPlanningApplicationRadioItems(false, false);
-		expect(itemsList.length).toEqual(12);
-		expect(itemsList[3].value).toEqual(ADVERTISEMENT);
+	it.each([
+		[FULL_APPEAL, 0],
+		[HOUSEHOLDER_PLANNING, 1],
+		[LISTED_BUILDING, 2],
+		[ENFORCEMENT_NOTICE, 3],
+		[ENFORCEMENT_LISTED_BUILDING, 4],
+		[ADVERTISEMENT, 5],
+		[MINOR_COMMERCIAL_DEVELOPMENT, 6],
+		[OUTLINE_PLANNING, 7],
+		[PRIOR_APPROVAL, 8],
+		[RESERVED_MATTERS, 9],
+		[REMOVAL_OR_VARIATION_OF_CONDITIONS, 10],
+		[SOMETHING_ELSE, 11],
+		// Index 12 is for 'or' divider
+		[I_HAVE_NOT_MADE_A_PLANNING_APPLICATION, 13]
+	])(`returns items list with %s, ldc flag === false`, (typeOfApplication, index) => {
+		const itemsList = typeOfPlanningApplicationRadioItems(false);
+		expect(itemsList.length).toEqual(14);
+		expect(itemsList[index].value).toEqual(typeOfApplication);
 	});
 
 	it('returns lawful development certificate if ldc feature flag true', () => {
-		const itemsList = typeOfPlanningApplicationRadioItems(true, false);
-		expect(itemsList.length).toEqual(13);
-		expect(itemsList[5].value).toEqual(LAWFUL_DEVELOPMENT_CERTIFICATE);
-	});
-
-	it('returns enforcement and enforcement listed if new_bys_enforcement feature flag true', () => {
-		const itemsList = typeOfPlanningApplicationRadioItems(false, true);
-		expect(itemsList.length).toEqual(14);
-		expect(itemsList[3].value).toEqual(ENFORCEMENT_NOTICE);
-		expect(itemsList[4].value).toEqual(ENFORCEMENT_LISTED_BUILDING);
+		const itemsList = typeOfPlanningApplicationRadioItems(true);
+		expect(itemsList.length).toEqual(15);
+		expect(itemsList[7].value).toEqual(LAWFUL_DEVELOPMENT_CERTIFICATE);
 	});
 
 	it('sets checked for type of planning application', () => {
-		const itemsList = typeOfPlanningApplicationRadioItems(false, false, FULL_APPEAL);
+		const itemsList = typeOfPlanningApplicationRadioItems(false, FULL_APPEAL);
 		expect(itemsList[0].checked).toEqual(true);
 	});
 });
