@@ -46,8 +46,6 @@ const config = require('../../config');
 const changeLpaUrl = '/before-you-start/local-planning-authority';
 const { caseTypeLookup } = require('@pins/common/src/database/data-static');
 const formatDate = require('#lib/format-date-check-your-answers');
-const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
-const { FLAG } = require('@pins/common/src/feature-flags');
 
 const canUseServiceHouseholderPlanning = async (req, res) => {
 	const { appeal } = req.session;
@@ -68,10 +66,7 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
 
 	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 
-	const isNewBYSFlow = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.NEW_BYS_ENFORCEMENT);
-
 	res.render(canUseServiceHouseholder, {
-		isNewBYSFlow,
 		deadlineDate: deadlineDate ? formatDate(deadlineDate) : null,
 		appealLPD,
 		planningApplicationNumber,
@@ -111,10 +106,7 @@ const canUseServiceFullAppeal = async (req, res) => {
 
 	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 
-	const isNewBYSFlow = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.NEW_BYS_ENFORCEMENT);
-
 	res.render(canUseServiceFullAppealView, {
-		isNewBYSFlow,
 		deadlineDate: deadlineDate ? formatDate(deadlineDate) : null,
 		hideDeadlineDate,
 		appealLPD,
@@ -153,13 +145,10 @@ const canUseServicePriorApproval = async (req, res) => {
 		? 'Yes'
 		: 'No';
 
-	const isNewBYSFlow = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.NEW_BYS_ENFORCEMENT);
-
 	if (appeal.eligibility.hasPriorApprovalForExistingHome) {
 		const deadlineDate = calculateDeadlineFromBeforeYouStart({ appeal });
 
 		res.render(canUseServicePriorApprovalHouseholder, {
-			isNewBYSFlow,
 			deadlineDate: deadlineDate ? formatDate(deadlineDate) : null,
 			appealLPD,
 			planningApplicationNumber,
@@ -176,7 +165,6 @@ const canUseServicePriorApproval = async (req, res) => {
 		const deadlineDate = calculateDeadlineFromBeforeYouStart({ appeal });
 
 		res.render(canUseServicePriorApprovalFull, {
-			isNewBYSFlow,
 			deadlineDate: deadlineDate ? formatDate(deadlineDate) : null,
 			appealLPD,
 			planningApplicationNumber,
@@ -211,13 +199,10 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 
 	const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
 
-	const isNewBYSFlow = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.NEW_BYS_ENFORCEMENT);
-
 	if (appeal.eligibility.hasHouseholderPermissionConditions) {
 		const deadlineDate = calculateDeadlineFromBeforeYouStart({ appeal });
 
 		res.render(canUseServiceRemovalOrVariationOfConditionsHouseholder, {
-			isNewBYSFlow,
 			deadlineDate: deadlineDate ? formatDate(deadlineDate) : null,
 			appealLPD,
 			planningApplicationNumber,
@@ -235,7 +220,6 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 		const deadlineDate = calculateDeadlineFromBeforeYouStart({ appeal });
 
 		res.render(canUseServiceRemovalOrVariationOfConditionsFullAppeal, {
-			isNewBYSFlow,
 			deadlineDate: deadlineDate ? formatDate(deadlineDate) : null,
 			appealLPD,
 			planningApplicationNumber,
@@ -267,13 +251,10 @@ const canUseServiceEnforcement = async (req, res) => {
 		deadlineDate
 	} = await getEnforcementNoticeProps(appeal);
 
-	// Note, once NEW_BYS_ENFORCEMENT flag is on for all LPAs will be able to use
-	// typeOfPlanningApplication prop from appeal
-	const appealType = appeal.eligibility.enforcementNoticeListedBuilding
-		? 'ENFORCEMENT_LISTED_BUILDING'
-		: 'ENFORCEMENT';
-
-	const isNewBYSFlow = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.NEW_BYS_ENFORCEMENT);
+	const appealType =
+		appeal.typeOfPlanningApplication === ENFORCEMENT_LISTED_BUILDING
+			? 'ENFORCEMENT_LISTED_BUILDING'
+			: 'ENFORCEMENT';
 
 	const appealTypeText =
 		appealType === 'ENFORCEMENT_LISTED_BUILDING'
@@ -281,7 +262,6 @@ const canUseServiceEnforcement = async (req, res) => {
 			: 'Enforcement notice';
 
 	res.render(canUseServiceEnforcementView, {
-		isNewBYSFlow,
 		appealTypeText,
 		deadlineDate,
 		appealLPD,
@@ -302,12 +282,9 @@ const canUseServiceEnforcement = async (req, res) => {
 exports.getCanUseService = async (req, res) => {
 	const { appeal } = req.session;
 
-	// NOTE - this clause can be removed once NEW_BYS_ENFORCEMENT flag on for all
-	if (appeal.eligibility?.enforcementNotice) {
-		return await canUseServiceEnforcement(req, res);
-	}
-
 	const applicationType = appeal.typeOfPlanningApplication;
+
+	console.log(appeal);
 
 	// check deadline if a decisionDate exists
 	if (appeal.decisionDate && !calculateWithinDeadlineFromBeforeYouStart({ appeal })) {

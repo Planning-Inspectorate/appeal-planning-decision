@@ -63,47 +63,22 @@ describe('controllers/full-appeal/about-appeal', () => {
 	});
 
 	describe('Type of Planning Application Controller Tests', () => {
-		it('should call the correct template on getTypeOfPlanningApplication - v2, isNewBYSFlow === false', async () => {
+		it('should call the correct template on getTypeOfPlanningApplication', async () => {
 			// v2 for LDC
-			isLpaInFeatureFlag.mockReturnValueOnce(true);
-			// new bys flow
-			isLpaInFeatureFlag.mockReturnValueOnce(false);
-			typeOfPlanningApplicationRadioItems.mockReturnValueOnce(mockRadioItems);
-			await getTypeOfPlanningApplication(req, res);
-
-			expect(typeOfPlanningApplicationRadioItems).toHaveBeenCalledWith(true, false, 'full-appeal');
-			expect(res.render).toHaveBeenCalledWith(ABOUT_APPEAL, {
-				typeOfPlanningApplication: 'full-appeal',
-				titleText: 'What type of application is your appeal about?',
-				hint: {
-					text: 'You can check this on your application form.'
-				},
-				radioItems: mockRadioItems
-			});
-		});
-
-		it('should call the correct template on getTypeOfPlanningApplication - isNewBYSFlow === true', async () => {
-			// v2 for LDC
-			isLpaInFeatureFlag.mockReturnValueOnce(true);
-			// new bys flow
 			isLpaInFeatureFlag.mockReturnValueOnce(true);
 			typeOfPlanningApplicationRadioItems.mockReturnValueOnce(mockRadioItems);
 			await getTypeOfPlanningApplication(req, res);
 
-			expect(typeOfPlanningApplicationRadioItems).toHaveBeenCalledWith(true, true, 'full-appeal');
+			expect(typeOfPlanningApplicationRadioItems).toHaveBeenCalledWith(true, 'full-appeal');
 			expect(res.render).toHaveBeenCalledWith(ABOUT_APPEAL, {
 				typeOfPlanningApplication: 'full-appeal',
-				titleText: 'What is your appeal about?',
-				hint: {},
 				radioItems: mockRadioItems
 			});
 		});
 
-		it('should redirect to the listed building page if HAS - v2, isNewBYSFlow === false', async () => {
+		it('should redirect to the listed building page if HAS - v2,', async () => {
 			// v2 for LDC
 			isLpaInFeatureFlag.mockReturnValueOnce(true);
-			// new bys flow
-			isLpaInFeatureFlag.mockReturnValueOnce(false);
 
 			const planningApplication = 'householder-planning';
 			const mockRequest = {
@@ -407,10 +382,6 @@ describe('controllers/full-appeal/about-appeal', () => {
 
 			expect(res.render).toHaveBeenCalledWith(ABOUT_APPEAL, {
 				typeOfPlanningApplication: undefined,
-				hint: {
-					text: 'You can check this on your application form.'
-				},
-				titleText: 'What type of application is your appeal about?',
 				radioItems: mockRadioItems,
 				errors: {
 					'type-of-planning-application': {

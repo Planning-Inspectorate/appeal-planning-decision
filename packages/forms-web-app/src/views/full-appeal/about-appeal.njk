@@ -3,7 +3,7 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
-{% set title=titleText + " - Appeal a planning decision - GOV.UK" %}
+{% set title="What is your appeal about? - Appeal a planning decision - GOV.UK" %}
 
 {% block pageTitle %}
   {% if errors %}
@@ -38,7 +38,6 @@
                 classes: "govuk-fieldset__legend--l"
               }
             },
-						hint: hint,
             errorMessage: errors['type-of-planning-application'] and {
               text: errors['type-of-planning-application'].msg
             },
