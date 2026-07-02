@@ -348,7 +348,8 @@ const getStandardDetailsRows = (caseData, context) => {
 				? caseData.appellantProcedurePreferenceDuration.toString()
 				: '',
 			condition: (caseData) =>
-				!isExpeditedAppealType && caseData.appellantProcedurePreferenceDuration != null
+				!isExpeditedAppealType &&
+				isNotUndefinedOrNull(caseData.appellantProcedurePreferenceDuration)
 		},
 		{
 			keyText: 'Expected witness count',
@@ -356,7 +357,8 @@ const getStandardDetailsRows = (caseData, context) => {
 				? caseData.appellantProcedurePreferenceWitnessCount.toString()
 				: '',
 			condition: (caseData) =>
-				!isExpeditedAppealType && caseData.appellantProcedurePreferenceWitnessCount != null
+				!isExpeditedAppealType &&
+				isNotUndefinedOrNull(caseData.appellantProcedurePreferenceWitnessCount)
 		},
 		{
 			keyText: 'Are there other appeals linked to your development?',
@@ -728,7 +730,8 @@ const getExpeditedDetailsRows = (caseData, context) => {
 		isS20orS78,
 		showRelatedAppeals,
 		relatedAppeals,
-		costApplicationKeyText
+		costApplicationKeyText,
+		isExpeditedAppealType
 	} = context;
 
 	return [
@@ -880,6 +883,24 @@ const getExpeditedDetailsRows = (caseData, context) => {
 			keyText: 'Preferred procedure',
 			valueText: formatProcedure(caseData),
 			condition: (caseData) => caseData.appellantProcedurePreference
+		},
+		{
+			keyText: 'Expected procedure duration',
+			valueText: caseData.appellantProcedurePreferenceDuration
+				? caseData.appellantProcedurePreferenceDuration.toString()
+				: '',
+			condition: (caseData) =>
+				!isExpeditedAppealType &&
+				isNotUndefinedOrNull(caseData.appellantProcedurePreferenceDuration)
+		},
+		{
+			keyText: 'Expected witness count',
+			valueText: caseData.appellantProcedurePreferenceWitnessCount
+				? caseData.appellantProcedurePreferenceWitnessCount.toString()
+				: '',
+			condition: (caseData) =>
+				!isExpeditedAppealType &&
+				isNotUndefinedOrNull(caseData.appellantProcedurePreferenceWitnessCount)
 		},
 		{
 			keyText: 'Are there other appeals linked to your development?',
