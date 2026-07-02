@@ -41,7 +41,13 @@ router.get(
 				documentType: true
 			},
 			where: {
-				documentType: APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER
+				documentType: {
+					in: [
+						APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER,
+						APPEAL_DOCUMENT_TYPE.LPA_COSTS_DECISION_LETTER,
+						APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_DECISION_LETTER
+					]
+				}
 			}
 		},
 		Events: {
