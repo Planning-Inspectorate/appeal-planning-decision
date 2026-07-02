@@ -9,7 +9,8 @@ const appeal = {
 		enforcementIssueDate: '2022-05-04T10:55:46.164Z',
 		enforcementEffectiveDate: '2022-05-04T10:55:46.164Z'
 	},
-	enforcementReferenceNumber: '12345'
+	enforcementReferenceNumber: '12345',
+	typeOfPlanningApplication: 'enforcement-notice'
 };
 
 module.exports = appeal;

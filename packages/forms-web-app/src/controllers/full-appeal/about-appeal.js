@@ -39,22 +39,11 @@ const redirectToNewAppealAboutUrl = async (_, res) => {
 const getTypeOfPlanningApplication = async (req, res) => {
 	const { appeal } = req.session;
 
-	const [isV2forLDC, isNewBYSFlow] = await Promise.all([
-		isLpaInFeatureFlag(appeal.lpaCode, FLAG.LDC_APPEAL_FORM_V2),
-		isLpaInFeatureFlag(appeal.lpaCode, FLAG.NEW_BYS_ENFORCEMENT)
-	]);
+	const isV2forLDC = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.LDC_APPEAL_FORM_V2);
 
 	res.render(ABOUT_APPEAL, {
 		typeOfPlanningApplication: appeal.typeOfPlanningApplication,
-		titleText: isNewBYSFlow
-			? 'What is your appeal about?'
-			: 'What type of application is your appeal about?',
-		hint: isNewBYSFlow ? {} : { text: 'You can check this on your application form.' },
-		radioItems: typeOfPlanningApplicationRadioItems(
-			isV2forLDC,
-			isNewBYSFlow,
-			appeal.typeOfPlanningApplication
-		)
+		radioItems: typeOfPlanningApplicationRadioItems(isV2forLDC, appeal.typeOfPlanningApplication)
 	});
 };
 
@@ -65,10 +54,7 @@ const postTypeOfPlanningApplication = async (req, res) => {
 
 	const typeOfPlanningApplication = body['type-of-planning-application'];
 
-	const [isV2forLDC, isNewBYSFlow] = await Promise.all([
-		isLpaInFeatureFlag(appeal.lpaCode, FLAG.LDC_APPEAL_FORM_V2),
-		isLpaInFeatureFlag(appeal.lpaCode, FLAG.NEW_BYS_ENFORCEMENT)
-	]);
+	const isV2forLDC = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.LDC_APPEAL_FORM_V2);
 
 	// set isListedBuilding for the application types where we don't ask the listed building question
 	let isListedBuilding = null;
@@ -79,7 +65,6 @@ const postTypeOfPlanningApplication = async (req, res) => {
 		isListedBuilding = typeOfPlanningApplication === LISTED_BUILDING;
 	}
 
-	// These two options will only be available if is NEW BYS Flow
 	const isEnforcementOrELB =
 		typeOfPlanningApplication === ENFORCEMENT_NOTICE ||
 		typeOfPlanningApplication === ENFORCEMENT_LISTED_BUILDING;
@@ -87,15 +72,7 @@ const postTypeOfPlanningApplication = async (req, res) => {
 	if (errors['type-of-planning-application']) {
 		return res.render(ABOUT_APPEAL, {
 			typeOfPlanningApplication,
-			titleText: isNewBYSFlow
-				? 'What is your appeal about?'
-				: 'What type of application is your appeal about?',
-			hint: isNewBYSFlow ? {} : { text: 'You can check this on your application form.' },
-			radioItems: typeOfPlanningApplicationRadioItems(
-				isV2forLDC,
-				isNewBYSFlow,
-				appeal.typeOfPlanningApplication
-			),
+			radioItems: typeOfPlanningApplicationRadioItems(isV2forLDC, appeal.typeOfPlanningApplication),
 			errors,
 			errorSummary
 		});
@@ -115,11 +92,7 @@ const postTypeOfPlanningApplication = async (req, res) => {
 		logger.error(err);
 		return res.render(ABOUT_APPEAL, {
 			typeOfPlanningApplication,
-			radioItems: typeOfPlanningApplicationRadioItems(
-				isV2forLDC,
-				isNewBYSFlow,
-				appeal.typeOfPlanningApplication
-			),
+			radioItems: typeOfPlanningApplicationRadioItems(isV2forLDC, appeal.typeOfPlanningApplication),
 			errors,
 			errorSummary: [{ text: err.toString(), href: '#' }]
 		});
@@ -149,7 +122,6 @@ const postTypeOfPlanningApplication = async (req, res) => {
 		case OUTLINE_PLANNING:
 		case RESERVED_MATTERS:
 			return res.redirect('/before-you-start/application-date');
-		// Enforcement types only available as options if isNewBYSFlow === true
 		case ENFORCEMENT_NOTICE:
 		case ENFORCEMENT_LISTED_BUILDING:
 			return res.redirect('/before-you-start/enforcement-issue-date');
