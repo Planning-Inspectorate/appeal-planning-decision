@@ -224,7 +224,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
-				isNewBYSFlow: false,
 				appealLPD: 'Bradford',
 				applicationDate: '04 May 2022',
 				applicationAbout: null,
@@ -253,7 +252,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
-				isNewBYSFlow: false,
 				appealLPD: 'Bradford',
 				applicationAbout: null,
 				applicationDate: '04 May 2022',
@@ -290,7 +288,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
-				isNewBYSFlow: false,
 				appealLPD: 'Bradford',
 				applicationAbout: ['None of these'],
 				applicationDate: '04 May 2022',
@@ -329,7 +326,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
-				isNewBYSFlow: false,
 				appealLPD: 'Bradford',
 				applicationAbout: ['None of these'],
 				applicationDate: '04 May 2022',
@@ -359,7 +355,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
-				isNewBYSFlow: false,
 				appealLPD: 'Bradford',
 				applicationAbout: null,
 				applicationDate: '04 May 2022',
@@ -400,7 +395,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
-				isNewBYSFlow: false,
 				appealLPD: 'Bradford',
 				applicationAbout: null,
 				applicationDecision: 'Granted with conditions',
@@ -442,7 +436,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
-				isNewBYSFlow: false,
 				appealLPD: 'Bradford',
 				applicationAbout: ['None of these'],
 				applicationDecision: 'Refused',
@@ -484,7 +477,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
-				isNewBYSFlow: false,
 				appealLPD: 'Bradford',
 				applicationAbout: null,
 				applicationDecision: 'Granted with conditions',
@@ -525,7 +517,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
-				isNewBYSFlow: false,
 				appealLPD: 'Bradford',
 				applicationAbout: null,
 				applicationDecision: 'Refused',
@@ -550,13 +541,10 @@ describe('controllers/before-you-start/can-use-service', () => {
 	describe('getCanUseService - enforcement notice', () => {
 		it('renders page - enforcement - effective date not passed', async () => {
 			req = mockReq(enforcementNotice);
-			//for NEW BYS flow flag
-			isLpaInFeatureFlag.mockResolvedValue(true);
 
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceEnforcementView, {
-				isNewBYSFlow: true,
 				appealTypeText: 'Enforcement notice',
 				deadlineDate: { date: 3, day: 'Tuesday', month: 'May', year: 2022 },
 				appealLPD: 'Bradford',
@@ -578,13 +566,10 @@ describe('controllers/before-you-start/can-use-service', () => {
 			enforcementNotice.eligibility.hasContactedPlanningInspectorate = true;
 			enforcementNotice.eligibility.contactPlanningInspectorateDate = '2022-05-04T10:55:46.164Z';
 			req = mockReq(enforcementNotice);
-			//for NEW BYS flow flag
-			isLpaInFeatureFlag.mockResolvedValue(true);
 
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceEnforcementView, {
-				isNewBYSFlow: true,
 				appealTypeText: 'Enforcement notice',
 				deadlineDate: { date: 10, day: 'Tuesday', month: 'May', year: 2022 },
 				appealLPD: 'Bradford',
@@ -605,15 +590,16 @@ describe('controllers/before-you-start/can-use-service', () => {
 
 	describe('getCanUseService - enforcement notice listed building', () => {
 		it('renders page - enforcement listed building - effective date not passed', async () => {
-			enforcementNotice.eligibility.enforcementNoticeListedBuilding = true;
-			req = mockReq(enforcementNotice);
-			//for NEW BYS flow flag
-			isLpaInFeatureFlag.mockResolvedValue(true);
+			const enforcementListedBuildingAppeal = {
+				...enforcementNotice,
+				typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.ENFORCEMENT_LISTED_BUILDING
+			};
+			enforcementListedBuildingAppeal.eligibility.enforcementNoticeListedBuilding = true;
+			req = mockReq(enforcementListedBuildingAppeal);
 
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceEnforcementView, {
-				isNewBYSFlow: true,
 				appealTypeText: 'Enforcement listed building and conservation area',
 				deadlineDate: { date: 3, day: 'Tuesday', month: 'May', year: 2022 },
 				appealLPD: 'Bradford',
@@ -634,17 +620,19 @@ describe('controllers/before-you-start/can-use-service', () => {
 		});
 
 		it('renders page - enforcement listed building - effective date passed and contacted PINS', async () => {
-			enforcementNotice.eligibility.enforcementNoticeListedBuilding = true;
-			enforcementNotice.eligibility.hasContactedPlanningInspectorate = true;
-			enforcementNotice.eligibility.contactPlanningInspectorateDate = '2022-05-04T10:55:46.164Z';
-			req = mockReq(enforcementNotice);
-			//for NEW BYS flow flag
-			isLpaInFeatureFlag.mockResolvedValue(true);
+			const enforcementListedBuildingAppeal = {
+				...enforcementNotice,
+				typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.ENFORCEMENT_LISTED_BUILDING
+			};
+			enforcementListedBuildingAppeal.eligibility.enforcementNoticeListedBuilding = true;
+			enforcementListedBuildingAppeal.eligibility.hasContactedPlanningInspectorate = true;
+			enforcementListedBuildingAppeal.eligibility.contactPlanningInspectorateDate =
+				'2022-05-04T10:55:46.164Z';
+			req = mockReq(enforcementListedBuildingAppeal);
 
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceEnforcementView, {
-				isNewBYSFlow: true,
 				appealTypeText: 'Enforcement listed building and conservation area',
 				deadlineDate: { date: 10, day: 'Tuesday', month: 'May', year: 2022 },
 				appealLPD: 'Bradford',
@@ -684,7 +672,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
-				isNewBYSFlow: false,
 				appealLPD: 'Bradford',
 				applicationAbout: null,
 				applicationDecision: '',
@@ -724,7 +711,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
-				isNewBYSFlow: false,
 				appealLPD: 'Bradford',
 				applicationAbout: null,
 				applicationDecision: 'Refused',

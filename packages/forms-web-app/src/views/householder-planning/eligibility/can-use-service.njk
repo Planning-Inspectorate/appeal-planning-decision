@@ -2,32 +2,6 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "../../macros/summary-field.njk" import summaryField %}
 
-{% if isNewBYSFlow %}
-	{% set enforcementNoticeRow = null %}
-	{% set appealAboutText = "What is your appeal about?" %}
-{% else %}
-	{% set enforcementNoticeRow = {
-		key: {
-			text: "Have you received an enforcement notice?"
-		},
-		value: {
-			text: summaryField(enforcementNotice, { 'data-cy': "enforcement-notice" })
-		},
-		actions: {
-			items: [
-				{
-					href: "/before-you-start/enforcement-notice",
-					text: "Change",
-					visuallyHiddenText: "Have you received an enforcement notice?",
-					attributes: { "data-cy":"enforcementNotice"}
-				}
-			]
-		}
-	}
-	%}
-	{% set appealAboutText = "Type of application" %}
-{% endif %}
-
 {% block canUseServiceSummaryList %}
     {% set summaryRows = [
 		{
@@ -48,7 +22,6 @@
 				]
 			}
 		},
-	  enforcementNoticeRow,
 		{
 			key: {
 				text: "Application number"
@@ -69,7 +42,7 @@
 		} if planningApplicationNumber,
 		{
 			key: {
-				text: appealAboutText
+				text: 'What is your appeal about?'
 			},
 			value: {
 				text: summaryField(applicationType, { 'data-cy': "application-type" })
@@ -79,7 +52,7 @@
 					{
 						href: "/before-you-start/about-appeal",
 						text: "Change",
-						visuallyHiddenText: appealAboutText,
+						visuallyHiddenText: 'What is your appeal about?',
 						attributes: { "data-cy":"applicationType"}
 					}
 				]

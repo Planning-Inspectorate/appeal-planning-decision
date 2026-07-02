@@ -21,15 +21,10 @@ const {
 
 /**
  * @param {boolean} isLDCFeatureFlag
- * @param {boolean} isNewBYSFlow
  * @param {string} [typeOfPlanningApplication]
  * @returns {Array<object>} an array of objects representing govuk radio items
  */
-exports.typeOfPlanningApplicationRadioItems = (
-	isLDCFeatureFlag,
-	isNewBYSFlow,
-	typeOfPlanningApplication
-) => {
+exports.typeOfPlanningApplicationRadioItems = (isLDCFeatureFlag, typeOfPlanningApplication) => {
 	const items = [
 		{
 			value: FULL_APPEAL,
@@ -154,16 +149,5 @@ exports.typeOfPlanningApplicationRadioItems = (
 		? filteredItems
 		: filteredItems.filter((item) => item.value !== LAWFUL_DEVELOPMENT_CERTIFICATE);
 
-	filteredItems = isNewBYSFlow
-		? filteredItems
-		: filteredItems.filter((item) => !isEnforcementType(item.value));
-
 	return filteredItems;
 };
-
-/**
- * @param {string | undefined} value
- * @returns {boolean}
- */
-const isEnforcementType = (value) =>
-	value === ENFORCEMENT_NOTICE || value === ENFORCEMENT_LISTED_BUILDING;
