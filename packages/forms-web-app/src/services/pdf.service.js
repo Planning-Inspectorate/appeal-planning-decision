@@ -2,7 +2,7 @@ const {
 	constants: { APPEAL_ID }
 } = require('@pins/business-rules');
 const { default: fetch } = require('node-fetch');
-const uuid = require('uuid');
+const { randomUUID } = require('node:crypto');
 const { documentTypes } = require('@pins/common');
 const config = require('../config');
 const { createDocument } = require('../lib/documents-api-wrapper');
@@ -40,7 +40,7 @@ const buildAppealUrl = (appeal) => {
 const getHtml = async (id, url, cookieString) => {
 	const log = logger.child({
 		id,
-		uuid: uuid.v4()
+		uuid: randomUUID()
 	});
 
 	let response;
@@ -89,7 +89,7 @@ const getHtml = async (id, url, cookieString) => {
  * @param {string} [params.cookieString] - session cookie
  */
 const storePdfAppeal = async ({ appeal, fileName, cookieString }) => {
-	const log = logger.child({ appealId: appeal.id, uuid: uuid.v4() });
+	const log = logger.child({ appealId: appeal.id, uuid: randomUUID() });
 
 	log.info('Attempting to store PDF document');
 
@@ -136,7 +136,7 @@ const storePdfAppellantSubmission = async ({
 }) => {
 	const log = logger.child({
 		appellantSubmissionId,
-		uuid: uuid.v4()
+		uuid: randomUUID()
 	});
 
 	log.info('Attempting to store PDF document');
@@ -204,7 +204,7 @@ const storePdfQuestionnaireSubmission = async ({
 
 	const log = logger.child({
 		lpaQuestionnaireId: lpaQuestionnaireId,
-		uuid: uuid.v4()
+		uuid: randomUUID()
 	});
 
 	log.info('Attempting to store PDF document');

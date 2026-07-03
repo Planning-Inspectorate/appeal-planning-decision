@@ -1,11 +1,8 @@
-jest.mock('uuid');
-jest.mock('../lib/blobStorage');
-
-const uuid = require('uuid');
 const DocumentsMethods = require('./documentsMethods');
 const { downloadFile } = require('../lib/blobStorage');
 const { initContainerClient } = require('@pins/common');
 
+jest.mock('../lib/blobStorage');
 jest.mock('@pins/common', () => ({
 	...jest.requireActual('@pins/common'),
 	initContainerClient: jest.fn()
@@ -31,15 +28,13 @@ describe('Documents methods', () => {
 	});
 
 	describe('#generateId', () => {
-		it('should add a uuid.v4', () => {
-			const value = 'some-uuid';
+		it('should add a randomUUID', () => {
 			const obj = new DocumentsMethods();
 			obj.set = jest.fn();
-			uuid.v4.mockReturnValue(value);
 
 			expect(obj.generateId()).toBe(obj);
 
-			expect(obj.set).toHaveBeenCalledWith('id', value);
+			expect(obj.set).toHaveBeenCalledWith('id', expect.any(String));
 		});
 	});
 

@@ -1,4 +1,4 @@
-const uuid = require('uuid');
+const { randomUUID } = require('node:crypto');
 
 module.exports = class FinalCommentFixtures {
 	static newFinalComment({
@@ -11,7 +11,7 @@ module.exports = class FinalCommentFixtures {
 		typeOfUser = 'Appellant'
 	} = {}) {
 		return {
-			id: uuid.v4(),
+			id: randomUUID(),
 			horizonId: horizonId,
 			state: state,
 			lpaCode: lpaCode,

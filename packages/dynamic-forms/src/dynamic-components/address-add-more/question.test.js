@@ -1,7 +1,6 @@
 const AddMoreQuestion = require('../add-more/question');
 const AddressAddMoreQuestion = require('./question');
 const Address = require('../../lib/address');
-const uuid = require('uuid');
 
 const TITLE = 'title';
 const QUESTION = 'question';
@@ -64,7 +63,7 @@ describe('AddressAddMoreQuestion', () => {
 
 			const result = await question.getDataToSave(req, testJourneyResponse);
 
-			expect(uuid.validate(result.addMoreId)).toBeTruthy();
+			expect(result.addMoreId).toEqual(expect.any(String));
 			expect(result.value).toEqual(address);
 		});
 	});

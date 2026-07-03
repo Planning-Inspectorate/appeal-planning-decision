@@ -1,4 +1,4 @@
-const uuid = require('uuid');
+const { randomUUID } = require('node:crypto');
 
 module.exports = class AppealFixtures {
 	/**
@@ -342,7 +342,7 @@ module.exports = class AppealFixtures {
 	 */
 	static #getFileJson() {
 		return {
-			id: uuid.v4(),
+			id: randomUUID(),
 			name: `'<>test&"pdf.pdf`,
 			originalFileName: `'<>test&"pdf.pdf`,
 			fileName: `'<>test&"pdf.pdf`,

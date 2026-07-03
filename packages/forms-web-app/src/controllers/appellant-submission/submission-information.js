@@ -1,5 +1,5 @@
 const fs = require('fs');
-const uuid = require('uuid');
+const { randomUUID } = require('node:crypto');
 const path = require('path');
 const { format } = require('date-fns');
 const { VIEW } = require('../../lib/views');
@@ -13,7 +13,7 @@ exports.getSubmissionInformation = async (req, res) => {
 	const { appeal, appealLPD } = req.session;
 
 	const { appealId } = req.params;
-	const log = logger.child({ appealId, uuid: uuid.v4() });
+	const log = logger.child({ appealId, uuid: randomUUID() });
 
 	if (!appealId) {
 		const message = 'The appealId should be provided in the request param.';

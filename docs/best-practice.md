@@ -151,10 +151,10 @@ try {
 ### Child
 
 Sometimes it makes sense to logically group log messages. We can achieve this with a [child logger](https://getpino.io/#/docs/child-loggers).
-Typically, you will need to add some identifying detail to associate the logs together, a good example would be using `uuid.v4()`.
+Typically, you will need to add some identifying detail to associate the logs together, a good example would be using `randomUUID()`
 
 ```javascript
-const log = logger.child({ someId: uuid.v4() });
+const log = logger.child({ someId: randomUUID() });
 log.info('an informational message');
 ```
 

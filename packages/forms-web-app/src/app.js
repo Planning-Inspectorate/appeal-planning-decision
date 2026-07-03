@@ -8,7 +8,7 @@ const nunjucks = require('nunjucks');
 const dateFilter = require('nunjucks-date-filter');
 const session = require('express-session');
 const { pinoHttp } = require('pino-http');
-const uuid = require('uuid');
+const { randomUUID } = require('node:crypto');
 const fileUpload = require('express-fileupload');
 const sessionConfig = require('./lib/session');
 const appealSiteAddressToArray = require('./lib/appeal-site-address-to-array');
@@ -45,7 +45,7 @@ http.globalAgent = new http.Agent({ keepAlive: false });
 app.use(
 	pinoHttp({
 		logger,
-		genReqId: () => uuid.v4(),
+		genReqId: () => randomUUID(),
 		autoLogging: {
 			ignore: (req) => {
 				if (req.url?.startsWith('/public/')) return true;

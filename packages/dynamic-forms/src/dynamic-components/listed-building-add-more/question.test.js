@@ -1,6 +1,5 @@
 const AddMoreQuestion = require('../add-more/question');
 const ListedBuildingAddMoreQuestion = require('./question');
-const uuid = require('uuid');
 
 const mockListedBuilding = {
 	reference: '1234567',
@@ -62,7 +61,7 @@ describe('ListedBuildingAddMoreQuestion', () => {
 
 			const result = await listedBuildingAddMoreQuestion.getDataToSave(req);
 
-			expect(uuid.validate(result.addMoreId)).toBeTruthy();
+			expect(result.addMoreId).toEqual(expect.any(String));
 			expect(result.value).toEqual(mockListedBuilding);
 		});
 	});

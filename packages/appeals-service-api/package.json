@@ -49,8 +49,7 @@
 		"prettier": "*",
 		"swagger-jsdoc": "*",
 		"swagger-typescript-api": "*",
-		"swagger-ui-express": "*",
-		"uuid": "*"
+		"swagger-ui-express": "*"
 	},
 	"devDependencies": {
 		"cross-env": "*",

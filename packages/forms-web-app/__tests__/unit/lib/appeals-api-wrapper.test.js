@@ -1,10 +1,10 @@
 const fetchMock = require('jest-fetch-mock');
 fetchMock.enableMocks();
 
-jest.mock('uuid');
+jest.mock('node:crypto');
 
 const fetch = require('node-fetch');
-const uuid = require('uuid');
+const { randomUUID } = require('node:crypto');
 const {
 	createOrUpdateAppeal,
 	getExistingAppeal,
@@ -55,7 +55,7 @@ describe('lib/appeals-api-wrapper', () => {
 						body: '{"a":"b"}',
 						headers: {
 							'Content-Type': 'application/json',
-							'X-Correlation-ID': uuid.v4()
+							'X-Correlation-ID': randomUUID()
 						},
 						method: 'POST'
 					});
@@ -77,7 +77,7 @@ describe('lib/appeals-api-wrapper', () => {
 						body: '{"c":"d","id":"123-abc"}',
 						headers: {
 							'Content-Type': 'application/json',
-							'X-Correlation-ID': uuid.v4()
+							'X-Correlation-ID': randomUUID()
 						},
 						method: 'PUT'
 					});
@@ -145,7 +145,7 @@ describe('lib/appeals-api-wrapper', () => {
 				body: '{"appeal":"data"}',
 				headers: {
 					'Content-Type': 'application/json',
-					'X-Correlation-ID': uuid.v4()
+					'X-Correlation-ID': randomUUID()
 				},
 				method: 'POST'
 			});
