@@ -9,11 +9,63 @@ const documents = {
     uploadFinalisingDocReady: 'additional-final-comments-2.pdf',
     uploadFinalisingDocDraft: 'additional-final-comments-2.pdf',
     uploadDevelopmentDescription: 'additional-final-comments-1.pdf',
+    uploadEnvironmentalStmt: 'environmental-statement.pdf',
+    uploadPlanningObligation: 'planning-obligation.pdf',
     uploadDecisionLetter: 'decision-letter.pdf',
     uploadPlanningApplConfirmLetter: 'letter-confirming-planning-application.pdf',
     uploadDraftStatementOfCommonGround: 'draft-statement-of-common-ground.pdf'
 };
 export const casPlanningAppealGrantedTestCases = [
+    {
+        tags: ['smoke', 'expedited'],
+        statusOfOriginalApplication: 'granted',
+        typeOfDecisionRequested: 'written',
+        statusOfPlanningObligation: 'in draft',
+        typeOfPlanningApplication: 'answer-minor-commercial-development',
+        selectAllPlanningApplicationAbout: false,
+        endToEndIntegration: false,
+        expeditedAppeal: true,
+        applicationForm: {
+            isAppellant: true,
+            areaUnits: 'squaremeter',
+            appellantInGreenBelt: true,
+            isOwnsAllLand: false,
+            isOwnsSomeLand: true,
+            knowsAllOwners: 'no',
+            knowsOtherOwners: 'yes',
+            isAgriculturalHolding: false,
+            isTenantAgricultureHolding: true,
+            anyOtherTenants: true,
+            majorMionorDevelopmentData: 'major',
+            applicationAboutData: 'householder',
+            isInspectorNeedAccess: true,
+            isAppellantSiteSafety: true,
+            iaUpdateDevelopmentDescription: true,
+            appellantProcedurePreference: 'written',
+            anySignificantChangesCondition: true,
+            anyOtherAppeals: true,
+            isAppellantLinkedCaseAdd: false
+        },
+        uploadDocuments: {
+            submitPlanningObligation: true,
+            finalisedPlanningStatus: 'ready',
+            haveSeparateOwnershipAndLandDecl: true,
+            isApplyAwardCost: true,
+            isSubmitDesignAndAccessStmt: true,
+            isNewPlanOrDrawingAvailable: true,
+            isOtherNewDocumentAvailable: true
+        },
+        documents,
+        otherAppeals: [{
+            appealReferenceNumber: '1234567'
+        }, {
+            appealReferenceNumber: '7654321'
+        }],
+        finalComments: {
+            check: false,
+            uploadAdditionalDocuments: false
+        }
+    },
     //this case is for full planning from cas planning route
     {
         tags: ['smoke'],

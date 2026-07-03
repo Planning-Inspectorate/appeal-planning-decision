@@ -28,6 +28,7 @@ describe('Submit Cas Planning Appeal Refused Test Cases', { tags: '@CAS-Planning
 			typeOfDecisionRequested,
 			statusOfPlanningObligation,
 			typeOfPlanningApplication,
+			expeditedAppeal,
 			selectAllPlanningApplicationAbout,
 			applicationForm,
 		} = context;
@@ -59,6 +60,7 @@ describe('Submit Cas Planning Appeal Refused Test Cases', { tags: '@CAS-Planning
 				typeOfDecisionRequested,
 				statusOfPlanningObligation,
 				planning: typeOfPlanningApplication,
+				expeditedAppeal,
 				context,
 				prepareAppealData,
 				lpaManageAppealsData,

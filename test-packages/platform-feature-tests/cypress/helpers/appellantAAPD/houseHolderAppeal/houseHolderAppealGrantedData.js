@@ -11,9 +11,59 @@ const documents = {
     uploadDevelopmentDescription: 'additional-final-comments-1.pdf',
     uploadDecisionLetter: 'decision-letter.pdf',
     uploadPlanningApplConfirmLetter: 'letter-confirming-planning-application.pdf',
-    uploadDraftStatementOfCommonGround: 'draft-statement-of-common-ground.pdf'
+    uploadDraftStatementOfCommonGround: 'draft-statement-of-common-ground.pdf',
+    uploadEnvironmentalStmt: 'environmental-statement.pdf',
+    uploadPlanningObligation: 'planning-obligation.pdf'
 };
 export const houseHolderAppealGrantedTestCases = [
+     {
+        tags: ['smoke', 'expedited'],
+        statusOfOriginalApplication: 'granted',
+        typeOfDecisionRequested: 'written',
+        statusOfPlanningObligation: 'in draft',
+        typeOfPlanningApplication: 'answer-householder-planning',
+        endToEndIntegration: false,
+        expeditedAppeal: true,
+        applicationForm: {
+            isAppellant: true,
+            areaUnits: 'hectare',
+            appellantInGreenBelt: true,
+            isOwnsAllLand: false,
+            isOwnsSomeLand: true,
+            knowsAllOwners: 'no',
+            knowsOtherOwners: 'yes',
+            isAgriculturalHolding: false,
+            isTenantAgricultureHolding: true,
+            anyOtherTenants: true,
+            majorMionorDevelopmentData: 'major',
+            applicationAboutData: 'householder',
+            isInspectorNeedAccess: true,
+            isAppellantSiteSafety: true,
+            iaUpdateDevelopmentDescription: true,
+            appellantProcedurePreference: 'written',
+            anyOtherAppeals: true,
+            isAppellantLinkedCaseAdd: false
+        },
+        uploadDocuments: {
+            submitPlanningObligation: true,
+            finalisedPlanningStatus: 'ready',
+            haveSeparateOwnershipAndLandDecl: true,
+            isApplyAwardCost: true,
+            isSubmitDesignAndAccessStmt: true,
+            isNewPlanOrDrawingAvailable: true,
+            isOtherNewDocumentAvailable: true
+        },
+        documents,
+        otherAppeals: [{
+            appealReferenceNumber: '1234567'
+        }, {
+            appealReferenceNumber: '7654321'
+        }],
+        finalComments: {
+            check: false, // TODO: set these to true after feature flag introduced
+            uploadAdditionalDocuments: false
+        }
+    },
     {
         tags: ['smoke'],
         statusOfOriginalApplication: 'granted',
@@ -60,5 +110,5 @@ export const houseHolderAppealGrantedTestCases = [
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
         }
-    }
+    }   
 ];

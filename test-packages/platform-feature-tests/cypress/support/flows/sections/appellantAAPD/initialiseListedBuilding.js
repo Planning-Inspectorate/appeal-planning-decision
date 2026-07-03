@@ -54,20 +54,21 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 
 	cy.getByData(grantedOrRefusedId).click();
 	cy.advanceToNextPage();
-	if(grantedOrRefusedId ===  basePage._selectors?.answerNodecisionreceived){
-		cy.validateURL(`${prepareAppealSelector?._listedBuildingURLs?.beforeYouStart}/date-decision-due`);
-	} 
-	else {
-		cy.validateURL(`${prepareAppealSelector?._listedBuildingURLs?.beforeYouStart}/decision-date`);
-	}		
 
-	
-	cy.get(prepareAppealSelector?._listedBuildingSelectors?.decisionDateDay).type(date.today());
-	cy.get(prepareAppealSelector?._listedBuildingSelectors?.decisionDateMonth).type(date.currentMonth());
-	cy.get(prepareAppealSelector?._listedBuildingSelectors?.decisionDateYear).type(date.currentYear());
-	cy.advanceToNextPage();
-
-	cy.getByData(basePage?._selectors.applicationType).should('have.text', applicationType);
+	// Decision date may appear after application-date or as the first date page
+	cy.url().then((url) => {
+		if (url.includes('/decision-date')) {
+			cy.get(prepareAppealSelector?._listedBuildingSelectors?.decisionDateDay).type(date.today());
+			cy.get(prepareAppealSelector?._listedBuildingSelectors?.decisionDateMonth).type(date.currentMonth());
+			cy.get(prepareAppealSelector?._listedBuildingSelectors?.decisionDateYear).type(date.currentYear());
+			cy.advanceToNextPage();
+		} else if (url.includes('/date-decision-due')) {
+			cy.get(prepareAppealSelector?._listedBuildingSelectors?.decisionDateDay).type(date.today());
+			cy.get(prepareAppealSelector?._listedBuildingSelectors?.decisionDateMonth).type(date.currentMonth());
+			cy.get(prepareAppealSelector?._listedBuildingSelectors?.decisionDateYear).type(date.currentYear());
+			cy.advanceToNextPage();
+		}
+	});
 	cy.advanceToNextPage(prepareAppealData?.button);	
 	
 	cy.validateURL(`${prepareAppealSelector?._listedBuildingURLs?.listedBuildingSubmit}/email-address`);

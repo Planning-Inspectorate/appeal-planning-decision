@@ -9,10 +9,13 @@ const initialiseListedBuilding = require("./initialiseListedBuilding");
 const initialiseCasPlanning = require("./initialiseCasPlanning");
 const initialiseAdvertPlanning = require("./initialiseAdvertPlanning");
 const initialiseLDCPlanning = require("./initialiseLDCPlanning");
+const { getApplicationDateValues } = require("./applicationDateValues");
 const date = new DateService();
+
 module.exports = (statusOfOriginalApplication, planning, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases = [], statementTestCases = []) => {
 	const prepareAppealSelector = new PrepareAppealSelector();
 	const basePage = new BasePage();
+	const applicationDateValues = getApplicationDateValues(expeditedAppeal);
 	// Visit the "Before You Start" page 
 	cy.visit(`${Cypress.config('appeals_beta_base_url')}/before-you-start`);
 	cy.advanceToNextPage();
@@ -21,27 +24,54 @@ module.exports = (statusOfOriginalApplication, planning, expeditedAppeal, contex
 	cy.get(basePage?._selectors?.localPlanningDepartmentOptionZero).click();
 	cy.advanceToNextPage();	
 	// Select the application type
-	cy.get(`[data-cy="${planning}"]`).click();
+	cy.get(`[data-cy="${planning}"]`).click().should('be.checked');
 	cy.advanceToNextPage();
 
-	if (planning === prepareAppealSelector?._selectors?.answerFullAppeal || planning === prepareAppealSelector?._selectors?.answerHouseholderPlanning || planning === prepareAppealSelector?._selectors?.answerMinorCommercialDevelopment || planning === prepareAppealSelector?._selectors?.answerMinorCommercialAdvertisement) {
-		if (expeditedAppeal) {
-			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateDay).clear()
-			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateDay).type(date.today());
-			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateMonth).clear();
-			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateMonth).type(date.currentMonth());
-			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateYear).clear();
-			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateYear).type(date.currentYear());
+	// Decision date step: may show decision-date or date-decision-due depending on status
+	cy.url().then((url) => {
+		if (url.includes('/decision-date')) {
+			cy.validateURL(`${prepareAppealSelector?._advertURLs?.beforeYouStart}/decision-date`);
+			cy.get(prepareAppealSelector?._advertSelectors?.decisionDateDay).type(date.today());
+			cy.get(prepareAppealSelector?._advertSelectors?.decisionDateMonth).type(date.currentMonth());
+			cy.get(prepareAppealSelector?._advertSelectors?.decisionDateYear).type(date.currentYear());
 			cy.advanceToNextPage();
-		} else {
-			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateDay).clear();
-			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateDay).type(date.today());
-			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateMonth).clear();
-			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateMonth).type(date.currentMonth() - 3);
-			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateYear).clear();
-			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateYear).type(date.currentYear());
+		} else if (url.includes('/date-decision-due')) {
+			cy.validateURL(`${prepareAppealSelector?._advertURLs?.beforeYouStart}/date-decision-due`);
+			cy.get(prepareAppealSelector?._advertSelectors?.decisionDateDay).type(date.today());
+			cy.get(prepareAppealSelector?._advertSelectors?.decisionDateMonth).type(date.currentMonth());
+			cy.get(prepareAppealSelector?._advertSelectors?.decisionDateYear).type(date.currentYear());
 			cy.advanceToNextPage();
 		}
+	});
+
+	if (planning === prepareAppealSelector?._selectors?.answerFullAppeal || planning === prepareAppealSelector?._selectors?.answerHouseholderPlanning || planning === prepareAppealSelector?._selectors?.answerMinorCommercialDevelopment) {
+		// Application date step is conditional in staging; complete it only when shown.
+		cy.url().then((url) => {
+			if (url.includes('/application-date')) {
+				cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateDay).clear();
+				cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateDay).type(applicationDateValues.day);
+				cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateMonth).clear();
+				cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateMonth).type(applicationDateValues.month);
+				cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateYear).clear();
+				cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateYear).type(applicationDateValues.year);
+				cy.advanceToNextPage();
+			}
+		});
+	}
+
+	// Application date for advert uses different selectors
+	if (planning === prepareAppealSelector?._selectors?.answerMinorCommercialAdvertisement) {
+		cy.url().then((url) => {
+			if (url.includes('/application-date')) {
+				cy.get(prepareAppealSelector?._advertSelectors?.applicationDateDay).clear();
+				cy.get(prepareAppealSelector?._advertSelectors?.applicationDateDay).type(applicationDateValues.day);
+				cy.get(prepareAppealSelector?._advertSelectors?.applicationDateMonth).clear();
+				cy.get(prepareAppealSelector?._advertSelectors?.applicationDateMonth).type(applicationDateValues.month);
+				cy.get(prepareAppealSelector?._advertSelectors?.applicationDateYear).clear();
+				cy.get(prepareAppealSelector?._advertSelectors?.applicationDateYear).type(applicationDateValues.year);
+				cy.advanceToNextPage();
+			}
+		});
 	}
 
 	if (planning === prepareAppealSelector?._selectors?.answerMinorCommercialDevelopment) {
@@ -87,7 +117,7 @@ module.exports = (statusOfOriginalApplication, planning, expeditedAppeal, contex
 		initialiseListedBuilding(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.listedBuildingText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
 	} else if (planning === prepareAppealSelector?._selectors?.answerHouseholderPlanning) {
 		statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ?
-			initialiseHouseHolderPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, expeditedAppeal,context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases) : initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+			initialiseHouseHolderPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases) : initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
 	} else if (planning === prepareAppealSelector?._selectors?.answerMinorCommercialDevelopment) {
 		if (context?.selectAllPlanningApplicationAbout) {
 			//s78 route
@@ -95,12 +125,12 @@ module.exports = (statusOfOriginalApplication, planning, expeditedAppeal, contex
 		} else {
 			//cas planning route
 			statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ?
-				initialiseCasPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.casPlanningText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases) :
+				initialiseCasPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.casPlanningText, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases) :
 				initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.casPlanningText, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
 		}
 	} else if (planning === prepareAppealSelector?._selectors?.answerMinorCommercialAdvertisement) {
 		statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ?
-			initialiseAdvertPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.advertText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases) : initialiseAdvertPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.advertText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+			initialiseAdvertPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.advertText, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases) : initialiseAdvertPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.advertText, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
 	} else if (planning === prepareAppealSelector?._selectors?.answerLawfulDevelopmentCertificate) {
 		initialiseLDCPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.ldcText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
 	}

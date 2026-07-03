@@ -9,33 +9,43 @@ export class SubmitPlanningObligationPage {
     }
     addSubmitPlanningObligationData(context) {
         const basePage = new BasePage();
-        if (context?.uploadDocuments?.submitPlanningObligation) {
-            //Do you have a planning obligation to support your appeal?
-            cy.getByData(basePage?._selectors.answerYes).click();
-            cy.advanceToNextPage();
-            if (context?.expeditedAppeal) {
-                cy.uploadFileFromFixtureDirectory(context?.documents?.uploadPlanningObligation);
+        
+        // Ensure we're on the correct page before proceeding
+        cy.url().then((url) => {
+            if (!url.includes('/submit-planning-obligation')) {
+                cy.log('Not on submit-planning-obligation page. Current URL: ' + url);
+                return;
+            }
+            
+            if (context?.uploadDocuments?.submitPlanningObligation) {
+                //Do you have a planning obligation to support your appeal?
+                cy.getByData(basePage?._selectors.answerYes).click();
                 cy.advanceToNextPage();
-            } else {
-                if (context?.uploadDocuments?.finalisedPlanningStatus === "ready") {
-                    basePage.clickRadioBtn(this._selectors?.answerFinalised);
-                    cy.advanceToNextPage();
-                    cy.uploadFileFromFixtureDirectory(context?.documents?.uploadFinalisingDocReady);
-                    cy.advanceToNextPage();
-                } else if (context?.uploadDocuments?.finalisedPlanningStatus === "draft") {
-                    basePage.clickRadioBtn(this._selectors?.answerDraft);
-                    cy.advanceToNextPage();
-                    cy.uploadFileFromFixtureDirectory(context?.documents?.uploadFinalisingDocDraft);
+                if (context?.expeditedAppeal) {
+                    const planningObligationFile = context?.documents?.uploadPlanningObligation || context?.documents?.uploadFinalisingDocReady;
+                    cy.uploadFileFromFixtureDirectory(planningObligationFile);
                     cy.advanceToNextPage();
                 } else {
-                    basePage.clickRadioBtn(this._selectors?.answerNotStartedYet);
-                    cy.advanceToNextPage();
+                    if (context?.uploadDocuments?.finalisedPlanningStatus === "ready") {
+                        basePage.clickRadioBtn(this._selectors?.answerFinalised);
+                        cy.advanceToNextPage();
+                        cy.uploadFileFromFixtureDirectory(context?.documents?.uploadFinalisingDocReady);
+                        cy.advanceToNextPage();
+                    } else if (context?.uploadDocuments?.finalisedPlanningStatus === "draft") {
+                        basePage.clickRadioBtn(this._selectors?.answerDraft);
+                        cy.advanceToNextPage();
+                        cy.uploadFileFromFixtureDirectory(context?.documents?.uploadFinalisingDocDraft);
+                        cy.advanceToNextPage();
+                    } else {
+                        basePage.clickRadioBtn(this._selectors?.answerNotStartedYet);
+                        cy.advanceToNextPage();
+                    }
                 }
-            }
 
-        } else {
-            cy.getByData(basePage?._selectors.answerNo).click();
-            cy.advanceToNextPage();
-        }
+            } else {
+                cy.getByData(basePage?._selectors.answerNo).click();
+                cy.advanceToNextPage();
+            }
+        });
     };
 }

@@ -18,6 +18,7 @@ const { UploadApplicationFormPage } = require("../../pages/appellant-aapd/upload
 const { ApplyAppealCostsPage } = require("../../pages/appellant-aapd/upload-documents/applyAppealCostsPage");
 const { HealthSafetyIssuesPage } = require("../../pages/appellant-aapd/prepare-appeal/healthSafetyIssuesPage");
 const { PrepareAppealSelector } = require("../../../../page-objects/prepare-appeal/prepare-appeal-selector");
+const { getApplicationDateValues } = require("./applicationDateValues");
 
 module.exports = (planning, grantedOrRefusedId, applicationType, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases = [] , statementTestCases = []) => {
 	const basePage = new BasePage();
@@ -36,24 +37,26 @@ module.exports = (planning, grantedOrRefusedId, applicationType, expeditedAppeal
 	const uploadApplicationFormPage = new UploadApplicationFormPage();
 	const applyAppealCostsPage = new ApplyAppealCostsPage();
 	const date = new DateService();
+	const applicationDateValues = getApplicationDateValues(expeditedAppeal);
 
 	cy.getByData(grantedOrRefusedId).click();
 	cy.advanceToNextPage();
 
 	cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.beforeYouStart}/decision-date-householder`);
 
-	if (expeditedAppeal) {
-		cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(date.today());
-		cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(date.currentMonth());
-		cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(date.currentYear());
-	} else {
-		cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(date.today());
-		cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(date.currentMonth() - 3);
-		cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(date.currentYear());
-	}
+	//const decisionDate = new Date();
+	//decisionDate.setDate(decisionDate.getDate() - (expeditedAppeal ? 7 : 28));
+
+	cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).clear();
+	cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(String(date.today()));
+	cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).clear();
+	cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(String(date.currentMonth()));
+	cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).clear();
+	cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(String(date.currentYear()));
 
 	cy.advanceToNextPage();
 
+	cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.beforeYouStart}/can-use-service`);
 	cy.getByData(basePage?._selectors.applicationType).should('have.text', prepareAppealSelector?._selectors?.householderPlanningText);
 	cy.advanceToNextPage(prepareAppealData?.button);
 
@@ -127,15 +130,19 @@ module.exports = (planning, grantedOrRefusedId, applicationType, expeditedAppeal
 		const applicationNumber = `TEST-${Date.now()}`;	
 		cy.get(prepareAppealSelector?._selectors?.applicationReference).type(applicationNumber);
 		cy.advanceToNextPage();
-		//What date did you submit your application?
-		if (!expeditedAppeal) {
-			//What date did you submit your application?
-			cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/application-date`);
-			cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).type(date.today());
-			cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(date.currentMonth()-3);
-			cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).type(date.currentYear());
-			cy.advanceToNextPage();
-		}
+		// Application date step is conditional in staging; complete it only when shown.
+		cy.url().then((url) => {
+			if (url.includes('/application-date')) {
+				cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/application-date`);
+				cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).clear();
+				cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).type(String(applicationDateValues.day));
+				cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).clear();
+				cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(String(applicationDateValues.month));
+				cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).clear();
+				cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).type(String(applicationDateValues.year));
+				cy.advanceToNextPage();
+			}
+		});
 		//Enter the description of development that you submitted in your application
 
 		cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/enter-description-of-development`);
@@ -147,21 +154,35 @@ module.exports = (planning, grantedOrRefusedId, applicationType, expeditedAppeal
 		if (context?.applicationForm?.iaUpdateDevelopmentDescription) {
 			cy.getByData(basePage?._selectors.answerYes).click();
 			cy.advanceToNextPage();
+			cy.url().then((url) => {
+				if (url.includes('/upload-description-evidence')) {
+					cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderUploadDocuments}/upload-description-evidence`);
+					cy.uploadFileFromFixtureDirectory(context?.documents?.uploadAppealStmt);
+					cy.advanceToNextPage();
+				}
+			});
 		} else {
 			cy.getByData(basePage?._selectors.answerNo).click();
 			cy.advanceToNextPage();
 		}
 
-		if (expeditedAppeal) {
-			// Why are you appealing?
-			cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/why-are-you-appealing`);
-			cy.get(prepareAppealSelector?._selectors?.whyAreYouAppealing).type(prepareAppealData?.reasonWhyAreYouAppealing);
-			cy.advanceToNextPage();
+		// Why are you appealing? (conditional page)
+		cy.url().then((url) => {
+			if (url.includes('/why-are-you-appealing')) {
+				cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/why-are-you-appealing`);
+				cy.get(prepareAppealSelector?._selectors?.whyAreYouAppealing).type(prepareAppealData?.reasonWhyAreYouAppealing);
+				cy.advanceToNextPage();
+			}
+		});
 
-			// Have there been any significant changes that would affect the application?
-			cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/any-significant-changes`);
-			anySignificantChangesPage.selectSignificantChanges(context?.applicationForm?.anySignificantChangesCondition);
-		}
+		// Have there been any significant changes that would affect the application? (conditional page)
+		cy.url().then((url) => {
+			if (url.includes('/any-significant-changes')) {
+				cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/any-significant-changes`);
+				anySignificantChangesPage.selectSignificantChanges(context?.applicationForm?.anySignificantChangesCondition);
+				cy.advanceToNextPage();
+			}
+		});
 
 		cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/other-appeals`);
 		otherAppealsPage.addOtherAppealsData(context?.applicationForm?.anyOtherAppeals, context);
@@ -169,11 +190,14 @@ module.exports = (planning, grantedOrRefusedId, applicationType, expeditedAppeal
 		cy.uploadDocuments(prepareAppealSelector?._selectors?.houseHolderApplicaitonType, prepareAppealSelector?._selectors?.uploadApplicationForm, dynamicId);
 		uploadApplicationFormPage.addUploadApplicationFormData(context);
 
-		//Upload your appeal statement		
-		cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderUploadDocuments}/upload-appeal-statement`);
-
-		cy.uploadFileFromFixtureDirectory(context?.documents?.uploadAppealStmt);
-		cy.advanceToNextPage();
+		// Upload appeal statement only when this conditional page is rendered.
+		cy.url().then((url) => {
+			if (url.includes('/upload-appeal-statement')) {
+				cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderUploadDocuments}/upload-appeal-statement`);
+				cy.uploadFileFromFixtureDirectory(context?.documents?.uploadAppealStmt);
+				cy.advanceToNextPage();
+			}
+		});
 		//Do you need to apply for an award of appeal costs?
 		applyAppealCostsPage.addApplyAppealCostsData(context);
 
