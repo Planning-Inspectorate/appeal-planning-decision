@@ -1,4 +1,4 @@
-const uuid = require('uuid');
+const { randomUUID } = require('node:crypto');
 const { storePdfAppeal } = require('../../../services/pdf.service');
 const { VIEW } = require('../../../lib/full-appeal/views');
 const { submitAppealForBackOfficeProcessing } = require('../../../lib/appeals-api-wrapper');
@@ -17,7 +17,7 @@ const postDeclaration = async (req, res) => {
 	const { errors = {} } = body;
 	const { appeal } = req.session;
 
-	const log = logger.child({ appealId: appeal.id, uuid: uuid.v4() });
+	const log = logger.child({ appealId: appeal.id, uuid: randomUUID() });
 
 	log.info(appeal);
 	if (!appeal.eligibility.applicationCategories) {

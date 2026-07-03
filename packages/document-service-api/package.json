@@ -33,8 +33,7 @@
 		"pino": "*",
 		"pino-http": "*",
 		"swagger-jsdoc": "*",
-		"swagger-ui-express": "*",
-		"uuid": "*"
+		"swagger-ui-express": "*"
 	},
 	"devDependencies": {
 		"jest": "*",

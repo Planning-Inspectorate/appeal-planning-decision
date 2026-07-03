@@ -1,8 +1,9 @@
 const fs = require('fs');
 const fetch = require('node-fetch');
 const FormData = require('form-data');
-const uuid = require('uuid');
+const { randomUUID } = require('node:crypto');
 const { utils } = require('@pins/common');
+const { uuidRegex } = require('@pins/common/src/regex');
 
 const config = require('../config');
 const parentLogger = require('./logger');
@@ -22,7 +23,7 @@ function isTheFormDataBuffer(data) {
 const hasPathTraversal = (value) => value.includes('../');
 
 const handler = async (url, method = 'GET', data = {}, allowedResponseCodes = [200, 202]) => {
-	const correlationId = uuid.v4();
+	const correlationId = randomUUID();
 	const logger = parentLogger.child({
 		correlationId,
 		service: 'Document Service API'
@@ -137,7 +138,7 @@ const createDocument = async (submission, data, fileName, documentType, sectionT
  * @param {string} documentId
  */
 const removeDocument = async (appealOrQuestionnaireId, documentId) => {
-	if (!uuid.validate(documentId)) {
+	if (!uuidRegex.test(documentId)) {
 		const msg = 'Invalid delete document parameters';
 		throw new Error(msg);
 	}
@@ -155,7 +156,7 @@ const removeDocument = async (appealOrQuestionnaireId, documentId) => {
  * @param {string} documentId
  */
 const fetchDocument = async (appealOrQuestionnaireId, documentId) => {
-	if (!uuid.validate(documentId)) {
+	if (!uuidRegex.test(documentId)) {
 		const msg = 'Invalid fetch document parameters';
 		throw new Error(msg);
 	}

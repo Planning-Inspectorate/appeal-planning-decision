@@ -2,7 +2,7 @@ const config = require('./configuration/config');
 const express = require('express');
 const bodyParser = require('body-parser');
 const { pinoHttp } = require('pino-http');
-const uuid = require('uuid');
+const { randomUUID } = require('node:crypto');
 const logger = require('./lib/logger');
 const routes = require('./routes');
 require('express-async-errors');
@@ -19,7 +19,7 @@ app
 	.use(
 		pinoHttp({
 			logger,
-			genReqId: (req) => req.headers['x-correlation-id'] || uuid.v4(),
+			genReqId: (req) => req.headers['x-correlation-id'] || randomUUID(),
 			autoLogging: {
 				ignore: (req) => {
 					if (req.headers['user-agent'] === 'AlwaysOn') return true;

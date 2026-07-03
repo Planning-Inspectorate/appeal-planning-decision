@@ -16,7 +16,7 @@ const {
 	AppealsRepository: AppealsSQLRepository
 } = require('../repositories/sql/appeals-repository');
 const { AppealUserRepository } = require('../repositories/sql/appeal-user-repository');
-const uuid = require('uuid');
+const { randomUUID } = require('node:crypto');
 const DocumentService = require('./document.service');
 const AppealContactValueObject = require('../value-objects/appeal/contact.value');
 const AppealContactsValueObject = require('../value-objects/appeal/contacts.value');
@@ -36,7 +36,7 @@ async function createAppeal(req, res) {
 	const appeal = {};
 
 	const now = new Date(new Date().toISOString());
-	appeal.id = uuid.v4();
+	appeal.id = randomUUID();
 	appeal.createdAt = now;
 	appeal.updatedAt = now;
 

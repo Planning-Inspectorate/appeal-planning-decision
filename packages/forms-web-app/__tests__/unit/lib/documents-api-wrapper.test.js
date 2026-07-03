@@ -1,5 +1,6 @@
 const fetchMock = require('jest-fetch-mock');
 fetchMock.enableMocks();
+const { randomUUID } = require('node:crypto');
 
 const fetch = require('node-fetch');
 const { documentTypes } = require('@pins/common');
@@ -19,10 +20,6 @@ jest.mock('../../../src/lib/logger', () => ({
 		error: mockLogger,
 		warn: mockLogger
 	})
-}));
-jest.mock('uuid', () => ({
-	v4: jest.fn(() => '123-abc-456-xyz'),
-	validate: jest.fn(() => true)
 }));
 jest.mock('../../../src/config', () => ({
 	documents: {
@@ -241,7 +238,7 @@ describe('lib/documents-api-wrapper', () => {
 
 		beforeEach(() => {
 			id = 'a';
-			docId = 'b';
+			docId = randomUUID();
 		});
 
 		it('should throw if fetch fails', async () => {

@@ -1,12 +1,12 @@
 const fetch = require('node-fetch');
-const uuid = require('uuid');
+const { randomUUID } = require('node:crypto');
 const { utils } = require('@pins/common');
 
 const config = require('../config');
 const parentLogger = require('./logger');
 
 async function handler(path, method = 'GET', opts = {}, headers = {}) {
-	const correlationId = uuid.v4();
+	const correlationId = randomUUID();
 	const url = `${config.appeals.url}${path}`;
 
 	const logger = parentLogger.child({

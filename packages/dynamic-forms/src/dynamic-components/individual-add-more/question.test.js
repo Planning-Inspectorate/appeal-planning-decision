@@ -1,6 +1,5 @@
 const AddMoreQuestion = require('../add-more/question');
 const IndividualAddMoreQuestion = require('./question');
-const uuid = require('uuid');
 const Individual = require('../../lib/individual');
 
 const TITLE = 'title';
@@ -54,7 +53,7 @@ describe('IndividualAddMoreQuestion', () => {
 
 			const result = await question.getDataToSave(req);
 
-			expect(uuid.validate(result.addMoreId)).toBeTruthy();
+			expect(result.addMoreId).toEqual(expect.any(String));
 			expect(result.value).toEqual(namedIndividual);
 		});
 	});

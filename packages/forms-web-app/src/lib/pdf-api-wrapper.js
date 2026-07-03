@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 const FormData = require('form-data');
-const uuid = require('uuid');
+const { randomUUID } = require('node:crypto');
 
 const config = require('../config');
 const parentLogger = require('./logger');
@@ -8,7 +8,7 @@ const parentLogger = require('./logger');
 exports.generatePDF = async (htmlContent) => {
 	const path = '/api/v1/generate';
 
-	const correlationId = uuid.v4();
+	const correlationId = randomUUID();
 	const url = `${config.pdf.url}${path}`;
 
 	const logger = parentLogger.child({

@@ -53,8 +53,7 @@
 		"nunjucks": "*",
 		"nunjucks-date-filter": "*",
 		"pino": "*",
-		"pino-http": "*",
-		"uuid": "*"
+		"pino-http": "*"
 	},
 	"devDependencies": {
 		"@testing-library/dom": "*",

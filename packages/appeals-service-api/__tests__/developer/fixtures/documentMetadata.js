@@ -1,5 +1,4 @@
-const uuid = require('uuid');
-const crypto = require('crypto');
+const crypto = require('node:crypto');
 
 const DOCUMENT_TYPES = {
 	PLANNING_APPLICATION_FORM: 'Planning application form',
@@ -71,10 +70,10 @@ const generateFakeCaseRef = () => {
 };
 
 const _generateFakeDocumentMetadata = (caseRef, documentType) => {
-	const fakeFilename = `${uuid.v4()}.pdf`;
+	const fakeFilename = `${crypto.randomUUID()}.pdf`;
 	return {
 		_id: generateFakeMongoObjectId(),
-		documentId: uuid.v4(),
+		documentId: crypto.randomUUID(),
 		caseRef: caseRef,
 		documentReference: `<${caseRef}><1>`,
 		version: getRandomInt(10).toString(),

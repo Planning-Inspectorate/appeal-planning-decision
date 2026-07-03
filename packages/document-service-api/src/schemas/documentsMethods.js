@@ -1,4 +1,4 @@
-const uuid = require('uuid');
+const { randomUUID } = require('node:crypto');
 const { downloadFile } = require('../lib/blobStorage');
 const { initContainerClient } = require('@pins/common');
 const config = require('../configuration/config');
@@ -9,7 +9,7 @@ module.exports = class Appeals {
 	}
 
 	generateId() {
-		this.set('id', uuid.v4());
+		this.set('id', randomUUID());
 		return this;
 	}
 

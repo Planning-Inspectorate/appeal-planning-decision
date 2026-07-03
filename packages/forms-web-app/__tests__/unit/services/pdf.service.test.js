@@ -18,10 +18,6 @@ jest.mock('../../../src/lib/logger', () => ({
 	})
 }));
 
-jest.mock('uuid', () => ({
-	v4: jest.fn(() => '123-abc-456-xyz')
-}));
-
 describe('services/pdf.service', () => {
 	let mockAppeal;
 	let id;
