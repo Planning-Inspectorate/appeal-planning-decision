@@ -29,14 +29,9 @@ module.exports = (statusOfOriginalApplication, planning, expeditedAppeal, contex
 
 	// Decision date step: may show decision-date or date-decision-due depending on status
 	cy.url().then((url) => {
-		if (url.includes('/decision-date')) {
-			cy.validateURL(`${prepareAppealSelector?._advertURLs?.beforeYouStart}/decision-date`);
-			cy.get(prepareAppealSelector?._advertSelectors?.decisionDateDay).type(date.today());
-			cy.get(prepareAppealSelector?._advertSelectors?.decisionDateMonth).type(date.currentMonth());
-			cy.get(prepareAppealSelector?._advertSelectors?.decisionDateYear).type(date.currentYear());
-			cy.advanceToNextPage();
-		} else if (url.includes('/date-decision-due')) {
-			cy.validateURL(`${prepareAppealSelector?._advertURLs?.beforeYouStart}/date-decision-due`);
+		if (url.includes('/decision-date') || url.includes('/date-decision-due')) {
+			const decisionPath = url.includes('/date-decision-due') ? 'date-decision-due' : 'decision-date';
+			cy.validateURL(`${prepareAppealSelector?._advertURLs?.beforeYouStart}/${decisionPath}`);
 			cy.get(prepareAppealSelector?._advertSelectors?.decisionDateDay).type(date.today());
 			cy.get(prepareAppealSelector?._advertSelectors?.decisionDateMonth).type(date.currentMonth());
 			cy.get(prepareAppealSelector?._advertSelectors?.decisionDateYear).type(date.currentYear());
