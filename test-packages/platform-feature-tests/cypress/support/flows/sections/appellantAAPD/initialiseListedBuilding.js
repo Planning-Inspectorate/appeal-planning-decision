@@ -57,12 +57,7 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 
 	// Decision date may appear after application-date or as the first date page
 	cy.url().then((url) => {
-		if (url.includes('/decision-date')) {
-			cy.get(prepareAppealSelector?._listedBuildingSelectors?.decisionDateDay).type(date.today());
-			cy.get(prepareAppealSelector?._listedBuildingSelectors?.decisionDateMonth).type(date.currentMonth());
-			cy.get(prepareAppealSelector?._listedBuildingSelectors?.decisionDateYear).type(date.currentYear());
-			cy.advanceToNextPage();
-		} else if (url.includes('/date-decision-due')) {
+		if (url.includes('/decision-date') || url.includes('/date-decision-due')) {
 			cy.get(prepareAppealSelector?._listedBuildingSelectors?.decisionDateDay).type(date.today());
 			cy.get(prepareAppealSelector?._listedBuildingSelectors?.decisionDateMonth).type(date.currentMonth());
 			cy.get(prepareAppealSelector?._listedBuildingSelectors?.decisionDateYear).type(date.currentYear());
