@@ -1497,8 +1497,8 @@ model Representation {
   redacted                        Boolean? /// Indicates if the representation is redacted
   redactedRepresentation          String?                  @db.NVarChar(Max) /// The redacted version of the representation
   redactedBy                      String? /// Unique identifier for the case team member that performed the redaction
-  invalidOrIncompleteDetails      String? /// A json array of reasons why the representation has been marked as invalid
-  otherInvalidOrIncompleteDetails String? /// A json array of free text other reasons why the representation has been marked as invalid
+  invalidOrIncompleteDetails      String?                  @db.NVarChar(Max) /// A json array of reasons why the representation has been marked as invalid
+  otherInvalidOrIncompleteDetails String?                  @db.NVarChar(Max) /// A json array of free text other reasons why the representation has been marked as invalid
   source                          String? /// Source of the representation (citizen or LPA), ["lpa", "citizen"]
   serviceUserId                   String? /// Service User Id of the person or organisation making the representation
   representationType              String? /// The type of representation, ["statement", "comment", "final_comment", "proofs_evidence", null]
