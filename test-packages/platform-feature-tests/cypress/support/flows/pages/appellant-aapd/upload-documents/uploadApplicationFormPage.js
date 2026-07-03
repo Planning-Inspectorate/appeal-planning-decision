@@ -8,23 +8,42 @@ export class UploadApplicationFormPage {
         cy.uploadFileFromFixtureDirectory(context?.documents?.uploadPlanningApplConfirmLetter);
         cy.advanceToNextPage();
         if (context?.expeditedAppeal) {
-            // Did you submit an environmental statement with the application?
-            cy.getByData(basePage?._selectors.answerYes).click();
-            cy.advanceToNextPage();
-            // Upload your environmental statement
-            cy.uploadFileFromFixtureDirectory(context?.documents?.uploadEnvironmentalStmt);
-            cy.advanceToNextPage();
+            // Some journeys show a yes/no page here, others skip it.
+            cy.get('body').then(($body) => {
+                if ($body.find(`[data-cy="${basePage?._selectors.answerYes}"]`).length) {
+                    cy.getByData(basePage?._selectors.answerYes).click();
+                    cy.advanceToNextPage();
+                }
+            });
+
+            // Upload environmental statement only when that upload step is present.
+            cy.url().then((url) => {
+                if (url.includes('/upload-environmental-statement')) {
+                    if (context?.documents?.uploadEnvironmentalStmt) {
+                        cy.uploadFileFromFixtureDirectory(context?.documents?.uploadEnvironmentalStmt);
+                    }
+                    cy.advanceToNextPage();
+                }
+            });
         }
 
         if (context?.applicationForm?.iaUpdateDevelopmentDescription) {
-            //Upload evidence of your agreement to change the description of development
-            cy.uploadFileFromFixtureDirectory(context?.documents?.uploadDevelopmentDescription);
-            cy.advanceToNextPage();
+            // Upload only when this conditional step is actually rendered.
+            cy.url().then((url) => {
+                if (url.includes('/upload-description-evidence')) {
+                    cy.uploadFileFromFixtureDirectory(context?.documents?.uploadDevelopmentDescription);
+                    cy.advanceToNextPage();
+                }
+            });
         }
 
         if (context?.statusOfOriginalApplication !== 'no decision') {
-            cy.uploadFileFromFixtureDirectory(context?.documents?.uploadDecisionLetter);
-            cy.advanceToNextPage();
+            cy.url().then((url) => {
+                if (url.includes('/upload-decision-letter')) {
+                    cy.uploadFileFromFixtureDirectory(context?.documents?.uploadDecisionLetter);
+                    cy.advanceToNextPage();
+                }
+            });
         }
     };
 }

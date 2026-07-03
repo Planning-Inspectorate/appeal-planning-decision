@@ -68,9 +68,9 @@ export class PrepareAppealSelector {
         decisionDateDay: '#decision-date-day',
         decisionDateMonth: '#decision-date-month',
         decisionDateYear: '#decision-date-year',
-        onApplicationDateDay: '#onApplicationDate_day',
-        onApplicationDateMonth: '#onApplicationDate_month',
-        onApplicationDateYear: '#onApplicationDate_year',
+        applicationDateDay: '#application-date-day',
+        applicationDateMonth: '#application-date-month',
+        applicationDateYear: '#application-date-year',
     }
 
     _ldcAppealSelectors = {

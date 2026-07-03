@@ -36,6 +36,7 @@ describe('Submit House Holder Appeal Refused Test Cases',{ tags:'@HAS-refused' }
 			- Should check the status of the original application,			
 			- verify the status of original application "${statusOfOriginalApplication}",
 			- validate the type of planning application as "${typeOfPlanningApplication}",
+			- verify if the appeal is an expedited appeal: "${expeditedAppeal}",
 			- verify the status of planning obligation as "${statusOfPlanningObligation}",
 			- ensure the application form contains the correct details:
 			* is Appellant: "${applicationForm?.isAppellant}"

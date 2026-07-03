@@ -10,6 +10,38 @@ const documents = {
 // Commercial Advert appeal test cases 
 export const casAdvertAppealRefusedTestCases = [
     {
+        tags: ['smoke', 'expedited'],
+        statusOfOriginalApplication: 'refused',
+        typeOfDecisionRequested: 'written',
+        statusOfPlanningObligation: 'in draft',
+        typeOfPlanningApplication: 'answer-minor-commercial-advertisment',
+        endToEndIntegration: true,
+        expeditedAppeal: true,
+        applicationForm: {
+            isAppellant: true,
+            isHighwayLand: true,
+            isAdvertisementPosition: true,
+            appellantInGreenBelt: true,
+            isOwnsAllLand: false,
+            isOwnsSomeLand: true,
+            knowsOtherOwners: 'yes',
+            isLandownerPermission: true,
+            isInspectorNeedAccess: true,
+            isAppellantSiteSafety: true,
+            iaUpdateDevelopmentDescription: true,
+            anyOtherAppeals: true,
+        },
+        uploadDocuments: {
+            isApplyAwardCost: true,
+        },
+        documents,
+        otherAppeals: [{
+            appealReferenceNumber: '1234567'
+        }, {
+            appealReferenceNumber: '7654321'
+        }],
+    },
+    {
         tags: ['smoke'],
         statusOfOriginalApplication: 'refused',
         typeOfDecisionRequested: 'written',

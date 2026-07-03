@@ -18,14 +18,16 @@ const { GreenBeltPage } = require("../../pages/appellant-aapd/prepare-appeal/gre
 const { OwnAllLandPage } = require("../../pages/appellant-aapd/prepare-appeal/ownAllLandPage");
 const { OwnSomeLandPage } = require("../../pages/appellant-aapd/prepare-appeal/ownSomeLandPage");
 const { InspectorNeedAccessPage } = require("../../pages/appellant-aapd/prepare-appeal/inspectorNeedAccessPage");
+const { AnySignificantChangesPage } = require("../../pages/appellant-aapd/prepare-appeal/anySignificantChangesPage");
 const { OtherAppealsPage } = require("../../pages/appellant-aapd/prepare-appeal/otherAppealsPage");
 const { UploadApplicationFormPage } = require("../../pages/appellant-aapd/upload-documents/uploadApplicationFormPage");
 const { ApplyAppealCostsPage } = require("../../pages/appellant-aapd/upload-documents/applyAppealCostsPage");
 const { HealthSafetyIssuesPage } = require("../../pages/appellant-aapd/prepare-appeal/healthSafetyIssuesPage");
 const { PrepareAppealSelector } = require("../../../../page-objects/prepare-appeal/prepare-appeal-selector");
 const { SubmitDesignAccessStatementPage } = require("../../pages/appellant-aapd/upload-documents/submitDesignAccessStatementPage");
+const { getApplicationDateValues } = require("./applicationDateValues");
 
-module.exports = (planning, grantedOrRefusedId, applicationType, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases = [], statementTestCases = []) => {
+module.exports = (planning, grantedOrRefusedId, applicationType, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases = [], statementTestCases = []) => {
 	const basePage = new BasePage();
 	const prepareAppealSelector = new PrepareAppealSelector();
 	const applicationNamePage = new ApplicationNamePage();
@@ -37,26 +39,72 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 	const ownSomeLandPage = new OwnSomeLandPage();
 	const inspectorNeedAccessPage = new InspectorNeedAccessPage();
 	const healthSafetyIssuesPage = new HealthSafetyIssuesPage();
+	const anySignificantChangesPage = new AnySignificantChangesPage();
 	const otherAppealsPage = new OtherAppealsPage();
 	const uploadApplicationFormPage = new UploadApplicationFormPage();
 	const applyAppealCostsPage = new ApplyAppealCostsPage();
 	const submitDesignAccessStatementPage = new SubmitDesignAccessStatementPage();
 	const date = new DateService();
+	const applicationDateValues = getApplicationDateValues(expeditedAppeal);
 
-	cy.getByData(grantedOrRefusedId).click();
-	cy.advanceToNextPage();
+	// CAS entry depends on planning-application-about selection in initialiseApplicationTypeAppeal.
+	// It can land on planning-application-about, application-date, granted-or-refused, or can-use-service.
+	cy.url().should('match', /before-you-start\/planning-application-about|before-you-start\/application-date|before-you-start\/granted-or-refused|before-you-start\/can-use-service/).then((url) => {
+		if (url.includes('/before-you-start/planning-application-about')) {
+			cy.get('#planningApplicationAbout-6').click();
+			cy.advanceToNextPage();
+		}
+	});
 
-	if (grantedOrRefusedId === basePage._selectors?.answerNodecisionreceived) {
-		cy.validateURL(`${prepareAppealSelector?._casPlanningURLs?.beforeYouStart}/date-decision-due`);
-	}
-	else {
-		cy.validateURL(`${prepareAppealSelector?._casPlanningURLs?.beforeYouStart}/decision-date`);
-	}
+	// If planning-application-about was shown, flow now lands on application-date.
+	cy.url().should('match', /before-you-start\/application-date|before-you-start\/granted-or-refused|before-you-start\/can-use-service/).then((url) => {
+		if (url.includes('/before-you-start/application-date')) {
+			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateDay).clear();
+			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateDay).type(applicationDateValues.day);
+			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateMonth).clear();
+			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateMonth).type(applicationDateValues.month);
+			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateYear).clear();
+			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateYear).type(applicationDateValues.year);
+			cy.advanceToNextPage();
+		}
+	});
 
-	cy.get(prepareAppealSelector?._casPlanningSelectors?.decisionDateDay).type(date.today());
-	cy.get(prepareAppealSelector?._casPlanningSelectors?.decisionDateMonth).type(date.currentMonth());
-	cy.get(prepareAppealSelector?._casPlanningSelectors?.decisionDateYear).type(date.currentYear());
-	cy.advanceToNextPage();
+	// Guard: if still on application-date at this point, complete it before selecting granted/refused.
+	cy.url().then((url) => {
+		if (url.includes('/before-you-start/application-date')) {
+			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateDay).clear();
+			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateDay).type(applicationDateValues.day);
+			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateMonth).clear();
+			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateMonth).type(applicationDateValues.month);
+			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateYear).clear();
+			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateYear).type(applicationDateValues.year);
+			cy.advanceToNextPage();
+		}
+	});
+
+	cy.url().should('match', /before-you-start\/granted-or-refused|before-you-start\/decision-date|before-you-start\/date-decision-due|before-you-start\/can-use-service/).then((url) => {
+		if (url.includes('/before-you-start/granted-or-refused')) {
+			cy.getByData(grantedOrRefusedId).click();
+			cy.advanceToNextPage();
+		}
+	});
+
+	// Decision date may appear after granted/refused, or flow may continue directly to can-use-service.
+	cy.url().should('match', /before-you-start\/decision-date|before-you-start\/date-decision-due|before-you-start\/can-use-service/).then((url) => {
+		if (url.includes('/decision-date')) {
+			cy.get(prepareAppealSelector?._casPlanningSelectors?.decisionDateDay).type(date.today());
+			cy.get(prepareAppealSelector?._casPlanningSelectors?.decisionDateMonth).type(date.currentMonth());
+			cy.get(prepareAppealSelector?._casPlanningSelectors?.decisionDateYear).type(date.currentYear());
+			cy.advanceToNextPage();
+		} else if (url.includes('/date-decision-due')) {
+			cy.get(prepareAppealSelector?._casPlanningSelectors?.decisionDateDay).type(date.today());
+			cy.get(prepareAppealSelector?._casPlanningSelectors?.decisionDateMonth).type(date.currentMonth());
+			cy.get(prepareAppealSelector?._casPlanningSelectors?.decisionDateYear).type(date.currentYear());
+			cy.advanceToNextPage();
+		}
+	});
+
+	cy.url().should('include', '/can-use-service');
 
 	// cy.getByData(basePage?._selectors.answerNo).click();
 	// cy.advanceToNextPage();
@@ -134,13 +182,19 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 		const applicationNumber = `TEST-${Date.now()}`;	
 		cy.get(prepareAppealSelector?._selectors?.applicationReference).type(applicationNumber);
 		cy.advanceToNextPage();
-		//What date did you submit your application?
-
-		cy.validateURL(`${prepareAppealSelector?._casPlanningURLs?.appealsCasplanningPrepareAppeal}/application-date`);
-		cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).type(date.today());
-		cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(date.currentMonth());
-		cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).type(date.currentYear());
-		cy.advanceToNextPage();
+		// Application date can be conditional in staging; align month with expedited rules.
+		cy.url().then((url) => {
+			if (url.includes('/application-date')) {
+				cy.validateURL(`${prepareAppealSelector?._casPlanningURLs?.appealsCasplanningPrepareAppeal}/application-date`);
+				cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).clear();
+				cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).type(applicationDateValues.day);
+				cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).clear();
+				cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(applicationDateValues.month);
+				cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).clear();
+				cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).type(applicationDateValues.year);
+				cy.advanceToNextPage();
+			}
+		});
 		//Enter the description of development that you submitted in your application
 
 		cy.validateURL(`${prepareAppealSelector?._casPlanningURLs?.appealsCasplanningPrepareAppeal}/enter-description-of-development`);
@@ -157,29 +211,57 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 			cy.advanceToNextPage();
 		}
 
+		if (expeditedAppeal) {
+			// Why are you appealing? (conditional page)
+			cy.url().then((url) => {
+				if (url.includes('/why-are-you-appealing')) {
+					cy.get(prepareAppealSelector?._selectors?.whyAreYouAppealing).type(prepareAppealData?.reasonWhyAreYouAppealing);
+					cy.advanceToNextPage();
+				}
+			});
+
+			// Have there been any significant changes that would affect the application? (conditional page)
+			cy.url().then((url) => {
+				if (url.includes('/any-significant-changes')) {
+					anySignificantChangesPage.selectSignificantChanges(context?.applicationForm?.anySignificantChangesCondition);
+					cy.advanceToNextPage();
+				}
+			});
+		}
+
 		cy.validateURL(`${prepareAppealSelector?._casPlanningURLs?.appealsCasplanningPrepareAppeal}/other-appeals`);
 		otherAppealsPage.addOtherAppealsData(context?.applicationForm?.anyOtherAppeals, context);
 
 		cy.uploadDocuments(prepareAppealSelector?._selectors?.casPlanningApplicationType , prepareAppealSelector?._selectors?.uploadApplicationForm, dynamicId);
 		uploadApplicationFormPage.addUploadApplicationFormData(context);
-		
-		
-		if (context?.statusOfOriginalApplication !== 'no decision') {
-		//Upload your appeal statement		
-			cy.validateURL(`${prepareAppealSelector?._casPlanningURLs?.appealsCasplanningUploadDocuments}/upload-appeal-statement`);
-		}
-		else {
-			cy.validateURL(`${prepareAppealSelector?._casPlanningURLs?.appealsCasplanningUploadDocuments}/upload-decision-letter`);
-	        cy.uploadFileFromFixtureDirectory(context?.documents?.uploadPlanningApplConfirmLetter);
-        	cy.advanceToNextPage();
-		}
 
-		cy.uploadFileFromFixtureDirectory(context?.documents?.uploadAppealStmt);
-		cy.advanceToNextPage();
+		// Decision letter upload is conditional in some CAS journeys.
+		cy.url().then((url) => {
+			if (url.includes('/upload-decision-letter')) {
+				cy.validateURL(`${prepareAppealSelector?._casPlanningURLs?.appealsCasplanningUploadDocuments}/upload-decision-letter`);
+				if (context?.statusOfOriginalApplication === 'no decision') {
+					cy.uploadFileFromFixtureDirectory(context?.documents?.uploadPlanningApplConfirmLetter);
+				} else {
+					cy.uploadFileFromFixtureDirectory(context?.documents?.uploadDecisionLetter);
+				}
+				cy.advanceToNextPage();
+			}
+		});
+
+		// Appeal statement can be skipped by route rules; upload only when page is rendered.
+		cy.url().then((url) => {
+			if (url.includes('/upload-appeal-statement')) {
+				cy.validateURL(`${prepareAppealSelector?._casPlanningURLs?.appealsCasplanningUploadDocuments}/upload-appeal-statement`);
+				cy.uploadFileFromFixtureDirectory(context?.documents?.uploadAppealStmt);
+				cy.advanceToNextPage();
+			}
+		});
 		//Do you need to apply for an award of appeal costs?
 		applyAppealCostsPage.addApplyAppealCostsData(context);
-		//Submit design and access statement
-		submitDesignAccessStatementPage.addSubmitDesignAccessStatementData(context);
+		// Submit design and access statement only for non-expedited flows.
+		if (!expeditedAppeal) {
+			submitDesignAccessStatementPage.addSubmitDesignAccessStatementData(context);
+		}
 
 		//submit
 		cy.get(`a[href*="/appeals/cas-planning/submit/declaration?id=${dynamicId}"]`).click();

@@ -9,6 +9,8 @@ const documents = {
     uploadFinalisingDocReady: 'additional-final-comments-2.pdf',
     uploadFinalisingDocDraft: 'additional-final-comments-2.pdf',
     uploadDevelopmentDescription: 'additional-final-comments-1.pdf',
+    uploadEnvironmentalStmt: 'environmental-statement.pdf',
+    uploadPlanningObligation: 'planning-obligation.pdf',
     uploadDecisionLetter: 'decision-letter.pdf',
     uploadPlanningApplConfirmLetter: 'letter-confirming-planning-application.pdf',
     uploadDraftStatementOfCommonGround: 'draft-statement-of-common-ground.pdf'

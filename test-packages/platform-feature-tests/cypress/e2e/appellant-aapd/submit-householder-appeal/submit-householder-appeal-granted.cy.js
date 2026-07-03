@@ -27,6 +27,7 @@ describe('Submit House Holder Appeal Granted Test Cases',{ tags:'@HAS-granted' }
 			typeOfDecisionRequested,
 			statusOfPlanningObligation,
 			typeOfPlanningApplication,
+			expeditedAppeal,
 			applicationForm,
 		} = context;
 
@@ -35,6 +36,7 @@ describe('Submit House Holder Appeal Granted Test Cases',{ tags:'@HAS-granted' }
 			- verify the status of original application "${statusOfOriginalApplication}",
 			- validate the type of planning application as "${typeOfPlanningApplication}",
 			- verify the status of planning obligation as "${statusOfPlanningObligation}",
+			- verify if the appeal is an expedited appeal: "${expeditedAppeal}",
 			- ensure the application form contains the correct details:
 			* is Appellant: "${applicationForm?.isAppellant}"
 			* ${applicationForm?.areaUnits !== undefined ? `Area Units: "${applicationForm?.areaUnits}" ` : "Area Units not required"}
@@ -57,6 +59,7 @@ describe('Submit House Holder Appeal Granted Test Cases',{ tags:'@HAS-granted' }
 				typeOfDecisionRequested,
 				statusOfPlanningObligation,
 				planning: typeOfPlanningApplication,
+					expeditedAppeal,
 				context,
 				prepareAppealData,
 				lpaManageAppealsData,

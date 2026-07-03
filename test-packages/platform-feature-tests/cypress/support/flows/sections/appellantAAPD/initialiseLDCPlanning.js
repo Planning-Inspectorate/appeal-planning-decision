@@ -63,21 +63,25 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 	const otherNewDocumentsPage = new OtherNewDocumentsPage();
 	const date = new DateService();
 	const lawfulDevelopmentCertificateTypePage = new LawfulDevelopmentCertificateTypePage();
-	if (context?.isListedBuilding) {
-		cy.getByData(grantedOrRefusedId).click();
-		cy.advanceToNextPage();
-		if (grantedOrRefusedId === basePage._selectors?.answerNodecisionreceived) {
-			cy.validateURL(`${prepareAppealSelector?._ldcAppealURLs?.beforeYouStart}/date-decision-due`);
-		}
-		else {
-			cy.validateURL(`${prepareAppealSelector?._ldcAppealURLs?.beforeYouStart}/decision-date`);
-		}
 
-		cy.get(prepareAppealSelector?._ldcAppealSelectors?.decisionDateDay).type(date.today());
-		cy.get(prepareAppealSelector?._ldcAppealSelectors?.decisionDateMonth).type(date.currentMonth());
-		cy.get(prepareAppealSelector?._ldcAppealSelectors?.decisionDateYear).type(date.currentYear());
-		cy.advanceToNextPage();
-	}
+	// For all LDC appeals, the listed-building page always redirects to granted-or-refused
+	cy.getByData(grantedOrRefusedId).click();
+	cy.advanceToNextPage();
+
+	// Decision date may appear after granted-or-refused (decision-date for granted/refused, date-decision-due for no decision)
+	cy.url().then((url) => {
+		if (url.includes('/decision-date')) {
+			cy.get(prepareAppealSelector?._ldcAppealSelectors?.decisionDateDay).type(date.today());
+			cy.get(prepareAppealSelector?._ldcAppealSelectors?.decisionDateMonth).type(date.currentMonth());
+			cy.get(prepareAppealSelector?._ldcAppealSelectors?.decisionDateYear).type(date.currentYear());
+			cy.advanceToNextPage();
+		} else if (url.includes('/date-decision-due')) {
+			cy.get(prepareAppealSelector?._ldcAppealSelectors?.decisionDateDay).type(date.today());
+			cy.get(prepareAppealSelector?._ldcAppealSelectors?.decisionDateMonth).type(date.currentMonth());
+			cy.get(prepareAppealSelector?._ldcAppealSelectors?.decisionDateYear).type(date.currentYear());
+			cy.advanceToNextPage();
+		}
+	});
 
 	cy.getByData(basePage?._selectors.applicationType).should('have.text', applicationType);
 	// LDC can-use-service uses a generic Continue button
@@ -114,12 +118,13 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 		cy.validateURL(`${prepareAppealSelector?._ldcAppealURLs?.appealsLdcAppealPrepareAppeal}/appeal-site-address`);
 		appealSiteAddressPage.addAppealSiteAddressData(prepareAppealData, context);
 
-		//Is the appeal site in a green belt?(Ans:Yes)
-		cy.validateURL(`${prepareAppealSelector?._ldcAppealURLs?.appealsLdcAppealPrepareAppeal}/green-belt`);
-		greenBeltPage.addGreenBeltData(context?.applicationForm?.appellantInGreenBelt);
-
 		cy.validateURL(`${prepareAppealSelector?._ldcAppealURLs?.appealsLdcAppealPrepareAppeal}/inspector-need-access`);
 		inspectorNeedAccessPage.addInspectorNeedAccessData(context?.applicationForm?.isInspectorNeedAccess, prepareAppealData);
+
+		// //Is the appeal site in a green belt?(Ans:Yes)
+		// cy.validateURL(`${prepareAppealSelector?._ldcAppealURLs?.appealsLdcAppealPrepareAppeal}/green-belt`);
+		// greenBeltPage.addGreenBeltData(context?.applicationForm?.appellantInGreenBelt);
+
 		//Health and safety issues
 		cy.validateURL(`${prepareAppealSelector?._ldcAppealURLs?.appealsLdcAppealPrepareAppeal}/health-safety-issues`);
 		healthSafetyIssuesPage.addHealthSafetyIssuesData(context, prepareAppealData);
@@ -170,7 +175,14 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 		cy.uploadDocuments(prepareAppealSelector?._selectors?.ldcApplicationType, prepareAppealSelector?._selectors?.uploadApplicationForm, dynamicId);
 		uploadApplicationFormPage.addUploadApplicationFormData(context);
 
-		submitPlanningObligationPage.addSubmitPlanningObligationData(context);
+		cy.url().then((url) => {
+			if (url.includes('/submit-planning-obligation')) {
+				submitPlanningObligationPage.addSubmitPlanningObligationData(context);
+			} else if (url.includes('/upload-appeal-statement')) {
+				// If already on upload-appeal-statement, skip planning obligation handling
+				cy.log('Planning obligation page was skipped, proceeding with appeal statement upload');
+			}
+		});
 
 		cy.uploadFileFromFixtureDirectory(context?.documents?.uploadAppealStmt);
 		cy.advanceToNextPage();

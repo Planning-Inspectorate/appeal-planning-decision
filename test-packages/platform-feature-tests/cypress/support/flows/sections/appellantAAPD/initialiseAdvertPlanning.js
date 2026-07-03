@@ -24,13 +24,14 @@ const { OwnSomeLandPage } = require("../../pages/appellant-aapd/prepare-appeal/o
 const { LandownerPermissionPage } = require("../../pages/appellant-aapd/prepare-appeal/landownerPermissionPage");
 const { InspectorNeedAccessPage } = require("../../pages/appellant-aapd/prepare-appeal/inspectorNeedAccessPage");
 const { DecideAppealsPage } = require("../../pages/appellant-aapd/prepare-appeal/decideAppealsPage");
+const { AnySignificantChangesPage } = require("../../pages/appellant-aapd/prepare-appeal/anySignificantChangesPage");
 const { OtherAppealsPage } = require("../../pages/appellant-aapd/prepare-appeal/otherAppealsPage");
 const { UploadApplicationFormPage } = require("../../pages/appellant-aapd/upload-documents/uploadApplicationFormPage");
 const { ApplyAppealCostsPage } = require("../../pages/appellant-aapd/upload-documents/applyAppealCostsPage");
 const { HealthSafetyIssuesPage } = require("../../pages/appellant-aapd/prepare-appeal/healthSafetyIssuesPage");
 const { PrepareAppealSelector } = require("../../../../page-objects/prepare-appeal/prepare-appeal-selector");
 const { NewPlansDrawingsPage } = require("../../pages/appellant-aapd/upload-documents/newPlansDrawingsPage");
-module.exports = (planning, grantedOrRefusedId, applicationType, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases = [], statementTestCases = []) => {
+module.exports = (planning, grantedOrRefusedId, applicationType, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases = [], statementTestCases = []) => {
     const basePage = new BasePage();
     const prepareAppealSelector = new PrepareAppealSelector();
     const applicationNamePage = new ApplicationNamePage();
@@ -45,25 +46,62 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
     const landownerPermissionPage = new LandownerPermissionPage();
     const inspectorNeedAccessPage = new InspectorNeedAccessPage();
     const healthSafetyIssuesPage = new HealthSafetyIssuesPage();
+    const anySignificantChangesPage = new AnySignificantChangesPage();
     const otherAppealsPage = new OtherAppealsPage();
     const decideAppealsPage = new DecideAppealsPage();
     const uploadApplicationFormPage = new UploadApplicationFormPage();
     const applyAppealCostsPage = new ApplyAppealCostsPage();
     const newPlansDrawingsPage = new NewPlansDrawingsPage();
     const date = new DateService();
+    const applicationDateValues = expeditedAppeal
+        ? { day: date.today(), month: date.currentMonth(), year: date.currentYear() }
+        : { day: 1, month: 3, year: 2026 };
 
     cy.getByData(grantedOrRefusedId).click();
     cy.advanceToNextPage();
-    if (grantedOrRefusedId === basePage._selectors?.answerNodecisionreceived) {
-        cy.validateURL(`${prepareAppealSelector?._advertURLs?.beforeYouStart}/date-decision-due`);
-    } else {
-        cy.validateURL(`${prepareAppealSelector?._advertURLs?.beforeYouStart}/decision-date`);
-    }
 
-    cy.get(prepareAppealSelector?._advertSelectors?.decisionDateDay).type(date.today());
-    cy.get(prepareAppealSelector?._advertSelectors?.decisionDateMonth).type(date.currentMonth());
-    cy.get(prepareAppealSelector?._advertSelectors?.decisionDateYear).type(date.currentYear());
-    cy.advanceToNextPage();
+    // Wait for the first date page returned by the server.
+    cy.url().should('match', /application-date|decision-date|date-decision-due/).then((url) => {
+        if (url.includes('/application-date')) {
+            cy.validateURL(`${prepareAppealSelector?._advertURLs?.beforeYouStart}/application-date`);
+            cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.applicationDateDay, String(applicationDateValues.day));
+            cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.applicationDateMonth, String(applicationDateValues.month));
+            cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.applicationDateYear, String(applicationDateValues.year));
+            cy.advanceToNextPage();
+
+            cy.url().should('match', /decision-date|date-decision-due/).then((nextUrl) => {
+                if (nextUrl.includes('/decision-date')) {
+                    cy.validateURL(`${prepareAppealSelector?._advertURLs?.beforeYouStart}/decision-date`);
+                    cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateDay, String(date.today()));
+                    cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateMonth, String(date.currentMonth()));
+                    cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateYear, String(date.currentYear()));
+                    cy.advanceToNextPage();
+                } else if (nextUrl.includes('/date-decision-due')) {
+                    cy.validateURL(`${prepareAppealSelector?._advertURLs?.beforeYouStart}/date-decision-due`);
+                    cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateDay, String(date.today()));
+                    cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateMonth, String(date.currentMonth()));
+                    cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateYear, String(date.currentYear()));
+                    cy.advanceToNextPage();
+                }
+            });
+        }
+
+        if (url.includes('/decision-date')) {
+            cy.validateURL(`${prepareAppealSelector?._advertURLs?.beforeYouStart}/decision-date`);
+            cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateDay, String(date.today()));
+            cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateMonth, String(date.currentMonth()));
+            cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateYear, String(date.currentYear()));
+            cy.advanceToNextPage();
+        } else if (url.includes('/date-decision-due')) {
+            cy.validateURL(`${prepareAppealSelector?._advertURLs?.beforeYouStart}/date-decision-due`);
+            cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateDay, String(date.today()));
+            cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateMonth, String(date.currentMonth()));
+            cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateYear, String(date.currentYear()));
+            cy.advanceToNextPage();
+        }
+    });
+
+    cy.url().should('include', '/can-use-service');
 
     cy.getByData(basePage?._selectors.applicationType).should('have.text', prepareAppealSelector?._selectors?.advertText);
     cy.advanceToNextPage(prepareAppealData?.button);
@@ -136,11 +174,16 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
         cy.get(prepareAppealSelector?._selectors?.applicationReference).type(applicationNumber);
         cy.advanceToNextPage();
 
-        cy.validateURL(`${prepareAppealSelector?._advertURLs?.appealsAdvertPrepareAppeal}/application-date`);
-        cy.get(prepareAppealSelector?._advertSelectors?.onApplicationDateDay).type(date.today());
-        cy.get(prepareAppealSelector?._advertSelectors?.onApplicationDateMonth).type(date.currentMonth());
-        cy.get(prepareAppealSelector?._advertSelectors?.onApplicationDateYear).type(date.currentYear());
-        cy.advanceToNextPage();
+        // Application date can be skipped by business rules; complete it only when shown.
+        cy.url().then((url) => {
+            if (url.includes('/application-date')) {
+                cy.validateURL(`${prepareAppealSelector?._advertURLs?.appealsAdvertPrepareAppeal}/application-date`);
+                cy.typeWhenEnabled(prepareAppealSelector?._selectors?.onApplicationDateDay, String(applicationDateValues.day));
+                cy.typeWhenEnabled(prepareAppealSelector?._selectors?.onApplicationDateMonth, String(applicationDateValues.month));
+                cy.typeWhenEnabled(prepareAppealSelector?._selectors?.onApplicationDateYear, String(applicationDateValues.year));
+                cy.advanceToNextPage();
+            }
+        });
 
         cy.validateURL(`${prepareAppealSelector?._advertURLs?.appealsAdvertPrepareAppeal}/description-advertisement`);
         cy.get(prepareAppealSelector?._selectors?.developmentDescriptionOriginal).type(prepareAppealData?.develpmentDescriptionOriginal);
@@ -150,12 +193,19 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
         if (context?.applicationForm?.iaUpdateDevelopmentDescription) {
             cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();
-            cy.validateURL(`${prepareAppealSelector?._advertURLs?.appealsAdvertPrepareAppeal}/upload-description-evidence`);
-            cy.uploadFileFromFixtureDirectory(context?.documents?.uploadAppealStmt);
+
+            // Upload evidence page is conditional; only handle when rendered.
+            cy.url().then((url) => {
+                if (url.includes('/upload-description-evidence')) {
+                    cy.validateURL(`${prepareAppealSelector?._advertURLs?.appealsAdvertPrepareAppeal}/upload-description-evidence`);
+                    cy.uploadFileFromFixtureDirectory(context?.documents?.uploadAppealStmt);
+                    cy.advanceToNextPage();
+                }
+            });
         } else {
             cy.getByData(basePage?._selectors.answerNo).click();
+            cy.advanceToNextPage();
         }
-        cy.advanceToNextPage();
 
         //How would you prefer us to decide your appeal?
         if (grantedOrRefusedId === basePage._selectors?.answerNodecisionreceived || grantedOrRefusedId === basePage._selectors?.answerGranted) {
@@ -163,6 +213,35 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
             decideAppealsPage.addDecideAppealsData(context?.applicationForm?.appellantProcedurePreference);
             cy.advanceToNextPage();
         }
+
+        // Why are you appealing? (conditional page)
+        cy.url().then((url) => {
+            if (url.includes('/why-are-you-appealing')) {
+                cy.validateURL(`${prepareAppealSelector?._advertURLs?.appealsAdvertPrepareAppeal}/why-are-you-appealing`);
+                cy.get(prepareAppealSelector?._selectors?.whyAreYouAppealing).type(prepareAppealData?.reasonWhyAreYouAppealing);
+                cy.advanceToNextPage();
+            }
+        });
+
+        // Have there been any significant changes that would affect the application? (conditional page)
+        cy.url().then((url) => {
+            if (url.includes('/any-significant-changes')) {
+                cy.validateURL(`${prepareAppealSelector?._advertURLs?.appealsAdvertPrepareAppeal}/any-significant-changes`);
+                anySignificantChangesPage.selectSignificantChanges(context?.applicationForm?.anySignificantChangesCondition);
+                cy.advanceToNextPage();
+            }
+        });
+
+        // Upload evidence can also appear later in the flow after significant changes.
+        cy.url().then((url) => {
+            if (url.includes('/upload-description-evidence')) {
+                cy.validateURL(`${prepareAppealSelector?._advertURLs?.appealsAdvertPrepareAppeal}/upload-description-evidence`);
+                cy.uploadFileFromFixtureDirectory(context?.documents?.uploadAppealStmt);
+                cy.advanceToNextPage();
+            }
+        });
+
+        cy.url().should('include', '/other-appeals');
 
         cy.validateURL(`${prepareAppealSelector?._advertURLs?.appealsAdvertPrepareAppeal}/other-appeals`);
         otherAppealsPage.addOtherAppealsData(context?.applicationForm?.anyOtherAppeals, context);
@@ -191,11 +270,26 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
         });
 
         applyAppealCostsPage.addApplyAppealCostsData(context);
-        // Upload plans/drawings only if provided in data (avoid undefined filename errors)
-        if (context?.documents?.uploadPlansDrawingAndSupportingDocs) {
-            cy.uploadFileFromFixtureDirectory(context?.documents?.uploadPlansDrawingAndSupportingDocs);
-            cy.advanceToNextPage();
-        }
+
+        // Upload plans/drawings when either legacy or current URL variant is rendered.
+        cy.url().then((url) => {
+            const isPlansUploadPage =
+                url.includes('/upload-plans-drawings-and-supporting-documents') ||
+                url.includes('/upload-plans-drawings-documents');
+
+            if (isPlansUploadPage && context?.documents?.uploadPlansDrawingAndSupportingDocs) {
+                cy.uploadFileFromFixtureDirectory(context?.documents?.uploadPlansDrawingAndSupportingDocs);
+                cy.advanceToNextPage();
+            }
+        });
+
+        // Ensure we've reached the task list before looking for declaration link.
+        cy.url().then((url) => {
+            if (!url.includes('/your-appeal')) {
+                cy.log('Not on task list page yet, advancing. Current URL: ' + url);
+                cy.advanceToNextPage();
+            }
+        });
 
         cy.get(`a[href*="/appeals/adverts/submit/declaration?id=${dynamicId}"]`).click();
         cy.containsMessage(basePage?._selectors.govukButton, prepareAppealData?.acceptAndSubmitButton).click();
