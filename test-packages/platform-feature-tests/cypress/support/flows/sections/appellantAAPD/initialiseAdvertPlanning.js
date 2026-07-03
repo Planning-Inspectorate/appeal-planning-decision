@@ -31,6 +31,7 @@ const { ApplyAppealCostsPage } = require("../../pages/appellant-aapd/upload-docu
 const { HealthSafetyIssuesPage } = require("../../pages/appellant-aapd/prepare-appeal/healthSafetyIssuesPage");
 const { PrepareAppealSelector } = require("../../../../page-objects/prepare-appeal/prepare-appeal-selector");
 const { NewPlansDrawingsPage } = require("../../pages/appellant-aapd/upload-documents/newPlansDrawingsPage");
+const { getApplicationDateValues } = require("./applicationDateValues");
 module.exports = (planning, grantedOrRefusedId, applicationType, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases = [], statementTestCases = []) => {
     const basePage = new BasePage();
     const prepareAppealSelector = new PrepareAppealSelector();
@@ -53,9 +54,24 @@ module.exports = (planning, grantedOrRefusedId, applicationType, expeditedAppeal
     const applyAppealCostsPage = new ApplyAppealCostsPage();
     const newPlansDrawingsPage = new NewPlansDrawingsPage();
     const date = new DateService();
-    const applicationDateValues = expeditedAppeal
-        ? { day: date.today(), month: date.currentMonth(), year: date.currentYear() }
-        : { day: 1, month: 3, year: 2026 };
+    const applicationDateValues = getApplicationDateValues(expeditedAppeal);
+
+    const fillApplicationDate = () => {
+        cy.validateURL(`${prepareAppealSelector?._advertURLs?.beforeYouStart}/application-date`);
+        cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.applicationDateDay, String(applicationDateValues.day));
+        cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.applicationDateMonth, String(applicationDateValues.month));
+        cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.applicationDateYear, String(applicationDateValues.year));
+        cy.advanceToNextPage();
+    };
+
+    const fillDecisionDate = (isDueDatePage) => {
+        const decisionPath = isDueDatePage ? 'date-decision-due' : 'decision-date';
+        cy.validateURL(`${prepareAppealSelector?._advertURLs?.beforeYouStart}/${decisionPath}`);
+        cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateDay, String(date.today()));
+        cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateMonth, String(date.currentMonth()));
+        cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateYear, String(date.currentYear()));
+        cy.advanceToNextPage();
+    };
 
     cy.getByData(grantedOrRefusedId).click();
     cy.advanceToNextPage();
@@ -63,41 +79,21 @@ module.exports = (planning, grantedOrRefusedId, applicationType, expeditedAppeal
     // Wait for the first date page returned by the server.
     cy.url().should('match', /application-date|decision-date|date-decision-due/).then((url) => {
         if (url.includes('/application-date')) {
-            cy.validateURL(`${prepareAppealSelector?._advertURLs?.beforeYouStart}/application-date`);
-            cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.applicationDateDay, String(applicationDateValues.day));
-            cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.applicationDateMonth, String(applicationDateValues.month));
-            cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.applicationDateYear, String(applicationDateValues.year));
-            cy.advanceToNextPage();
+            fillApplicationDate();
 
             cy.url().should('match', /decision-date|date-decision-due/).then((nextUrl) => {
                 if (nextUrl.includes('/decision-date')) {
-                    cy.validateURL(`${prepareAppealSelector?._advertURLs?.beforeYouStart}/decision-date`);
-                    cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateDay, String(date.today()));
-                    cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateMonth, String(date.currentMonth()));
-                    cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateYear, String(date.currentYear()));
-                    cy.advanceToNextPage();
+                    fillDecisionDate(false);
                 } else if (nextUrl.includes('/date-decision-due')) {
-                    cy.validateURL(`${prepareAppealSelector?._advertURLs?.beforeYouStart}/date-decision-due`);
-                    cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateDay, String(date.today()));
-                    cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateMonth, String(date.currentMonth()));
-                    cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateYear, String(date.currentYear()));
-                    cy.advanceToNextPage();
+                    fillDecisionDate(true);
                 }
             });
         }
 
         if (url.includes('/decision-date')) {
-            cy.validateURL(`${prepareAppealSelector?._advertURLs?.beforeYouStart}/decision-date`);
-            cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateDay, String(date.today()));
-            cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateMonth, String(date.currentMonth()));
-            cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateYear, String(date.currentYear()));
-            cy.advanceToNextPage();
+            fillDecisionDate(false);
         } else if (url.includes('/date-decision-due')) {
-            cy.validateURL(`${prepareAppealSelector?._advertURLs?.beforeYouStart}/date-decision-due`);
-            cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateDay, String(date.today()));
-            cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateMonth, String(date.currentMonth()));
-            cy.typeWhenEnabled(prepareAppealSelector?._advertSelectors?.decisionDateYear, String(date.currentYear()));
-            cy.advanceToNextPage();
+            fillDecisionDate(true);
         }
     });
 
