@@ -12,8 +12,7 @@ export class SubmitPlanningObligationPage {
         
         // Ensure we're on the correct page before proceeding
         cy.url().then((url) => {
-            if (!url.includes('/submit-planning-obligation')) {
-                cy.log('Not on submit-planning-obligation page. Current URL: ' + url);
+            if (!url.includes('/submit-planning-obligation')) {               
                 return;
             }
             

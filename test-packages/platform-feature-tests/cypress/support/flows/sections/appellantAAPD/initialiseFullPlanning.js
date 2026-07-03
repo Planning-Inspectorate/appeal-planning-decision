@@ -228,8 +228,7 @@ module.exports = (planning, grantedOrRefusedId, applicationType, expeditedAppeal
 		// If applyAppealCostsPage ran on the wrong page and left us on apply-appeal-costs,
 		// re-run the handler which will select Yes/No and upload file if needed
 		cy.url().then((url) => {
-			if (url.includes('/apply-appeal-costs') || url.includes('/upload-appeal-costs-application')) {
-				cy.log('Re-handling cost application page. URL: ' + url);
+			if (url.includes('/apply-appeal-costs') || url.includes('/upload-appeal-costs-application')) {			
 				applyAppealCostsPage.addApplyAppealCostsData(context);
 			}
 		});
@@ -243,10 +242,8 @@ module.exports = (planning, grantedOrRefusedId, applicationType, expeditedAppeal
 		// If still not on task list, the upstream handlers may have been misaligned.
 		// Re-run the complete cost + upload flow to recover.
 		cy.url().then((url) => {
-			if (!url.includes('/your-appeal')) {
-				cy.log('Not on task list after upload handlers. Current URL: ' + url);
-				if (url.includes('/apply-appeal-costs') || url.includes('/upload-appeal-costs-application')) {
-					cy.log('Stuck on cost page - running full recovery flow...');
+			if (!url.includes('/your-appeal')) {			
+				if (url.includes('/apply-appeal-costs') || url.includes('/upload-appeal-costs-application')) {				
 					applyAppealCostsPage.addApplyAppealCostsData(context);
 					if (!expeditedAppeal) {
 						submitDesignAccessStatementPage.addSubmitDesignAccessStatementData(context);

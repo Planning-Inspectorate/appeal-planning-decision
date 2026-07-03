@@ -285,8 +285,7 @@ module.exports = (planning, grantedOrRefusedId, applicationType, expeditedAppeal
 
         // Ensure we've reached the task list before looking for declaration link.
         cy.url().then((url) => {
-            if (!url.includes('/your-appeal')) {
-                cy.log('Not on task list page yet, advancing. Current URL: ' + url);
+            if (!url.includes('/your-appeal')) {            
                 cy.advanceToNextPage();
             }
         });
