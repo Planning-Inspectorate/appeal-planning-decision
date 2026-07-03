@@ -46,6 +46,25 @@ module.exports = (planning, grantedOrRefusedId, applicationType, expeditedAppeal
 	const submitDesignAccessStatementPage = new SubmitDesignAccessStatementPage();
 	const date = new DateService();
 	const applicationDateValues = getApplicationDateValues(expeditedAppeal);
+	const fillBeforeYouStartApplicationDate = () => {
+		cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateDay).clear();
+		cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateDay).type(applicationDateValues.day);
+		cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateMonth).clear();
+		cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateMonth).type(applicationDateValues.month);
+		cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateYear).clear();
+		cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateYear).type(applicationDateValues.year);
+		cy.advanceToNextPage();
+	};
+	const fillPrepareAppealApplicationDate = () => {
+		cy.validateURL(`${prepareAppealSelector?._casPlanningURLs?.appealsCasplanningPrepareAppeal}/application-date`);
+		cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).clear();
+		cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).type(applicationDateValues.day);
+		cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).clear();
+		cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(applicationDateValues.month);
+		cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).clear();
+		cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).type(applicationDateValues.year);
+		cy.advanceToNextPage();
+	};
 
 	// CAS entry depends on planning-application-about selection in initialiseApplicationTypeAppeal.
 	// It can land on planning-application-about, application-date, granted-or-refused, or can-use-service.
@@ -59,26 +78,14 @@ module.exports = (planning, grantedOrRefusedId, applicationType, expeditedAppeal
 	// If planning-application-about was shown, flow now lands on application-date.
 	cy.url().should('match', /before-you-start\/application-date|before-you-start\/granted-or-refused|before-you-start\/can-use-service/).then((url) => {
 		if (url.includes('/before-you-start/application-date')) {
-			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateDay).clear();
-			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateDay).type(applicationDateValues.day);
-			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateMonth).clear();
-			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateMonth).type(applicationDateValues.month);
-			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateYear).clear();
-			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateYear).type(applicationDateValues.year);
-			cy.advanceToNextPage();
+			fillBeforeYouStartApplicationDate();
 		}
 	});
 
 	// Guard: if still on application-date at this point, complete it before selecting granted/refused.
 	cy.url().then((url) => {
 		if (url.includes('/before-you-start/application-date')) {
-			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateDay).clear();
-			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateDay).type(applicationDateValues.day);
-			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateMonth).clear();
-			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateMonth).type(applicationDateValues.month);
-			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateYear).clear();
-			cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateYear).type(applicationDateValues.year);
-			cy.advanceToNextPage();
+			fillBeforeYouStartApplicationDate();
 		}
 	});
 
@@ -180,14 +187,7 @@ module.exports = (planning, grantedOrRefusedId, applicationType, expeditedAppeal
 		// Application date can be conditional in staging; align month with expedited rules.
 		cy.url().then((url) => {
 			if (url.includes('/application-date')) {
-				cy.validateURL(`${prepareAppealSelector?._casPlanningURLs?.appealsCasplanningPrepareAppeal}/application-date`);
-				cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).clear();
-				cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).type(applicationDateValues.day);
-				cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).clear();
-				cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(applicationDateValues.month);
-				cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).clear();
-				cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).type(applicationDateValues.year);
-				cy.advanceToNextPage();
+				fillPrepareAppealApplicationDate();
 			}
 		});
 		//Enter the description of development that you submitted in your application
