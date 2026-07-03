@@ -164,7 +164,6 @@
 		"@commitlint/cli": "^21.0.2",
 		"@commitlint/config-conventional": "^21.0.2",
 		"@commitlint/cz-commitlint": "^21.0.2",
-		"@shelf/jest-mongodb": "^5.2.2",
 		"@sinonjs/fake-timers": "^15.1.0",
 		"@testing-library/dom": "^10.4.1",
 		"@testing-library/jest-dom": "^6.9.1",
@@ -207,5 +206,10 @@
 		"webpack": "^5.107.2",
 		"webpack-cli": "^7.0.3",
 		"webpack-merge": "^6.0.1"
+	},
+	"overrides": {
+		"npm-run-all": {
+			"shell-quote": "1.9.0"
+		}
 	}
 }
