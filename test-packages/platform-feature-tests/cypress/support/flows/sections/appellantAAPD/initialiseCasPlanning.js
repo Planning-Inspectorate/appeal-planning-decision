@@ -91,12 +91,7 @@ module.exports = (planning, grantedOrRefusedId, applicationType, expeditedAppeal
 
 	// Decision date may appear after granted/refused, or flow may continue directly to can-use-service.
 	cy.url().should('match', /before-you-start\/decision-date|before-you-start\/date-decision-due|before-you-start\/can-use-service/).then((url) => {
-		if (url.includes('/decision-date')) {
-			cy.get(prepareAppealSelector?._casPlanningSelectors?.decisionDateDay).type(date.today());
-			cy.get(prepareAppealSelector?._casPlanningSelectors?.decisionDateMonth).type(date.currentMonth());
-			cy.get(prepareAppealSelector?._casPlanningSelectors?.decisionDateYear).type(date.currentYear());
-			cy.advanceToNextPage();
-		} else if (url.includes('/date-decision-due')) {
+		if (url.includes('/decision-date') || url.includes('/date-decision-due')) {
 			cy.get(prepareAppealSelector?._casPlanningSelectors?.decisionDateDay).type(date.today());
 			cy.get(prepareAppealSelector?._casPlanningSelectors?.decisionDateMonth).type(date.currentMonth());
 			cy.get(prepareAppealSelector?._casPlanningSelectors?.decisionDateYear).type(date.currentYear());

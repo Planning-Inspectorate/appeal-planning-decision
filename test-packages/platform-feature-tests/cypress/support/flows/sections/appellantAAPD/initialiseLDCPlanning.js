@@ -70,12 +70,7 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 
 	// Decision date may appear after granted-or-refused (decision-date for granted/refused, date-decision-due for no decision)
 	cy.url().then((url) => {
-		if (url.includes('/decision-date')) {
-			cy.get(prepareAppealSelector?._ldcAppealSelectors?.decisionDateDay).type(date.today());
-			cy.get(prepareAppealSelector?._ldcAppealSelectors?.decisionDateMonth).type(date.currentMonth());
-			cy.get(prepareAppealSelector?._ldcAppealSelectors?.decisionDateYear).type(date.currentYear());
-			cy.advanceToNextPage();
-		} else if (url.includes('/date-decision-due')) {
+		if (url.includes('/decision-date') || url.includes('/date-decision-due')) {
 			cy.get(prepareAppealSelector?._ldcAppealSelectors?.decisionDateDay).type(date.today());
 			cy.get(prepareAppealSelector?._ldcAppealSelectors?.decisionDateMonth).type(date.currentMonth());
 			cy.get(prepareAppealSelector?._ldcAppealSelectors?.decisionDateYear).type(date.currentYear());
@@ -120,10 +115,6 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 
 		cy.validateURL(`${prepareAppealSelector?._ldcAppealURLs?.appealsLdcAppealPrepareAppeal}/inspector-need-access`);
 		inspectorNeedAccessPage.addInspectorNeedAccessData(context?.applicationForm?.isInspectorNeedAccess, prepareAppealData);
-
-		// //Is the appeal site in a green belt?(Ans:Yes)
-		// cy.validateURL(`${prepareAppealSelector?._ldcAppealURLs?.appealsLdcAppealPrepareAppeal}/green-belt`);
-		// greenBeltPage.addGreenBeltData(context?.applicationForm?.appellantInGreenBelt);
 
 		//Health and safety issues
 		cy.validateURL(`${prepareAppealSelector?._ldcAppealURLs?.appealsLdcAppealPrepareAppeal}/health-safety-issues`);

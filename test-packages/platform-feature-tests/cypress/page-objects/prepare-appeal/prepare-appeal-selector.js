@@ -1,5 +1,17 @@
 export class PrepareAppealSelector {
 
+    _commonDecisionDateSelectors = {
+        decisionDateDay: '#decision-date-day',
+        decisionDateMonth: '#decision-date-month',
+        decisionDateYear: '#decision-date-year'
+    }
+
+    _commonApplicationDateSelectors = {
+        applicationDateDay: '#application-date-day',
+        applicationDateMonth: '#application-date-month',
+        applicationDateYear: '#application-date-year'
+    }
+
     _selectors = {
 
         emailCode: '#email-code',
@@ -42,12 +54,8 @@ export class PrepareAppealSelector {
         systemTest2BoroughCouncil: "System Test Borough Council 2"
     }
     _fullAppealselectors = {
-        decisionDateDay: '#decision-date-day',
-        decisionDateMonth: '#decision-date-month',
-        decisionDateYear: '#decision-date-year',
-        applicationDateDay: '#application-date-day',
-        applicationDateMonth: '#application-date-month',
-        applicationDateYear: '#application-date-year'
+        ...this._commonDecisionDateSelectors,
+        ...this._commonApplicationDateSelectors
     }
     _houseHolderSelectors = {
         decisionDateHouseholderDay: '#decision-date-householder-day',
@@ -55,28 +63,18 @@ export class PrepareAppealSelector {
         decisionDateHouseholderYear: '#decision-date-householder-year',
     }
     _listedBuildingSelectors = {
-        decisionDateDay: '#decision-date-day',
-        decisionDateMonth: '#decision-date-month',
-        decisionDateYear: '#decision-date-year',
+        ...this._commonDecisionDateSelectors,
     }
     _casPlanningSelectors = {
-        decisionDateDay: '#decision-date-day',
-        decisionDateMonth: '#decision-date-month',
-        decisionDateYear: '#decision-date-year',
+        ...this._commonDecisionDateSelectors,
     }
     _advertSelectors = {
-        decisionDateDay: '#decision-date-day',
-        decisionDateMonth: '#decision-date-month',
-        decisionDateYear: '#decision-date-year',
-        applicationDateDay: '#application-date-day',
-        applicationDateMonth: '#application-date-month',
-        applicationDateYear: '#application-date-year',
+        ...this._commonDecisionDateSelectors,
+        ...this._commonApplicationDateSelectors,
     }
 
     _ldcAppealSelectors = {
-        decisionDateDay: '#decision-date-day',
-        decisionDateMonth: '#decision-date-month',
-        decisionDateYear: '#decision-date-year',
+        ...this._commonDecisionDateSelectors,
     }
     _houseHolderURLs = {
         beforeYouStart: '/before-you-start',
