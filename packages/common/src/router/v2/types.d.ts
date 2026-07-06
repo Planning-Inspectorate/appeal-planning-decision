@@ -1,15 +1,7 @@
 import type { Handler } from 'express';
 
 export type HttpMethods =
-	| 'connect'
-	| 'delete'
-	| 'get'
-	| 'head'
-	| 'options'
-	| 'patch'
-	| 'post'
-	| 'put'
-	| 'trace';
+	'connect' | 'delete' | 'get' | 'head' | 'options' | 'patch' | 'post' | 'put' | 'trace';
 
 export type Middleware = [Handler[], { [key: HttpMethods]: Handler[] }];
 
