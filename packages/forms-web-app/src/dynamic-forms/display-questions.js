@@ -114,6 +114,16 @@ exports.isBeforeExpeditedCutoff = (response) => {
 
 /**
  * @param {JourneyResponse} response
+ * @returns {boolean}
+ */
+exports.isBeforeExpeditedCutoffLPAQ = (response) => {
+	const answers = /** @type {any} */ (response.answers);
+	const applicationDate = answers.AppealCase?.applicationDate;
+	return !isExpeditedAppealDate(applicationDate);
+};
+
+/**
+ * @param {JourneyResponse} response
  * @param {import('../config')|undefined} config
  * @returns {boolean}
  */

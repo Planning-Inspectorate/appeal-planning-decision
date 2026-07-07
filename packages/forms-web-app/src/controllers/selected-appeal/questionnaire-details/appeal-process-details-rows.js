@@ -6,7 +6,11 @@ const {
 } = require('@pins/common');
 const { fieldNames } = require('@pins/common/src/dynamic-forms/field-names');
 const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
-const { isExpeditedPart1Eligible } = require('#lib/is-expedited-part1-eligible');
+const {
+	isExpeditedPart1Eligible,
+	isExpeditedAppealDate
+} = require('#lib/is-expedited-part1-eligible');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { nl2br } = require('@pins/common/src/utils');
 
 /**
@@ -58,9 +62,9 @@ exports.appealProcessRows = (caseData) => {
 	};
 
 	/**
-	 * @param {AppealCaseDetailed} caseData
-	 * @param {DetailsContext} context
-	 * @returns {Rows}
+	 * @param {import('#lib/dashboard-functions').AppealCaseDetailed} caseData
+	 * @param {import('../appeal-details/appeal-details-rows').DetailsContext} context
+	 * @returns {import('../appeal-details/appeal-details-rows').Rows}
 	 */
 	const getExpeditedDetailsRows = (caseData) => {
 		return [
@@ -96,12 +100,15 @@ exports.appealProcessRows = (caseData) => {
 		}
 	];
 
-	if (
-		isExpeditedPart1Eligible({
-			...caseData,
-			eligibility: { applicationDecision: caseData.applicationDecision }
-		})
-	) {
+	const isExpeditedS78 = isExpeditedPart1Eligible({
+		...caseData,
+		eligibility: { applicationDecision: caseData.applicationDecision }
+	});
+	const isExpeditedHAS =
+		caseData.appealTypeCode === CASE_TYPES.HAS.processCode &&
+		isExpeditedAppealDate(caseData.applicationDate);
+
+	if (isExpeditedS78 || isExpeditedHAS) {
 		rows.push(...getExpeditedDetailsRows(caseData));
 	}
 	return rows;

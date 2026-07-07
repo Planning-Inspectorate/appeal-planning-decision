@@ -93,6 +93,11 @@ module.exports =
 			result = getDefaultResponse(journeyType, referenceId, user.lpaCode);
 		}
 
+		/** @type {any} */ (result.answers).AppealCase = {
+			...(result.answers.AppealCase || {}),
+			applicationDate: appeal?.applicationDate ?? null
+		};
+
 		if (result.LPACode !== user.lpaCode) {
 			return res.status(404).render('error/not-found');
 		}
