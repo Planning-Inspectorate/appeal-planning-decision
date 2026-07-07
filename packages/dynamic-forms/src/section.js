@@ -193,8 +193,8 @@ class Section {
 		}
 
 		// all required questions complete
-		// if no required sections this will never be hit
-		if (requiredQuestionCount !== 0 && requiredAnswerCount >= requiredQuestionCount) {
+		// if no required sections (or if requiredQuestionCount is 0), this is marked complete
+		if (requiredQuestionCount === 0 || requiredAnswerCount >= requiredQuestionCount) {
 			result = SECTION_STATUS.COMPLETE;
 		}
 

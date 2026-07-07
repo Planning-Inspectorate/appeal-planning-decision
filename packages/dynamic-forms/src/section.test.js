@@ -125,6 +125,47 @@ describe('./src/dynamic-forms/section.js', () => {
 			const isComplete = section.isComplete(mockJourneyResponse);
 			expect(isComplete).toBe(true);
 		});
+
+		it('should return COMPLETE when there are only optional questions', () => {
+			const mockJourneyResponse = {
+				answers: {}
+			};
+
+			const notARequiredQuestion = {
+				fieldName: 'someQuestion',
+				isRequired: () => false,
+				shouldDisplay: () => true,
+				isAnswered: () => false
+			};
+
+			const section = new Section();
+			section.addQuestion(notARequiredQuestion);
+
+			const result = section.getStatus(mockJourneyResponse);
+			expect(result).toBe(SECTION_STATUS.COMPLETE);
+			const isComplete = section.isComplete(mockJourneyResponse);
+			expect(isComplete).toBe(true);
+		});
+
+		it('should return COMPLETE when there are no displayable questions', () => {
+			const mockJourneyResponse = {
+				answers: {}
+			};
+
+			const requiredQuestionHidden = {
+				fieldName: 'someQuestion',
+				isRequired: () => true,
+				isAnswered: () => false
+			};
+
+			const section = new Section();
+			section.addQuestion(requiredQuestionHidden).withCondition(() => false);
+
+			const result = section.getStatus(mockJourneyResponse);
+			expect(result).toBe(SECTION_STATUS.COMPLETE);
+			const isComplete = section.isComplete(mockJourneyResponse);
+			expect(isComplete).toBe(true);
+		});
 	});
 	it('should return COMPLETE when a file upload question has files associated with it', () => {
 		const mockJourneyResponse = {

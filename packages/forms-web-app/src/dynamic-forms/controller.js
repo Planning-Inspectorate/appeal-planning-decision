@@ -224,11 +224,6 @@ exports.list = async (req, res, pageCaption, viewData) => {
 		const status = section.getStatus(journeyResponse);
 		const sectionView = buildSectionViewModel(section.name, status);
 
-		// update completed count
-		if (status === SECTION_STATUS.COMPLETE) {
-			summaryListData.completedSectionCount++;
-		}
-
 		// add questions
 		for (const question of section.questions) {
 			// don't show question on tasklist if set to false
@@ -256,7 +251,12 @@ exports.list = async (req, res, pageCaption, viewData) => {
 			});
 		}
 
-		summaryListData.sections.push(sectionView);
+		if (sectionView.list.rows.length > 0) {
+			if (status === SECTION_STATUS.COMPLETE) {
+				summaryListData.completedSectionCount++;
+			}
+			summaryListData.sections.push(sectionView);
+		}
 	}
 
 	return res.render(journey.listingPageViewPath, {

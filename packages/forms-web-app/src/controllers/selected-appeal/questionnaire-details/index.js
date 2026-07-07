@@ -22,7 +22,11 @@ const { getDepartmentFromCode } = require('../../../services/department.service'
 const { addCSStoHtml } = require('#lib/add-css-to-html');
 const { generatePDF } = require('#lib/pdf-api-wrapper');
 const { APPEAL_CASE_STAGE } = require('@planning-inspectorate/data-model');
-const { isExpeditedPart1Eligible } = require('#lib/is-expedited-part1-eligible');
+const {
+	isExpeditedPart1Eligible,
+	isExpeditedAppealDate
+} = require('#lib/is-expedited-part1-eligible');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 /**
  * Shared controller for /appeals/:caseRef/appeal-details, manage-appeals/:caseRef/appeal-details rule-6-appeals/:caseRef/appeal-details
@@ -102,10 +106,15 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			...caseData,
 			eligibility: { applicationDecision: caseData.applicationDecision }
 		});
-		const originalEvidenceDetailsRows = isExpeditedPart1
+		const isExpeditedHAS =
+			caseData.appealTypeCode === CASE_TYPES.HAS.processCode &&
+			isExpeditedAppealDate(caseData.applicationDate);
+		const showOriginalEvidence = isExpeditedPart1 || isExpeditedHAS;
+
+		const originalEvidenceDetailsRows = showOriginalEvidence
 			? originalEvidenceRows({ caseData, userType })
 			: [];
-		const originalEvidenceDetails = isExpeditedPart1
+		const originalEvidenceDetails = showOriginalEvidence
 			? formatQuestionnaireRows(originalEvidenceDetailsRows, caseData)
 			: [];
 

@@ -25,10 +25,21 @@ const enforcementLPAQData = caseTypeLPAQFactory(
 	'appealProcess'
 );
 
+const hasExpeditedLPAQData = {
+	...caseTypeLPAQFactory(CASE_TYPES.HAS.processCode, 'appealProcess'),
+	applicationDate: '2026-04-01',
+	anySignificantChangesLpa: 'no',
+	anySignificantChangesLpa_otherSignificantChanges: ''
+};
+
 const expectedRowsHas = [
 	{ title: 'Appeals near the site', value: 'Yes' },
 	{ title: 'Appeal references', value: '00000001' },
 	{ title: 'Are there any proposed conditions?', value: 'Yes\nexample new conditions' }
+];
+const expectedRowsHasExpedited = [
+	...expectedRowsHas,
+	{ title: 'Significant changes since application', value: '' }
 ];
 const expectedRowsS78 = [
 	{ title: 'Appeal procedure', value: 'Inquiry\ninquiry preference\nExpected duration: 6 days' },
@@ -45,6 +56,7 @@ const expectedRowsLDC = [{ title: 'Appeals near the site', value: 'No' }];
 describe('appealProcessRows', () => {
 	it.each([
 		['HAS', hasLPAQData, expectedRowsHas],
+		['HASExpedited', hasExpeditedLPAQData, expectedRowsHasExpedited],
 		['CAS Planning', casPlanningLPAQData, expectedRowsHas],
 		['S78', s78LPAQData, expectedRowsS78],
 		['S78Expedited', s78ExpeditedLPAQData, expectedRowsS78Expedited],

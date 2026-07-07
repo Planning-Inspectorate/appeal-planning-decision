@@ -36462,6 +36462,102 @@ exports[`Dynamic forms journey tests lpa Householder Householder should render t
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Householder Householder should render the design-access-statement-upload question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Original Evidence</span>
+            <h1 class="govuk-heading-l">Upload the design and access statement submitted for the application</h1>
+            <p class="govuk-body">Upload the planning officer’s report to committee or delegated report
+                on the application. You can also upload any other relevant documents or
+                minutes.</p>
+            <p class="govuk-body">If you did not make a decision for the application, upload a copy of what
+                your decision notice would have said.</p>
+            <form action="/manage-appeals/questionnaire/appeal-ref/original-evidence/design-access-statement-upload"
+            method="post" novalidate=null enctype="multipart/form-data">
+                <div class="moj-multi-file-upload">
+                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                        </div>
+                    </div>
+                    <div class="moj-multi-file-upload__upload">
+                        <div class="govuk-form-group">
+                            <label class="govuk-label govuk-label--m" for="uploadDesignAccessStatement">Upload files</label>
+                            <div id="uploadDesignAccessStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                than 1GB</div>
+                            <input class="govuk-file-upload moj-multi-file-upload__input"
+                            id="uploadDesignAccessStatement" name="uploadDesignAccessStatement" type="file"
+                            aria-describedby="uploadDesignAccessStatement-hint" multiple="">
+                        </div>
+                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                    </div>
+                </div>
+                <div class="govuk-button-group">
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Householder Householder should render the design-and-access-statement question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Original Evidence</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="/manage-appeals/questionnaire/appeal-ref/original-evidence/design-and-access-statement"
+            method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="designAccessStatement-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Did the applicant submit a design and access statement with the application?</h1>
+                        </legend>
+                        <div id="designAccessStatement-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="designAccessStatement" name="designAccessStatement"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="designAccessStatement">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="designAccessStatement-2" name="designAccessStatement"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="designAccessStatement-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Householder Householder should render the emerging-plan question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -36710,6 +36806,40 @@ exports[`Dynamic forms journey tests lpa Householder Householder should render t
                     <button type="submit" class="govuk-button" data-module="govuk-button"
                     data-cy="button-save-and-continue">Continue</button>
                 </div>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Householder Householder should render the list-of-documents question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Original Evidence</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="/manage-appeals/questionnaire/appeal-ref/original-evidence/list-of-documents"
+            method="post" novalidate=null>
+                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="listOfDocumentsBeforeDecision"> What documents and plans did you use to make your decision?</label></h1>
+                <div class="govuk-form-group">
+                    <div id="listOfDocumentsBeforeDecision-hint" class="govuk-hint">Only include the most up-to-date versions of the documents you received</div>
+                    <textarea
+                    class="govuk-textarea" id="listOfDocumentsBeforeDecision" name="listOfDocumentsBeforeDecision"
+                    rows="5" aria-describedby="listOfDocumentsBeforeDecision-hint"></textarea>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
             </form>
         </div>
     </div>
@@ -37110,6 +37240,120 @@ exports[`Dynamic forms journey tests lpa Householder Householder should render t
                 data-cy="button-save-and-continue">Continue</button>
             </form>
         </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Householder Householder should render the significant-changes question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Appeal process</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="/manage-appeals/questionnaire/appeal-ref/appeal-process/significant-changes"
+            method="post" novalidate=null>
+                <fieldset class="govuk-fieldset" aria-describedby="anySignificantChanges-hint">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> Have there been any significant changes that would affect the application?</h1>
+                    </legend>
+                    <p class="govuk-body">Only tell us about changes that are relevant or material to the application.</p>
+                    <h2
+                    class="govuk-heading-m">Significant changes</h2>
+                        <div class="govuk-form-group">
+                            <div id="anySignificantChanges-hint" class="govuk-hint">Select all that apply</div>
+                            <div class="govuk-checkboxes govuk-checkboxes"
+                            data-module="govuk-checkboxes">
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input" id="anySignificantChanges" name="anySignificantChanges"
+                                    type="checkbox" value="local-plan" data-aria-controls="conditional-anySignificantChanges"
+                                    aria-describedby="anySignificantChanges-hint" data-cy="answer-local-plan">
+                                    <label class="govuk-label govuk-checkboxes__label" for="anySignificantChanges">Adopted a new local plan</label>
+                                </div>
+                                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
+                                id="conditional-anySignificantChanges">
+                                    <div class="govuk-form-group">
+                                        <label class="govuk-label" for="anySignificantChanges_localPlanSignificantChanges">Enter the local plan changes and why they’re relevant</label>
+                                        <div id="anySignificantChanges_localPlanSignificantChanges-hint"
+                                        class="govuk-hint"></div>
+                                        <textarea class="govuk-textarea" id="anySignificantChanges_localPlanSignificantChanges"
+                                        name="anySignificantChanges_localPlanSignificantChanges" rows="5" aria-describedby="anySignificantChanges_localPlanSignificantChanges-hint"></textarea>
+                                    </div>
+                                </div>
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input" id="anySignificantChanges-2" name="anySignificantChanges"
+                                    type="checkbox" value="national-policy" data-aria-controls="conditional-anySignificantChanges-2"
+                                    aria-describedby="anySignificantChanges-hint" data-cy="answer-national-policy">
+                                    <label class="govuk-label govuk-checkboxes__label" for="anySignificantChanges-2">National policy change</label>
+                                </div>
+                                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
+                                id="conditional-anySignificantChanges-2">
+                                    <div class="govuk-form-group">
+                                        <label class="govuk-label" for="anySignificantChanges_nationalPolicySignificantChanges">Enter the national policy changes and why they’re relevant</label>
+                                        <div
+                                        id="anySignificantChanges_nationalPolicySignificantChanges-hint" class="govuk-hint"></div>
+                                    <textarea class="govuk-textarea" id="anySignificantChanges_nationalPolicySignificantChanges"
+                                    name="anySignificantChanges_nationalPolicySignificantChanges" rows="5"
+                                    aria-describedby="anySignificantChanges_nationalPolicySignificantChanges-hint"></textarea>
+                                </div>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="anySignificantChanges-3" name="anySignificantChanges"
+                                type="checkbox" value="court-judgment" data-aria-controls="conditional-anySignificantChanges-3"
+                                aria-describedby="anySignificantChanges-hint" data-cy="answer-court-judgment">
+                                <label class="govuk-label govuk-checkboxes__label" for="anySignificantChanges-3">Court judgment</label>
+                            </div>
+                            <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
+                            id="conditional-anySignificantChanges-3">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label" for="anySignificantChanges_courtJudgementSignificantChanges">Enter the court judgment</label>
+                                    <div id="anySignificantChanges_courtJudgementSignificantChanges-hint"
+                                    class="govuk-hint"></div>
+                                    <textarea class="govuk-textarea" id="anySignificantChanges_courtJudgementSignificantChanges"
+                                    name="anySignificantChanges_courtJudgementSignificantChanges" rows="5"
+                                    aria-describedby="anySignificantChanges_courtJudgementSignificantChanges-hint"></textarea>
+                                </div>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="anySignificantChanges-4" name="anySignificantChanges"
+                                type="checkbox" value="other" data-aria-controls="conditional-anySignificantChanges-4"
+                                aria-describedby="anySignificantChanges-hint" data-cy="answer-other">
+                                <label class="govuk-label govuk-checkboxes__label" for="anySignificantChanges-4">Other</label>
+                            </div>
+                            <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
+                            id="conditional-anySignificantChanges-4">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label" for="anySignificantChanges_otherSignificantChanges">Enter the other significant changes and why they&#39;re relevant</label>
+                                    <div
+                                    id="anySignificantChanges_otherSignificantChanges-hint" class="govuk-hint"></div>
+                                <textarea class="govuk-textarea" id="anySignificantChanges_otherSignificantChanges"
+                                name="anySignificantChanges_otherSignificantChanges" rows="5" aria-describedby="anySignificantChanges_otherSignificantChanges-hint"></textarea>
+                            </div>
+                        </div>
+                        <div class="govuk-checkboxes__divider">or</div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input" id="anySignificantChanges-6" name="anySignificantChanges"
+                            type="checkbox" value="none" data-behaviour="exclusive" aria-describedby="anySignificantChanges-hint"
+                            data-cy="answer-none">
+                            <label class="govuk-label govuk-checkboxes__label" for="anySignificantChanges-6">There have been no significant changes</label>
+                        </div>
+        </div>
+    </div>
+    <button type="submit" class="govuk-button" data-module="govuk-button"
+    data-cy="button-save-and-continue">Continue</button>
+    </fieldset>
+    </form>
+    </div>
     </div>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">

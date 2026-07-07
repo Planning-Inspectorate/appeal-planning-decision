@@ -12,6 +12,7 @@ const {
 	mapAppealTypeToDisplayText,
 	mapAppealTypeToDisplayTextWithAnOrA
 } = require('@pins/common/src/appeal-type-to-display-text');
+const { isBeforeExpeditedCutoffLPAQ } = require('../display-questions');
 
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
@@ -91,6 +92,15 @@ const makeSections = (response) => {
 				() => response.answers && response.answers[questions.appealsNearSite.fieldName] == 'yes'
 			)
 			.addQuestion(questions.addNewConditions)
+			.addQuestion(questions.anySignificantChangesLPA)
+			.withCondition(() => !isBeforeExpeditedCutoffLPAQ(response)),
+		new Section('Original Evidence', 'original-evidence')
+			.startMultiQuestionCondition('expedited', () => !isBeforeExpeditedCutoffLPAQ(response))
+			.addQuestion(questions.designAccessStatementPart1)
+			.addQuestion(questions.uploadDesignAccessStatementPart1)
+			.withCondition(() => questionHasAnswer(response, questions.designAccessStatementPart1, 'yes'))
+			.addQuestion(questions.listOfDocumentsBeforeDecision)
+			.endMultiQuestionCondition('expedited')
 	];
 };
 
