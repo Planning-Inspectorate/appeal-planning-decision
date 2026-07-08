@@ -200,6 +200,7 @@ const makeSections = (response) => {
 			.addQuestion(questions.appealsNearSite)
 			.addQuestion(questions.nearbyAppeals)
 			.withCondition(() => questionHasAnswer(response, questions.appealsNearSite, 'yes'))
+			.addQuestion(questions.addNewConditions)
 			.addQuestion(questions.anySignificantChangesLPA),
 		new Section('Original Evidence', 'original-evidence')
 			.addQuestion(questions.designAccessStatementPart1)
