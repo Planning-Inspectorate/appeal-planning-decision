@@ -1,4 +1,7 @@
-const { isExpeditedPart1Eligible } = require('#lib/is-expedited-part1-eligible');
+const {
+	isExpeditedPart1Eligible,
+	isExpeditedAppealDate
+} = require('#lib/is-expedited-part1-eligible');
 jest.mock('#lib/is-expedited-part1-eligible');
 
 const getJourneyResponse = require('./get-journey-response-for-lpa');
@@ -216,6 +219,30 @@ describe('getJourneyResponse', () => {
 			},
 			appealTypeCode: s78Appeal.appealTypeCode
 		});
+		expect(next).toHaveBeenCalled();
+	});
+
+	it('should route to JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE_PART_1.id when eligible for expedited ', async () => {
+		getUserFromSession.mockReturnValue(mockValidTestLpaUser);
+		const casAppeal = {
+			...mockSubmission,
+			appealTypeCode: CASE_TYPES.CAS_PLANNING.processCode,
+			lpaQuestionnaireDueDate: new Date(),
+			typeOfPlanningApplication: 'full',
+			applicationDate: '2026-04-02',
+			applicationDecision: 'granted',
+			caseProcedure: undefined
+		};
+		req.appealsApiClient.getUsersAppealCase.mockResolvedValue(casAppeal);
+		require('../../lib/is-lpa-in-feature-flag').isLpaInFeatureFlag.mockImplementation(async () => {
+			return true;
+		});
+		isExpeditedAppealDate.mockReturnValue(true);
+		await getJourneyResponse()(req, res, next);
+
+		expect(res.locals.journeyResponse.journeyId).toBe(
+			JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE_PART_1.id
+		);
 		expect(next).toHaveBeenCalled();
 	});
 });

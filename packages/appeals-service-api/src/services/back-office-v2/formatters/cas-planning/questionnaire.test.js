@@ -41,6 +41,36 @@ describe('formatter', () => {
 		consultationResponses: true
 	};
 
+	const expectedCASPlanningAnswers = {
+		correctAppealType: true,
+		SubmissionListedBuilding: [{ reference: 'LB123', fieldName: 'affectedListedBuildingNumber' }],
+		conservationArea: true,
+		greenBelt: false,
+		notificationMethod: 'site-notice,letters-or-emails,advert',
+		lpaSiteAccess_lpaSiteAccessDetails: 'Access details',
+		lpaSiteSafetyRisks_lpaSiteSafetyRiskDetails: 'Safety details',
+		SubmissionAddress: [
+			{
+				fieldName: 'neighbourSiteAddress',
+				addressLine1: 'Line 1',
+				addressLine2: 'Line 2',
+				townCity: 'Town',
+				county: 'County',
+				postcode: 'Postcode'
+			}
+		],
+		neighbourSiteAccess_neighbourSiteAccessDetails: 'check the impact',
+		SubmissionLinkedCase: [{ caseReference: 'CASE123' }],
+		newConditions_newConditionDetails: 'New condition details',
+		statutoryConsultees: true,
+		statutoryConsultees_consultedBodiesDetails: 'body 1, body 2',
+		consultationResponses: true,
+		anySignificantChanges: 'local-plan,national-policy',
+		anySignificantChanges_localPlanSignificantChanges: 'local plan changes',
+		anySignificantChanges_nationalPolicySignificantChanges: 'national policy changes',
+		listOfDocumentsBeforeDecision: 'list of documents'
+	};
+
 	beforeEach(() => {
 		jest.clearAllMocks();
 	});
@@ -78,7 +108,59 @@ describe('formatter', () => {
 				lpaCostsAppliedFor: null,
 				consultedBodiesDetails: 'body 1, body 2',
 				hasConsultationResponses: true,
-				hasStatutoryConsultees: false
+				hasStatutoryConsultees: false,
+				significantChangesAffectingApplicationLpa: null,
+				listOfDocumentsBeforeDecision: undefined
+			},
+			documents: [1]
+		});
+	});
+
+	it('should format the expedite data correctly', async () => {
+		const result = await formatter(caseReference, expectedCASPlanningAnswers);
+
+		expect(result).toEqual({
+			casedata: {
+				caseType: CAS_PLANNING,
+				caseReference: '12345',
+				lpaQuestionnaireSubmittedDate: expect.any(String),
+				isCorrectAppealType: true,
+				affectedListedBuildingNumbers: ['LB123'],
+				inConservationArea: true,
+				isGreenBelt: false,
+				notificationMethod: ['notice', 'letter', 'advert'],
+				siteAccessDetails: ['Access details'],
+				siteSafetyDetails: ['Safety details'],
+				neighbouringSiteAddresses: [
+					{
+						neighbouringSiteAddressLine1: 'Line 1',
+						neighbouringSiteAddressLine2: 'Line 2',
+						neighbouringSiteAddressTown: 'Town',
+						neighbouringSiteAddressCounty: 'County',
+						neighbouringSiteAddressPostcode: 'Postcode',
+						neighbouringSiteAccessDetails: null,
+						neighbouringSiteSafetyDetails: null
+					}
+				],
+				reasonForNeighbourVisits: 'check the impact',
+				nearbyCaseReferences: ['CASE123'],
+				newConditionDetails: 'New condition details',
+				lpaStatement: '',
+				lpaCostsAppliedFor: null,
+				consultedBodiesDetails: 'body 1, body 2',
+				hasConsultationResponses: true,
+				hasStatutoryConsultees: false,
+				significantChangesAffectingApplicationLpa: [
+					{
+						value: 'adopted-a-new-local-plan',
+						comment: 'local plan changes'
+					},
+					{
+						value: 'national-policy-change',
+						comment: 'national policy changes'
+					}
+				],
+				listOfDocumentsBeforeDecision: 'list of documents'
 			},
 			documents: [1]
 		});
@@ -110,7 +192,9 @@ describe('formatter', () => {
 				lpaCostsAppliedFor: null,
 				consultedBodiesDetails: null,
 				hasConsultationResponses: undefined,
-				hasStatutoryConsultees: false
+				hasStatutoryConsultees: false,
+				significantChangesAffectingApplicationLpa: null,
+				listOfDocumentsBeforeDecision: undefined
 			},
 			documents: [1]
 		});
