@@ -1176,7 +1176,11 @@ exports.getCASPlanningLPAQSubmissionFields = (answers) => {
 		// Consultation responses and representations
 		hasStatutoryConsultees: exports.toBool(answers.statutoryConsultees),
 		consultedBodiesDetails: answers.statutoryConsultees_consultedBodiesDetails || null,
-		hasConsultationResponses: answers.consultationResponses
+		hasConsultationResponses: answers.consultationResponses,
+		// Appeal process
+		significantChangesAffectingApplicationLpa: exports.formatSignificantChanges(answers),
+		// Original Evidence
+		listOfDocumentsBeforeDecision: answers.listOfDocumentsBeforeDecision
 	};
 };
 

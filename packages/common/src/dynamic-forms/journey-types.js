@@ -88,6 +88,12 @@ exports.JOURNEY_TYPES = Object.freeze({
 		userType: LPA_USER_ROLE,
 		caseType: CASE_TYPES.CAS_PLANNING.processCode
 	},
+	CAS_PLANNING_QUESTIONNAIRE_PART_1: {
+		id: 'cas-planning-questionnaire-part-1',
+		type: exports.JOURNEY_TYPE.questionnaire,
+		userType: LPA_USER_ROLE,
+		caseType: CASE_TYPES.CAS_PLANNING.processCode
+	},
 	CAS_ADVERTS_QUESTIONNAIRE: {
 		id: 'cas-adverts-questionnaire',
 		type: exports.JOURNEY_TYPE.questionnaire,

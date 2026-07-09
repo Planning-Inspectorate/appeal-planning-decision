@@ -72,6 +72,13 @@ module.exports =
 			journeyType = JOURNEY_TYPES.S78_QUESTIONNAIRE_PART_1.id;
 		}
 
+		if (
+			appeal.appealTypeCode === CASE_TYPES.CAS_PLANNING.processCode &&
+			isExpeditedAppealDate(appeal?.applicationDate)
+		) {
+			journeyType = JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE_PART_1.id;
+		}
+
 		if (typeof journeyType === 'undefined') {
 			throw new Error('appealType is undefined');
 		}

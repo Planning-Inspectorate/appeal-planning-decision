@@ -581,7 +581,9 @@ const formattedCASPlanning = [
 			caseReference: '004',
 			consultedBodiesDetails: null,
 			hasConsultationResponses: undefined,
-			hasStatutoryConsultees: false
+			hasStatutoryConsultees: false,
+			significantChangesAffectingApplicationLpa: null,
+			listOfDocumentsBeforeDecision: undefined
 		},
 		documents: [...expectedHAS.documents]
 	})
