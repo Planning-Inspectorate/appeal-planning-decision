@@ -8,7 +8,8 @@ const {
 	getCommonLPAQSubmissionFields,
 	getHASLPAQSubmissionFields,
 	getCASAdvertsLPAQSubmissionFields,
-	getLPAProcedurePreference
+	getLPAProcedurePreference,
+	formatSignificantChanges
 } = require('../utils');
 const { documentTypes } = require('@pins/common/src/document-types');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
@@ -30,7 +31,11 @@ exports.formatter = async (caseReference, { ...answers }) => {
 			...getHASLPAQSubmissionFields(answers),
 			...getLPAProcedurePreference(answers),
 			// CAS Adverts specific fields
-			...getCASAdvertsLPAQSubmissionFields(answers)
+			...getCASAdvertsLPAQSubmissionFields(answers),
+			// Appeal process
+			significantChangesAffectingApplicationLpa: formatSignificantChanges(answers),
+			// Original Evidence
+			listOfDocumentsBeforeDecision: answers?.listOfDocumentsBeforeDecision
 		},
 		documents: await getDocuments(answers, documentTypes.planningOfficersReportUpload.dataModelName)
 	};

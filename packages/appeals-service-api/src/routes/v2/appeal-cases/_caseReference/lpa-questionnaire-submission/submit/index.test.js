@@ -605,7 +605,9 @@ const formattedCASAdverts = [
 			lpaQuestionnaireSubmittedDate: expect.any(String),
 			isSiteInAreaOfSpecialControlAdverts: true,
 			wasApplicationRefusedDueToHighwayOrTraffic: false,
-			didAppellantSubmitCompletePhotosAndPlans: true
+			didAppellantSubmitCompletePhotosAndPlans: true,
+			significantChangesAffectingApplicationLpa: null,
+			listOfDocumentsBeforeDecision: undefined
 		},
 		documents: [...expectedHAS.documents]
 	})
