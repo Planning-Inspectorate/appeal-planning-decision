@@ -107,7 +107,9 @@ describe('formatter', () => {
 				),
 				isSiteInAreaOfSpecialControlAdverts: true,
 				wasApplicationRefusedDueToHighwayOrTraffic: false,
-				didAppellantSubmitCompletePhotosAndPlans: true
+				didAppellantSubmitCompletePhotosAndPlans: true,
+				significantChangesAffectingApplicationLpa: null,
+				listOfDocumentsBeforeDecision: undefined
 			},
 			documents: [1]
 		});
@@ -151,7 +153,9 @@ describe('formatter', () => {
 				lpaProcedurePreferenceDuration: null,
 				isSiteInAreaOfSpecialControlAdverts: undefined,
 				wasApplicationRefusedDueToHighwayOrTraffic: undefined,
-				didAppellantSubmitCompletePhotosAndPlans: undefined
+				didAppellantSubmitCompletePhotosAndPlans: undefined,
+				significantChangesAffectingApplicationLpa: null,
+				listOfDocumentsBeforeDecision: undefined
 			},
 			documents: [1]
 		});

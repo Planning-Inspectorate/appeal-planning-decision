@@ -13,7 +13,10 @@ const {
 		LPA_DASHBOARD: { DASHBOARD }
 	}
 } = require('../../lib/views');
-const { isExpeditedPart1Eligible } = require('#lib/is-expedited-part1-eligible');
+const {
+	isExpeditedPart1Eligible,
+	isExpeditedAppealDate
+} = require('#lib/is-expedited-part1-eligible');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
@@ -71,6 +74,13 @@ module.exports =
 
 		if (typeof journeyType === 'undefined') {
 			throw new Error('appealType is undefined');
+		}
+
+		if (
+			appeal.appealTypeCode === CASE_TYPES.CAS_ADVERTS.processCode &&
+			isExpeditedAppealDate(appeal?.applicationDate)
+		) {
+			journeyType = JOURNEY_TYPES.CAS_ADVERTS_QUESTIONNAIRE_PART_1.id;
 		}
 
 		try {

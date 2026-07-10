@@ -24,6 +24,7 @@ const {
 	casAdverts: casAdvertsQuestionnaireParams,
 	adverts: advertsQuestionnaireParams
 } = require('../dynamic-forms/adverts-questionnaire/journey');
+const casAdvertsQuestionnairePart1Params = require('../dynamic-forms/cas-adverts-questionnaire-part-1/journey');
 const enforcementAppealParams = require('../dynamic-forms/enforcement-appeal-form/journey');
 const enforcementQuestionnaireParams = require('../dynamic-forms/enforcement-questionnaire/journey');
 const enforcementListedAppealParams = require('../dynamic-forms/enforcement-listed-appeal-form/journey');
@@ -57,6 +58,7 @@ journeys.registerJourney({ ...commonParams, ...s20QuestionnaireParams });
 journeys.registerJourney({ ...commonParams, ...casPlanningAppealForm });
 journeys.registerJourney({ ...commonParams, ...casPlanningQuestionnaireParams });
 journeys.registerJourney({ ...commonParams, ...casAdvertsQuestionnaireParams });
+journeys.registerJourney({ ...commonParams, ...casAdvertsQuestionnairePart1Params });
 journeys.registerJourney({ ...commonParams, ...advertsAppealForm });
 journeys.registerJourney({ ...commonParams, ...advertsQuestionnaireParams });
 journeys.registerJourney({ ...commonParams, ...enforcementAppealParams });
