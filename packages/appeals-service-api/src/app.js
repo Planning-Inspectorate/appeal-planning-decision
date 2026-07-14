@@ -17,9 +17,6 @@ const http = require('http');
 https.globalAgent = new https.Agent({ keepAlive: false });
 http.globalAgent = new http.Agent({ keepAlive: false });
 
-app.use('/api/v2/appellant-submissions', bodyParser.json({ limit: '1mb' }));
-app.use('/api/v2/appeal-cases', bodyParser.json({ limit: '1mb' }));
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
