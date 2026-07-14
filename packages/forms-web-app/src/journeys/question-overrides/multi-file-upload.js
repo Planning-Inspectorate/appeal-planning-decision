@@ -1,4 +1,5 @@
 const { createDocument } = require('#lib/documents-api-wrapper');
+const logger = require('#lib/logger');
 const {
 	isObjectWithUploadedFiles,
 	removeFilesV2,
@@ -206,7 +207,16 @@ async function saveAction(req, res, saveFunction, journey, section, journeyRespo
 		.filter(Boolean);
 
 	if (filesToAttach.length) {
-		await uploadDocuments(journeyResponse.referenceId, filesToAttach);
+		const chunkSize = 50;
+		for (let i = 0; i < filesToAttach.length; i += chunkSize) {
+			const chunk = filesToAttach.slice(i, i + chunkSize);
+			try {
+				await uploadDocuments(journeyResponse.referenceId, chunk);
+			} catch (error) {
+				logger.error(error, `Error uploading document batch starting at index ${i}`);
+				throw new Error('Failed to save uploaded files. Please try again.');
+			}
+		}
 	}
 
 	const allUploadedFiles = [...updatedUploadedFiles, ...uploadedFiles].filter(Boolean);
