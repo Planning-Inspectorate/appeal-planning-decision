@@ -103,3 +103,28 @@ condition: () => response.answers && response.answers[questions.appealsNearSite.
 ```
 
 - radio `/new-conditions/` Check if there are any new conditions
+- checkbox `/significant-changes/` Have there been any significant changes that would affect the application?
+
+```js
+condition: () => !isBeforeExpeditedCutoffLPAQ(response);
+```
+
+## Original Evidence
+
+- boolean `/design-and-access-statement/` Did the applicant submit a design and access statement with the application?
+
+- Multiquestion condition started: expedited
+
+```js
+condition: () => !isBeforeExpeditedCutoffLPAQ(response);
+```
+
+- multi-file-upload `/design-access-statement-upload/` Upload the design and access statement submitted for the application
+
+```js
+condition: () => questionHasAnswer(response, questions.designAccessStatementPart1, 'yes');
+```
+
+- text-entry `/list-of-documents/` What documents and plans did you use to make your decision?
+
+- Multiquestion condition ended: expedited

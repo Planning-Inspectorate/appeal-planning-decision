@@ -4,6 +4,46 @@ const fs = require('fs').promises;
 const path = require('path');
 const { Section } = require('@pins/dynamic-forms/src/section');
 
+const originalAddQuestion = Section.prototype.addQuestion;
+const originalAddQuestions = Section.prototype.addQuestions;
+
+const addMultiConditionMetadata = (question, conditionName, condition, isStart) => {
+	if (isStart) {
+		question.logMultiConditionName = `\n - Multiquestion condition started: ${conditionName}\n`;
+		question.logMultiCondition = String(condition);
+		return;
+	}
+
+	question.logMultiConditionName = `\n - Multiquestion condition ended: ${conditionName}\n`;
+};
+
+const attachPendingMultiCondition = (section) => {
+	if (!section.pendingMultiQuestionCondition) {
+		return;
+	}
+
+	const question = section.questions[section.questions.length - 1];
+	if (!question) {
+		return;
+	}
+
+	const { conditionName, condition } = section.pendingMultiQuestionCondition;
+	addMultiConditionMetadata(question, conditionName, condition, true);
+	section.pendingMultiQuestionCondition = undefined;
+};
+
+Section.prototype.addQuestion = function (...args) {
+	const result = originalAddQuestion.apply(this, args);
+	attachPendingMultiCondition(this);
+	return result;
+};
+
+Section.prototype.addQuestions = function (...args) {
+	const result = originalAddQuestions.apply(this, args);
+	attachPendingMultiCondition(this);
+	return result;
+};
+
 Section.prototype.withCondition = function (condition) {
 	const lastQuestionAdded = this.questions.length - 1;
 	this.questions[lastQuestionAdded].logCondition = String(condition);
@@ -12,16 +52,22 @@ Section.prototype.withCondition = function (condition) {
 
 Section.prototype.startMultiQuestionCondition = function (conditionName, condition) {
 	const lastQuestionAdded = this.questions.length - 1;
-	const multiQuestionConditionNameString = `\n - Multiquestion condition started: ${conditionName}\n`;
-	this.questions[lastQuestionAdded].logMultiConditionName = multiQuestionConditionNameString;
-	this.questions[lastQuestionAdded].logMultiCondition = String(condition);
+	if (lastQuestionAdded >= 0) {
+		addMultiConditionMetadata(this.questions[lastQuestionAdded], conditionName, condition, true);
+		return this;
+	}
+
+	this.pendingMultiQuestionCondition = { conditionName, condition };
 	return this;
 };
 
 Section.prototype.endMultiQuestionCondition = function (conditionName) {
 	const lastQuestionAdded = this.questions.length - 1;
-	const multiQuestionConditionNameString = `\n - Multiquestion condition ended: ${conditionName}\n`;
-	this.questions[lastQuestionAdded].logMultiConditionName = multiQuestionConditionNameString;
+	if (lastQuestionAdded < 0) {
+		return this;
+	}
+
+	addMultiConditionMetadata(this.questions[lastQuestionAdded], conditionName, undefined, false);
 	return this;
 };
 
