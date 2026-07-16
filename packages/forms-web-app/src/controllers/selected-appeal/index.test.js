@@ -2,11 +2,13 @@ const { get } = require('./index');
 const { determineUser } = require('../../lib/determine-user');
 const { getUserFromSession } = require('../../services/user.service');
 const { getDepartmentFromCode } = require('../../services/department.service');
+const { isChildLinkedAppeal } = require('@pins/common/src/lib/linked-appeals');
 const { VIEW } = require('../../lib/views');
 
 jest.mock('../../lib/determine-user');
 jest.mock('../../services/user.service');
 jest.mock('../../services/department.service');
+jest.mock('@pins/common/src/lib/linked-appeals');
 jest.mock('#lib/logger');
 
 describe('get', () => {
@@ -19,12 +21,17 @@ describe('get', () => {
 			appealsApiClient: {
 				getUserByEmailV2: jest.fn(),
 				getEventsByCaseRef: jest.fn(),
-				getAppealCaseWithRepresentations: jest.fn()
+				getAppealCaseWithRepresentations: jest.fn(),
+				getDocumentsByCaseRef: jest.fn()
 			}
 		};
 		res = {
 			render: jest.fn()
 		};
+	});
+
+	afterEach(() => {
+		jest.resetAllMocks();
 	});
 
 	it('should throw an error if user type is unknown', async () => {
@@ -38,6 +45,7 @@ describe('get', () => {
 	it('should render the view with the correct context', async () => {
 		determineUser.mockReturnValue('Appellant');
 		getUserFromSession.mockReturnValue({ email: 'test@example.com' });
+		isChildLinkedAppeal.mockReturnValue(false);
 		req.appealsApiClient.getUserByEmailV2.mockResolvedValue({ id: 'user-id' });
 		req.appealsApiClient.getAppealCaseWithRepresentations.mockResolvedValue({
 			LPACode: 'LPA123',
@@ -57,6 +65,59 @@ describe('get', () => {
 				appeal: expect.objectContaining({
 					appealNumber: '123',
 					baseUrl: '/appeals/123'
+				})
+			})
+		);
+	});
+
+	it('should render the view with the lead appeal decision docs - child appeal', async () => {
+		determineUser.mockReturnValue('Appellant');
+		getUserFromSession.mockReturnValue({ email: 'test@example.com' });
+		isChildLinkedAppeal.mockReturnValue(true);
+		req.appealsApiClient.getUserByEmailV2.mockResolvedValue({ id: 'user-id' });
+		req.appealsApiClient.getAppealCaseWithRepresentations.mockResolvedValue({
+			LPACode: 'LPA123',
+			caseReference: '123',
+			caseDecisionOutcome: 'GRANTED',
+			Documents: [],
+			linkedCases: [
+				{
+					leadCaseReference: '122',
+					childCaseReference: '123'
+				}
+			]
+		});
+		req.appealsApiClient.getEventsByCaseRef.mockResolvedValue([]);
+		req.appealsApiClient.getDocumentsByCaseRef.mockResolvedValue([
+			{
+				id: '31c354b1-287b-4492-92d7-4e23e3aa211c',
+				publishedDocumentURI: 'https://example.com/published/doc_002',
+				filename: 'lpa-costs-doc.txt',
+				documentType: 'lpaCostsDecisionLetter',
+				datePublished: null,
+				redacted: true,
+				virusCheckStatus: 'scanned',
+				published: true
+			}
+		]);
+		getDepartmentFromCode.mockResolvedValue({ name: 'Test LPA' });
+
+		const handler = get();
+
+		await handler(req, res);
+
+		expect(res.render).toHaveBeenCalledWith(
+			VIEW.SELECTED_APPEAL.APPEAL,
+			expect.objectContaining({
+				appeal: expect.objectContaining({
+					appealNumber: '123',
+					baseUrl: '/appeals/123',
+					decisionDocuments: expect.arrayContaining([
+						expect.objectContaining({
+							id: '31c354b1-287b-4492-92d7-4e23e3aa211c',
+							documentType: 'lpaCostsDecisionLetter'
+						})
+					])
 				})
 			})
 		);

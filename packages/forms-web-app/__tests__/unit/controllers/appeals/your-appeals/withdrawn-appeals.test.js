@@ -54,10 +54,10 @@ describe('controllers/appeals/your-appeals/withdrawn-appeals', () => {
 		expect(res.render).toHaveBeenCalledWith(VIEW.YOUR_APPEALS.WITHDRAWN_APPEALS, {
 			withdrawnAppeals: [
 				expect.objectContaining({
-					caseWithdrawnDate: expect.any(Date)
+					caseWithdrawnDate: expect.any(String)
 				}),
 				expect.objectContaining({
-					caseWithdrawnDate: expect.any(Date)
+					caseWithdrawnDate: expect.any(String)
 				})
 			]
 		});

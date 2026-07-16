@@ -1,0 +1,31 @@
+paths:
+  /api/v2/appeal-cases/{caseReference}/documents/:
+    get:
+      tags:
+        - documents
+      description: Gets documents associated with an appeal case
+      parameters:
+        - in: path
+          name: caseReference
+          required: true
+          schema:
+            type: string
+          description: appeal case reference
+        - in: query
+          name: documentTypes
+          schema:
+            type: string
+          description: types of documents to retrieve in comma separated string, leave blank to get all documents.
+      responses:
+        200:
+          description: Returns the documents for a case
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+        404:
+          description: Unable to find case
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'

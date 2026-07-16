@@ -50,6 +50,12 @@ const userSectionsDict = {
 	[APPEAL_USER_ROLES.RULE_6_PARTY]: rule6Sections
 };
 
+const decisionDocumentTypes = [
+	APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_DECISION_LETTER,
+	APPEAL_DOCUMENT_TYPE.LPA_COSTS_DECISION_LETTER,
+	APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER
+];
+
 /**
  * Shared controller for /appeals/:caseRef, manage-appeals/:caseRef rule-6-appeals/:caseRef
  * @param {string} layoutTemplate - njk template to extend
@@ -85,6 +91,13 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 
 		const lpa = await getDepartmentFromCode(caseData.LPACode);
 		const headlineData = displayHeadlinesByUser(caseData, lpa.name, userType);
+
+		const unfilteredDecisionDocuments = isChildLinkedAppeal(caseData)
+			? await req.appealsApiClient.getDocumentsByCaseRef(
+					caseData.linkedCases[0]?.leadCaseReference,
+					decisionDocumentTypes
+				)
+			: caseData.Documents;
 
 		const isEnforcement = caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode;
 
@@ -142,7 +155,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				decisionDate: formatDateForDisplay(caseData.caseDecisionOutcomeDate, {
 					format: 'd MMMM yyyy'
 				}),
-				decisionDocuments: filterDecisionDocuments(caseData.Documents ?? []),
+				decisionDocuments: filterDecisionDocuments(unfilteredDecisionDocuments ?? []),
 				lpaQuestionnaireDueDate: formatDateForNotification(caseData.lpaQuestionnaireDueDate),
 				statementDueDate: formatDateForNotification(caseData.statementDueDate),
 				rule6StatementDueDate: formatDateForNotification(caseData.statementDueDate),
@@ -185,11 +198,8 @@ const filterDecisionDocuments = (documents) => {
 			return false;
 		}
 
-		if (
-			document.documentType === APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER ||
-			document.documentType === APPEAL_DOCUMENT_TYPE.LPA_COSTS_DECISION_LETTER ||
-			document.documentType === APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_DECISION_LETTER
-		) {
+		// @ts-ignore
+		if (decisionDocumentTypes.includes(document.documentType)) {
 			return true;
 		}
 		return false;

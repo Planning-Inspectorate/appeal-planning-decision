@@ -65,10 +65,10 @@ describe('controllers/lpa-dashboard/withdrawn-appeals', () => {
 			lpaName: mockUser.lpaName,
 			withdrawnAppeals: [
 				expect.objectContaining({
-					caseWithdrawnDate: expect.any(Date)
+					caseWithdrawnDate: expect.any(String)
 				}),
 				expect.objectContaining({
-					caseWithdrawnDate: expect.any(Date)
+					caseWithdrawnDate: expect.any(String)
 				})
 			],
 			yourAppealsLink: `/${VIEW.LPA_DASHBOARD.DASHBOARD}`

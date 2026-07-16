@@ -139,7 +139,7 @@ const mapToLPADashboardDisplayData = (appealCaseData) => {
 		appealDecision: mapDecisionLabel(appealCaseData.caseDecisionOutcome, isEnforcement),
 		appealDecisionColor: mapDecisionColour(appealCaseData.caseDecisionOutcome),
 		caseDecisionOutcomeDate: formatDateForDisplay(appealCaseData.caseDecisionOutcomeDate),
-		caseWithdrawnDate: appealCaseData.caseWithdrawnDate,
+		caseWithdrawnDate: formatDateForDisplay(appealCaseData.caseWithdrawnDate),
 		linkedCaseDetails: formatDashboardLinkedCaseDetails(appealCaseData),
 		displayNextJourneyLink: displayNextJourneyLink(appealCaseData, LPA_USER_ROLE)
 	};
@@ -190,11 +190,11 @@ const mapToAppellantDashboardDisplayData = (appealData, featureFlags) => {
 			caseDecisionOutcomeDate:
 				isAppealSubmission(appealData) || isV2Submission(appealData)
 					? null
-					: appealData.caseDecisionOutcomeDate,
+					: formatDateForDisplay(appealData.caseDecisionOutcomeDate),
 			caseWithdrawnDate:
 				isAppealSubmission(appealData) || isV2Submission(appealData)
 					? null
-					: appealData.caseWithdrawnDate,
+					: formatDateForDisplay(appealData.caseWithdrawnDate),
 			linkedCaseDetails: isAppealSubmission(appealData)
 				? null
 				: formatDashboardLinkedCaseDetails(appealData),
@@ -235,7 +235,7 @@ const mapToRule6DashboardDisplayData = (appealCaseData) => {
 		appealDecision: mapDecisionLabel(appealCaseData.caseDecisionOutcome, isEnforcement),
 		appealDecisionColor: mapDecisionColour(appealCaseData.caseDecisionOutcome),
 		caseDecisionOutcomeDate: formatDateForDisplay(appealCaseData.caseDecisionOutcomeDate),
-		caseWithdrawnDate: appealCaseData.caseWithdrawnDate,
+		caseWithdrawnDate: formatDateForDisplay(appealCaseData.caseWithdrawnDate),
 		linkedCaseDetails: formatDashboardLinkedCaseDetails(appealCaseData)
 	};
 };
