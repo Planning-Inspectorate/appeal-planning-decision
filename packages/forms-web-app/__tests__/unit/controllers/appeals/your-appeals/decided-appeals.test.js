@@ -55,11 +55,11 @@ describe('controllers/appeals/your-appeals/decided-appeals', () => {
 		expect(res.render).toHaveBeenCalledWith(VIEW.YOUR_APPEALS.DECIDED_APPEALS, {
 			decidedAppeals: [
 				expect.objectContaining({
-					caseDecisionOutcomeDate: expect.any(Date),
+					caseDecisionOutcomeDate: expect.any(String),
 					appealDecision: 'Allowed'
 				}),
 				expect.objectContaining({
-					caseDecisionOutcomeDate: expect.any(Date),
+					caseDecisionOutcomeDate: expect.any(String),
 					appealDecision: 'Invalid'
 				})
 			]

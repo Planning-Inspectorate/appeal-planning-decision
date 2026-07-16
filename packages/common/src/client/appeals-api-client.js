@@ -220,6 +220,22 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * Gets documents for a case.
+	 * @param {string} caseReference
+	 * @param {Array<string>} [documentTypes]
+	 * @returns {Promise<Array<Document>>}
+	 */
+	async getDocumentsByCaseRef(caseReference, documentTypes) {
+		const urlParams = new URLSearchParams();
+
+		if (documentTypes) urlParams.append('documentTypes', documentTypes.join(','));
+
+		const endpoint = `${v2}/appeal-cases/${caseReference}/documents?${urlParams.toString()}`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
 	 * Gets events for a case.
 	 * @param {string} caseReference
 	 * @param {object} [options]

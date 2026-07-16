@@ -52,8 +52,11 @@ const mapLinkedCaseStatusLabel = (status) => {
  * @param {AppealCaseDetailed} appealCaseData
  * @returns {boolean}
  */
-const isChildLinkedAppeal = (appealCaseData) =>
-	appealCaseData.linkedCases?.[0].childCaseReference === appealCaseData.caseReference;
+const isChildLinkedAppeal = (appealCaseData) => {
+	if (!appealCaseData.linkedCases || !appealCaseData.caseReference) return false;
+
+	return appealCaseData.linkedCases?.[0].childCaseReference === appealCaseData.caseReference;
+};
 
 /**
  * check whether case is an enforcement child linked case
