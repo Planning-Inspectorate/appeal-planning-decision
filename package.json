@@ -185,7 +185,7 @@
 		"jest-fetch-mock": "^3.0.3",
 		"jest-junit": "^16.0.0",
 		"json-server": "^0.17.4",
-		"lint-staged": "^15.5.2",
+		"lint-staged": "^17.0.8",
 		"nock": "^14.0.15",
 		"node-html-parser": "^7.1.0",
 		"nodemon": "3.1.14",
