@@ -154,7 +154,7 @@
 		"pino-http": "^10.5.0",
 		"puppeteer-core": "^24.37.2",
 		"swagger-jsdoc": "^6.3.0",
-		"swagger-typescript-api": "^13.3.1",
+		"swagger-typescript-api": "^13.12.4",
 		"swagger-ui-express": "^5.0.1",
 		"yup": "^0.32.9"
 	},
