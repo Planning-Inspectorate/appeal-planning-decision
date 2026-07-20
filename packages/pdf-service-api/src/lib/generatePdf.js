@@ -2,8 +2,8 @@ const puppeteer = require('puppeteer-core');
 const logger = require('./logger');
 
 /**
- * @param {*} html
- * @returns {Promise<Uint8Array>}
+ * @param {string} html
+ * @returns {Promise<Buffer<ArrayBufferLike>>}
  */
 const generatePdf = async (html) => {
 	logger.info('Generating pdf');
