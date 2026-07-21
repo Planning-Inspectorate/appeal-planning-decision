@@ -12,6 +12,8 @@ const {
 	isLPAFinalCommentOpen
 } = require('@pins/business-rules/src/rules/appeal-case/case-due-dates');
 
+const { filterDecisionDocuments } = require('../../utils/format-comment-decided-data');
+
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 const {
 	formatSections,
@@ -180,35 +182,6 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 const formatTitleSuffix = (userType) => {
 	if (userType === LPA_USER_ROLE) return 'Manage your appeals';
 	return 'Appeal a planning decision';
-};
-
-/**
- * @param {import('appeals-service-api').Api.Document[]} documents
- * @return {import('appeals-service-api').Api.Document[]}
- */
-const filterDecisionDocuments = (documents) => {
-	const decisionDocumentDisplayOrder = {
-		[APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER]: 0,
-		[APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_DECISION_LETTER]: 1,
-		[APPEAL_DOCUMENT_TYPE.LPA_COSTS_DECISION_LETTER]: 2
-	};
-
-	const decisionDocuments = documents.filter((document) => {
-		if (!document.published) {
-			return false;
-		}
-
-		// @ts-ignore
-		if (decisionDocumentTypes.includes(document.documentType)) {
-			return true;
-		}
-		return false;
-	});
-
-	return decisionDocuments.sort(
-		(a, b) =>
-			decisionDocumentDisplayOrder[a.documentType] - decisionDocumentDisplayOrder[b.documentType]
-	);
 };
 
 /**
