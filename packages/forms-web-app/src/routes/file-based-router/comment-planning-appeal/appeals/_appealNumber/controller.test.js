@@ -10,6 +10,8 @@ const { getDepartmentFromCode } = require('../../../../../services/department.se
 const {
 	createInterestedPartySession
 } = require('../../../../../services/interested-party.service');
+const { isChildLinkedAppeal } = require('@pins/common/src/lib/linked-appeals');
+const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 
 jest.mock('#utils/appeal-status');
 jest.mock('../../../../../utils/format-deadline-text');
@@ -20,6 +22,7 @@ jest.mock('../../../../../utils/format-comment-hearing-text');
 jest.mock('@pins/common');
 jest.mock('../../../../../services/department.service');
 jest.mock('../../../../../services/interested-party.service');
+jest.mock('@pins/common/src/lib/linked-appeals');
 
 describe('selectedAppeal Controller Tests', () => {
 	let req, res;
@@ -31,7 +34,11 @@ describe('selectedAppeal Controller Tests', () => {
 				caseReference: '12345',
 				LPACode: 'LPA123',
 				siteAddressPostcode: 'AB12 3CD',
-				Events: []
+				Events: [],
+				Documents: []
+			},
+			appealsApiClient: {
+				getDocumentsByCaseRef: jest.fn()
 			}
 		};
 		res = {
@@ -39,7 +46,11 @@ describe('selectedAppeal Controller Tests', () => {
 		};
 	});
 
-	it('should render the appeal page with formatted data', async () => {
+	afterEach(() => {
+		jest.resetAllMocks();
+	});
+
+	it('should render the appeal page with formatted data - not child linked appeal', async () => {
 		const lpa = { name: 'Local Planning Authority' };
 		const status = 'In Progress';
 		const headlineText = 'Headline Text';
@@ -49,6 +60,105 @@ describe('selectedAppeal Controller Tests', () => {
 		const hearings = [];
 
 		getDepartmentFromCode.mockResolvedValue(lpa);
+		isChildLinkedAppeal.mockReturnValue(false);
+		getAppealStatus.mockReturnValue(status);
+		formatCommentHeadlineText.mockReturnValue(headlineText);
+		formatCommentDeadlineText.mockReturnValue(deadlineText);
+		formatCommentDecidedData.mockReturnValue(decidedData);
+		formatCommentInquiryText.mockReturnValue(inquiries);
+		formatCommentHearingText.mockReturnValue(hearings);
+		formatHeadlineData.mockReturnValue('Headline Data');
+
+		await selectedAppeal(req, res);
+
+		expect(createInterestedPartySession).toHaveBeenCalledWith(req, '12345', 'AB12 3CD');
+		expect(getDepartmentFromCode).toHaveBeenCalledWith('LPA123');
+		expect(req.appealsApiClient.getDocumentsByCaseRef).not.toHaveBeenCalled();
+		expect(getAppealStatus).toHaveBeenCalledWith(req.appealCase);
+		expect(formatCommentHeadlineText).toHaveBeenCalledWith('12345', status);
+		expect(formatCommentDeadlineText).toHaveBeenCalledWith(req.appealCase, status);
+		expect(formatCommentDecidedData).toHaveBeenCalledWith(req.appealCase, []);
+		expect(formatCommentInquiryText).toHaveBeenCalledWith(req.appealCase.Events);
+		expect(formatCommentHearingText).toHaveBeenCalledWith(
+			req.appealCase.Events,
+			req.appealCase.caseStatus
+		);
+		expect(formatHeadlineData).toHaveBeenCalledWith({
+			caseData: req.appealCase,
+			lpaName: lpa.name
+		});
+		expect(res.render).toHaveBeenCalledWith('comment-planning-appeal/appeals/_appealNumber/index', {
+			appeal: {
+				...req.appealCase,
+				status,
+				headlineText,
+				deadlineText,
+				decidedData,
+				inquiries,
+				hearings
+			},
+			headlineData: 'Headline Data'
+		});
+	});
+
+	it('should render the appeal page with formatted data - child linked appeal', async () => {
+		const lpa = { name: 'Local Planning Authority' };
+		const status = 'In Progress';
+		const headlineText = 'Headline Text';
+		const deadlineText = 'Deadline Text';
+		const decidedData = 'Decided Data';
+		const inquiries = [];
+		const hearings = [];
+
+		req.appealCase.linkedCases = [
+			{
+				leadCaseReference: 'testLeadRef',
+				childCaseReference: '12345'
+			}
+		];
+
+		const decisionDocumentTypes = [
+			APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_DECISION_LETTER,
+			APPEAL_DOCUMENT_TYPE.LPA_COSTS_DECISION_LETTER,
+			APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER
+		];
+
+		const decisionDocuments = [
+			{
+				id: '31c354b1-287b-4492-92d7-4e23e3aa211c',
+				publishedDocumentURI: 'https://example.com/published/doc_002',
+				filename: 'lpa-costs-doc.txt',
+				documentType: 'lpaCostsDecisionLetter',
+				datePublished: null,
+				redacted: true,
+				virusCheckStatus: 'scanned',
+				published: true
+			},
+			{
+				id: '31c354b1-287b-4492-92d7-4e23e3aa211e',
+				publishedDocumentURI: 'https://example.com/published/doc_001',
+				filename: 'cost-decision-doc.txt',
+				documentType: 'appellantCostsDecisionLetter',
+				datePublished: null,
+				redacted: true,
+				virusCheckStatus: 'scanned',
+				published: true
+			},
+			{
+				id: '41c354b1-287b-4492-92d7-4e23e3aa211e',
+				publishedDocumentURI: 'https://example.com/published/doc_001',
+				filename: 'cost-decision-doc.txt',
+				documentType: 'appellantCostsDecisionLetter',
+				datePublished: null,
+				redacted: true,
+				virusCheckStatus: 'scanned',
+				published: false
+			}
+		];
+
+		getDepartmentFromCode.mockResolvedValue(lpa);
+		isChildLinkedAppeal.mockReturnValue(true);
+		req.appealsApiClient.getDocumentsByCaseRef.mockResolvedValue(decisionDocuments);
 		getAppealStatus.mockReturnValue(status);
 		formatCommentHeadlineText.mockReturnValue(headlineText);
 		formatCommentDeadlineText.mockReturnValue(deadlineText);
@@ -62,9 +172,13 @@ describe('selectedAppeal Controller Tests', () => {
 		expect(createInterestedPartySession).toHaveBeenCalledWith(req, '12345', 'AB12 3CD');
 		expect(getDepartmentFromCode).toHaveBeenCalledWith('LPA123');
 		expect(getAppealStatus).toHaveBeenCalledWith(req.appealCase);
+		expect(req.appealsApiClient.getDocumentsByCaseRef).toHaveBeenCalledWith(
+			'testLeadRef',
+			decisionDocumentTypes
+		);
 		expect(formatCommentHeadlineText).toHaveBeenCalledWith('12345', status);
 		expect(formatCommentDeadlineText).toHaveBeenCalledWith(req.appealCase, status);
-		expect(formatCommentDecidedData).toHaveBeenCalledWith(req.appealCase);
+		expect(formatCommentDecidedData).toHaveBeenCalledWith(req.appealCase, decisionDocuments);
 		expect(formatCommentInquiryText).toHaveBeenCalledWith(req.appealCase.Events);
 		expect(formatCommentHearingText).toHaveBeenCalledWith(
 			req.appealCase.Events,

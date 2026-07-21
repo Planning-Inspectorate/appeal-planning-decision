@@ -9,6 +9,14 @@ const { getDepartmentFromCode } = require('../../../../../services/department.se
 const {
 	createInterestedPartySession
 } = require('../../../../../services/interested-party.service');
+const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
+const { isChildLinkedAppeal } = require('@pins/common/src/lib/linked-appeals');
+
+const decisionDocumentTypes = [
+	APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_DECISION_LETTER,
+	APPEAL_DOCUMENT_TYPE.LPA_COSTS_DECISION_LETTER,
+	APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER
+];
 
 /** @type {import('express').Handler} */
 const selectedAppeal = async (req, res) => {
@@ -26,7 +34,15 @@ const selectedAppeal = async (req, res) => {
 
 	const deadlineText = formatCommentDeadlineText(appeal, status);
 
-	const decidedData = formatCommentDecidedData(appeal);
+	const unfilteredDecisionDocuments = isChildLinkedAppeal(appeal)
+		? await req.appealsApiClient.getDocumentsByCaseRef(
+				// @ts-ignore
+				appeal.linkedCases[0]?.leadCaseReference,
+				decisionDocumentTypes
+			)
+		: appeal.Documents;
+
+	const decidedData = formatCommentDecidedData(appeal, unfilteredDecisionDocuments);
 
 	const inquiries = appeal.Events ? formatCommentInquiryText(appeal.Events) : [];
 	const hearings = appeal.Events ? formatCommentHearingText(appeal.Events, appeal.caseStatus) : [];
