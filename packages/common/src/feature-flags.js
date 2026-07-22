@@ -4,7 +4,8 @@ const FLAG = {
 	ENFORCEMENT_LISTED_APPEAL_FORM_V2: 'enforcement-listed-appeal-form-v2',
 	LDC_APPEAL_FORM_V2: 'ldc-appeal-form-v2',
 	APPLICATION_API_LOOKUP: 'enable-application-api-lookup',
-	ADVERT_APPELLANT_STATEMENT_ENABLED: 'enable-advert-appellant-statement'
+	ADVERT_APPELLANT_STATEMENT_ENABLED: 'enable-advert-appellant-statement',
+	SHARING_HEARING_DOCUMENTS: 'sharing-hearing-documents'
 };
 
 module.exports = {
