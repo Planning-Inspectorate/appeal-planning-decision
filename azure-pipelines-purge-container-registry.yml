@@ -49,7 +49,7 @@ jobs:
           resourceGroupsBySub: >
             {
               "dev": ["pins-rg-appeals-service-dev-uks-001", "pins-rg-appeals-service-dev-ukw-001"],
-              "test": ["pins-rg-appeals-service-test-uks-001", "pins-rg-appeals-service-test-ukw-001"],
+              "test": ["pins-rg-appeals-service-test-uks-001", "pins-rg-appeals-service-test-ukw-001", pins-rg-appeals-service-staging-ukw-001],
               "training": ["pins-rg-appeals-service-training-uks-001", "pins-rg-appeals-service-training-ukw-001"],
               "prod": ["pins-rg-appeals-service-prod-uks-001", "pins-rg-appeals-service-prod-ukw-001"]
             }
