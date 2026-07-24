@@ -11,6 +11,7 @@ const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const {
 	validApplicationDecisionOptions
 } = require('../../validators/full-appeal/granted-or-refused');
+const { isExpeditedAppealDate } = require('#lib/is-expedited-part1-eligible');
 
 exports.forwardPage = (status) => {
 	const statuses = {
@@ -70,10 +71,18 @@ exports.postGrantedOrRefused = async (req, res) => {
 				: (appeal.appealType = APPEAL_ID.PLANNING_SECTION_78);
 	}
 	if (
-		appeal.typeOfPlanningApplication === TYPE_OF_PLANNING_APPLICATION.PRIOR_APPROVAL &&
-		appeal.eligibility?.hasPriorApprovalForExistingHome
+		(appeal.typeOfPlanningApplication === TYPE_OF_PLANNING_APPLICATION.PRIOR_APPROVAL &&
+			appeal.eligibility?.hasPriorApprovalForExistingHome) ||
+		(appeal.typeOfPlanningApplication ===
+			TYPE_OF_PLANNING_APPLICATION.REMOVAL_OR_VARIATION_OF_CONDITIONS &&
+			isExpeditedAppealDate(appeal.applicationDate))
 	) {
-		if (applicationDecision === APPLICATION_DECISION.REFUSED) {
+		const isHouseholderEligible =
+			appeal.typeOfPlanningApplication === TYPE_OF_PLANNING_APPLICATION.PRIOR_APPROVAL
+				? appeal.eligibility?.hasPriorApprovalForExistingHome
+				: appeal.eligibility?.hasHouseholderPermissionConditions;
+
+		if (isHouseholderEligible && applicationDecision === APPLICATION_DECISION.REFUSED) {
 			appeal.appealType = APPEAL_ID.HOUSEHOLDER;
 			appeal.appealSiteSection.siteOwnership = {
 				ownsWholeSite: null,

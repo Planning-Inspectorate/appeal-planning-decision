@@ -7,6 +7,8 @@ const {
 const { parseISO, isValid } = require('date-fns');
 const logger = require('#lib/logger');
 const { TYPE_OF_PLANNING_APPLICATION, APPEAL_ID } = require('@pins/business-rules/src/constants');
+const { isExpeditedAppealDate } = require('#lib/is-expedited-part1-eligible');
+const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
 
 const getApplicationDate = async (req, res) => {
 	const { appeal } = req.session;
@@ -49,21 +51,34 @@ const postApplicationDate = async (req, res) => {
 
 		appeal.applicationDate = enteredDate.toISOString();
 
-		if (appeal.typeOfPlanningApplication === TYPE_OF_PLANNING_APPLICATION.PRIOR_APPROVAL) {
-			appeal.appealType = APPEAL_ID.PLANNING_SECTION_78;
-			appeal.appealSiteSection.siteOwnership = {
-				ownsSomeOfTheLand: null,
-				ownsAllTheLand: null,
-				knowsTheOwners: null,
-				hasIdentifiedTheOwners: null,
-				tellingTheLandowners: null,
-				advertisingYourAppeal: null
-			};
-			if (appeal.eligibility?.hasPriorApprovalForExistingHome) {
+		const isPriorApproval =
+			appeal.typeOfPlanningApplication === TYPE_OF_PLANNING_APPLICATION.PRIOR_APPROVAL;
+		const isVariationOfConditions =
+			appeal.typeOfPlanningApplication ===
+				TYPE_OF_PLANNING_APPLICATION.REMOVAL_OR_VARIATION_OF_CONDITIONS &&
+			isExpeditedAppealDate(appeal.applicationDate);
+
+		if (isPriorApproval || isVariationOfConditions) {
+			const isHouseholderEligible = isPriorApproval
+				? appeal.eligibility?.hasPriorApprovalForExistingHome
+				: appeal.eligibility?.hasHouseholderPermissionConditions &&
+					appeal.eligibility?.applicationDecision === APPLICATION_DECISION.REFUSED;
+
+			if (isHouseholderEligible) {
 				appeal.appealType = APPEAL_ID.HOUSEHOLDER;
 				appeal.appealSiteSection.siteOwnership = {
 					ownsWholeSite: null,
 					haveOtherOwnersBeenTold: null
+				};
+			} else {
+				appeal.appealType = APPEAL_ID.PLANNING_SECTION_78;
+				appeal.appealSiteSection.siteOwnership = {
+					ownsSomeOfTheLand: null,
+					ownsAllTheLand: null,
+					knowsTheOwners: null,
+					hasIdentifiedTheOwners: null,
+					tellingTheLandowners: null,
+					advertisingYourAppeal: null
 				};
 			}
 		}
@@ -85,6 +100,22 @@ const postApplicationDate = async (req, res) => {
 				return res.redirect('/before-you-start/granted-or-refused');
 			}
 			return res.redirect('/before-you-start/granted-or-refused-householder');
+		}
+
+		if (
+			appeal.typeOfPlanningApplication ===
+			TYPE_OF_PLANNING_APPLICATION.REMOVAL_OR_VARIATION_OF_CONDITIONS
+		) {
+			if (isExpeditedAppealDate(appeal.applicationDate)) {
+				if (appeal.appealType === APPEAL_ID.PLANNING_SECTION_78) {
+					return res.redirect('/before-you-start/granted-or-refused');
+				}
+				return res.redirect('/before-you-start/granted-or-refused-householder');
+			}
+			if (appeal.eligibility?.hasHouseholderPermissionConditions) {
+				return res.redirect('/before-you-start/granted-or-refused-householder');
+			}
+			return res.redirect('/before-you-start/granted-or-refused');
 		}
 
 		if (

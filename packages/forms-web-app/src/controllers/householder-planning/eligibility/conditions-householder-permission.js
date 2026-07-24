@@ -11,6 +11,8 @@ const {
 	}
 } = require('../../../lib/views');
 const config = require('../../../config');
+const { isExpeditedAppealDate } = require('../../../lib/is-expedited-part1-eligible');
+const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
 
 const sectionName = 'eligibility';
 
@@ -49,7 +51,13 @@ const postConditionsHouseholderPermission = async (req, res) => {
 
 	try {
 		appeal[sectionName].hasHouseholderPermissionConditions = hasHouseholderPermissionConditions;
-		if (hasHouseholderPermissionConditions) {
+
+		const isExpedited = isExpeditedAppealDate(appeal.applicationDate);
+		const isHouseholder =
+			hasHouseholderPermissionConditions &&
+			(!isExpedited || appeal.eligibility.applicationDecision === APPLICATION_DECISION.REFUSED);
+
+		if (isHouseholder) {
 			appeal.appealType = APPEAL_ID.HOUSEHOLDER;
 			appeal.appealSiteSection.siteOwnership = {
 				ownsWholeSite: null,
