@@ -1,5 +1,6 @@
 const ApiError = require('#errors/apiError');
 const { APPEAL_STATE } = require('@pins/business-rules/src/constants');
+const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
 const { UserAppealsRepository } = require('./repo');
 const { AppealsRepository } = require('#repositories/appeals-repository');
 const { filterNotNull } = require('#lib/filter');
@@ -8,10 +9,10 @@ const {
 	addOwnershipAndSubmissionDetailsToRepresentations
 } = require('@pins/common/src/access/representation-ownership');
 const { getServiceUsersForMultipleCases } = require('../service-users/service');
+const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 const repo = new UserAppealsRepository();
 const cosmosAppeals = new AppealsRepository();
-
 /**
  * @typedef {import('@pins/database/src/client/client').AppealCase} AppealCase
  * // TODO: define type for submission (ideally generated from spec)
@@ -34,19 +35,26 @@ async function getAppealsForUser(userId, role) {
 		return null;
 	}
 
+	const isAppellantOrAgent =
+		role === APPEAL_USER_ROLES.APPELLANT || role === APPEAL_USER_ROLES.AGENT;
+
 	// find v1 draft submissions
-	const draftSubmissionIds = user.Appeals.filter(
-		(appealToUser) =>
-			appealToUser.Appeal?.legacyAppealSubmissionId &&
-			appealToUser.Appeal?.legacyAppealSubmissionState === APPEAL_STATE.DRAFT
-	)
-		.map((appealToUser) => appealToUser.Appeal?.legacyAppealSubmissionId)
-		.filter(filterNotNull);
+	const draftSubmissionIds = !isAppellantOrAgent
+		? []
+		: user.Appeals.filter(
+				(appealToUser) =>
+					appealToUser.Appeal?.legacyAppealSubmissionId &&
+					appealToUser.Appeal?.legacyAppealSubmissionState === APPEAL_STATE.DRAFT
+			)
+				.map((appealToUser) => appealToUser.Appeal?.legacyAppealSubmissionId)
+				.filter(filterNotNull);
 
 	// find v2 draft submissions
-	const v2Drafts = user.Appeals.filter(
-		(appealToUser) => appealToUser.Appeal?.AppellantSubmission?.submitted === false
-	).map((appealToUser) => appealToUser.Appeal);
+	const v2Drafts = !isAppellantOrAgent
+		? []
+		: user.Appeals.filter(
+				(appealToUser) => appealToUser.Appeal?.AppellantSubmission?.submitted === false
+			).map((appealToUser) => appealToUser.Appeal);
 
 	// find appeal cases
 	const cases = user.Appeals.map((appealToUser) => appealToUser.Appeal?.AppealCase).filter(
@@ -59,36 +67,39 @@ async function getAppealsForUser(userId, role) {
 	// cases with representations
 	const lookups = enhancedCases
 		.filter((appealCase) => appealCase.Representations && appealCase.Representations.length > 0)
-		.map((appealCase) => ({
-			serviceUserIds: [
-				...new Set(appealCase.Representations.map((r) => r.serviceUserId).filter(Boolean))
-			],
-			caseReference: appealCase.caseReference
-		}))
-		.filter((lookup) => lookup.serviceUserIds.length > 0);
+		.map((appealCase) => appealCase.caseReference);
 
-	const allServiceUsers = await getServiceUsersForMultipleCases(lookups);
-
-	const usersByCase = new Map(
-		allServiceUsers.map((result) => [result.caseReference, result.users])
+	const allServiceUsers = await getServiceUsersForMultipleCases(
+		lookups,
+		{
+			id: true,
+			emailAddress: true,
+			serviceUserType: true,
+			organisation: true,
+			caseReference: true
+		},
+		[SERVICE_USER_TYPE.APPELLANT, SERVICE_USER_TYPE.AGENT, SERVICE_USER_TYPE.RULE_6_PARTY]
 	);
 
 	enhancedCases.forEach((appealCase) => {
 		if (appealCase.Representations && appealCase.Representations.length > 0) {
-			const usersWithEmails = usersByCase.get(appealCase.caseReference) || [];
+			const usersByCase = allServiceUsers.filter(
+				(result) => result.caseReference === appealCase.caseReference
+			);
+
 			appealCase.Representations = addOwnershipAndSubmissionDetailsToRepresentations(
 				appealCase.Representations,
 				user.email,
 				false,
-				usersWithEmails
+				usersByCase
 			);
 		}
 	});
 
 	// fetch drafts from Cosmos
-	const draftSubmissions = await Promise.all(
-		draftSubmissionIds.map((id) => cosmosAppeals.getById(id))
-	);
+	const draftSubmissions = !isAppellantOrAgent
+		? []
+		: await Promise.all(draftSubmissionIds.map((id) => cosmosAppeals.getById(id)));
 
 	// return all cases + drafts
 	return [
