@@ -38,7 +38,8 @@ router.get(
 			select: {
 				id: true,
 				filename: true,
-				documentType: true
+				documentType: true,
+				published: true
 			},
 			where: {
 				documentType: {
