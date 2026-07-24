@@ -7,7 +7,10 @@ const {
 } = require('../../lib/views');
 const {
 	APPEAL_ID,
-	TYPE_OF_PLANNING_APPLICATION: { LAWFUL_DEVELOPMENT_CERTIFICATE }
+	TYPE_OF_PLANNING_APPLICATION: {
+		LAWFUL_DEVELOPMENT_CERTIFICATE,
+		REMOVAL_OR_VARIATION_OF_CONDITIONS
+	}
 } = require('@pins/business-rules/src/constants');
 
 const sectionName = 'eligibility';
@@ -66,6 +69,13 @@ const postListedBuilding = async (req, res) => {
 
 	if (appeal.typeOfPlanningApplication === LAWFUL_DEVELOPMENT_CERTIFICATE) {
 		return res.redirect(`/before-you-start/granted-or-refused`);
+	}
+
+	if (
+		appeal.typeOfPlanningApplication === REMOVAL_OR_VARIATION_OF_CONDITIONS &&
+		!isListedBuilding
+	) {
+		return res.redirect('/before-you-start/application-date');
 	}
 
 	return appeal.appealType === APPEAL_ID.HOUSEHOLDER
