@@ -8,7 +8,10 @@ const router = express.Router();
 router.post(
 	'/generate',
 	multer({
-		limits: { fileSize: config.fileUpload.maxSizeInBytes },
+		limits: {
+			fileSize: config.fileUpload.maxSizeInBytes,
+			fieldSize: config.fileUpload.maxSizeInBytes
+		},
 		dest: config.fileUpload.path
 	}).single('html'),
 	postGeneratePdf

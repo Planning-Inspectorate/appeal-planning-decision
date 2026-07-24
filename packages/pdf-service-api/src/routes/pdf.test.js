@@ -14,11 +14,13 @@ describe('routes/pdf', () => {
 		// eslint-disable-next-line global-require
 		require('./pdf');
 
-		expect(mockPost).toHaveBeenCalledTimes(1);
-		expect(mockPost).toHaveBeenCalledWith(
-			'/generate',
-			multer(config.fileUpload).single('html'),
-			postGeneratePdf
-		);
+		expect(multer).toHaveBeenCalledWith({
+			limits: {
+				fileSize: config.fileUpload.maxSizeInBytes,
+				fieldSize: config.fileUpload.maxSizeInBytes
+			},
+			dest: config.fileUpload.path
+		});
+		expect(mockPost).toHaveBeenCalledWith('/generate', undefined, postGeneratePdf);
 	});
 });
