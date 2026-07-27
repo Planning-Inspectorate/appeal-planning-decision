@@ -120,6 +120,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				applicationType: 'Prior approval',
 				deadlineDate: { date: 20, day: 'Saturday', month: 'August', year: 2022 },
 				decisionDate: '20 February 2022',
+				applicationDate: undefined,
 				enforcementNotice: 'No',
 				dateOfDecisionLabel: 'Date of decision',
 				hasPriorApprovalForExistingHome: 'No',
@@ -128,8 +129,12 @@ describe('controllers/before-you-start/can-use-service', () => {
 			});
 		});
 
-		it('renders page - s78 - no prior approval - v2', async () => {
-			req = mockReq(priorApprovalFPAppeal);
+		it('renders page with formatted applicationDate when applicationDate is present', async () => {
+			const appealWithAppDate = {
+				...priorApprovalFPAppeal,
+				applicationDate: '2026-04-15T00:00:00.000Z'
+			};
+			req = mockReq(appealWithAppDate);
 
 			await getCanUseService(req, res);
 
@@ -139,6 +144,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				applicationType: 'Prior approval',
 				deadlineDate: { date: 20, day: 'Saturday', month: 'August', year: 2022 },
 				decisionDate: '20 February 2022',
+				applicationDate: '15 April 2026',
 				enforcementNotice: 'No',
 				dateOfDecisionLabel: 'Date of decision',
 				hasPriorApprovalForExistingHome: 'No',
@@ -157,6 +163,30 @@ describe('controllers/before-you-start/can-use-service', () => {
 				applicationType: 'Prior approval',
 				deadlineDate: { date: 15, day: 'Sunday', month: 'May', year: 2022 },
 				decisionDate: '20 February 2022',
+				applicationDate: undefined,
+				enforcementNotice: 'No',
+				dateOfDecisionLabel: 'Date of decision',
+				hasPriorApprovalForExistingHome: 'Yes',
+				changeLpaUrl: '/before-you-start/local-planning-authority',
+				nextPageUrl: '/appeal-householder-decision/email-address'
+			});
+		});
+
+		it('renders page - HAS - prior approval with applicationDate', async () => {
+			const appealWithAppDate = {
+				...priorApprovalHASAppeal,
+				applicationDate: '2026-04-10T00:00:00.000Z'
+			};
+			req = mockReq(appealWithAppDate);
+
+			await getCanUseService(req, res);
+			expect(res.render).toHaveBeenCalledWith(canUseServicePriorApprovalHouseholder, {
+				appealLPD: 'Bradford',
+				applicationDecision: 'Refused',
+				applicationType: 'Prior approval',
+				deadlineDate: { date: 15, day: 'Sunday', month: 'May', year: 2022 },
+				decisionDate: '20 February 2022',
+				applicationDate: '10 April 2026',
 				enforcementNotice: 'No',
 				dateOfDecisionLabel: 'Date of decision',
 				hasPriorApprovalForExistingHome: 'Yes',

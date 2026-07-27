@@ -136,6 +136,7 @@ const canUseServicePriorApproval = async (req, res) => {
 		applicationType,
 		applicationDecision,
 		decisionDate,
+		applicationDate,
 		enforcementNotice,
 		dateOfDecisionLabel,
 		nextPageUrl
@@ -155,6 +156,7 @@ const canUseServicePriorApproval = async (req, res) => {
 			applicationType,
 			applicationDecision,
 			decisionDate,
+			applicationDate,
 			enforcementNotice,
 			dateOfDecisionLabel,
 			hasPriorApprovalForExistingHome,
@@ -171,6 +173,7 @@ const canUseServicePriorApproval = async (req, res) => {
 			applicationType,
 			applicationDecision,
 			decisionDate,
+			applicationDate,
 			enforcementNotice,
 			dateOfDecisionLabel,
 			hasPriorApprovalForExistingHome,
