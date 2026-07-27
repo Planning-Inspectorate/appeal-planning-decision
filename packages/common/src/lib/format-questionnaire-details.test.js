@@ -1,6 +1,7 @@
 const {
 	formatSiteAccessDetails,
-	formatSiteSafetyRisks
+	formatSiteSafetyRisks,
+	formatConditions
 } = require('./format-questionnaire-details');
 
 describe('format-questionnaire-details', () => {
@@ -43,6 +44,19 @@ describe('format-questionnaire-details', () => {
 			const resultAllIndexesEmpty = formatSiteSafetyRisks({ siteSafetyDetails: ['', ''] });
 			expect(resultIndex1Empty).toEqual('No');
 			expect(resultAllIndexesEmpty).toEqual('No');
+		});
+	});
+
+	describe('formatConditions', () => {
+		it('returns Yes with details if newConditionDetails is provided', () => {
+			expect(formatConditions({ newConditionDetails: 'Condition details' })).toEqual(
+				'Yes\nCondition details'
+			);
+		});
+
+		it('returns No if newConditionDetails is missing or falsy', () => {
+			expect(formatConditions({ newConditionDetails: '' })).toEqual('No');
+			expect(formatConditions({})).toEqual('No');
 		});
 	});
 });

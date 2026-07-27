@@ -98,6 +98,32 @@ describe('appealProcessRows', () => {
 		expect(rows[3].condition()).toEqual(false);
 	});
 
+	it('should handle false/no proposed conditions correctly', () => {
+		const caseData = {
+			newConditionDetails: null,
+			relations: []
+		};
+
+		const rows = appealProcessRows(caseData);
+
+		expect(rows[3].keyText).toEqual('Are there any proposed conditions?');
+		expect(rows[3].valueText).toEqual('No');
+		expect(rows[3].condition()).toEqual(false);
+	});
+
+	it('should handle proposed conditions with details correctly', () => {
+		const caseData = {
+			newConditionDetails: 'Condition 1',
+			relations: []
+		};
+
+		const rows = appealProcessRows(caseData);
+
+		expect(rows[3].keyText).toEqual('Are there any proposed conditions?');
+		expect(rows[3].valueText).toEqual('Yes\nCondition 1');
+		expect(rows[3].condition()).toEqual(true);
+	});
+
 	it('should handle correctly if no fields/files exists', () => {
 		const rows = appealProcessRows({});
 

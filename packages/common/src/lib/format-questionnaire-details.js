@@ -134,8 +134,12 @@ exports.formatProcedurePreference = (caseData) => {
 /**
  * @param {AppealCaseDetailed} caseData
  */
-exports.formatConditions = (caseData) =>
-	(caseData.newConditionDetails && `Yes\n${caseData.newConditionDetails ?? ''}`) || 'No';
+exports.formatConditions = (caseData) => {
+	if (caseData.newConditionDetails) {
+		return `Yes\n${caseData.newConditionDetails}`;
+	}
+	return 'No';
+};
 
 /**
  * @param {AppealCaseDetailed} caseData
