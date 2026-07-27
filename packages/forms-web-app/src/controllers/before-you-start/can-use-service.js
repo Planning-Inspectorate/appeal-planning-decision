@@ -188,6 +188,7 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 		applicationType,
 		applicationDecision,
 		decisionDate,
+		applicationDate,
 		enforcementNotice,
 		dateOfDecisionLabel,
 		nextPageUrl
@@ -210,6 +211,7 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 			isListedBuilding,
 			applicationDecision,
 			decisionDate,
+			applicationDate,
 			enforcementNotice,
 			dateOfDecisionLabel,
 			hasHouseholderPermissionConditions,
@@ -226,6 +228,7 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 			applicationType,
 			applicationDecision,
 			decisionDate,
+			applicationDate,
 			enforcementNotice,
 			dateOfDecisionLabel,
 			hasHouseholderPermissionConditions,
