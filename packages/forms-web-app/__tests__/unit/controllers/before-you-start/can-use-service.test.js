@@ -180,6 +180,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 					applicationType: 'Removal or variation of conditions',
 					deadlineDate: { date: 20, day: 'Saturday', month: 'August', year: 2022 },
 					decisionDate: '20 February 2022',
+					applicationDate: undefined,
 					enforcementNotice: 'No',
 					dateOfDecisionLabel: 'Date of decision',
 					hasHouseholderPermissionConditions: 'No',
@@ -189,6 +190,35 @@ describe('controllers/before-you-start/can-use-service', () => {
 				}
 			);
 		});
+
+		it('renders page - s78 with applicationDate', async () => {
+			const appealWithAppDate = {
+				...removalOrVariationOfConditionsFPAppeal,
+				applicationDate: '2026-04-15T00:00:00.000Z'
+			};
+			req = mockReq(appealWithAppDate);
+
+			await getCanUseService(req, res);
+
+			expect(res.render).toHaveBeenCalledWith(
+				canUseServiceRemovalOrVariationOfConditionsFullAppeal,
+				{
+					appealLPD: 'Bradford',
+					applicationDecision: 'Refused',
+					applicationType: 'Removal or variation of conditions',
+					deadlineDate: { date: 20, day: 'Saturday', month: 'August', year: 2022 },
+					decisionDate: '20 February 2022',
+					applicationDate: '15 April 2026',
+					enforcementNotice: 'No',
+					dateOfDecisionLabel: 'Date of decision',
+					hasHouseholderPermissionConditions: 'No',
+					isListedBuilding: 'No',
+					changeLpaUrl: '/before-you-start/local-planning-authority',
+					nextPageUrl: '/full-appeal/submit-appeal/email-address'
+				}
+			);
+		});
+
 		it('renders page - HAS', async () => {
 			req = mockReq(removalOrVariationOfConditionsHASAppeal);
 
@@ -202,6 +232,35 @@ describe('controllers/before-you-start/can-use-service', () => {
 					applicationType: 'Removal or variation of conditions',
 					deadlineDate: { date: 15, day: 'Sunday', month: 'May', year: 2022 },
 					decisionDate: '20 February 2022',
+					applicationDate: undefined,
+					enforcementNotice: 'No',
+					dateOfDecisionLabel: 'Date of decision',
+					hasHouseholderPermissionConditions: 'Yes',
+					isListedBuilding: 'No',
+					changeLpaUrl: '/before-you-start/local-planning-authority',
+					nextPageUrl: '/appeal-householder-decision/email-address'
+				}
+			);
+		});
+
+		it('renders page - HAS with applicationDate', async () => {
+			const appealWithAppDate = {
+				...removalOrVariationOfConditionsHASAppeal,
+				applicationDate: '2026-04-10T00:00:00.000Z'
+			};
+			req = mockReq(appealWithAppDate);
+
+			await getCanUseService(req, res);
+
+			expect(res.render).toHaveBeenCalledWith(
+				canUseServiceRemovalOrVariationOfConditionsHouseholder,
+				{
+					appealLPD: 'Bradford',
+					applicationDecision: 'Refused',
+					applicationType: 'Removal or variation of conditions',
+					deadlineDate: { date: 15, day: 'Sunday', month: 'May', year: 2022 },
+					decisionDate: '20 February 2022',
+					applicationDate: '10 April 2026',
 					enforcementNotice: 'No',
 					dateOfDecisionLabel: 'Date of decision',
 					hasHouseholderPermissionConditions: 'Yes',
