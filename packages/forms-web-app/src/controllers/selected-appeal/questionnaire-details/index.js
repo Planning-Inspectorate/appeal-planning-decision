@@ -106,10 +106,14 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			...caseData,
 			eligibility: { applicationDecision: caseData.applicationDecision }
 		});
-		const isExpeditedHAS =
-			caseData.appealTypeCode === CASE_TYPES.HAS.processCode &&
-			isExpeditedAppealDate(caseData.applicationDate);
-		const showOriginalEvidence = isExpeditedPart1 || isExpeditedHAS;
+		const isExpedited =
+			[
+				CASE_TYPES.HAS.processCode,
+				CASE_TYPES.CAS_ADVERTS.processCode,
+				CASE_TYPES.CAS_PLANNING.processCode
+			].includes(caseData.appealTypeCode) && isExpeditedAppealDate(caseData.applicationDate);
+
+		const showOriginalEvidence = isExpeditedPart1 || isExpedited;
 
 		const originalEvidenceDetailsRows = showOriginalEvidence
 			? originalEvidenceRows({ caseData, userType })
