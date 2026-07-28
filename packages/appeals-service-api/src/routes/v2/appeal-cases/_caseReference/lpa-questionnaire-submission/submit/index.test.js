@@ -471,7 +471,9 @@ const expectedHAS = {
 		nearbyCaseReferences: ['abc1234'],
 		newConditionDetails: 'I have new conditions',
 		lpaStatement: '',
-		lpaCostsAppliedFor: null
+		lpaCostsAppliedFor: null,
+		significantChangesAffectingApplicationLpa: null,
+		listOfDocumentsBeforeDecision: undefined
 	},
 	documents: [
 		{
@@ -543,7 +545,33 @@ const formattedS78 = [
 const formattedS20 = [
 	expect.objectContaining({
 		casedata: {
-			...expectedHAS.casedata,
+			isCorrectAppealType: true,
+			affectedListedBuildingNumbers: ['1010101'],
+			inConservationArea: true,
+			isGreenBelt: true,
+			notificationMethod: [
+				LPA_NOTIFICATION_METHODS.notice.key,
+				LPA_NOTIFICATION_METHODS.letter.key,
+				LPA_NOTIFICATION_METHODS.pressAdvert.key
+			],
+			siteAccessDetails: null,
+			siteSafetyDetails: ["oh it's bad"],
+			neighbouringSiteAddresses: [
+				{
+					neighbouringSiteAddressLine1: 'Somewhere',
+					neighbouringSiteAddressLine2: 'Somewhere St',
+					neighbouringSiteAddressTown: 'Somewhereville',
+					neighbouringSiteAddressCounty: null,
+					neighbouringSiteAddressPostcode: 'SOM3 W3R',
+					neighbouringSiteAccessDetails: null,
+					neighbouringSiteSafetyDetails: null
+				}
+			],
+			reasonForNeighbourVisits: 'check the impact',
+			nearbyCaseReferences: ['abc1234'],
+			newConditionDetails: 'I have new conditions',
+			lpaStatement: '',
+			lpaCostsAppliedFor: null,
 
 			caseType: CASE_TYPES.S20.key,
 			caseReference: '003',
@@ -626,7 +654,32 @@ const formattedCASAdverts = [
 const formattedAdverts = [
 	expect.objectContaining({
 		casedata: {
-			...expectedHAS.casedata,
+			isCorrectAppealType: true,
+			inConservationArea: true,
+			isGreenBelt: true,
+			notificationMethod: [
+				LPA_NOTIFICATION_METHODS.notice.key,
+				LPA_NOTIFICATION_METHODS.letter.key,
+				LPA_NOTIFICATION_METHODS.pressAdvert.key
+			],
+			siteAccessDetails: null,
+			siteSafetyDetails: ["oh it's bad"],
+			neighbouringSiteAddresses: [
+				{
+					neighbouringSiteAddressLine1: 'Somewhere',
+					neighbouringSiteAddressLine2: 'Somewhere St',
+					neighbouringSiteAddressTown: 'Somewhereville',
+					neighbouringSiteAddressCounty: null,
+					neighbouringSiteAddressPostcode: 'SOM3 W3R',
+					neighbouringSiteAccessDetails: null,
+					neighbouringSiteSafetyDetails: null
+				}
+			],
+			reasonForNeighbourVisits: 'check the impact',
+			nearbyCaseReferences: ['abc1234'],
+			newConditionDetails: 'I have new conditions',
+			lpaStatement: '',
+			lpaCostsAppliedFor: null,
 			caseType: CASE_TYPES.ADVERTS.key,
 			changedListedBuildingNumbers: ['010101'],
 			affectedListedBuildingNumbers: ['1010101'],
@@ -652,7 +705,33 @@ const formattedAdverts = [
 const formattedLDC = [
 	expect.objectContaining({
 		casedata: {
-			...expectedHAS.casedata,
+			isCorrectAppealType: true,
+			affectedListedBuildingNumbers: ['1010101'],
+			inConservationArea: true,
+			isGreenBelt: true,
+			notificationMethod: [
+				LPA_NOTIFICATION_METHODS.notice.key,
+				LPA_NOTIFICATION_METHODS.letter.key,
+				LPA_NOTIFICATION_METHODS.pressAdvert.key
+			],
+			siteAccessDetails: null,
+			siteSafetyDetails: ["oh it's bad"],
+			neighbouringSiteAddresses: [
+				{
+					neighbouringSiteAddressLine1: 'Somewhere',
+					neighbouringSiteAddressLine2: 'Somewhere St',
+					neighbouringSiteAddressTown: 'Somewhereville',
+					neighbouringSiteAddressCounty: null,
+					neighbouringSiteAddressPostcode: 'SOM3 W3R',
+					neighbouringSiteAccessDetails: null,
+					neighbouringSiteSafetyDetails: null
+				}
+			],
+			reasonForNeighbourVisits: 'check the impact',
+			nearbyCaseReferences: ['abc1234'],
+			newConditionDetails: 'I have new conditions',
+			lpaStatement: '',
+			lpaCostsAppliedFor: null,
 			caseType: CASE_TYPES.LDC.key,
 			caseReference: '007',
 			lpaProcedurePreference: APPEAL_CASE_PROCEDURE.HEARING,

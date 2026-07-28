@@ -73,8 +73,8 @@ describe('formatter', () => {
 				newConditionDetails: 'New condition details',
 				lpaStatement: '',
 				lpaCostsAppliedFor: null,
-				significantChangesAffectingApplicationLpa: null,
-				listOfDocumentsBeforeDecision: undefined
+				listOfDocumentsBeforeDecision: undefined,
+				significantChangesAffectingApplicationLpa: null
 			},
 			documents: [1]
 		});
@@ -104,8 +104,8 @@ describe('formatter', () => {
 				newConditionDetails: null,
 				lpaStatement: '',
 				lpaCostsAppliedFor: null,
-				significantChangesAffectingApplicationLpa: null,
-				listOfDocumentsBeforeDecision: undefined
+				listOfDocumentsBeforeDecision: undefined,
+				significantChangesAffectingApplicationLpa: null
 			},
 			documents: [1]
 		});
