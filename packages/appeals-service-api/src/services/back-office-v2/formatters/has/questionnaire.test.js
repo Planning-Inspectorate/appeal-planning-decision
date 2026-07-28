@@ -72,7 +72,9 @@ describe('formatter', () => {
 				nearbyCaseReferences: ['CASE123'],
 				newConditionDetails: 'New condition details',
 				lpaStatement: '',
-				lpaCostsAppliedFor: null
+				lpaCostsAppliedFor: null,
+				significantChangesAffectingApplicationLpa: null,
+				listOfDocumentsBeforeDecision: undefined
 			},
 			documents: [1]
 		});
@@ -101,7 +103,9 @@ describe('formatter', () => {
 				nearbyCaseReferences: undefined,
 				newConditionDetails: null,
 				lpaStatement: '',
-				lpaCostsAppliedFor: null
+				lpaCostsAppliedFor: null,
+				significantChangesAffectingApplicationLpa: null,
+				listOfDocumentsBeforeDecision: undefined
 			},
 			documents: [1]
 		});
