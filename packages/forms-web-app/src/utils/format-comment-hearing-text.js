@@ -1,6 +1,7 @@
 const { EVENT_TYPES } = require('@pins/common/src/constants');
 const { format: formatDate } = require('date-fns');
 const { utcToZonedTime } = require('date-fns-tz');
+const { APPEAL_EVENT_STATUS } = require('@planning-inspectorate/data-model');
 
 /**
  * @typedef {import('appeals-service-api').Api.Event} Event
@@ -12,8 +13,10 @@ const { utcToZonedTime } = require('date-fns-tz');
  * @returns {Array<string>}
  */
 exports.formatCommentHearingText = (events, caseStatus) => {
-	const hearings = events.filter((event) => event.type === EVENT_TYPES.HEARING);
-	if (caseStatus === 'withdrawn') {
+	const hearings = events.filter(
+		(event) => event.type === EVENT_TYPES.HEARING && event.status !== APPEAL_EVENT_STATUS.WITHDRAWN
+	);
+	if (caseStatus === APPEAL_EVENT_STATUS.WITHDRAWN) {
 		return [];
 	}
 	return hearings.length

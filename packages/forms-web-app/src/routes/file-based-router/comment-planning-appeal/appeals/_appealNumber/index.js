@@ -54,7 +54,8 @@ router.get(
 		Events: {
 			select: {
 				type: true,
-				startDate: true
+				startDate: true,
+				status: true
 			}
 		},
 

@@ -1,4 +1,5 @@
 const { formatCommentInquiryText } = require('./format-comment-inquiry-text');
+const { APPEAL_EVENT_STATUS } = require('@planning-inspectorate/data-model');
 
 describe('formatCommentInquiryText', () => {
 	const siteVisitEvent = {
@@ -26,6 +27,33 @@ describe('formatCommentInquiryText', () => {
 		const events = [siteVisitEvent, inquiryEvent];
 		expect(formatCommentInquiryText(events)).toEqual([
 			'The inquiry will start on 29 December 2024.'
+		]);
+	});
+
+	it('returns empty array if inquiry is withdrawn', () => {
+		const withdrawnInquiry = {
+			...inquiryEvent,
+			status: APPEAL_EVENT_STATUS.WITHDRAWN
+		};
+		const events = [withdrawnInquiry];
+		expect(formatCommentInquiryText(events)).toHaveLength(0);
+	});
+
+	it('filters out withdrawn inquiries but includes active ones', () => {
+		const withdrawnInquiry = {
+			...inquiryEvent,
+			internalId: 'test456',
+			status: APPEAL_EVENT_STATUS.WITHDRAWN,
+			startDate: new Date(2024, 11, 29, 9)
+		};
+		const activeInquiry = {
+			...inquiryEvent,
+			internalId: 'test789',
+			startDate: new Date(2024, 12, 15, 10)
+		};
+		const events = [withdrawnInquiry, activeInquiry];
+		expect(formatCommentInquiryText(events)).toEqual([
+			'The inquiry will start on 15 January 2025.'
 		]);
 	});
 });
