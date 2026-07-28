@@ -636,14 +636,7 @@ describe('utils.js', () => {
 				consultedBodiesDetails: 'details',
 				hasConsultationResponses: true,
 				hasEmergingPlan: true,
-				hasSupplementaryPlanningDocs: true,
-				significantChangesAffectingApplicationLpa: [
-					{ value: 'adopted-a-new-local-plan', comment: 'local plan text' },
-					{ value: 'national-policy-change', comment: 'national policy text' },
-					{ value: 'court-judgement', comment: 'court judgment text' },
-					{ value: 'other', comment: 'other text' }
-				],
-				listOfDocumentsBeforeDecision: 'list of docs'
+				hasSupplementaryPlanningDocs: true
 			});
 		});
 	});

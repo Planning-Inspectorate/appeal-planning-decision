@@ -1160,6 +1160,19 @@ exports.getAdvertsLPAQSubmissionFields = (answers) => {
  * @param {LPAQAnswers} answers
  * @returns {LPAQS78SubmissionProperties}
  */
+exports.getExpeditedLPAQSubmissionFields = (answers) => {
+	return {
+		// Appeal process
+		significantChangesAffectingApplicationLpa: exports.formatSignificantChanges(answers),
+		// Original Evidence
+		listOfDocumentsBeforeDecision: answers.listOfDocumentsBeforeDecision
+	};
+};
+
+/**
+ * @param {LPAQAnswers} answers
+ * @returns {LPAQS78SubmissionProperties}
+ */
 exports.getCASPlanningLPAQSubmissionFields = (answers) => {
 	return {
 		isCorrectAppealType: answers.correctAppealType,
@@ -1176,11 +1189,7 @@ exports.getCASPlanningLPAQSubmissionFields = (answers) => {
 		// Consultation responses and representations
 		hasStatutoryConsultees: exports.toBool(answers.statutoryConsultees),
 		consultedBodiesDetails: answers.statutoryConsultees_consultedBodiesDetails || null,
-		hasConsultationResponses: answers.consultationResponses,
-		// Appeal process
-		significantChangesAffectingApplicationLpa: exports.formatSignificantChanges(answers),
-		// Original Evidence
-		listOfDocumentsBeforeDecision: answers.listOfDocumentsBeforeDecision
+		hasConsultationResponses: answers.consultationResponses
 	};
 };
 
@@ -1205,13 +1214,7 @@ exports.getS78LPAQSubmissionFields = (answers) => {
 
 		// Planning officer’s report and supporting documents
 		hasEmergingPlan: answers.emergingPlan,
-		hasSupplementaryPlanningDocs: answers.supplementaryPlanningDocs,
-
-		// Appeal process
-		significantChangesAffectingApplicationLpa: exports.formatSignificantChanges(answers),
-
-		// Original Evidence
-		listOfDocumentsBeforeDecision: answers.listOfDocumentsBeforeDecision
+		hasSupplementaryPlanningDocs: answers.supplementaryPlanningDocs
 	};
 };
 
