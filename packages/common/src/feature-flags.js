@@ -7,7 +7,8 @@ const FLAG = {
 	ADVERT_APPELLANT_STATEMENT_ENABLED: 'enable-advert-appellant-statement',
 	SHARING_HEARING_DOCUMENTS: 'sharing-hearing-documents',
 	SHARING_INQUIRY_EVENT_DOCUMENTS: 'sharing-inquiry-event-documents',
-	SHARING_INQUIRY_DOCUMENTS: 'sharing-inquiry-documents'
+	SHARING_INQUIRY_DOCUMENTS: 'sharing-inquiry-documents',
+	SHARING_SUPPORTING_DOCUMENTS: 'sharing-supporting-documents'
 };
 
 module.exports = {
