@@ -99,6 +99,10 @@
         "addAnotherAppeal": "Add another appeal?",
         "nearByAppealReference": "1234567",
         "conditionsAndDetails": "newConditions newConditionDetails",
+        "significantChangesLocalPlanDetails": "Adopted local plan changes relevant to this appeal.",
+        "significantChangesNationalPolicyDetails": "National policy changes relevant to this appeal.",
+        "significantChangesCourtJudgmentDetails": "Court judgment changes relevant to this appeal.",
+        "significantChangesOtherDetails": "Other significant changes relevant to this appeal.",
         "lpaPreferHearingDetails": "Lpa Pefer Hearing Details !£$%^&*(123456789 ",
         "lpaProcedurePreferenceLpaPreferInquiryDuration": "99",
         "lpaPreferInquiryDetails": "Lpa Pefer Inquiry Details !£$%^&*(123456789 "

@@ -1,4 +1,10 @@
 const documents = {
+    uploadDesignAccess: 'appeal-statement-valid.pdf',
+    uploadPlansAndDrawings: 'plans-drawings.pdf',
+    uploadOtherDocuments: 'appeal-statement-valid.pdf',
+    uploadDesignAccessStatement: 'appeal-statement-valid.pdf',
+    uploadPlansDrawings: 'plans-drawings.pdf',
+    uploadAdditionalDocuments: 'other-policies.pdf',
     uploadAppealStmt: 'appeal-statement-valid.pdf',
     uploadConservationMapGuidance: 'conservation-map-guidance.pdf',
     uploadPlanExtentOrder: 'plan-extent-order.pdf',
@@ -19,76 +25,89 @@ const documents = {
     uploadEmergingPlan: 'emerging-plan.pdf',
     uploadOtherPolicies: 'other-policies.pdf',
     uploadSupplementaryPlanningDocs: 'supplementary-planning-docs.pdf',
-    uploadCommunityInfrastructureLevy: 'community-infrastructure-levy.pdf'  
+    uploadCommunityInfrastructureLevy: 'community-infrastructure-levy.pdf'
 };
 export const houseHolderQuestionnaireTestCases = [
-    {  
-        constraintsAndDesignations:{
+    {
+        constraintsAndDesignations: {
             isCorrectTypeOfAppeal: true,
-            isAffectListedBuildings: true,           
+            isAffectListedBuildings: true,
             isAffectedListedBuildings: true,
             isConservationArea: true,
             isGreenBelt: true,
         },
-        notifyParties:{
+        notifyParties: {
 
         },
-        consultResponseAndRepresent:{
+        consultResponseAndRepresent: {
             isOtherPartyRepresentations: true,
         },
-        poReportAndSupportDocs:{
+        poReportAndSupportDocs: {
             isEmergingPlan: true,
             isSupplementaryPlanningDocs: true,
         },
-        siteAccess:{
+        siteAccess: {
             isLpaSiteAccess: true,
             isNeighbourSiteAccess: true,
             isLpaSiteSafetyRisks: true,
         },
-        appealProcess:{
+        appealProcess: {
             isOngoingAppeals: true,
             isNearbyAppeals: true,
             isNewConditions: true,
         },
+        originalEvidence: {
+            isDesignAccessStatement: true,
+            isPlansAndDrawingsSubmitted: true,
+            isOtherDocumentsSubmitted: true,
+            listOfDocumentsBeforeDecision: 'Officer report, approved plans, consultation responses and decision notice.',
+        },
         documents,
-        submit:{}
+        submit: {}
     },
-    {  
-        constraintsAndDesignations:{
+    {
+        constraintsAndDesignations: {
             isCorrectTypeOfAppeal: false,
-            isAffectListedBuildings: false,           
+            isAffectListedBuildings: false,
             isAffectedListedBuildings: false,
             isConservationArea: false,
             isGreenBelt: false,
         },
-        notifyParties:{
+        notifyParties: {
 
         },
-        consultResponseAndRepresent:{
+        consultResponseAndRepresent: {
             isOtherPartyRepresentations: false,
         },
-        poReportAndSupportDocs:{
+        poReportAndSupportDocs: {
             isEmergingPlan: false,
             isSupplementaryPlanningDocs: false,
         },
-        siteAccess:{
+        siteAccess: {
             isLpaSiteAccess: false,
             isNeighbourSiteAccess: false,
             isLpaSiteSafetyRisks: false,
         },
-        appealProcess:{
+        appealProcess: {
             isOngoingAppeals: false,
             isNearbyAppeals: false,
             isNewConditions: false,
         },
+        originalEvidence: {
+            isDesignAccessStatement: true,
+            isPlansAndDrawingsSubmitted: true,
+            isOtherDocumentsSubmitted: true,
+            listOfDocumentsBeforeDecision: 'Officer report, approved plans, consultation responses and decision notice.',
+        },
+
         documents,
-        submit:{}
+        submit: {}
     },
     // {  
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
     //         isAffectListedBuildings: false,
-            
+
     //         isAffectedListedBuildings: true,
     //         isConservationArea: true,
     //         isGreenBelt: true,
@@ -120,7 +139,7 @@ export const houseHolderQuestionnaireTestCases = [
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
     //         isAffectListedBuildings: false,
-            
+
     //         isAffectedListedBuildings: false,
     //         isConservationArea: true,
     //         isGreenBelt: true,
@@ -152,7 +171,7 @@ export const houseHolderQuestionnaireTestCases = [
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
     //         isAffectListedBuildings: false,
-            
+
     //         isAffectedListedBuildings: false,
     //         isConservationArea: false,
     //         isGreenBelt: true,
@@ -184,7 +203,7 @@ export const houseHolderQuestionnaireTestCases = [
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
     //         isAffectListedBuildings: false,
-            
+
     //         isAffectedListedBuildings: false,
     //         isConservationArea: false,
     //         isGreenBelt: false,
@@ -216,7 +235,7 @@ export const houseHolderQuestionnaireTestCases = [
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
     //         isAffectListedBuildings: false,
-            
+
     //         isAffectedListedBuildings: false,
     //         isConservationArea: false,
     //         isGreenBelt: false,
@@ -248,7 +267,7 @@ export const houseHolderQuestionnaireTestCases = [
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
     //         isAffectListedBuildings: false,
-            
+
     //         isAffectedListedBuildings: false,
     //         isConservationArea: false,
     //         isGreenBelt: false,
@@ -280,7 +299,7 @@ export const houseHolderQuestionnaireTestCases = [
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
     //         isAffectListedBuildings: false,
-            
+
     //         isAffectedListedBuildings: false,
     //         isConservationArea: false,
     //         isGreenBelt: false,
@@ -312,7 +331,7 @@ export const houseHolderQuestionnaireTestCases = [
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
     //         isAffectListedBuildings: false,
-            
+
     //         isAffectedListedBuildings: false,
     //         isConservationArea: false,
     //         isGreenBelt: false,
@@ -344,7 +363,7 @@ export const houseHolderQuestionnaireTestCases = [
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
     //         isAffectListedBuildings: false,
-            
+
     //         isAffectedListedBuildings: false,
     //         isConservationArea: false,
     //         isGreenBelt: false,
@@ -376,7 +395,7 @@ export const houseHolderQuestionnaireTestCases = [
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
     //         isAffectListedBuildings: false,
-            
+
     //         isAffectedListedBuildings: false,
     //         isConservationArea: false,
     //         isGreenBelt: false,
@@ -408,7 +427,7 @@ export const houseHolderQuestionnaireTestCases = [
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
     //         isAffectListedBuildings: false,
-            
+
     //         isAffectedListedBuildings: false,
     //         isConservationArea: false,
     //         isGreenBelt: false,
@@ -440,7 +459,7 @@ export const houseHolderQuestionnaireTestCases = [
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
     //         isAffectListedBuildings: false,
-            
+
     //         isAffectedListedBuildings: false,
     //         isConservationArea: false,
     //         isGreenBelt: false,
@@ -472,7 +491,7 @@ export const houseHolderQuestionnaireTestCases = [
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
     //         isAffectListedBuildings: false,
-            
+
     //         isAffectedListedBuildings: false,
     //         isConservationArea: false,
     //         isGreenBelt: false,
@@ -504,7 +523,7 @@ export const houseHolderQuestionnaireTestCases = [
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
     //         isAffectListedBuildings: false,
-            
+
     //         isAffectedListedBuildings: false,
     //         isConservationArea: true,
     //         isGreenBelt: true,
@@ -536,7 +555,7 @@ export const houseHolderQuestionnaireTestCases = [
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
     //         isAffectListedBuildings: false,
-            
+
     //         isAffectedListedBuildings: false,
     //         isConservationArea: false,
     //         isGreenBelt: true,
@@ -567,7 +586,7 @@ export const houseHolderQuestionnaireTestCases = [
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
     //         isAffectListedBuildings: false,
-            
+
     //         isAffectedListedBuildings: false,
     //         isConservationArea: false,
     //         isGreenBelt: false,
@@ -599,7 +618,7 @@ export const houseHolderQuestionnaireTestCases = [
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
     //         isAffectListedBuildings: false,
-            
+
     //         isAffectedListedBuildings: false,
     //         isConservationArea: false,
     //         isGreenBelt: false,
@@ -663,7 +682,7 @@ export const houseHolderQuestionnaireTestCases = [
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
     //         isAffectListedBuildings: false,
-            
+
     //         isAffectedListedBuildings: false,
     //         isConservationArea: false,
     //         isGreenBelt: false,
@@ -695,7 +714,7 @@ export const houseHolderQuestionnaireTestCases = [
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
     //         isAffectListedBuildings: false,
-            
+
     //         isAffectedListedBuildings: false,
     //         isConservationArea: false,
     //         isGreenBelt: false,
@@ -727,7 +746,7 @@ export const houseHolderQuestionnaireTestCases = [
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
     //         isAffectListedBuildings: false,
-            
+
     //         isAffectedListedBuildings: false,
     //         isConservationArea: false,
     //         isGreenBelt: false,
@@ -759,7 +778,7 @@ export const houseHolderQuestionnaireTestCases = [
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
     //         isAffectListedBuildings: false,
-            
+
     //         isAffectedListedBuildings: false,
     //         isConservationArea: false,
     //         isGreenBelt: false,
@@ -791,7 +810,7 @@ export const houseHolderQuestionnaireTestCases = [
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
     //         isAffectListedBuildings: false,
-            
+
     //         isAffectedListedBuildings: false,
     //         isConservationArea: false,
     //         isGreenBelt: false,
@@ -823,7 +842,7 @@ export const houseHolderQuestionnaireTestCases = [
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
     //         isAffectListedBuildings: false,
-            
+
     //         isAffectedListedBuildings: false,
     //         isConservationArea: false,
     //         isGreenBelt: false,
@@ -855,7 +874,7 @@ export const houseHolderQuestionnaireTestCases = [
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
     //         isAffectListedBuildings: false,
-            
+
     //         isAffectedListedBuildings: false,
     //         isConservationArea: false,
     //         isGreenBelt: false,
@@ -887,7 +906,7 @@ export const houseHolderQuestionnaireTestCases = [
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
     //         isAffectListedBuildings: false,
-            
+
     //         isAffectedListedBuildings: false,
     //         isConservationArea: false,
     //         isGreenBelt: false,
@@ -919,7 +938,7 @@ export const houseHolderQuestionnaireTestCases = [
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
     //         isAffectListedBuildings: false,
-            
+
     //         isAffectedListedBuildings: false,
     //         isConservationArea: false,
     //         isGreenBelt: false,
@@ -947,36 +966,36 @@ export const houseHolderQuestionnaireTestCases = [
     //     documents,
     //     submit:{}
     // },
-    {  
-        constraintsAndDesignations:{
+    {
+        constraintsAndDesignations: {
             isCorrectTypeOfAppeal: true,
             isAffectListedBuildings: false,
-            
+
             isAffectedListedBuildings: false,
             isConservationArea: false,
             isGreenBelt: false,
         },
-        notifyParties:{
+        notifyParties: {
 
         },
-        consultResponseAndRepresent:{
+        consultResponseAndRepresent: {
             isOtherPartyRepresentations: false,
         },
-        poReportAndSupportDocs:{
+        poReportAndSupportDocs: {
             isEmergingPlan: false,
             isSupplementaryPlanningDocs: false,
         },
-        siteAccess:{
+        siteAccess: {
             isLpaSiteAccess: false,
             isNeighbourSiteAccess: false,
             isLpaSiteSafetyRisks: false,
         },
-        appealProcess:{
+        appealProcess: {
             isOngoingAppeals: false,
             isNearbyAppeals: false,
             isNewConditions: false,
         },
         documents,
-        submit:{}
+        submit: {}
     }
 ];

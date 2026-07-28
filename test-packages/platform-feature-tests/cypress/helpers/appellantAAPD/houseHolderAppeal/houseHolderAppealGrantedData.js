@@ -16,13 +16,13 @@ const documents = {
     uploadPlanningObligation: 'planning-obligation.pdf'
 };
 export const houseHolderAppealGrantedTestCases = [
-     {
+    {
         tags: ['smoke', 'expedited'],
         statusOfOriginalApplication: 'granted',
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-householder-planning',
-        endToEndIntegration: false,
+        endToEndIntegration: true,
         expeditedAppeal: true,
         applicationForm: {
             isAppellant: true,
@@ -110,5 +110,5 @@ export const houseHolderAppealGrantedTestCases = [
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
         }
-    }   
+    }
 ];

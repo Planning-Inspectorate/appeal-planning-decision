@@ -9,6 +9,7 @@ import { ConsultResponseAndRepresent } from "../../pages/lpa-manage-appeals/cons
 import { NotifyParties } from "../../pages/lpa-manage-appeals/notifyParties";
 import { PoReportAndSupportDocs } from "../../pages/lpa-manage-appeals/poReportAndSupportDocs";
 import { SiteAccess } from "../../pages/lpa-manage-appeals/siteAccess";
+import { OriginalEvidence } from "../../pages/lpa-manage-appeals/originalEvidence";
 import { waitingForReview } from "../../pages/lpa-manage-appeals/waitingForReview";
 
 // Unified questionnaire flow for Householder and CAS Planning (adverts) appeals.
@@ -22,6 +23,7 @@ export const householderQuestionnaire = (context, lpaManageAppealsData, lpaAppea
 	const siteAccess = new SiteAccess();
 	const notifyParties = new NotifyParties();
 	const poReportAndSupportDocs = new PoReportAndSupportDocs();
+	const originalEvidence = new OriginalEvidence();
 
 	let appealId = '';
 	const targetAppealType = lpaAppealType || lpaManageAppealsData?.hasAppealType; // fallback
@@ -89,7 +91,7 @@ export const householderQuestionnaire = (context, lpaManageAppealsData, lpaAppea
 		// Determine the correct "Is this the correct type" label.
 		const correctTypeText = targetAppealType === lpaManageAppealsData?.casPlanningAppealType
 			? lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealCASPlanning
-			: lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealHouseHolder;	
+			: lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealHouseHolder;
 		cy.contains(correctTypeText)
 			.closest(basePage?._selectors.govukSummaryListRow)
 			.find(basePage?._selectors.agovukLink)
@@ -123,7 +125,21 @@ export const householderQuestionnaire = (context, lpaManageAppealsData, lpaAppea
 
 		// Appeals process
 		appealProcess.selectNearbyAppeals(context, lpaManageAppealsData, lpaManageAppealsData?.hasAppealType);
-		appealProcess.selectNewConditions(context, lpaManageAppealsData);
+		if (lpaAppealType === lpaManageAppealsData?.hasAppealType) {
+			appealProcess.selectNewConditions(context, lpaManageAppealsData);
+		}
+		appealProcess.selectSignificantChanges(context, lpaManageAppealsData);
+		if (lpaAppealType != lpaManageAppealsData?.hasAppealType) {
+			appealProcess.selectNewConditions(context, lpaManageAppealsData);
+		}
+
+		// Original Evidence
+		originalEvidence.selectDesignAccessStatement(context, lpaManageAppealsData);
+		if (lpaAppealType != lpaManageAppealsData?.hasAppealType) {
+			originalEvidence.selectPlansAndDrawingsSubmitted(context, lpaManageAppealsData);
+			originalEvidence.selectOtherDocumentsSubmitted(context, lpaManageAppealsData);
+		}
+		originalEvidence.selectListOfDocumentsBeforeDecision(context, lpaManageAppealsData);
 
 		// Submit
 		cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();

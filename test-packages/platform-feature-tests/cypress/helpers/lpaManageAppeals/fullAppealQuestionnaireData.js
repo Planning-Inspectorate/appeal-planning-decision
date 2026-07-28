@@ -1,5 +1,11 @@
 const documents = {
     uploadAppealStmt: 'appeal-statement-valid.pdf',
+    uploadDesignAccess: 'appeal-statement-valid.pdf',
+    uploadPlansAndDrawings: 'plans-drawings.pdf',
+    uploadOtherDocuments: 'appeal-statement-valid.pdf',
+    uploadDesignAccessStatement: 'appeal-statement-valid.pdf',
+    uploadPlansDrawings: 'plans-drawings.pdf',
+    uploadAdditionalDocuments: 'other-policies.pdf',
     uploadConservationMapGuidance: 'conservation-map-guidance.pdf',
     uploadPlanExtentOrder: 'plan-extent-order.pdf',
     uploadDefinitiveMapStmt: 'definitive-map-stmt.pdf',
@@ -87,6 +93,12 @@ export const fullAppealQuestionnaireTestCases = [
             isOngoingAppeals: true,
             isNearbyAppeals: true,
             isNewConditions: false,
+        },
+        originalEvidence: {
+            isDesignAccessStatement: true,
+            isPlansAndDrawingsSubmitted: true,
+            isOtherDocumentsSubmitted: true,
+            listOfDocumentsBeforeDecision: 'Officer report, approved plans, consultation responses and decision notice.',
         },
         documents,
         submit: {}
