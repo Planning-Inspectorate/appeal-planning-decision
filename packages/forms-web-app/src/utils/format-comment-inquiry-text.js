@@ -3,6 +3,7 @@
  */
 
 const { EVENT_TYPES } = require('@pins/common/src/constants');
+const { APPEAL_EVENT_STATUS } = require('@planning-inspectorate/data-model');
 const { format: formatDate } = require('date-fns');
 const { utcToZonedTime } = require('date-fns-tz');
 
@@ -11,7 +12,9 @@ const { utcToZonedTime } = require('date-fns-tz');
  * @returns {Array<string>}
  */
 exports.formatCommentInquiryText = (events) => {
-	const inquiries = events.filter((event) => event.type === EVENT_TYPES.INQUIRY);
+	const inquiries = events.filter(
+		(event) => event.type === EVENT_TYPES.INQUIRY && event.status !== APPEAL_EVENT_STATUS.WITHDRAWN
+	);
 	return inquiries.length
 		? inquiries.map((inquiry) => {
 				const date = inquiry.startDate;
