@@ -10,6 +10,7 @@ import { ConsultResponseAndRepresent } from "../../pages/lpa-manage-appeals/cons
 import { NotifyParties } from "../../pages/lpa-manage-appeals/notifyParties";
 import { PoReportAndSupportDocs } from "../../pages/lpa-manage-appeals/poReportAndSupportDocs";
 import { SiteAccess } from "../../pages/lpa-manage-appeals/siteAccess";
+import { OriginalEvidence } from "../../pages/lpa-manage-appeals/originalEvidence";
 import { waitingForReview } from "../../pages/lpa-manage-appeals/waitingForReview";
 
 
@@ -70,6 +71,7 @@ export const questionnaire = (context, lpaManageAppealsData, lpaAppealType, case
 	const siteAccess = new SiteAccess();
 	const notifyParties = new NotifyParties();
 	const poReportAndSupportDocs = new PoReportAndSupportDocs();
+	const originalEvidence = new OriginalEvidence();
 	selectAppealIdFromTable(context, lpaManageAppealsData, lpaAppealType, caseRef).then(($link) => {
 		if (caseRef) {
 			appealId = caseRef;
@@ -187,7 +189,18 @@ export const questionnaire = (context, lpaManageAppealsData, lpaAppealType, case
 		appealProcess.selectProcedureType(context, lpaManageAppealsData);
 		appealProcess.selectOngoingAppealsNextToSite(context, lpaManageAppealsData, lpaManageAppealsData?.s78AppealType);
 		if (lpaAppealType != lpaManageAppealsData?.ldcAppealType) {
-			appealProcess.selectNewConditions(context, lpaManageAppealsData);
+			if (lpaAppealType === lpaManageAppealsData?.s78AppealType) {
+				appealProcess.selectNewConditions(context, lpaManageAppealsData);
+			}
+			appealProcess.selectSignificantChanges(context, lpaManageAppealsData);
+			if (lpaAppealType != lpaManageAppealsData?.s78AppealType) {
+				appealProcess.selectNewConditions(context, lpaManageAppealsData);
+			}
+			// Original Evidence
+			originalEvidence.selectDesignAccessStatement(context, lpaManageAppealsData);
+			originalEvidence.selectPlansAndDrawingsSubmitted(context, lpaManageAppealsData);
+			originalEvidence.selectOtherDocumentsSubmitted(context, lpaManageAppealsData);
+			originalEvidence.selectListOfDocumentsBeforeDecision(context, lpaManageAppealsData);
 		}
 		cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
 		cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);

@@ -23,7 +23,7 @@ export const casPlanningAppealGrantedTestCases = [
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-minor-commercial-development',
         selectAllPlanningApplicationAbout: false,
-        endToEndIntegration: false,
+        endToEndIntegration: true,
         expeditedAppeal: true,
         applicationForm: {
             isAppellant: true,

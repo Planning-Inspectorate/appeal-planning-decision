@@ -19,12 +19,12 @@ const documents = {
 };
 export const fullAppealRefusedTestCases = [
     {
-        tags: ['smoke','expedited'],
+        tags: ['smoke', 'expedited'],
         statusOfOriginalApplication: 'refused',
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
-        endToEndIntegration: false,
+        endToEndIntegration: true,
         expeditedAppeal: true,
         applicationForm: {
             isAppellant: true,
