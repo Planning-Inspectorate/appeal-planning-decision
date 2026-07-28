@@ -6,7 +6,8 @@
 const {
 	getDocuments,
 	getCommonLPAQSubmissionFields,
-	getHASLPAQSubmissionFields
+	getHASLPAQSubmissionFields,
+	getExpeditedLPAQSubmissionFields
 } = require('../utils');
 const { documentTypes } = require('@pins/common/src/document-types');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
@@ -25,7 +26,8 @@ exports.formatter = async (caseReference, { ...answers }) => {
 			// Common
 			...getCommonLPAQSubmissionFields(caseReference, answers),
 			// HAS
-			...getHASLPAQSubmissionFields(answers)
+			...getHASLPAQSubmissionFields(answers),
+			...getExpeditedLPAQSubmissionFields(answers)
 		},
 		documents: await getDocuments(answers, documentTypes.planningOfficersReportUpload.dataModelName)
 	};
