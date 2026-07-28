@@ -104,11 +104,15 @@ exports.appealProcessRows = (caseData) => {
 		...caseData,
 		eligibility: { applicationDecision: caseData.applicationDecision }
 	});
-	const isExpeditedHAS =
-		caseData.appealTypeCode === CASE_TYPES.HAS.processCode &&
-		isExpeditedAppealDate(caseData.applicationDate);
 
-	if (isExpeditedS78 || isExpeditedHAS) {
+	const isExpedited =
+		[
+			CASE_TYPES.HAS.processCode,
+			CASE_TYPES.CAS_ADVERTS.processCode,
+			CASE_TYPES.CAS_PLANNING.processCode
+		].includes(caseData.appealTypeCode) && isExpeditedAppealDate(caseData.applicationDate);
+
+	if (isExpeditedS78 || isExpedited) {
 		rows.push(...getExpeditedDetailsRows(caseData));
 	}
 	return rows;

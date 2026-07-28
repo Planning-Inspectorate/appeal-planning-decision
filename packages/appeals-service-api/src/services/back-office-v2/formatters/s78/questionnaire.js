@@ -11,7 +11,8 @@ const {
 	getEIAFields,
 	getLPAProcedurePreference,
 	getInfrastructureLevy,
-	getCommonSiteDesignationAndProtectionFields
+	getCommonSiteDesignationAndProtectionFields,
+	getExpeditedLPAQSubmissionFields
 } = require('../utils');
 const { documentTypes } = require('@pins/common/src/document-types');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
@@ -36,7 +37,8 @@ exports.formatter = async (caseReference, { ...answers }) => {
 			...getLPAProcedurePreference(answers),
 			...getEIAFields(answers),
 			...getInfrastructureLevy(answers),
-			...getCommonSiteDesignationAndProtectionFields(answers)
+			...getCommonSiteDesignationAndProtectionFields(answers),
+			...getExpeditedLPAQSubmissionFields(answers)
 		},
 		documents: await getDocuments(answers, documentTypes.planningOfficersReportUpload.dataModelName)
 	};
