@@ -487,7 +487,16 @@ const expectedHAS = {
 	]
 };
 
-const formattedHAS = [expect.objectContaining(expectedHAS)];
+const formattedHAS = [
+	expect.objectContaining({
+		casedata: {
+			...expectedHAS.casedata,
+			significantChangesAffectingApplicationLpa: null,
+			listOfDocumentsBeforeDecision: undefined
+		},
+		documents: [...expectedHAS.documents]
+	})
+];
 
 const formattedS78 = [
 	expect.objectContaining({

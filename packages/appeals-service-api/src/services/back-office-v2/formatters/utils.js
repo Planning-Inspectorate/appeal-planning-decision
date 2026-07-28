@@ -1453,3 +1453,16 @@ exports.getChangedListedBuildingNumbersFields = (answers) => {
 		)
 	};
 };
+
+/**
+ * @param {LPAQAnswers} answers
+ * @returns {LPAQS78SubmissionProperties}
+ */
+exports.getExpeditedLPAQSubmissionFields = (answers) => {
+	return {
+		// Appeal process
+		significantChangesAffectingApplicationLpa: exports.formatSignificantChanges(answers),
+		// Original Evidence
+		listOfDocumentsBeforeDecision: answers.listOfDocumentsBeforeDecision
+	};
+};
