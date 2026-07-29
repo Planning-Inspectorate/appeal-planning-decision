@@ -1,5 +1,5 @@
-const { getLPA } = require('../lib/appeals-api-wrapper');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
+const { getLPA } = require('../lib/appeals-api-wrapper');
 
 /**
  * @typedef {Object} AppealUserSession
