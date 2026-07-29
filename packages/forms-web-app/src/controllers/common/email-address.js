@@ -6,13 +6,12 @@ const {
 	setSessionAppeal,
 	getSessionAppeal,
 	setSessionEmail,
-	setSessionEnterCode,
-	setSessionEnterCodeAction,
-	getSessionAppealId
+	setSessionEnterCodeAction
 } = require('../../lib/session-helper');
 const { logoutUser } = require('../../services/user.service');
 const config = require('../../config');
 const { caseTypeLookup } = require('@pins/common/src/database/data-static');
+const { getAuthClientConfig, createOTPGrant } = require('@pins/common/src/client/auth-client');
 
 const getEmailAddress = (views, appealInSession) => {
 	return (req, res) => {
@@ -26,6 +25,27 @@ const getEmailAddress = (views, appealInSession) => {
 				config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
 		});
 	};
+};
+
+/**
+ * @param {import('express').Request} req
+ * @param {string} email
+ * @param {string} action
+ * @returns {Promise<void>}
+ */
+const sendTokenToUser = async (req, email, action) => {
+	logoutUser(req);
+	setSessionEnterCodeAction(req.session, action);
+	try {
+		await getAuthClientConfig(
+			config.oauth.baseUrl,
+			config.oauth.clientID,
+			config.oauth.clientSecret
+		);
+		await createOTPGrant(email, action);
+	} catch (e) {
+		logger.error(e, 'failed to send token to general login user');
+	}
 };
 
 const postEmailAddress = (views, appealInSession) => {
@@ -57,8 +77,8 @@ const postEmailAddress = (views, appealInSession) => {
 		if (appealInSession) {
 			try {
 				setSessionAppeal(req.session, await createOrUpdateAppeal(appeal));
-				setSession();
-				res.redirect(`/${views.ENTER_CODE}/${getSessionAppealId(req.session)}`);
+				await sendTokenToUser(req, email, enterCodeConfig.actions.confirmEmail);
+				res.redirect(`/${views.ENTER_CODE}`);
 				return;
 			} catch (e) {
 				logger.error(e);
@@ -90,14 +110,8 @@ const postEmailAddress = (views, appealInSession) => {
 			});
 		}
 
-		setSession();
+		await sendTokenToUser(req, email, enterCodeConfig.actions.saveAndReturn);
 		res.redirect(`/${views.ENTER_CODE}`);
-
-		function setSession() {
-			logoutUser(req);
-			setSessionEnterCode(req.session, {}, true);
-			setSessionEnterCodeAction(req.session, enterCodeConfig.actions.confirmEmail);
-		}
 	};
 };
 

@@ -8,13 +8,11 @@ const router = express.Router();
 
 const {
 	VIEW: {
-		LPA_DASHBOARD: { REQUEST_NEW_CODE, ENTER_CODE }
+		LPA_DASHBOARD: { ENTER_CODE, REQUEST_NEW_CODE }
 	}
 } = require('../../lib/views');
 
-const requestViews = { REQUEST_NEW_CODE, ENTER_CODE };
-
-router.get('/request-new-code', getRequestNewCodeLPA(requestViews));
-router.post('/request-new-code', postRequestNewCodeLPA(requestViews));
+router.get('/request-new-code', getRequestNewCodeLPA(REQUEST_NEW_CODE));
+router.post('/request-new-code', postRequestNewCodeLPA(ENTER_CODE));
 
 module.exports = router;

@@ -3,9 +3,13 @@ const { isTokenValid } = require('../../lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
 const logger = require('../../lib/logger');
 
-const { getSessionEmail } = require('#lib/session-helper');
-const { getAuthClientConfig, createOTPGrant } = require('@pins/common/src/client/auth-client');
-const config = require('../../config');
+const {
+	getSessionEmail,
+	getSessionEnterCodeAction,
+	deleteSessionEnterCodeAction,
+	getSessionNewCode,
+	deleteSessionNewCode
+} = require('#lib/session-helper');
 const { handleCustomRedirect } = require('#lib/handle-custom-redirect');
 
 /**
@@ -34,38 +38,15 @@ const getEnterCodeR6 = (views) => {
 			return renderEnterCodePage(`/${views.EMAIL_ADDRESS}`);
 		}
 
-		/** @type {string|undefined} */
-		const enterCodeId = req.params.enterCodeId;
-		if (enterCodeId) {
-			req.session.enterCodeId = enterCodeId;
-		}
-
-		const action = req.session?.enterCode?.action ?? enterCodeConfig.actions.confirmEmail;
+		const action = getSessionEnterCodeAction(req.session) ?? enterCodeConfig.actions.confirmEmail;
 
 		// show new code success message only once
-		const newCode = req.session?.enterCode?.newCode;
+		const newCode = getSessionNewCode(req.session);
 		if (newCode) {
-			delete req.session?.enterCode?.newCode;
+			deleteSessionNewCode(req.session);
 		}
 
 		logger.info({ action }, `getEnterCode`);
-
-		const email = getSessionEmail(req.session, false);
-
-		const isRule6User = await isRule6UserByEmail(req, email);
-
-		if (isRule6User) {
-			try {
-				await getAuthClientConfig(
-					config.oauth.baseUrl,
-					config.oauth.clientID,
-					config.oauth.clientSecret
-				);
-				await createOTPGrant(email, action);
-			} catch (e) {
-				logger.error(e, 'failed to send token to general login user');
-			}
-		}
 
 		return renderEnterCodePage(`/${views.EMAIL_ADDRESS}`);
 
@@ -105,13 +86,15 @@ const postEnterCodeR6 = (views) => {
 			return renderError(errorSummary, errors);
 		}
 
-		const action = req.session?.enterCode?.action ?? enterCodeConfig.actions.confirmEmail;
-
 		const isLoginRedirect = Boolean(req.session?.loginRedirect);
 
 		const sessionEmail = getSessionEmail(req.session, false);
 
-		const tokenValid = await isTokenValid(token, sessionEmail, action);
+		const tokenValid = await isTokenValid(
+			token,
+			sessionEmail,
+			enterCodeConfig.actions.rule6Dashboard
+		);
 
 		if (tokenValid.tooManyAttempts) {
 			return res.redirect(`/${views.NEED_NEW_CODE}`);
@@ -136,25 +119,13 @@ const postEnterCodeR6 = (views) => {
 			sessionEmail
 		);
 
-		logger.info(
-			{
-				action
-			},
-			`postEnterCode`
-		);
-
 		if (isLoginRedirect) {
-			deleteTempSessionValues();
+			deleteSessionEnterCodeAction(req.session);
 			return handleCustomRedirect(req, res);
 		}
 
-		deleteTempSessionValues();
+		deleteSessionEnterCodeAction(req.session);
 		return res.redirect(`/${views.DASHBOARD}`);
-
-		function deleteTempSessionValues() {
-			delete req.session.enterCodeId;
-			delete req.session?.enterCode?.action;
-		}
 
 		/**
 		 * @param {Array<Object>|string} errorSummary - if just a string will add single error to form and summary
