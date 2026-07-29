@@ -21,9 +21,9 @@ describe('routes/lpa/enter-code', () => {
 	});
 
 	it('should define the expected routes', () => {
-		expect(get).toHaveBeenCalledWith('/enter-code/:id', validationErrorHandler, getEnterCodeLPA());
+		expect(get).toHaveBeenCalledWith('/enter-code', validationErrorHandler, getEnterCodeLPA());
 		expect(post).toHaveBeenCalledWith(
-			'/enter-code/:id',
+			'/enter-code',
 			ruleEnterCode(),
 			validationErrorHandler,
 			postEnterCodeLPA()

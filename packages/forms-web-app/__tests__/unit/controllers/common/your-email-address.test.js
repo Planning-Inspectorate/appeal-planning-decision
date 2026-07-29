@@ -1,14 +1,11 @@
 const {
-	getYourEmailAddress,
-	postYourEmailAddress
+	getYourEmailAddressLPA,
+	postYourEmailAddressLPA
 } = require('../../../../src/controllers/common/your-email-address');
-
-const mapCache = require('../../../../src/lib/map-cache');
 
 const { mockReq, mockRes } = require('../../mocks');
 const views = require('#lib/views');
 const lpaViews = views.VIEW.LPA_DASHBOARD;
-const mockEmailUUIDcache = new mapCache(5);
 
 describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 	let req;
@@ -27,11 +24,11 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 		jest.resetAllMocks();
 	});
 
-	describe('getYourEmailAddress', () => {
+	describe('getYourEmailAddressLPA', () => {
 		it('controllers/common/getYourEmailAddress.js', async () => {
 			const testEmail = 'iamnoone@@planninginspectorate.gov.uk';
 			req.session.email = testEmail;
-			const returnedFunction = getYourEmailAddress(lpaViews);
+			const returnedFunction = getYourEmailAddressLPA(lpaViews);
 			await returnedFunction(req, res);
 			expect(res.render).toHaveBeenCalledWith(`${lpaViews.YOUR_EMAIL_ADDRESS}`, {
 				email: testEmail
@@ -39,9 +36,8 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 		});
 	});
 
-	describe('postYourEmailAddress', () => {
+	describe('postYourEmailAddressLPA', () => {
 		it('redirect to enter code', async () => {
-			const testId = '64c789bf8672ef00122fe30c';
 			const testEmail = 'iamnoone@@planninginspectorate.gov.uk';
 			req.appealsApiClient.getUserByEmailV2.mockImplementation(() =>
 				Promise.resolve({
@@ -54,13 +50,12 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			);
 
 			req.body['email-address'] = testEmail;
-			const returnedFunction = postYourEmailAddress(lpaViews, mockEmailUUIDcache);
+			const returnedFunction = postYourEmailAddressLPA(lpaViews);
 			await returnedFunction(req, res);
-			expect(res.redirect).toHaveBeenCalledWith(`/${lpaViews.ENTER_CODE}/${testId}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${lpaViews.ENTER_CODE}`);
 		});
 
 		it('redirect to enter code when a non LPA email which exists in the database is used', async () => {
-			const testId = '64c789bf8672ef00122fe30c';
 			const testEmail = 'iamnoone@planninginspectorate.gov.uk';
 			req.appealsApiClient.getUserByEmailV2.mockImplementation(() =>
 				Promise.resolve({
@@ -73,9 +68,9 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			);
 
 			req.body['email-address'] = testEmail;
-			const returnedFunction = postYourEmailAddress(lpaViews, mockEmailUUIDcache);
+			const returnedFunction = postYourEmailAddressLPA(lpaViews);
 			await returnedFunction(req, res);
-			expect(res.redirect).toHaveBeenCalledWith(`/${lpaViews.ENTER_CODE}/${testId}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${lpaViews.ENTER_CODE}`);
 		});
 
 		it('redirect to enter code when an email is used which is not in the database', async () => {
@@ -85,13 +80,9 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			);
 
 			req.body['email-address'] = testEmail;
-			const returnedFunction = postYourEmailAddress(lpaViews, mockEmailUUIDcache);
+			const returnedFunction = postYourEmailAddressLPA(lpaViews);
 			await returnedFunction(req, res);
-			// we want to check that we have a UUID in the redirect URL, but as it is generated at runtime, we use a regex to match it
-			const expectedURLRegex = new RegExp(
-				`${lpaViews.ENTER_CODE}/[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}`
-			);
-			expect(res.redirect).toHaveBeenCalledWith(expect.stringMatching(expectedURLRegex));
+			expect(res.redirect).toHaveBeenCalledWith(`/${lpaViews.ENTER_CODE}`);
 		});
 
 		it('redirect to enter code when an email is used which is not in the database should be called with the same id within 5 minutes', async () => {
@@ -109,13 +100,13 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			laterReq = { ...req };
 			let laterRes = mockRes();
 
-			const returnedFunction = postYourEmailAddress(lpaViews, mockEmailUUIDcache);
+			const returnedFunction = postYourEmailAddressLPA(lpaViews);
 			await returnedFunction(req, res);
 			const redirectURL = res.redirect.mock.calls[0][0];
 
 			// 5 minutes later, we expect to call the same redirect URL
 			jest.setSystemTime(new Date('2025-01-30T00:04:00.000Z'));
-			const laterReturnedFunction = postYourEmailAddress(lpaViews, mockEmailUUIDcache);
+			const laterReturnedFunction = postYourEmailAddressLPA(lpaViews);
 			await laterReturnedFunction(laterReq, laterRes);
 			expect(laterRes.redirect).toHaveBeenCalledWith(redirectURL);
 
@@ -129,7 +120,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 					href: '#your-email-address'
 				}
 			];
-			const returnedFunction = postYourEmailAddress(lpaViews, mockEmailUUIDcache);
+			const returnedFunction = postYourEmailAddressLPA(lpaViews);
 			await returnedFunction(req, res);
 			expect(res.render).toHaveBeenCalledWith(lpaViews.YOUR_EMAIL_ADDRESS, {
 				errors: {},
