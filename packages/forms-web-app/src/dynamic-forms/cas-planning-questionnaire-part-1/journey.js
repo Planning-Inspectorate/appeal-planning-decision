@@ -90,8 +90,8 @@ const makeSections = (response) => {
 			.withCondition(
 				() => response.answers && response.answers[questions.appealsNearSite.fieldName] == 'yes'
 			)
-			.addQuestion(questions.anySignificantChanges)
-			.addQuestion(questions.addNewConditions),
+			.addQuestion(questions.addNewConditions)
+			.addQuestion(questions.anySignificantChanges),
 		new Section('Original Evidence', 'original-evidence')
 			.addQuestion(questions.designAccessStatementPart1)
 			.addQuestion(questions.uploadDesignAccessStatementPart1)
