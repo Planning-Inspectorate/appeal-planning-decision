@@ -5,7 +5,7 @@ const {
 const views = require('../../../../src/lib/views');
 const rule6Views = views.VIEW.RULE_6;
 const { mockReq, mockRes } = require('../../mocks');
-const { getSessionEmail } = require('#lib/session-helper');
+const { getSessionEmail, getSessionNewCode, deleteSessionNewCode } = require('#lib/session-helper');
 const { isTokenValid } = require('#lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
 const { isRule6UserByEmail } = require('../../../../src/services/user.service');
@@ -76,8 +76,6 @@ describe('controllers/rule-6/enter-code', () => {
 
 			await returnedFunction(req, res);
 
-			expect(createOTPGrant).toHaveBeenCalledWith(TEST_EMAIL, enterCodeConfig.actions.confirmEmail);
-
 			expect(res.render).toHaveBeenCalledWith(`${rule6Views.ENTER_CODE}`, {
 				requestNewCodeLink: `/${rule6Views.REQUEST_NEW_CODE}`,
 				confirmEmailLink: `/${rule6Views.EMAIL_ADDRESS}`,
@@ -96,11 +94,6 @@ describe('controllers/rule-6/enter-code', () => {
 				isRule6UserByEmail.mockResolvedValue(true);
 
 				await returnedFunction(req, res);
-
-				expect(createOTPGrant).toHaveBeenCalledWith(
-					TEST_EMAIL,
-					enterCodeConfig.actions.confirmEmail
-				);
 
 				expect(res.render).toHaveBeenCalledWith(`${rule6Views.ENTER_CODE}`, {
 					confirmEmailLink: `/${rule6Views.EMAIL_ADDRESS}`,
@@ -127,6 +120,10 @@ describe('controllers/rule-6/enter-code', () => {
 
 			it('should handle newCode confirm email', async () => {
 				getSessionEmail.mockReturnValue(TEST_EMAIL);
+				getSessionNewCode.mockReturnValue(true);
+				deleteSessionNewCode.mockImplementation(() => {
+					req.session.enterCode.newCode = undefined;
+				});
 				await getConfirmEmailTest(true);
 			});
 		});

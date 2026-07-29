@@ -1,8 +1,8 @@
 const express = require('express');
 
 const {
-	getRequestNewCode,
-	postRequestNewCode
+	getRequestNewCodeLPA,
+	postRequestNewCodeLPA
 } = require('../../controllers/common/request-new-code');
 
 const {
@@ -13,7 +13,7 @@ const {
 
 const router = express.Router();
 
-router.get('/code-expired', getRequestNewCode(CODE_EXPIRED));
-router.post('/code-expired', postRequestNewCode(ENTER_CODE));
+router.get('/code-expired', getRequestNewCodeLPA(CODE_EXPIRED));
+router.post('/code-expired', postRequestNewCodeLPA(ENTER_CODE));
 
 module.exports = router;
