@@ -388,7 +388,7 @@ describe('LPA and Appellant Sections', () => {
 					}
 				];
 				const section = findSectionByHeading(lpaSections, 'Costs');
-				const link = findLinkByUrl(section, '/your-cost-application');
+				const link = findLinkByUrl(section, '/your-costs-applications');
 				expect(link?.condition(appealCase)).toBe(true);
 				expect(link?.text).toBe('View your costs applications');
 			});
@@ -400,7 +400,7 @@ describe('LPA and Appellant Sections', () => {
 					}
 				];
 				const section = findSectionByHeading(lpaSections, 'Costs');
-				const link = findLinkByUrl(section, '/your-cost-comments');
+				const link = findLinkByUrl(section, '/your-costs-comments');
 				expect(link?.condition(appealCase)).toBe(true);
 				expect(link?.text).toBe('View your costs comments');
 			});

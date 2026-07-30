@@ -191,7 +191,7 @@ exports.sections = [
 		heading: 'Costs',
 		links: [
 			{
-				url: '/your-cost-application',
+				url: '/your-costs-applications',
 				text: 'View your costs applications',
 				condition: (appealCase) =>
 					appealCase.Documents.some(
@@ -210,7 +210,7 @@ exports.sections = [
 					)
 			},
 			{
-				url: '/your-cost-comments',
+				url: '/your-costs-comments',
 				text: 'View your costs comments',
 				condition: (appealCase) =>
 					appealCase.Documents.some(

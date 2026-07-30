@@ -145,7 +145,7 @@ router.get(
 	)
 );
 router.get(
-	'/:appealNumber/your-cost-application',
+	'/:appealNumber/your-costs-application',
 	costsController.get(
 		{ userType, costsType: APPEAL_DOCUMENT_TYPE.LPA_COSTS_APPLICATION },
 		'layouts/lpa-dashboard/main.njk'
@@ -159,7 +159,7 @@ router.get(
 	)
 );
 router.get(
-	'/:appealNumber/your-cost-comments',
+	'/:appealNumber/your-costs-comments',
 	costsController.get(
 		{ userType, costsType: APPEAL_DOCUMENT_TYPE.LPA_COSTS_CORRESPONDENCE },
 		'layouts/lpa-dashboard/main.njk'
