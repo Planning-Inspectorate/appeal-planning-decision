@@ -872,8 +872,18 @@ describe('appeal-details-rows', () => {
 			expect(rows[reasonForAppealIndex].valueText).toEqual('Some reason');
 		});
 
-		it('should not display the reason for appeal if not set', () => {
+		it('should display the reason for appeal if application date is after April 1 even if not set', () => {
 			const testCase = structuredClone(caseWithAppellant);
+			testCase.applicationDate = '2026-04-02';
+			testCase.reasonForAppealAppellant = null;
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[reasonForAppealIndex].condition(testCase)).toBeTruthy();
+		});
+
+		it('should not display the reason for appeal if not set and application date is before April 1', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			testCase.applicationDate = '2026-03-01';
+			testCase.reasonForAppealAppellant = null;
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 			expect(rows[reasonForAppealIndex].condition(testCase)).toBeFalsy();
 		});
