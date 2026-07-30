@@ -30,7 +30,10 @@ const {
 	APPEAL_APPLICATION_MADE_UNDER_ACT_SECTION
 } = require('@planning-inspectorate/data-model');
 const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
-const { isExpeditedPart1Eligible } = require('#lib/is-expedited-part1-eligible');
+const {
+	isExpeditedPart1Eligible,
+	isExpeditedAppealDate
+} = require('#lib/is-expedited-part1-eligible');
 const { nl2br } = require('@pins/common/src/utils');
 
 /**
@@ -328,7 +331,9 @@ const getStandardDetailsRows = (caseData, context) => {
 		{
 			keyText: 'Why are you appealing?',
 			valueText: caseData.reasonForAppealAppellant ?? '',
-			condition: (caseData) => isNotUndefinedOrNull(caseData.reasonForAppealAppellant),
+			condition: (caseData) =>
+				isNotUndefinedOrNull(caseData.reasonForAppealAppellant) ||
+				isExpeditedAppealDate(caseData.applicationDate),
 			isEscaped: true
 		},
 		{
@@ -870,7 +875,9 @@ const getExpeditedDetailsRows = (caseData, context) => {
 		{
 			keyText: 'Why are you appealing?',
 			valueText: caseData.reasonForAppealAppellant ?? '',
-			condition: (caseData) => isNotUndefinedOrNull(caseData.reasonForAppealAppellant),
+			condition: (caseData) =>
+				isNotUndefinedOrNull(caseData.reasonForAppealAppellant) ||
+				isExpeditedAppealDate(caseData.applicationDate),
 			isEscaped: true
 		},
 		{
