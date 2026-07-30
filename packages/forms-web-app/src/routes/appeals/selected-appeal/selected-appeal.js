@@ -110,7 +110,7 @@ router.get('/:appealNumber/planning-obligation', planningObligationDetailsContro
 
 // costs
 router.get(
-	'/:appealNumber/your-cost-application',
+	'/:appealNumber/your-costs-application',
 	costsController.get({ userType, costsType: APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_APPLICATION })
 );
 router.get(
@@ -118,7 +118,7 @@ router.get(
 	costsController.get({ userType, costsType: APPEAL_DOCUMENT_TYPE.LPA_COSTS_APPLICATION })
 );
 router.get(
-	'/:appealNumber/your-cost-comments',
+	'/:appealNumber/your-costs-comments',
 	costsController.get({ userType, costsType: APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_CORRESPONDENCE })
 );
 router.get(
