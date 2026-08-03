@@ -1,5 +1,5 @@
 const express = require('express');
-const { getServiceInvite } = require('../../../src/controllers/lpa-dashboard/service-invite');
+const { getServiceInvite } = require('../../controllers/lpa-dashboard/service-invite');
 
 const router = express.Router();
 

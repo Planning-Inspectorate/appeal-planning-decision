@@ -46,9 +46,7 @@
 		"node-cron": "*",
 		"pino": "*",
 		"pino-http": "*",
-		"prettier": "*",
 		"swagger-jsdoc": "*",
-		"swagger-typescript-api": "*",
 		"swagger-ui-express": "*"
 	},
 	"devDependencies": {
@@ -57,9 +55,11 @@
 		"jest-junit": "*",
 		"nodemon": "*",
 		"pino-pretty": "*",
+		"prettier": "*",
 		"rhea": "*",
 		"supertest": "*",
 		"swagger-cli": "*",
+		"swagger-typescript-api": "*",
 		"testcontainers": "*"
 	},
 	"imports": {
