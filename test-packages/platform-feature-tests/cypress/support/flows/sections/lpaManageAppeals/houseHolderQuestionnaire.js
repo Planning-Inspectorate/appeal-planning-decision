@@ -125,13 +125,8 @@ export const householderQuestionnaire = (context, lpaManageAppealsData, lpaAppea
 
 		// Appeals process
 		appealProcess.selectNearbyAppeals(context, lpaManageAppealsData, lpaManageAppealsData?.hasAppealType);
-		if (lpaAppealType === lpaManageAppealsData?.hasAppealType) {
-			appealProcess.selectNewConditions(context, lpaManageAppealsData);
-		}
+		appealProcess.selectNewConditions(context, lpaManageAppealsData);
 		appealProcess.selectSignificantChanges(context, lpaManageAppealsData);
-		if (lpaAppealType != lpaManageAppealsData?.hasAppealType) {
-			appealProcess.selectNewConditions(context, lpaManageAppealsData);
-		}
 
 		// Original Evidence
 		originalEvidence.selectDesignAccessStatement(context, lpaManageAppealsData);

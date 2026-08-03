@@ -189,13 +189,8 @@ export const questionnaire = (context, lpaManageAppealsData, lpaAppealType, case
 		appealProcess.selectProcedureType(context, lpaManageAppealsData);
 		appealProcess.selectOngoingAppealsNextToSite(context, lpaManageAppealsData, lpaManageAppealsData?.s78AppealType);
 		if (lpaAppealType != lpaManageAppealsData?.ldcAppealType) {
-			if (lpaAppealType === lpaManageAppealsData?.s78AppealType) {
-				appealProcess.selectNewConditions(context, lpaManageAppealsData);
-			}
+			appealProcess.selectNewConditions(context, lpaManageAppealsData);
 			appealProcess.selectSignificantChanges(context, lpaManageAppealsData);
-			if (lpaAppealType != lpaManageAppealsData?.s78AppealType) {
-				appealProcess.selectNewConditions(context, lpaManageAppealsData);
-			}
 			// Original Evidence
 			originalEvidence.selectDesignAccessStatement(context, lpaManageAppealsData);
 			originalEvidence.selectPlansAndDrawingsSubmitted(context, lpaManageAppealsData);
