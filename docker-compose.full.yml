@@ -7,13 +7,6 @@
 #
 
 services:
-  clamav-server:
-    profiles: ['all', 'appeals']
-    image: 'clamav/clamav:stable'
-    ports:
-      - 3310:3310
-    restart: unless-stopped
-
   pdf-service-api:
     profiles: ['all', 'appeals', 'pdf']
     # platform required to build chromium on Apple Silicon Macs

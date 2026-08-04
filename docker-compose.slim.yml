@@ -7,18 +7,6 @@
 #
 
 services:
-  clamav-server:
-    profiles: ['all', 'appeals']
-    image: node:22-alpine
-    ports:
-      - 3310:3310
-    working_dir: /opt/mock-clamav
-    volumes:
-      # mount the root node_modules for shared packages
-      - ./node_modules:/opt/node_modules
-      - ./dev/mock-clamav:/opt/mock-clamav
-    command: npm run start
-
   pdf-service-api:
     profiles: ['all', 'appeals', 'pdf']
     image: node:22-alpine

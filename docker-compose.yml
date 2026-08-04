@@ -73,43 +73,21 @@ services:
     image: node:22-alpine3.22
     environment:
       APP_APPEALS_BASE_URL: http://forms-web-app:9003
-      APP_LPA_QUESTIONNAIRE_BASE_URL: http://lpa-questionnaire-web-app:9001
       AUTH_BASE_URL: http://auth-server:3000
-      DOCS_API_PATH: /opt/app/api
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
       FEATURE_FLAGS_SETTING: 'ALL_ON'
       LOGGER_LEVEL: 'debug'
       LOGGER_PRETTY_PRINT: 'true'
-      LPA_DATA_PATH: /opt/app/data/lpa-list.csv
-      LPA_TRIALIST_DATA_PATH: /opt/app/data/lpa-trialists.json
       MONGODB_AUTO_INDEX: 'true'
       MONGODB_DB_NAME: appeals-service-api
       MONGODB_URL: mongodb://mongodb:27017
       SERVER_SHOW_ERRORS: 'true'
-      SRV_HORIZON_URL: http://mock-horizon:3000
       SRV_NOTIFY_BASE_URL: http://mock-notify:3000
       SRV_NOTIFY_SERVICE_ID: 'dummy-service-id-for-notify'
       SRV_NOTIFY_API_KEY: 'dummy-api-key-for-notify'
-      SRV_NOTIFY_TEMPLATE_ID: 'dummy-template-id-for-notify'
       SRV_NOTIFY_FRONT_OFFICE_GENERIC_TEMPLATE_ID: '5427c45f-4c2a-4730-8f5b-ebd8484aa6b6'
-      SRV_NOTIFY_APPEAL_SUBMISSION_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID: '79488d5d-7efd-4273-a11f-e73f11d19676'
-      SRV_NOTIFY_APPEAL_SUBMISSION_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID: '72f71441-12bf-4455-afbc-c58f9c72bfbd'
-      SRV_NOTIFY_APPEAL_SUBMISSION_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID_V1_1: '72f71441-12bf-4455-afbc-c58f9c72bfbd'
-      SRV_NOTIFY_APPEAL_RECEIVED_NOTIFICATION_EMAIL_TO_APPELLANT_TEMPLATE_ID: '13dbf9e9-7549-4973-9c70-9fb9d67e38e7'
-      SRV_NOTIFY_START_EMAIL_TO_LPA_TEMPLATE_ID: 'c4701212-4b6a-4b55-801a-c86c7dbea54b'
-      SRV_NOTIFY_LPA_DASHBOARD_INVITE_TEMPLATE_ID: '6726907e-d0f0-4e70-840e-196b38579de1'
-      SRV_NOTIFY_LPA_HAS_QUESTIONNAIRE_SUBMISSION_EMAIL_TEMPLATE_ID: '937b4147-8420-42da-859d-d4a65bdf99bc'
-      SRV_OS_PLACES_URL: http://mock-os-places:3000
-      SRV_NOTIFY_FULL_APPEAL_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID: 'e3cba5d9-8b97-4922-97f1-48ef303b9195'
-      SRV_NOTIFY_FULL_APPEAL_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID: '799a27da-b640-4852-a070-e83ff54401f0'
-      SRV_NOTIFY_SAVE_AND_RETURN_CONTINUE_WITH_APPEAL_TEMPLATE_ID: 'b3651e9d-5cc3-4258-82b4-04ec2ba3d10e'
-      SRV_NOTIFY_SAVE_AND_RETURN_ENTER_CODE_INTO_SERVICE_TEMPLATE_ID: 'e509eee7-f0bd-4d63-9203-d598ddd5b31e'
-      SRV_NOTIFY_CONFIRM_EMAIL_TEMPLATE_ID: '4156c7ac-a235-4577-b976-44020bec4d5f'
       SRV_ADMIN_MONITORING_EMAIL: 'test@pins.gov.uk'
-      SRV_NOTIFY_FAILURE_TO_UPLOAD_TO_HORIZON_TEMPLATE_ID: '49413491-90fd-4ce8-b061-e2f4758b636b'
       SQL_CONNECTION_STRING: 'sqlserver://mssql:1433;database=pins_front_office_development;user=sa;password=DockerDatabaseP@22word!;trustServerCertificate=true'
-      TASK_SUBMIT_TO_HORIZON_CRON_STRING: '*/10 * * * *'
-      TASK_SUBMIT_TO_HORIZON_TRIGGER: 'false'
       PINS_FEATURE_FLAG_AZURE_CONNECTION_STRING:
 
     ports:
@@ -252,15 +230,6 @@ services:
     command: npm start
 
   # Mocked services
-  mock-horizon:
-    profiles: ['all', 'api', 'appeals']
-    # @todo generate from Swagger Docs
-    build:
-      context: .
-      dockerfile: ./dev/mock-horizon/Dockerfile
-    ports:
-      - 5000:3000
-
   mock-notify:
     profiles: ['all', 'api', 'appeals', 'comment']
     build:
@@ -268,19 +237,6 @@ services:
       dockerfile: ./dev/mock-notify/Dockerfile
     ports:
       - 5001:3000
-
-  docs-horizon:
-    profiles: ['all', 'appeals']
-    image: swaggerapi/swagger-ui
-    platform: 'linux/amd64' # force platform, ARM machines to use emulation
-    environment:
-      SWAGGER_JSON: /app/swagger.yaml
-    depends_on:
-      - mock-horizon
-    volumes:
-      - ./docs/swagger/horizon/create_case_openapi.yaml:/app/swagger.yaml
-    ports:
-      - 7000:8080
 
   # Third-party services
   blob-storage:
