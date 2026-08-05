@@ -132,20 +132,33 @@ describe('NotifyService', () => {
 		};
 
 		it('should escape html', () => {
-			const template = NotifyService.templates.appealSubmission.v1Initial;
-			const personalisation = { name: '<script>alert(1)</script>', contactEmail: '<tag>' };
+			const template = NotifyService.templates.appealSubmission.v2Initial;
+			const personalisation = {
+				appealSiteAddress: 'a\nb\nc',
+				lpaReference: '<script>alert(1)</script>',
+				enforcementReference: '',
+				isEnforcement: false,
+				feedbackUrl: 'https://example.com',
+				contactEmail: '<tag>'
+			};
+
 			const result = notifyService.populateTemplate(template, personalisation);
 			expectMessage(
 				result,
 				`We have received your appeal.
 
-			We will process your appeal and send a confirmation email. This will include:
+					# Appeal details
+					^ Address: ${personalisation.appealSiteAddress}
+					Planning application reference: ${escape(personalisation.lpaReference)}
 
-			* your appeal reference number
-			* a copy of your appeal form
+					# What happens next
+					We will process your appeal and send a confirmation email. This will include your appeal reference number.
 
-			Planning Inspectorate
-			${escape(personalisation.contactEmail)}`
+					# Give feedback
+					[Give feedback on the appeals service](${personalisation.feedbackUrl}) (takes 2 minutes)
+
+					Planning Inspectorate
+					${escape(personalisation.contactEmail)}`
 			);
 		});
 
@@ -163,97 +176,6 @@ describe('NotifyService', () => {
 				`We’ve saved your appeal. You have until ${personalisation.date} to submit the appeal.
 
 				Sign in to view your appeals and continue: ${personalisation.link}
-
-				Planning Inspectorate
-				${personalisation.contactEmail}`
-			);
-		});
-
-		it('should populate appealSubmission.v1Initial ', () => {
-			const template = NotifyService.templates.appealSubmission.v1Initial;
-			const personalisation = { name: 'test-name', contactEmail: 'test email address' };
-
-			const result = notifyService.populateTemplate(template, personalisation);
-			expectMessage(
-				result,
-				`We have received your appeal.
-
-			We will process your appeal and send a confirmation email. This will include:
-
-			* your appeal reference number
-			* a copy of your appeal form
-
-			Planning Inspectorate
-			${personalisation.contactEmail}`
-			);
-		});
-
-		it('should populate appealSubmission.v1FollowUp ', () => {
-			const template = NotifyService.templates.appealSubmission.v1FollowUp;
-			const personalisation = {
-				appealReferenceNumber: 'abc',
-				appealSiteAddress: 'd\ne\nf',
-				lpaReference: 'ghi',
-				pdfLink: 'test.pdf',
-				lpaName: 'System Test',
-				feedbackUrl: 'https://example.com/feedback',
-				contactEmail: 'test email address'
-			};
-
-			const result = notifyService.populateTemplate(template, personalisation);
-			expectMessage(
-				result,
-				`We have processed your appeal.
-
-				# Appeal details
-				^ Appeal reference number: ${personalisation.appealReferenceNumber}
-				Address: ${personalisation.appealSiteAddress}
-				Planning application reference: ${personalisation.lpaReference}
-
-				# What happens next
-				1. Download a copy of your appeal form ${personalisation.pdfLink}.
-				2. [Find the email address for your local planning authority.](https://www.gov.uk/government/publications/sending-a-copy-of-the-appeal-form-to-the-council/sending-a-copy-to-the-council)
-				3. Email the copy of your appeal form and the documents you uploaded to: ${personalisation.lpaName}.
-				4. We will check and confirm that your appeal form has everything that we need.
-
-				You must send a copy of your appeal form and documents to the local planning authority, it’s a legal requirement.
-
-				# Give feedback
-				[Give feedback on the appeals service](${personalisation.feedbackUrl}) (takes 2 minutes)
-
-				Planning Inspectorate
-				${personalisation.contactEmail}`
-			);
-		});
-
-		it('should populate appealSubmission.v1LPANotification', () => {
-			const template = NotifyService.templates.appealSubmission.v1LPANotification;
-			const personalisation = {
-				lpaName: 'Test LPA',
-				appealType: 'householder planning',
-				applicationDecision: 'the refusal of',
-				lpaReference: 'abc',
-				appealReferenceNumber: 'horizonRef',
-				appealSiteAddress: 'a\nb\nc',
-				submissionDate: '10 April 2025',
-				contactEmail: 'test email address'
-			};
-
-			const result = notifyService.populateTemplate(template, personalisation);
-			expectMessage(
-				result,
-				`We have received a ${personalisation.appealType} appeal against ${personalisation.applicationDecision} planning application ${personalisation.lpaReference}.
-
-				# Appeal details
-				^ Appeal reference number: ${personalisation.appealReferenceNumber}
-				Address: ${personalisation.appealSiteAddress}
-				Planning application reference: ${personalisation.lpaReference}
-				Submitted date: ${personalisation.submissionDate}
-
-				# What happens next
-				The appellant will send you a copy of their appeal. If you do not receive this, contact the appellant to request it.
-
-				We will contact you again when we start the appeal.
 
 				Planning Inspectorate
 				${personalisation.contactEmail}`

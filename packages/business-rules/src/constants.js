@@ -106,6 +106,7 @@ const NEW_OR_SAVED_APPEAL_OPTION = {
 	RETURN: 'return'
 };
 
+// todo: remove unused
 module.exports = {
 	APPEAL_ID,
 	APPEAL_STATE,

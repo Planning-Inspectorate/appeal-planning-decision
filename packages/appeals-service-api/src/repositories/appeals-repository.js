@@ -25,10 +25,6 @@ class AppealsRepository extends MongoRepository {
 		return await this.findOneByQuery({ _id: id, 'appeal.lpaCode': lpaCode });
 	}
 
-	async getByHorizonId(horizonId) {
-		return await this.findOneByQuery({ 'appeal.horizonId': horizonId });
-	}
-
 	/**
 	 *
 	 * @param {any} appeal

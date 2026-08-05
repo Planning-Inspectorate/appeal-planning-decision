@@ -1,13 +1,8 @@
 // TODO: the functions here shouldn't be sending API responses since they shouldnt know
 // they're being invoked in the context of a web request. These responses should be sent
 // in the relevant router.
-const {
-	constants: { APPEAL_ID }
-} = require('@pins/business-rules');
 const logger = require('../lib/logger');
 const ApiError = require('../errors/apiError');
-const validateFullAppeal = require('../validators/validate-full-appeal');
-const { validateAppeal } = require('../validators/validate-appeal');
 const {
 	AppealsRepository: AppealsCosmosRepository
 } = require('../repositories/appeals-repository');
@@ -70,40 +65,6 @@ async function getAppeal(id) {
 	return document.appeal;
 }
 
-function isValidAppeal(appeal) {
-	if (!appeal.appealType) {
-		return true;
-	}
-
-	if (appeal.appealType === APPEAL_ID.ENFORCEMENT_NOTICE || APPEAL_ID.ENFORCEMENT_LISTED_BUILDING) {
-		return true;
-	}
-
-	let errors;
-
-	// we do not use v1 validators for s20 listed building appeal but we need to validate
-	// the object created in before you start journey which may have s20 listed building type
-	// so we use full appeal validator in this context
-	if (
-		appeal.appealType === APPEAL_ID.PLANNING_SECTION_78 ||
-		appeal.appealType === APPEAL_ID.PLANNING_LISTED_BUILDING ||
-		appeal.appealType === APPEAL_ID.MINOR_COMMERCIAL ||
-		appeal.appealType === APPEAL_ID.ADVERTISEMENT ||
-		appeal.appealType === APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT
-	) {
-		errors = validateFullAppeal(appeal);
-	} else {
-		errors = validateAppeal(appeal);
-	}
-
-	if (errors.length > 0) {
-		logger.debug(`Validated payload for appeal update generated errors:\n ${appeal}\n${errors}`);
-		throw ApiError.badRequest({ errors });
-	}
-
-	return errors.length === 0;
-}
-
 async function updateAppeal(id, appealUpdate) {
 	logger.debug(appealUpdate, `Attempting to update appeal with ID ${id} with`);
 
@@ -119,7 +80,6 @@ async function updateAppeal(id, appealUpdate) {
 	await linkToUser(appeal, appealUpdate);
 
 	Object.assign(appeal, appealUpdate);
-	isValidAppeal(appeal);
 
 	appeal.updatedAt = new Date(new Date().toISOString());
 	const updatedAppealEntity = await appealsCosmosRepository.update(appeal);
