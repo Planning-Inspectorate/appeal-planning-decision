@@ -161,8 +161,9 @@ extends:
           - name: Migrate
             condition: ${{ or(eq(parameters.schemaMigration, true), eq(parameters.seedData, true)) }}
             steps:
-              - checkout: self
-                fetchDepth: 1
+              - bash: |
+                  git clone --depth=1 --no-tags --revision="$(resources.pipeline.build.sourceCommit)" $(Build.Repository.Uri) .
+                displayName: Checkout Build-Commit
               - bash: |
                   if [[ $ENVIRONMENT == "staging"  || $ENVIRONMENT == "training" ]]; then
                     echo "Name: pinskvcommon$(ENVIRONMENT)ukw (env: $(ENVIRONMENT))"
