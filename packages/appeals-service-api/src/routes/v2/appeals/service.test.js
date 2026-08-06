@@ -6,6 +6,7 @@ const {
 	addOwnershipAndSubmissionDetailsToRepresentations
 } = require('@pins/common/src/access/representation-ownership');
 const { appendLinkedCasesForMultipleAppeals } = require('../appeal-cases/service');
+const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
 
 jest.mock('./repo');
 jest.mock('../service-users/service');
@@ -23,6 +24,18 @@ describe('appeals service v2', () => {
 	});
 
 	describe('getAppealsForUser', () => {
+		const lookup = {
+			id: true,
+			emailAddress: true,
+			serviceUserType: true,
+			organisation: true,
+			caseReference: true
+		};
+		const userTypes = [
+			SERVICE_USER_TYPE.APPELLANT,
+			SERVICE_USER_TYPE.AGENT,
+			SERVICE_USER_TYPE.RULE_6_PARTY
+		];
 		it('should update representations with ownership', async () => {
 			const userId = 'user-1';
 			const role = 'Rule6Party';
@@ -56,18 +69,14 @@ describe('appeals service v2', () => {
 			const result = await getAppealsForUser(userId, role);
 
 			expect(UserAppealsRepository.prototype.listAppealsForUser).toHaveBeenCalledWith(userId, role);
-			expect(getServiceUsersForMultipleCases).toHaveBeenCalledWith([
-				{
-					serviceUserIds: ['20000000143'],
-					caseReference: '0000001'
-				}
-			]);
+			expect(getServiceUsersForMultipleCases).toHaveBeenCalledWith(['0000001'], lookup, userTypes);
 			expect(addOwnershipAndSubmissionDetailsToRepresentations).toHaveBeenCalledWith(
 				expect.any(Array),
 				userEmail,
 				false,
-				[{ id: '20000000143', emailAddress: userEmail }]
+				[{ caseReference: '0000001', users: [{ id: '20000000143', emailAddress: userEmail }] }]
 			);
+
 			expect(result[0].Representations[0].userOwnsRepresentation).toBe(true);
 		});
 
@@ -94,7 +103,7 @@ describe('appeals service v2', () => {
 
 			const result = await getAppealsForUser(userId, role);
 
-			expect(getServiceUsersForMultipleCases).toHaveBeenCalledWith([]);
+			expect(getServiceUsersForMultipleCases).toHaveBeenCalledWith([], lookup, userTypes);
 			expect(result[0].Representations).toEqual([]);
 		});
 
