@@ -26,7 +26,7 @@ const views = {
 	DASHBOARD
 };
 
-router.get('/enter-code/:id', validationErrorHandler, getEnterCodeLPA(views));
-router.post('/enter-code/:id', ruleEnterCode(), validationErrorHandler, postEnterCodeLPA(views));
+router.get('/enter-code', validationErrorHandler, getEnterCodeLPA(views));
+router.post('/enter-code', ruleEnterCode(), validationErrorHandler, postEnterCodeLPA(views));
 
 module.exports = router;
