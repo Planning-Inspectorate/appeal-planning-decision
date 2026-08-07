@@ -203,7 +203,7 @@ module.exports = ({ getSqlClient, setCurrentSub, appealsApi }) => {
 				let serviceUserId;
 
 				beforeAll(async () => {
-					const email = crypto.randomUUID() + '@example.com';
+					const email = 'a' + crypto.randomUUID() + '@example.com';
 					serviceUserId = 'su-' + crypto.randomUUID().slice(0, 8);
 					user = await sqlClient.appealUser.create({ data: { email } });
 					caseRef = 'reps-' + crypto.randomUUID().slice(0, 8);
@@ -214,7 +214,7 @@ module.exports = ({ getSqlClient, setCurrentSub, appealsApi }) => {
 							id: serviceUserId,
 							serviceUserType: SERVICE_USER_TYPE.RULE_6_PARTY,
 							caseReference: caseRef,
-							emailAddress: email
+							emailAddress: email.toUpperCase() // different casing from user email
 						}
 					});
 					await sqlClient.representation.create({
@@ -223,6 +223,26 @@ module.exports = ({ getSqlClient, setCurrentSub, appealsApi }) => {
 							caseReference: caseRef,
 							source: APPEAL_SOURCE.CITIZEN,
 							serviceUserId,
+							representationType: 'comment'
+						}
+					});
+
+					const otheremail = 'b' + crypto.randomUUID() + '@example.com';
+					const otherServiceUserId = 'su-' + crypto.randomUUID().slice(0, 8);
+					await sqlClient.serviceUser.create({
+						data: {
+							id: otherServiceUserId,
+							serviceUserType: SERVICE_USER_TYPE.RULE_6_PARTY,
+							caseReference: caseRef,
+							emailAddress: otheremail
+						}
+					});
+					await sqlClient.representation.create({
+						data: {
+							representationId: crypto.randomUUID(),
+							caseReference: caseRef,
+							source: APPEAL_SOURCE.CITIZEN,
+							serviceUserId: otherServiceUserId,
 							representationType: 'comment'
 						}
 					});
