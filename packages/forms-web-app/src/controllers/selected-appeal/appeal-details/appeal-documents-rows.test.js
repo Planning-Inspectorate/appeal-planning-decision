@@ -328,13 +328,69 @@ describe('appeal-documents-rows - expedited part 1', () => {
 		Documents: []
 	};
 
+	const expeditedCaseDataWithOptionalExpeditedDocs = {
+		appealTypeCode: CASE_TYPES.S78.processCode,
+		typeOfPlanningApplication: 'full-appeal',
+		applicationDecision: 'refused',
+		applicationDate: '2026-04-10',
+		changedDevelopmentDescription: true,
+		appellantCostsAppliedFor: true,
+		statusPlanningObligation: 'finalised',
+		Documents: [
+			{
+				id: 1,
+				documentType: APPEAL_DOCUMENT_TYPE.APPELLANT_STATEMENT,
+				filename: 'appeal-statement.pdf',
+				redacted: false
+			},
+			{
+				id: 2,
+				documentType: APPEAL_DOCUMENT_TYPE.STATEMENT_COMMON_GROUND,
+				filename: 'statement-common-ground.pdf',
+				redacted: false
+			},
+			{
+				id: 3,
+				documentType: APPEAL_DOCUMENT_TYPE.DESIGN_ACCESS_STATEMENT,
+				filename: 'design-access-statement.pdf',
+				redacted: false
+			},
+			{
+				id: 4,
+				documentType: APPEAL_DOCUMENT_TYPE.PLANS_DRAWINGS,
+				filename: 'plans-drawings.pdf',
+				redacted: false
+			},
+			{
+				id: 5,
+				documentType: APPEAL_DOCUMENT_TYPE.NEW_PLANS_DRAWINGS,
+				filename: 'new-plans-drawings.pdf',
+				redacted: false
+			},
+			{
+				id: 6,
+				documentType: APPEAL_DOCUMENT_TYPE.OTHER_NEW_DOCUMENTS,
+				filename: 'new-supporting-documents.pdf',
+				redacted: false
+			}
+		]
+	};
+
 	it('should create rows for an expedited part 1 appeal', () => {
 		const rows = documentsRows(expeditedCaseData);
-		expect(rows.length).toEqual(6);
+		expect(rows.length).toEqual(12);
 	});
 
-	it('should have the correct rows in the correct order', () => {
+	it('should have the correct rows in the correct order without optional docs', () => {
 		const rows = documentsRows(expeditedCaseData);
+		const expeditedExpectedRows = [
+			'Appeal statement',
+			'Draft statement of common ground',
+			'Design and access statement in application',
+			'Plans, drawings and supporting documents',
+			'New plans or drawings',
+			'New supporting documents'
+		];
 		const expectedRows = [
 			'Application form',
 			'Decision letter',
@@ -343,10 +399,37 @@ describe('appeal-documents-rows - expedited part 1', () => {
 			'Environmental statement',
 			'Costs application'
 		];
+		const allExpectedRows = [...expectedRows, ...expeditedExpectedRows];
 
 		rows.forEach((row, index) => {
-			expect(row.keyText).toEqual(expectedRows[index]);
-			expect(row.condition(expeditedCaseData)).toEqual(true);
+			expect(row.keyText).toEqual(allExpectedRows[index]);
+			expect(row.condition(expeditedCaseData)).toEqual(index < expectedRows.length ? true : false);
+		});
+	});
+
+	it('should have the correct rows in the correct order with optional docs', () => {
+		const rows = documentsRows(expeditedCaseDataWithOptionalExpeditedDocs);
+		const expeditedExpectedRows = [
+			'Appeal statement',
+			'Draft statement of common ground',
+			'Design and access statement in application',
+			'Plans, drawings and supporting documents',
+			'New plans or drawings',
+			'New supporting documents'
+		];
+		const expectedRows = [
+			'Application form',
+			'Decision letter',
+			'Separate ownership certificate in application',
+			'Evidence of agreement to change description of development',
+			'Environmental statement',
+			'Costs application'
+		];
+		const allExpectedRows = [...expectedRows, ...expeditedExpectedRows];
+
+		rows.forEach((row, index) => {
+			expect(row.keyText).toEqual(allExpectedRows[index]);
+			expect(row.condition(expeditedCaseDataWithOptionalExpeditedDocs)).toEqual(true);
 		});
 	});
 
