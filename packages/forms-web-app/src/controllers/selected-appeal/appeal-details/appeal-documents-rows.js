@@ -1,4 +1,8 @@
-const { formatDocumentDetails, formatPlanningObligationStatus } = require('@pins/common');
+const {
+	formatDocumentDetails,
+	formatPlanningObligationStatus,
+	documentExists
+} = require('@pins/common');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 const {
@@ -252,6 +256,7 @@ const enforcementDocumentsRows = (caseData) => {
  */
 const getExpeditedDocumentsRows = (caseData) => {
 	const documents = caseData.Documents || [];
+	const isS78 = caseData.appealTypeCode === CASE_TYPES.S78.processCode;
 
 	return [
 		{
@@ -292,6 +297,45 @@ const getExpeditedDocumentsRows = (caseData) => {
 			keyText: 'Costs application',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_APPLICATION),
 			condition: (caseData) => caseData.appellantCostsAppliedFor,
+			isEscaped: true
+		},
+		{
+			keyText: 'Design and access statement in application',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.DESIGN_ACCESS_STATEMENT),
+			condition: () =>
+				isS78 && documentExists(documents, APPEAL_DOCUMENT_TYPE.DESIGN_ACCESS_STATEMENT),
+			isEscaped: true
+		},
+		{
+			keyText: 'Draft statement of common ground',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.STATEMENT_COMMON_GROUND),
+			condition: () =>
+				isS78 && documentExists(documents, APPEAL_DOCUMENT_TYPE.STATEMENT_COMMON_GROUND),
+			isEscaped: true
+		},
+
+		{
+			keyText: 'Appeal statement',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.APPELLANT_STATEMENT),
+			condition: () => isS78 && documentExists(documents, APPEAL_DOCUMENT_TYPE.APPELLANT_STATEMENT),
+			isEscaped: true
+		},
+		{
+			keyText: 'Plans, drawings and supporting documents',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANS_DRAWINGS),
+			condition: () => isS78 && documentExists(documents, APPEAL_DOCUMENT_TYPE.PLANS_DRAWINGS),
+			isEscaped: true
+		},
+		{
+			keyText: 'New plans or drawings',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.NEW_PLANS_DRAWINGS),
+			condition: () => isS78 && documentExists(documents, APPEAL_DOCUMENT_TYPE.NEW_PLANS_DRAWINGS),
+			isEscaped: true
+		},
+		{
+			keyText: 'New supporting documents',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.OTHER_NEW_DOCUMENTS),
+			condition: () => isS78 && documentExists(documents, APPEAL_DOCUMENT_TYPE.OTHER_NEW_DOCUMENTS),
 			isEscaped: true
 		}
 	];
