@@ -37,7 +37,7 @@ exports.addOwnershipAndSubmissionDetailsToRepresentations = (
 	// find the service user ids that have matching email with logged in user
 	const loggedInUserIds = new Set(
 		serviceUsersWithEmails
-			.filter((serviceUser) => serviceUser.emailAddress == email)
+			.filter((serviceUser) => serviceUser.emailAddress?.toLowerCase() === email?.toLowerCase())
 			.map((serviceUser) => serviceUser.id)
 	);
 
