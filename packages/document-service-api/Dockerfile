@@ -1,5 +1,5 @@
 # Stage 1/2: Build
-FROM node:22-alpine3.22 AS build
+FROM node:22-alpine3.24 AS build
 
 WORKDIR /opt/packages/document-service-api
 

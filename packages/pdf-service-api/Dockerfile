@@ -1,8 +1,4 @@
-FROM node:22-alpine3.22
-
-#COPY ZscalerRootCA.crt /usr/local/share/ca-certificates/ZscalerRootCA.crt
-#ENV NODE_EXTRA_CA_CERTS=/usr/local/share/ca-certificates/ZscalerRootCA.crt
-#RUN cat /usr/local/share/ca-certificates/ZscalerRootCA.crt >> /etc/ssl/certs/ca-certificates.crt
+FROM node:22-alpine3.24
 
 # add chromium
 RUN apk add --no-cache \
@@ -10,9 +6,9 @@ RUN apk add --no-cache \
     freetype \
     harfbuzz \
     ttf-freefont
-    # perhaps needed if we do web requests?
-    # ca-certificates \
-    # nss \
+# perhaps needed if we do web requests?
+# ca-certificates \
+# nss \
 
 WORKDIR /opt
 
