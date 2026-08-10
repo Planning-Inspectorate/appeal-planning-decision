@@ -4364,8 +4364,8 @@ exports.getQuestionProps = (response) => ({
 	},
 	whyAreYouAppealingPart1: {
 		type: 'text-entry',
-		title: 'Why are you appealing?',
-		question: 'Why are you appealing?',
+		title: 'Summarise why you are appealing',
+		question: 'Summarise why you are appealing',
 		hint: 'You must list each individual ground separately. Enter between 10 and 250 words.',
 		fieldName: 'whyAreYouAppealing',
 		url: 'why-are-you-appealing',
