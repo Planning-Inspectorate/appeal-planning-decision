@@ -1848,7 +1848,7 @@ exports[`Dynamic forms journey tests appellant Advertisement Advertisement shoul
         <div class="govuk-grid-column-two-thirds">
             <form action="/appeals/adverts/prepare-appeal/why-are-you-appealing?id=appeal-ref"
             method="post" novalidate=null>
-                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="whyAreYouAppealing"> Why are you appealing?</label></h1>
+                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="whyAreYouAppealing"> Summarise why you are appealing</label></h1>
                 <p class="govuk-!-margin-bottom-2">Tell us why you disagree with the local planning authority’s decision.
                     Do not include any new evidence.</p>
                 <div class="govuk-inset-text">Do not include any sensitive information in your response. It will delay
@@ -4038,7 +4038,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement Commerci
         <div class="govuk-grid-column-two-thirds">
             <form action="/appeals/adverts/prepare-appeal/why-are-you-appealing?id=appeal-ref"
             method="post" novalidate=null>
-                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="whyAreYouAppealing"> Why are you appealing?</label></h1>
+                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="whyAreYouAppealing"> Summarise why you are appealing</label></h1>
                 <p class="govuk-!-margin-bottom-2">Tell us why you disagree with the local planning authority’s decision.
                     Do not include any new evidence.</p>
                 <div class="govuk-inset-text">Do not include any sensitive information in your response. It will delay
@@ -6024,7 +6024,7 @@ exports[`Dynamic forms journey tests appellant Commercial planning (CAS) Commerc
         <div class="govuk-grid-column-two-thirds">
             <form action="/appeals/cas-planning/prepare-appeal/why-are-you-appealing?id=appeal-ref"
             method="post" novalidate=null>
-                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="whyAreYouAppealing"> Why are you appealing?</label></h1>
+                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="whyAreYouAppealing"> Summarise why you are appealing</label></h1>
                 <p class="govuk-!-margin-bottom-2">Tell us why you disagree with the local planning authority’s decision.
                     Do not include any new evidence.</p>
                 <div class="govuk-inset-text">Do not include any sensitive information in your response. It will delay
@@ -14167,7 +14167,7 @@ exports[`Dynamic forms journey tests appellant Householder Householder should re
         <div class="govuk-grid-column-two-thirds">
             <form action="/appeals/householder/prepare-appeal/why-are-you-appealing?id=appeal-ref"
             method="post" novalidate=null>
-                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="whyAreYouAppealing"> Why are you appealing?</label></h1>
+                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="whyAreYouAppealing"> Summarise why you are appealing</label></h1>
                 <p class="govuk-!-margin-bottom-2">Tell us why you disagree with the local planning authority’s decision.
                     Do not include any new evidence.</p>
                 <div class="govuk-inset-text">Do not include any sensitive information in your response. It will delay

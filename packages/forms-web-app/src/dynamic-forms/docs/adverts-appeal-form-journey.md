@@ -98,7 +98,7 @@ condition: () => shouldDisplayAdvertsQuestions(response);
 
 - text-entry `/description-advertisement/` Enter the description of the advertisement that you submitted in your application
 - boolean `/description-advertisement-correct/` Did the local planning authority change the description of the advertisement?
-- text-entry `/why-are-you-appealing/` Why are you appealing?
+- text-entry `/why-are-you-appealing/` Summarise why you are appealing
 
 ```js
 condition: () => !shouldDisplayAppellantStatement(response);

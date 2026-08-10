@@ -173,7 +173,7 @@ describe('ADVERTS Appeal Form Journey', () => {
 
 		expect(
 			journey.sections[0].questions
-				.find((question) => question.title.includes('Why are you appealing?'))
+				.find((question) => question.title.includes('Summarise why you are appealing'))
 				?.shouldDisplay({
 					...mockResponse,
 					answers: {

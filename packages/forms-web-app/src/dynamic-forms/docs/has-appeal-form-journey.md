@@ -74,7 +74,7 @@ condition: () => shouldDisplayTellingLandowners(response, questions);
 - single-line-input `/reference-number/` What is the application reference number?
 - text-entry `/enter-description-of-development/` Enter the description of development that you submitted in your application
 - boolean `/description-development-correct/` Did the local planning authority change the description of development?
-- text-entry `/why-are-you-appealing/` Why are you appealing?
+- text-entry `/why-are-you-appealing/` Summarise why you are appealing
 
 ```js
 condition: () => !isBeforeExpeditedCutoff(response);
