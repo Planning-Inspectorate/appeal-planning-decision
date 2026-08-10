@@ -1,7 +1,6 @@
 const fetchMock = require('jest-fetch-mock');
 fetchMock.enableMocks();
 
-const fetch = require('node-fetch');
 const { getHtml, storePdfAppeal } = require('../../../src/services/pdf.service');
 const { createDocument } = require('../../../src/lib/documents-api-wrapper');
 
@@ -31,35 +30,35 @@ describe('services/pdf.service', () => {
 		url = '/mock/url';
 		cookieString = "sid='test'";
 		htmlContent = '<html><h1>Simple html file</h1></html>';
-		fetch.resetMocks();
+		fetchMock.resetMocks();
 	});
 
 	describe('getHtml', () => {
 		it('should throw if fetch fails', async () => {
-			fetch.mockReject(new Error('fake error message'));
-			expect(getHtml(id, url, cookieString)).rejects.toThrow('fake error message');
+			fetchMock.mockRejectOnce(new Error('fake error message'));
+			await expect(getHtml(id, url, cookieString)).rejects.toThrow('fake error message');
 		});
 
-		it('should throw if the remote API response is not ok', () => {
-			fetch.mockResponse('fake response body', { status: 400 });
-			expect(getHtml(id, url, cookieString)).rejects.toThrow('Bad Request');
+		it('should throw if the remote API response is not ok', async () => {
+			fetchMock.mockResponse('fake response body', { status: 400 });
+			await expect(getHtml(id, url, cookieString)).rejects.toThrow('Bad Request');
 		});
 
 		it('should throw if the response code is anything other than a 202', async () => {
-			fetch.mockResponse('a response body', { status: 204 });
-			expect(getHtml(id, url, cookieString)).rejects.toThrow('No Content');
+			fetchMock.mockResponse('a response body', { status: 204 });
+			await expect(getHtml(id, url, cookieString)).rejects.toThrow('No Content');
 		});
 
 		it('should return the expected response if the fetch status is 200', async () => {
-			fetch.mockResponse(htmlContent, { status: 200 });
+			fetchMock.mockResponse(htmlContent, { status: 200 });
 			expect(await getHtml(id, url, cookieString)).toEqual(htmlContent);
-			expect(fetch).toHaveBeenCalledWith(url, { headers: { cookie: cookieString } });
+			expect(fetchMock).toHaveBeenCalledWith(url, { headers: { cookie: cookieString } });
 		});
 	});
 
 	describe('storePdfAppeal', () => {
 		it('should throw if the get html appeal API response is not ok', async () => {
-			fetch.mockResponse(htmlContent, { status: 400 });
+			fetchMock.mockResponse(htmlContent, { status: 400 });
 			await createDocument.mockResolvedValue({ data: [] });
 			try {
 				await storePdfAppeal({ appeal: mockAppeal });
@@ -70,7 +69,7 @@ describe('services/pdf.service', () => {
 		});
 
 		it('should throw if the create document API response is not ok', async () => {
-			fetch.mockResponse(htmlContent, { status: 200 });
+			fetchMock.mockResponse(htmlContent, { status: 200 });
 			createDocument.mockImplementation(() => Promise.reject(new Error()));
 			try {
 				await storePdfAppeal({ appeal: mockAppeal });
@@ -82,7 +81,7 @@ describe('services/pdf.service', () => {
 
 		it('should return the expected response if no error were triggered fetch status is 200', async () => {
 			await createDocument.mockResolvedValue({ data: [] });
-			fetch.mockResponse(htmlContent, { status: 200 });
+			fetchMock.mockResponse(htmlContent, { status: 200 });
 			expect(await storePdfAppeal({ appeal: mockAppeal })).toEqual({ data: [] });
 		});
 	});
