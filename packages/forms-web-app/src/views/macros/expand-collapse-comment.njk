@@ -1,33 +1,36 @@
-{% macro renderComment(comment, index, key) %}
+{% macro renderComment(comment, isPdfView, index, key) %}
     <dl class="govuk-summary-list">
         {% if comment.truncatedText %}
             <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">{{ key }}</dt>
                 <dd class="govuk-summary-list__value">
-                    <span id="truncated-text-{{ index }}" class="truncated-text">
-                        <span class="data-truncated-text">
-                            {{ comment.truncatedText | safe }}
+                    {% if isPdfView %}
+                        {{ comment.text | safe }}
+                    {% else %}
+                        <span id="truncated-text-{{ index }}" class="truncated-text">
+                            <span class="data-truncated-text">
+                                {{ comment.truncatedText | safe }}
+                            </span>
+                            <span class="data-full-text">
+                                {{ comment.text | safe }}
+                            </span>
+                            <span class="data-visible-text">
+                                {{ comment.text | safe }}
+                            </span>
                         </span>
-                        <span class="data-full-text">
-                            {{ comment.text | safe  }}
-                        </span>
-                        <span class="data-visible-text">
-                            {{ comment.text | safe  }}
-                        </span>
-                    </span>
-                    {% if comment.truncated %}
-                        <a href="#" id="toggle-button-{{ index }}" class="toggle-button expand-collapse-button">Read more</a>
+                        {% if comment.truncated %}
+                            <a href="#" id="toggle-button-{{ index }}" class="toggle-button expand-collapse-button">Read more</a>
+                        {% endif %}
                     {% endif %}
                 </dd>
             </div>
         {% endif %}
-
         {% if comment.documents %}
             {% for document in comment.documents %}
                 <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key">{{document.documentsLabel}}</dt>
+                    <dt class="govuk-summary-list__key">{{ document.documentsLabel }}</dt>
                     <dd class="govuk-summary-list__value">
-                        {{document.documentsLinks | safe}}
+                        {{ document.documentsLinks | safe }}
                     </dd>
                 </div>
             {% endfor %}

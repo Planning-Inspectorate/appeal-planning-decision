@@ -11,16 +11,21 @@ Currently we are inlining css to avoid the need to make external web requests fr
 
 Would be preferable to allow these requests and to perhaps use print css rules
 
-It currently accepts html as a request to body
+It accepts plain html or gzip-compressed html in the request body.
 
 ## Testing
 
-As multipart
+Unit tests:
 ```shell
-curl -X POST --form-string "html=<style>h1 { font-style: italic; }</style><h1>h1</h1><b>test</b>" http://localhost:3004/api/v1/generate --output result-multi.pdf
+npm test
 ```
 
-As JSON
+As plain raw html
 ```shell
-curl -X POST -H "Content-Type: application/json" --data '{"html":"<style>h1 { font-style: italic; }</style><h1>h1</h1><b>test</b>"}' http://localhost:3004/api/v1/generate --output result.pdf
+curl -X POST -H "Content-Type: text/html; charset=utf-8" --data '<style>h1 { font-style: italic; }</style><h1>h1</h1><b>test</b>' http://localhost:3004/api/v1/generate --output result.pdf
+```
+
+As gzip-compressed raw html
+```shell
+printf '%s' '<style>h1 { font-style: italic; }</style><h1>h1</h1><b>test</b>' | gzip | curl -X POST -H "Content-Type: application/gzip" -H "Content-Encoding: gzip" --data-binary @- http://localhost:3004/api/v1/generate --output result.pdf
 ```

@@ -1,7 +1,6 @@
 const {
 	constants: { APPEAL_ID }
 } = require('@pins/business-rules');
-const { default: fetch } = require('node-fetch');
 const { randomUUID } = require('node:crypto');
 const { documentTypes } = require('@pins/common');
 const config = require('../config');
@@ -26,9 +25,16 @@ const appealTypeUrlMapping = {
 	[APPEAL_ID.PLANNING_SECTION_78]: FULL_APPEAL.DECLARATION_INFORMATION
 };
 
+/**
+ * @param {{ id: string, appealType?: string }} appeal
+ * @returns {string}
+ */
 const buildAppealUrl = (appeal) => {
+	const appealType = /** @type {keyof typeof appealTypeUrlMapping | undefined} */ (
+		appeal.appealType
+	);
 	const urlPart =
-		appealTypeUrlMapping[appeal.appealType] || appealTypeUrlMapping[APPEAL_ID.HOUSEHOLDER];
+		(appealType && appealTypeUrlMapping[appealType]) || appealTypeUrlMapping[APPEAL_ID.HOUSEHOLDER];
 	return `${config.server.host}/${urlPart}/${appeal.id}`;
 };
 
@@ -50,7 +56,7 @@ const getHtml = async (id, url, cookieString) => {
 
 		const opts = {
 			headers: {
-				cookie: cookieString
+				...(cookieString ? { cookie: cookieString } : {})
 			}
 		};
 

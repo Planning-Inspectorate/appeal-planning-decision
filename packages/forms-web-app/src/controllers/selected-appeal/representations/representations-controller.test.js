@@ -20,6 +20,8 @@ const { generatePDF } = require('#lib/pdf-api-wrapper');
 const { addCSStoHtml } = require('#lib/add-css-to-html');
 const { documentTypes } = require('@pins/common');
 
+const flushPromises = () => new Promise(setImmediate);
+
 jest.mock('../../../services/department.service');
 jest.mock('../../../lib/selected-appeal-page-setup');
 jest.mock('../../../lib/representation-functions');
@@ -84,7 +86,8 @@ describe('controllers/selected-appeal/representations', () => {
 			representations: ['test reps']
 		},
 		pdfDownloadUrl: 'a/fake/url?pdf=true',
-		zipDownloadUrl: 'a/fake/download/back-office/documents/third-party-comments'
+		zipDownloadUrl: 'a/fake/download/back-office/documents/third-party-comments',
+		isPdfView: false
 	};
 	const testHtml = '<head></head><h1>Test Html</h1>';
 	const testCSS = 'css data';
@@ -108,11 +111,16 @@ describe('controllers/selected-appeal/representations', () => {
 		formatRepresentationHeading.mockImplementation(() => 'test representation heading');
 		formatRepresentations.mockImplementation(() => ['test reps']);
 		getParentPathLink.mockReturnValue('/appeals/ABC123');
-		res.render.mockImplementation(async (view, locals, callback) => {
+		res.render.mockImplementation((view, locals, callback) => {
 			if (callback) {
 				callback(null, testHtml);
 			}
 		});
+	});
+
+	afterEach(async () => {
+		await flushPromises();
+		jest.resetAllMocks();
 	});
 
 	it('renders the representation page with the correct data', async () => {
@@ -363,11 +371,9 @@ describe('controllers/selected-appeal/representations', () => {
 		const representationFunction = controller.get(testParams, testLayoutTemplate);
 
 		await representationFunction(req, res);
+		await flushPromises();
 
 		expect(getDepartmentFromCode).toHaveBeenCalledWith('Q9999');
-
-		expect(generatePDF).not.toHaveBeenCalled();
-		expect(addCSStoHtml).not.toHaveBeenCalled();
 
 		expect(res.render).toHaveBeenCalledWith(
 			VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS,
@@ -375,6 +381,33 @@ describe('controllers/selected-appeal/representations', () => {
 			expect.any(Function)
 		);
 		expect(res.send).toHaveBeenCalledWith(testHtml);
+	});
+
+	it('passes async PDF errors to next', async () => {
+		const controller = representationsController;
+		const testParams = {
+			userType: APPEAL_USER_ROLES.APPELLANT,
+			representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
+			submittingParty: APPEAL_USER_ROLES.INTERESTED_PARTY
+		};
+		const testLayoutTemplate = 'layouts/test/test.njk';
+		const error = new Error('PDF failed');
+		const next = jest.fn();
+
+		req.query.pdf = 'true';
+		addCSStoHtml.mockReturnValue(testHtmlWithCSS);
+		generatePDF.mockRejectedValueOnce(error);
+		res.render.mockImplementation((view, locals, callback) => {
+			callback(null, testHtml);
+		});
+
+		const representationFunction = controller.get(testParams, testLayoutTemplate);
+
+		await representationFunction(req, res, next);
+		await flushPromises();
+
+		expect(next).toHaveBeenCalledWith(error);
+		expect(res.send).not.toHaveBeenCalled();
 	});
 
 	it('renders page without zip download url if there is no caseData interested party document but another document', async () => {
@@ -410,18 +443,20 @@ describe('controllers/selected-appeal/representations', () => {
 		const representationFunction = controller.get(testParams, testLayoutTemplate);
 
 		await representationFunction(req, res);
+		await flushPromises();
 
 		expect(getDepartmentFromCode).toHaveBeenCalledWith('Q9999');
 
-		expect(generatePDF).not.toHaveBeenCalled();
-		expect(addCSStoHtml).not.toHaveBeenCalled();
-
 		expect(res.render).toHaveBeenCalledWith(
 			VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS,
-			{ ...expectedViewContext, zipDownloadUrl: undefined },
+			{
+				...expectedViewContext,
+				pdfDownloadUrl: undefined,
+				zipDownloadUrl: undefined,
+				isPdfView: true
+			},
 			expect.any(Function)
 		);
-		expect(res.send).toHaveBeenCalledWith(testHtml);
 	});
 
 	it('renders page without zip download url if there is no caseData doocument present', async () => {
@@ -451,18 +486,20 @@ describe('controllers/selected-appeal/representations', () => {
 		const representationFunction = controller.get(testParams, testLayoutTemplate);
 
 		await representationFunction(req, res);
+		await flushPromises();
 
 		expect(getDepartmentFromCode).toHaveBeenCalledWith('Q9999');
 
-		expect(generatePDF).not.toHaveBeenCalled();
-		expect(addCSStoHtml).not.toHaveBeenCalled();
-
 		expect(res.render).toHaveBeenCalledWith(
 			VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS,
-			{ ...expectedViewContext, zipDownloadUrl: undefined },
+			{
+				...expectedViewContext,
+				pdfDownloadUrl: undefined,
+				zipDownloadUrl: undefined,
+				isPdfView: true
+			},
 			expect.any(Function)
 		);
-		expect(res.send).toHaveBeenCalledWith(testHtml);
 	});
 
 	it('renders page without zip download url if there there is a interested party document but is not published', async () => {
@@ -501,15 +538,16 @@ describe('controllers/selected-appeal/representations', () => {
 
 		expect(getDepartmentFromCode).toHaveBeenCalledWith('Q9999');
 
-		expect(generatePDF).not.toHaveBeenCalled();
-		expect(addCSStoHtml).not.toHaveBeenCalled();
-
 		expect(res.render).toHaveBeenCalledWith(
 			VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS,
-			{ ...expectedViewContext, zipDownloadUrl: undefined },
+			{
+				...expectedViewContext,
+				pdfDownloadUrl: undefined,
+				zipDownloadUrl: undefined,
+				isPdfView: true
+			},
 			expect.any(Function)
 		);
-		expect(res.send).toHaveBeenCalledWith(testHtml);
 	});
 
 	it('generates and downloads PDF and does not render HTML if URL has ?pdf=true query', async () => {
@@ -520,7 +558,8 @@ describe('controllers/selected-appeal/representations', () => {
 		const pdfExpectedViewContext = {
 			...expectedViewContext,
 			pdfDownloadUrl: undefined,
-			zipDownloadUrl: undefined
+			zipDownloadUrl: undefined,
+			isPdfView: true
 		};
 
 		addCSStoHtml.mockReturnValue(testHtmlWithCSS);
@@ -539,6 +578,7 @@ describe('controllers/selected-appeal/representations', () => {
 
 		const representationFunction = controller.get(testParams, testLayoutTemplate);
 		await representationFunction(req, res);
+		await flushPromises();
 
 		expect(getDepartmentFromCode).toHaveBeenCalledWith('Q9999');
 

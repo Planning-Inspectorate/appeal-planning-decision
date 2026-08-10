@@ -13,6 +13,8 @@ const { generatePDF } = require('#lib/pdf-api-wrapper');
 const { addCSStoHtml } = require('#lib/add-css-to-html');
 const { bysRows } = require('./appeal-before-you-start-rows');
 
+const flushPromises = () => new Promise(setImmediate);
+
 jest.mock('#lib/determine-user');
 jest.mock('../../../services/user.service');
 jest.mock('../../../services/department.service');
@@ -59,7 +61,8 @@ const expectedViewContext = {
 	},
 	bannerHtmlOverride: undefined,
 	pdfDownloadUrl: 'a/fake/url?pdf=true',
-	backToAppealOverviewLink: 'a/fake'
+	backToAppealOverviewLink: 'a/fake',
+	isPdfView: false
 };
 
 describe('controllers/selected-appeal/appeal-details/index', () => {
@@ -126,7 +129,8 @@ describe('controllers/selected-appeal/appeal-details/index', () => {
 
 			const pdfExpectedViewContext = {
 				...expectedViewContext,
-				pdfDownloadUrl: undefined
+				pdfDownloadUrl: undefined,
+				isPdfView: true
 			};
 
 			addCSStoHtml.mockReturnValue(testHtmlWithCSS);
@@ -135,6 +139,7 @@ describe('controllers/selected-appeal/appeal-details/index', () => {
 
 			const indexGetController = indexController.get();
 			await indexGetController(req, res);
+			await flushPromises();
 
 			expect(determineUser).toHaveBeenCalledWith('a/fake/url');
 			expect(getUserFromSession).toHaveBeenCalledWith(req);
@@ -166,6 +171,25 @@ describe('controllers/selected-appeal/appeal-details/index', () => {
 			);
 			expect(res.set).toHaveBeenNthCalledWith(2, 'Content-type', 'application/pdf');
 			expect(res.send).toHaveBeenCalledWith(testBuffer);
+		});
+
+		it('passes async PDF errors to next', async () => {
+			req.query.pdf = 'true';
+			const error = new Error('PDF failed');
+			const next = jest.fn();
+
+			addCSStoHtml.mockReturnValue(testHtmlWithCSS);
+			generatePDF.mockRejectedValueOnce(error);
+			res.render.mockImplementation((view, locals, callback) => {
+				callback(null, testHtml);
+			});
+
+			const indexGetController = indexController.get();
+			await indexGetController(req, res, next);
+			await flushPromises();
+
+			expect(next).toHaveBeenCalledWith(error);
+			expect(res.send).not.toHaveBeenCalled();
 		});
 	});
 });

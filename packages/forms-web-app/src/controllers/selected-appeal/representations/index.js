@@ -45,7 +45,7 @@ const config = require('../../../config');
  * @returns {import('express').RequestHandler}
  */
 exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/main.njk') => {
-	return async (req, res) => {
+	return async (req, res, next) => {
 		const appealNumber = req.params.appealNumber;
 		const trailingSlashRegex = /\/$/;
 		const userRouteUrl = req.originalUrl.replace(trailingSlashRegex, '').split('?')[0];
@@ -129,21 +129,27 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 				representations: formattedRepresentations
 			},
 			pdfDownloadUrl,
-			zipDownloadUrl
+			zipDownloadUrl,
+			isPdfView: isPagePdfDownload
 		};
 
-		await res.render(representationView, viewContext, async (_, html) => {
+		res.render(representationView, viewContext, async (renderErr, html) => {
+			if (renderErr) return next(renderErr);
 			if (!isPagePdfDownload) return res.send(html);
 
-			const pdfHtml = await addCSStoHtml(html);
-			const pdf = await generatePDF(pdfHtml);
+			try {
+				const pdfHtml = await addCSStoHtml(html);
+				const pdf = await generatePDF(pdfHtml);
 
-			res.set(
-				'Content-disposition',
-				`attachment; filename="Appeal Interested Party Comments ${appealNumber}.pdf"`
-			);
-			res.set('Content-type', 'application/pdf');
-			return res.send(pdf);
+				res.set(
+					'Content-disposition',
+					`attachment; filename="Appeal Interested Party Comments ${appealNumber}.pdf"`
+				);
+				res.set('Content-type', 'application/pdf');
+				return res.send(pdf);
+			} catch (err) {
+				return next(err);
+			}
 		});
 	};
 };

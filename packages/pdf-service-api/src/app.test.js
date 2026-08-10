@@ -1,4 +1,5 @@
 const supertest = require('supertest');
+const { gzipSync } = require('node:zlib');
 
 const chunkSize = 512;
 const maxLength = 1 * chunkSize;
@@ -28,10 +29,28 @@ describe('app', () => {
 	});
 
 	describe('POST /api/v1/generate', () => {
-		it('should parse multipart form data and call postGeneratePdf with the correct data', async () => {
+		it('should parse plain raw html and call postGeneratePdf with the correct data', async () => {
 			const htmlContent = '<html><body></body></html>';
 
-			const response = await supertest(app).post('/api/v1/generate').field('html', htmlContent);
+			const response = await supertest(app)
+				.post('/api/v1/generate')
+				.set('Content-Type', 'text/html; charset=utf-8')
+				.send(htmlContent);
+
+			expect(generatePdf).toHaveBeenCalledWith(htmlContent);
+			expect(response.status).toBe(200);
+			expect(response.body).toBeInstanceOf(Buffer);
+		});
+
+		it('should parse gzip form data and call postGeneratePdf with the correct data', async () => {
+			const htmlContent = '<html><body></body></html>';
+			const compressedHtml = gzipSync(htmlContent);
+
+			const response = await supertest(app)
+				.post('/api/v1/generate')
+				.set('Content-Type', 'application/gzip')
+				.set('Content-Encoding', 'gzip')
+				.send(compressedHtml);
 
 			expect(generatePdf).toHaveBeenCalledWith(htmlContent);
 			expect(response.status).toBe(200);
@@ -51,8 +70,13 @@ describe('app', () => {
 			chunks.push('</body></html>');
 
 			const htmlContent = chunks.join('');
+			const compressedHtml = gzipSync(htmlContent);
 
-			const response = await supertest(app).post('/api/v1/generate').field('html', htmlContent);
+			const response = await supertest(app)
+				.post('/api/v1/generate')
+				.set('Content-Type', 'application/gzip')
+				.set('Content-Encoding', 'gzip')
+				.send(compressedHtml);
 
 			expect(response.status).toBe(500);
 		});

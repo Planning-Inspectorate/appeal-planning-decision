@@ -23,6 +23,8 @@ const { getDepartmentFromCode } = require('../../../services/department.service'
 const { addCSStoHtml } = require('#lib/add-css-to-html');
 const { generatePDF } = require('#lib/pdf-api-wrapper');
 
+const flushPromises = () => new Promise(setImmediate);
+
 jest.mock('@pins/common');
 jest.mock('#lib/determine-user');
 jest.mock('#lib/selected-appeal-page-setup');
@@ -79,7 +81,8 @@ const expectedViewContext = {
 		additionalDocumentsDetails: 'some formatted row data'
 	},
 	pdfDownloadUrl: 'a/fake/url?pdf=true',
-	zipDownloadUrl: `a/fake/download/back-office/documents/${APPEAL_CASE_STAGE.LPA_QUESTIONNAIRE}`
+	zipDownloadUrl: `a/fake/download/back-office/documents/${APPEAL_CASE_STAGE.LPA_QUESTIONNAIRE}`,
+	isPdfView: false
 };
 
 describe('controllers/selected-appeal/questionnaire-details/index', () => {
@@ -111,6 +114,7 @@ describe('controllers/selected-appeal/questionnaire-details/index', () => {
 		it('renders page if URL does not have PDF query', async () => {
 			const indexGetController = indexController.get();
 			await indexGetController(req, res);
+			await flushPromises();
 
 			expect(determineUser).toHaveBeenCalledWith('a/fake/url');
 			expect(getUserFromSession).toHaveBeenCalledWith(req);
@@ -150,7 +154,8 @@ describe('controllers/selected-appeal/questionnaire-details/index', () => {
 			const pdfExpectedViewContext = {
 				...expectedViewContext,
 				pdfDownloadUrl: undefined,
-				zipDownloadUrl: undefined
+				zipDownloadUrl: undefined,
+				isPdfView: true
 			};
 
 			addCSStoHtml.mockReturnValue(testHtmlWithCSS);
@@ -159,6 +164,7 @@ describe('controllers/selected-appeal/questionnaire-details/index', () => {
 
 			const indexGetController = indexController.get();
 			await indexGetController(req, res);
+			await flushPromises();
 
 			expect(determineUser).toHaveBeenCalledWith('a/fake/url');
 			expect(getUserFromSession).toHaveBeenCalledWith(req);
@@ -198,6 +204,25 @@ describe('controllers/selected-appeal/questionnaire-details/index', () => {
 			);
 			expect(res.set).toHaveBeenNthCalledWith(2, 'Content-type', 'application/pdf');
 			expect(res.send).toHaveBeenCalledWith(testBuffer);
+		});
+
+		it('passes async PDF errors to next', async () => {
+			req.query.pdf = 'true';
+			const error = new Error('PDF failed');
+			const next = jest.fn();
+
+			addCSStoHtml.mockReturnValue(testHtmlWithCSS);
+			generatePDF.mockRejectedValueOnce(error);
+			res.render.mockImplementation((view, locals, callback) => {
+				callback(null, testHtml);
+			});
+
+			const indexGetController = indexController.get();
+			await indexGetController(req, res, next);
+			await flushPromises();
+
+			expect(next).toHaveBeenCalledWith(error);
+			expect(res.send).not.toHaveBeenCalled();
 		});
 	});
 });
