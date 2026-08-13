@@ -2,6 +2,7 @@ const { APPEAL_USER_ROLES, EVENT_TYPES, EVENT_SUB_TYPES, LPA_USER_ROLE } = requi
 const { format: formatDate } = require('date-fns');
 const { utcToZonedTime } = require('date-fns-tz');
 const { formatEventAddress } = require('../lib/format-address');
+const { isAnyEnforcementOrLDC } = require('../lib/appeal-type-checks');
 const targetTimezone = 'Europe/London';
 
 /**
@@ -11,9 +12,10 @@ const targetTimezone = 'Europe/London';
 /**
  * @param {Array<Event>} events
  * @param {string} role
+ * @param {string | undefined} appealType
  * @returns {Array<string|null>}
  */
-const formatSiteVisits = (events, role) => {
+const formatSiteVisits = (events, role, appealType) => {
 	let siteVisits = events.filter((item) => item.type === EVENT_TYPES.SITE_VISIT);
 
 	return siteVisits
@@ -25,7 +27,9 @@ const formatSiteVisits = (events, role) => {
 					role === LPA_USER_ROLE)
 			) {
 				if (siteVisit.subtype === EVENT_SUB_TYPES.UNACCOMPANIED) {
-					return 'Our inspector will visit the site. You do not need to attend.';
+					return isAnyEnforcementOrLDC(appealType)
+						? null
+						: 'Our inspector will visit the site. You do not need to attend.';
 				}
 
 				const formattedStart = getFormattedTimeAndDate(siteVisit.startDate);

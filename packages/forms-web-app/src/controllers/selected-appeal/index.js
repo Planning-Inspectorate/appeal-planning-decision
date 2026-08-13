@@ -41,9 +41,9 @@ const {
 	formatDashboardLinkedCaseDetails,
 	isChildLinkedAppeal
 } = require('@pins/common/src/lib/linked-appeals');
-const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const { isFeatureActive } = require('../../featureFlag');
+const { isEnforcementNotice } = require('@pins/common/src/lib/appeal-type-checks');
 
 /** @type {Partial<import('@pins/common/src/view-model-maps/sections/def').UserSectionsDict>} */
 const userSectionsDict = {
@@ -101,9 +101,11 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				)
 			: caseData.Documents;
 
-		const isEnforcement = caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode;
+		const { appealTypeCode } = caseData;
 
-		const siteVisits = isChildLinkedAppeal(caseData) ? [] : formatSiteVisits(events, userType);
+		const siteVisits = isChildLinkedAppeal(caseData)
+			? []
+			: formatSiteVisits(events, userType, appealTypeCode);
 
 		const linkedCaseDetails = formatDashboardLinkedCaseDetails(caseData);
 
@@ -114,9 +116,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		if (!isLPA) {
 			bannerHtmlOverride =
 				config.betaBannerText +
-				config.generateBetaBannerFeedbackLink(
-					config.getAppealTypeFeedbackUrl(caseData.appealTypeCode)
-				);
+				config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealTypeCode));
 		}
 
 		const flags = {
@@ -153,7 +153,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				hearings: formatHearings(events, userType),
 				sections: formatSections({ caseData, sections }),
 				baseUrl: userRouteUrl,
-				decision: mapDecisionTag(caseData.caseDecisionOutcome, isEnforcement),
+				decision: mapDecisionTag(caseData.caseDecisionOutcome, isEnforcementNotice(appealTypeCode)),
 				decisionDate: formatDateForDisplay(caseData.caseDecisionOutcomeDate, {
 					format: 'd MMMM yyyy'
 				}),

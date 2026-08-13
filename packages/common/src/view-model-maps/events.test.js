@@ -1,4 +1,5 @@
 const { LPA_USER_ROLE, APPEAL_USER_ROLES, EVENT_SUB_TYPES } = require('../constants');
+const { CASE_TYPES } = require('../database/data-static');
 const { formatInquiries, formatSiteVisits, formatHearings } = require('./events');
 
 describe('view-model-maps/events', () => {
@@ -41,29 +42,31 @@ describe('view-model-maps/events', () => {
 		addressPostcode: 'AB1 2CD'
 	};
 
+	const nonEnforcementOrLDCAppealType = CASE_TYPES.S78.processCode;
+
 	describe('formatSiteVisits', () => {
 		it('returns empty array if not a valid user', () => {
 			const events = [siteVisitEvent];
 			const role = 'not a valid user';
 
-			expect(formatSiteVisits(events, role)).toHaveLength(0);
+			expect(formatSiteVisits(events, role, nonEnforcementOrLDCAppealType)).toHaveLength(0);
 		});
 
 		it('returns empty array if valid user and no site visit in events array', () => {
 			const events = [inquiryEvent, inquiryEvent, hearingEvent];
 			const role = APPEAL_USER_ROLES.APPELLANT;
 
-			expect(formatSiteVisits(events, role)).toHaveLength(0);
+			expect(formatSiteVisits(events, role, nonEnforcementOrLDCAppealType)).toHaveLength(0);
 		});
 
 		it('returns empty array if valid user but no subtype specified', () => {
 			const events = [siteVisitEvent];
 			const role = APPEAL_USER_ROLES.APPELLANT;
 
-			expect(formatSiteVisits(events, role)).toHaveLength(0);
+			expect(formatSiteVisits(events, role, nonEnforcementOrLDCAppealType)).toHaveLength(0);
 		});
 
-		it('returns correct array if valid user and unaccompanied subtype', () => {
+		it('returns correct array if valid user, nonEnforcementOrLDCAppeal and unaccompanied subtype', () => {
 			const events = [
 				{
 					...siteVisitEvent,
@@ -74,9 +77,27 @@ describe('view-model-maps/events', () => {
 			];
 			const role = APPEAL_USER_ROLES.AGENT;
 
-			expect(formatSiteVisits(events, role)).toEqual([
+			expect(formatSiteVisits(events, role, nonEnforcementOrLDCAppealType)).toEqual([
 				'Our inspector will visit the site. You do not need to attend.'
 			]);
+		});
+
+		it.each([
+			CASE_TYPES.ENFORCEMENT.processCode,
+			CASE_TYPES.ENFORCEMENT_LISTED.processCode,
+			CASE_TYPES.LDC.processCode
+		])('returns empty array if valid user, %s and unaccompanied subtype', (appealType) => {
+			const events = [
+				{
+					...siteVisitEvent,
+					startDate: null,
+					endDate: null,
+					subtype: EVENT_SUB_TYPES.UNACCOMPANIED
+				}
+			];
+			const role = APPEAL_USER_ROLES.AGENT;
+
+			expect(formatSiteVisits(events, role, appealType)).toHaveLength(0);
 		});
 
 		it('returns only siteVisit data not inquiry when user is valid', () => {
@@ -91,7 +112,7 @@ describe('view-model-maps/events', () => {
 			];
 			const role = APPEAL_USER_ROLES.AGENT;
 
-			expect(formatSiteVisits(events, role)).toEqual([
+			expect(formatSiteVisits(events, role, nonEnforcementOrLDCAppealType)).toEqual([
 				'Our inspector will visit the site. You do not need to attend.'
 			]);
 		});
@@ -102,7 +123,7 @@ describe('view-model-maps/events', () => {
 			];
 			const role = LPA_USER_ROLE;
 
-			expect(formatSiteVisits(events, role)).toEqual([
+			expect(formatSiteVisits(events, role, nonEnforcementOrLDCAppealType)).toEqual([
 				'Our inspector will visit the site between 9am and 11am on 29 December 2024. Someone must be at the site to give our inspector access.'
 			]);
 		});
@@ -111,7 +132,7 @@ describe('view-model-maps/events', () => {
 			const events = [{ ...siteVisitEvent, subtype: EVENT_SUB_TYPES.ACCESS }];
 			const role = APPEAL_USER_ROLES.APPELLANT;
 
-			expect(formatSiteVisits(events, role)).toEqual([
+			expect(formatSiteVisits(events, role, nonEnforcementOrLDCAppealType)).toEqual([
 				'Our inspector will visit the site between 9am on 29 December 2024 and 9am on 30 December 2024. Someone must be at the site to give our inspector access.'
 			]);
 		});
@@ -120,7 +141,7 @@ describe('view-model-maps/events', () => {
 			const events = [{ ...siteVisitEvent, endDate: null, subtype: EVENT_SUB_TYPES.ACCESS }];
 			const role = LPA_USER_ROLE;
 
-			expect(formatSiteVisits(events, role)).toEqual([
+			expect(formatSiteVisits(events, role, nonEnforcementOrLDCAppealType)).toEqual([
 				'Our inspector will visit the site at 9am on 29 December 2024. Someone must be at the site to give our inspector access.'
 			]);
 		});
@@ -129,7 +150,7 @@ describe('view-model-maps/events', () => {
 			const events = [{ ...siteVisitEvent, subtype: EVENT_SUB_TYPES.ACCOMPANIED }];
 			const role = APPEAL_USER_ROLES.APPELLANT;
 
-			expect(formatSiteVisits(events, role)).toEqual([
+			expect(formatSiteVisits(events, role, nonEnforcementOrLDCAppealType)).toEqual([
 				'Our inspector will visit the site at 9am on 29 December 2024. You and the other main party must attend the site visit.'
 			]);
 		});
