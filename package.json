@@ -199,7 +199,7 @@
 		"sinon": "^21.1.2",
 		"supertest": "^7.2.2",
 		"swagger-cli": "^4.0.4",
-		"testcontainers": "^12.0.4",
+		"testcontainers": "^12.1.0",
 		"typescript": "^6.0.3",
 		"webpack": "^5.109.2",
 		"webpack-cli": "^7.2.2",
