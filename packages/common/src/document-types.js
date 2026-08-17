@@ -1207,6 +1207,17 @@ const documentTypes = {
 		publiclyAccessible: false,
 		horizonDocumentType: '',
 		horizonDocumentGroupType: ''
+	},
+	generalSupporting: {
+		name: 'generalSupporting',
+		dataModelName: APPEAL_DOCUMENT_TYPE.GENERAL_SUPPORTING,
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => pinsOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '',
+		horizonDocumentGroupType: ''
 	}
 };
 

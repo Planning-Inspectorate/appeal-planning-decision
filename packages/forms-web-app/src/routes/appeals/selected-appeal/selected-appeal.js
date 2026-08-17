@@ -7,6 +7,7 @@ const questionnaireDetailsController = require('../../../controllers/selected-ap
 const planningObligationDetailsController = require('../../../controllers/selected-appeal/planning-obligation-details');
 const costsController = require('../../../controllers/selected-appeal/costs/');
 const downloadDocumentsController = require('../../../controllers/selected-appeal/downloads/documents');
+const documentsController = require('../../../controllers/selected-appeal/documents');
 
 const representationsController = require('../../../controllers/selected-appeal/representations');
 const {
@@ -124,6 +125,15 @@ router.get(
 router.get(
 	'/:appealNumber/local-planning-authority-costs-comments',
 	costsController.get({ userType, costsType: APPEAL_DOCUMENT_TYPE.LPA_COSTS_CORRESPONDENCE })
+);
+
+router.get(
+	'/:appealNumber/supporting-documents',
+	documentsController.get({
+		userType,
+		displayName: 'Supporting documents',
+		documentTypes: [APPEAL_DOCUMENT_TYPE.GENERAL_SUPPORTING]
+	})
 );
 
 router.get(

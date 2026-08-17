@@ -14,7 +14,7 @@ const config = require('../../config');
 const { isEnforcementChildLinkedAppeal } = require('@pins/common/src/lib/linked-appeals');
 const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 
-/** @typedef {function({documentType: string, published: boolean}): boolean} CostsCondition */
+/** @typedef {function({documentType: string, published: boolean}): boolean} DocumentExistsCondition */
 
 /**
  * @param {import ('appeals-service-api').Api.AppealCase} appealCase
@@ -212,6 +212,20 @@ exports.sections = [
 		]
 	},
 	{
+		heading: 'Supporting Documents',
+		links: [
+			{
+				url: '/supporting-documents',
+				text: 'View supporting documents',
+				condition: (appealCase) =>
+					appealCase.Documents.some(
+						/** @type {DocumentExistsCondition} */
+						(doc) => doc.documentType === APPEAL_DOCUMENT_TYPE.GENERAL_SUPPORTING
+					)
+			}
+		]
+	},
+	{
 		heading: 'Costs',
 		links: [
 			{
@@ -219,7 +233,7 @@ exports.sections = [
 				text: 'View your costs applications',
 				condition: (appealCase) =>
 					appealCase.Documents.some(
-						/** @type {CostsCondition} */
+						/** @type {DocumentExistsCondition} */
 						(doc) => doc.documentType === APPEAL_DOCUMENT_TYPE.LPA_COSTS_APPLICATION
 					)
 			},
@@ -229,7 +243,7 @@ exports.sections = [
 				condition: (appealCase) =>
 					caseValid(appealCase) &&
 					appealCase.Documents.some(
-						/** @type {CostsCondition} */
+						/** @type {DocumentExistsCondition} */
 						(doc) =>
 							doc.documentType === APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_APPLICATION && doc.published
 					)
@@ -239,7 +253,7 @@ exports.sections = [
 				text: 'View your costs comments',
 				condition: (appealCase) =>
 					appealCase.Documents.some(
-						/** @type {CostsCondition} */
+						/** @type {DocumentExistsCondition} */
 						(doc) => doc.documentType === APPEAL_DOCUMENT_TYPE.LPA_COSTS_CORRESPONDENCE
 					)
 			},
@@ -249,7 +263,7 @@ exports.sections = [
 				condition: (appealCase) =>
 					caseValid(appealCase) &&
 					appealCase.Documents.some(
-						/** @type {CostsCondition} */
+						/** @type {DocumentExistsCondition} */
 						(doc) =>
 							doc.documentType === APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_CORRESPONDENCE &&
 							doc.published

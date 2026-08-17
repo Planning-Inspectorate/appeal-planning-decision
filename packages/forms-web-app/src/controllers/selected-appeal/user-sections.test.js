@@ -453,6 +453,21 @@ describe('LPA and Appellant Sections', () => {
 				expect(link?.condition(appealCase)).toBe(false);
 			});
 		});
+
+		describe('Supporting documents', () => {
+			it('should show supporting documents when docs are present', () => {
+				appealCase.Documents = [
+					{
+						documentType: APPEAL_DOCUMENT_TYPE.GENERAL_SUPPORTING,
+						published: true
+					}
+				];
+				const section = findSectionByHeading(lpaSections, 'Supporting Documents');
+				const link = findLinkByUrl(section, '/supporting-documents');
+				expect(link?.condition(appealCase)).toBe(true);
+				expect(link?.text).toBe('View supporting documents');
+			});
+		});
 	});
 
 	describe('Appellant Sections', () => {
@@ -762,6 +777,21 @@ describe('LPA and Appellant Sections', () => {
 				const section = findSectionByHeading(appellantSections, 'Proof of evidence and witnesses');
 				const link = findLinkByUrl(section, '/other-party-proof-evidence');
 				expect(link?.condition(appealCase)).toBe(false);
+			});
+		});
+
+		describe('Supporting documents', () => {
+			it('should show supporting documents when docs are present', () => {
+				appealCase.Documents = [
+					{
+						documentType: APPEAL_DOCUMENT_TYPE.GENERAL_SUPPORTING,
+						published: true
+					}
+				];
+				const section = findSectionByHeading(appellantSections, 'Supporting Documents');
+				const link = findLinkByUrl(section, '/supporting-documents');
+				expect(link?.condition(appealCase)).toBe(true);
+				expect(link?.text).toBe('View supporting documents');
 			});
 		});
 	});

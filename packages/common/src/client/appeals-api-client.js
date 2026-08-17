@@ -1279,6 +1279,16 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} id
+	 * @returns {Promise<boolean>}
+	 */
+	async confirmUserHasAccessToAppealCase(id) {
+		const endpoint = `${v2}/appeal-case/${id}/confirm-access`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.status === 200;
+	}
+
+	/**
+	 * @param {string} id
 	 * @returns {Promise<{caseReference: string}>}
 	 */
 	async getAppellantSubmissionCaseReference(id) {
