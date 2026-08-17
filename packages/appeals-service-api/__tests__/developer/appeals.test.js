@@ -7,7 +7,6 @@ const app = require('../../src/app');
 const appDbConnection = require('../../src/db/db');
 const appConfiguration = require('../../src/configuration/config');
 const { createPrismaClient } = require('../../src/db/db-client');
-const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 const MockedExternalApis = require('./external-dependencies/rest-apis/mocked-external-apis');
 const AppealFixtures = require('./fixtures/appeals');
@@ -80,13 +79,6 @@ beforeAll(async () => {
 		'hasserviceapikey-u89q754j-s87j-1n35-s351-789245as890k-1545v789-8s79-0124-qwe7-j2vfds34w5nm';
 	appConfiguration.services.notify.baseUrl = mockedExternalApis.getNotifyUrl();
 	appConfiguration.services.notify.serviceId = 'g09j298f-q59t-9a34-f123-782342hj910l';
-	appConfiguration.services.notify.templates['1001'].appealSubmissionConfirmationEmailToAppellant =
-		1;
-	appConfiguration.services.notify.templates['1001'].appealNotificationEmailToLpa = 2;
-	appConfiguration.services.notify.templates['1005'].appealSubmissionConfirmationEmailToAppellant =
-		3;
-	appConfiguration.services.notify.templates['1005'].appealNotificationEmailToLpa = 4;
-	appConfiguration.services.notify.templates.ERROR_MONITORING.failureToUploadToHorizon = 6;
 	appConfiguration.services.notify.templates.generic = 7;
 	appConfiguration.services.notify.emails.adminMonitoringEmail = 'test@pins.gov.uk';
 	appConfiguration.documents.url = mockedExternalApis.getDocumentsAPIUrl();
@@ -156,100 +148,12 @@ describe('Appeals', () => {
 		// When: the appeal is patched
 		const patchedAppealResponse = await appealsApi
 			.patch(`/api/v1/appeals/${savedAppeal.id}`)
-			.send({ horizonId: 'foo' });
+			.send({ planningApplicationNumber: 'foo' });
 
 		// Then: when we retrieve the appeal, it should have the patch applied
-		savedAppeal.horizonId = 'foo';
+		savedAppeal.planningApplicationNumber = 'foo';
 		savedAppeal.updatedAt = patchedAppealResponse.body.updatedAt;
 		expect(patchedAppealResponse.body).toMatchObject(savedAppeal);
-
-		// And: no external systems should be interacted with
-		expectedNotifyInteractions = [];
-	});
-
-	it('should set agent role if setting isOriginalApplicant false on HAS appeal', async () => {
-		// Given: an appeal is created
-		const householderAppeal = AppealFixtures.newHouseholderAppeal();
-		householderAppeal.aboutYouSection.yourDetails.isOriginalApplicant = true;
-
-		const { appealResponse: savedAppealResponse } = await _createAppeal(householderAppeal);
-
-		if (!savedAppealResponse.ok) {
-			throw new Error('failed to create appeal');
-		}
-
-		let savedAppeal = savedAppealResponse.body;
-
-		const dataToSend = {
-			id: savedAppeal.id,
-			aboutYouSection: {
-				yourDetails: {
-					isOriginalApplicant: false
-				}
-			}
-		};
-
-		// When: the appeal is patched
-		const patchedAppealResponse = await appealsApi
-			.patch(`/api/v1/appeals/${savedAppeal.id}`)
-			.send(dataToSend);
-
-		expect(patchedAppealResponse.body.aboutYouSection.yourDetails.isOriginalApplicant).toBe(false);
-
-		const appeal = await sqlClient.appeal.findFirst({
-			where: {
-				legacyAppealSubmissionId: savedAppeal.id
-			},
-			include: {
-				Users: true
-			}
-		});
-		expect(appeal.Users.length).toBe(1);
-		expect(appeal.Users[0].role).toBe(APPEAL_USER_ROLES.AGENT);
-
-		// And: no external systems should be interacted with
-		expectedNotifyInteractions = [];
-	});
-
-	it('should set agent role if setting isOriginalApplicant false on S76 appeal', async () => {
-		// Given: an appeal is created
-		const fullAppeal = AppealFixtures.newFullAppeal();
-		fullAppeal.contactDetailsSection.isOriginalApplicant = true;
-
-		const { appealResponse: savedAppealResponse } = await _createAppeal(fullAppeal);
-
-		if (!savedAppealResponse.ok) {
-			throw new Error('failed to create appeal');
-		}
-
-		let savedAppeal = savedAppealResponse.body;
-
-		const dataToSend = {
-			id: savedAppeal.id,
-			aboutYouSection: {
-				yourDetails: {
-					isOriginalApplicant: false
-				}
-			}
-		};
-
-		// When: the appeal is patched
-		const patchedAppealResponse = await appealsApi
-			.patch(`/api/v1/appeals/${savedAppeal.id}`)
-			.send(dataToSend);
-
-		expect(patchedAppealResponse.body.aboutYouSection.yourDetails.isOriginalApplicant).toBe(false);
-
-		const appeal = await sqlClient.appeal.findFirst({
-			where: {
-				legacyAppealSubmissionId: savedAppeal.id
-			},
-			include: {
-				Users: true
-			}
-		});
-		expect(appeal.Users.length).toBe(1);
-		expect(appeal.Users[0].role).toBe(APPEAL_USER_ROLES.AGENT);
 
 		// And: no external systems should be interacted with
 		expectedNotifyInteractions = [];

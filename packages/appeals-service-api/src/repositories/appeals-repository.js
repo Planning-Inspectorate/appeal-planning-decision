@@ -17,29 +17,12 @@ class AppealsRepository extends MongoRepository {
 
 	/**
 	 *
-	 * @param {any} email
-	 * @return {Promise<any>}
-	 */
-	async getByEmail(email) {
-		const result = await this.getAllDocumentsThatMatchQuery({
-			'appeal.email': email,
-			'appeal.lpaCode': { $exists: true } // only return if an actual appeal has been started
-		});
-		return result;
-	}
-
-	/**
-	 *
 	 * @param {string} lpaCode
 	 * @param {string} id
 	 * @return {Promise<any>}
 	 */
 	async getByLPACodeAndId(lpaCode, id) {
 		return await this.findOneByQuery({ _id: id, 'appeal.lpaCode': lpaCode });
-	}
-
-	async getByHorizonId(horizonId) {
-		return await this.findOneByQuery({ 'appeal.horizonId': horizonId });
 	}
 
 	/**

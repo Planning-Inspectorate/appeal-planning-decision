@@ -79,11 +79,6 @@ const getCreateDocumentSubmissionData = (submission) => {
 		submissionData.referenceNumber = submission.referenceNumber;
 	}
 
-	// final comments uses horizon id for reference number
-	if (submission?.finalComment) {
-		submissionData.referenceNumber = submission.horizonId;
-	}
-
 	return submissionData;
 };
 
