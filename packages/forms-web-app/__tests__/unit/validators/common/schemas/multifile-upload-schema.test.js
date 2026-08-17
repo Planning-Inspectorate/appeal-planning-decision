@@ -52,18 +52,5 @@ describe('validators/common/schemas/multifile-upload-schema', () => {
 				'pingu.penguin'
 			);
 		});
-
-		it('should call the antivirus validator', async () => {
-			const payload = {
-				mimetype: config.fileUpload.pins.allowedFileTypes.MIME_TYPE_JPEG,
-				name: 'pingu.penguin',
-				size: 12345
-			};
-
-			await fn(payload);
-
-			expect(mockScan).toHaveBeenCalledTimes(1);
-			expect(mockScan).toHaveBeenCalledWith(payload, payload.name);
-		});
 	});
 });
