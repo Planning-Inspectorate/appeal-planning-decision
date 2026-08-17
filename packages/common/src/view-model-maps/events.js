@@ -26,7 +26,7 @@ const formatSiteVisits = (events, role, appealType) => {
 					role === APPEAL_USER_ROLES.AGENT ||
 					role === LPA_USER_ROLE)
 			) {
-				if (siteVisit.subtype === EVENT_SUB_TYPES.UNACCOMPANIED) {
+				if (siteVisit.subtype === EVENT_SUB_TYPES.UNACCOMPANIED && siteVisit.status !== 'pending') {
 					return isAnyEnforcementOrLDC(appealType)
 						? null
 						: 'Our inspector will visit the site. You do not need to attend.';

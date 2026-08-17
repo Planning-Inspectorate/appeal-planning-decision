@@ -70,14 +70,28 @@ describe('view-model-maps/events', () => {
 			const events = [
 				{
 					...siteVisitEvent,
-					startDate: null,
-					endDate: null,
 					subtype: EVENT_SUB_TYPES.UNACCOMPANIED
 				}
 			];
 			const role = APPEAL_USER_ROLES.AGENT;
 
 			expect(formatSiteVisits(events, role, nonEnforcementOrLDCAppealType)).toEqual([
+				'Our inspector will visit the site. You do not need to attend.'
+			]);
+		});
+		it('returns correct array if valid user, nonEnforcementOrLDCAppeal and unaccompanied subtype and no date and time', () => {
+			const events = [
+				{
+					...siteVisitEvent,
+					startDate: null,
+					endDate: null,
+					status: 'pending',
+					subtype: EVENT_SUB_TYPES.UNACCOMPANIED
+				}
+			];
+			const role = APPEAL_USER_ROLES.AGENT;
+
+			expect(formatSiteVisits(events, role, nonEnforcementOrLDCAppealType)).not.toEqual([
 				'Our inspector will visit the site. You do not need to attend.'
 			]);
 		});
