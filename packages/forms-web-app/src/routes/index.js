@@ -13,9 +13,6 @@ const householder = require('./appeal-householder-decision');
 const fullAppeal = require('./full-appeal');
 const appeal = require('./appeal/');
 const appeals = require('./appeals/');
-const save = require('./save');
-const submit = require('./submit-appeal');
-const submission = require('./appellant-submission');
 const lpaDashboard = require('./lpa-dashboard');
 const rule6Appeals = require('./rule-6');
 const listedBuilding = require('./listed-building');
@@ -26,7 +23,6 @@ const enforcementListedBuilding = require('./enforcement-listed-building');
 const ldc = require('./ldc');
 const debug = require('./debug');
 const {
-	getDocument,
 	getAppellantSubmissionPDFV2,
 	getSubmissionDocumentV2Url,
 	getPublishedDocumentV2Url,
@@ -98,25 +94,14 @@ router.use('/appeal', appeal);
 /// post login shared appeals pages ///
 router.use('/appeals', checkLoggedIn, appeals);
 
+//v2 appellant submission pdf
 router.use('/appeal-document/:appellantSubmissionId', checkLoggedIn, getAppellantSubmissionPDFV2);
 //v2 lpaq submission pdf
 router.use('/lpa-questionnaire-document/:caseReference', checkLoggedIn, getLPAQSubmissionPDFV2);
 // v2 published BO documents, doesn't check logged in as some docs are public, checked in docs api
 router.use('/published-document/:documentId', getPublishedDocumentV2Url);
-// v1 appeals / questionnaires documents
-router.use('/document/:appealOrQuestionnaireId/:documentId', checkLoggedIn, getDocument);
 //v2 submission (appeals/questionnaires) documents routes
 router.use('/document/:documentId', checkLoggedIn, getSubmissionDocumentV2Url);
-
-router.use('/save-and-return', checkLoggedIn, checkAppealExists, checkDecisionDateDeadline, save);
-router.use('/submit-appeal', checkLoggedIn, checkAppealExists, checkDecisionDateDeadline, submit);
-router.use(
-	'/appellant-submission',
-	checkLoggedIn,
-	checkAppealExists,
-	checkDecisionDateDeadline,
-	submission
-);
 
 /// Local/Test only pages ///
 router.use('/debug', checkDebugAllowed, debug);

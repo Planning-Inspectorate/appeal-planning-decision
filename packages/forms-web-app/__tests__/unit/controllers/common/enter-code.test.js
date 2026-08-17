@@ -10,7 +10,7 @@ const fullAppealViews = views.VIEW.FULL_APPEAL;
 const lpaViews = views.VIEW.LPA_DASHBOARD;
 const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
 const { mockReq, mockRes } = require('../../mocks');
-const { getSavedAppeal, getExistingAppeal } = require('#lib/appeals-api-wrapper');
+const { getExistingAppeal } = require('#lib/appeals-api-wrapper');
 const { getSessionEmail, setSessionEmail } = require('#lib/session-helper');
 const {
 	getLPAUserStatus,
@@ -182,10 +182,6 @@ describe('controllers/common/enter-code', () => {
 
 	describe('postEnterCode', () => {
 		beforeEach(() => {
-			getSavedAppeal.mockReturnValue({
-				token: '12312',
-				createdAt: '2022-07-14T13:00:48.024Z'
-			});
 			isTokenValid.mockReturnValue({
 				valid: true,
 				action: 'unused'
@@ -218,7 +214,6 @@ describe('controllers/common/enter-code', () => {
 				errorSummary: errorSummary
 			});
 			expect(isTokenValid).not.toHaveBeenCalled();
-			expect(getSavedAppeal).not.toHaveBeenCalled();
 			expect(getExistingAppeal).not.toHaveBeenCalled();
 		});
 
