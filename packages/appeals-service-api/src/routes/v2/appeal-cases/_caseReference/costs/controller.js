@@ -4,20 +4,14 @@ const ApiError = require('#errors/apiError');
 const { checkDocAccess } = require('@pins/common/src/access/document-access');
 const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 
-const { AppealCaseRepository } = require('../../repo');
-const caseRepo = new AppealCaseRepository();
-
-const { LPAQuestionnaireSubmissionRepository } = require('../lpa-questionnaire-submission/repo');
-const submissionRepo = new LPAQuestionnaireSubmissionRepository();
-
 /**
  * @type {import('express').Handler}
  */
 async function getAppealCaseWithCosts(req, res) {
 	const { caseReference } = req.params;
 	const { types } = req.query;
-	const { email, lpaCode } = req.id_token;
-	const isLpa = !!lpaCode;
+	const { email } = req.id_token || {};
+	const appealUserRoles = req.appealUserRoles || [];
 
 	if (!caseReference) {
 		throw ApiError.withMessage(400, 'case reference required');
@@ -43,32 +37,6 @@ async function getAppealCaseWithCosts(req, res) {
 
 	if (!email) {
 		throw ApiError.withMessage(400, 'logged-in email required');
-	}
-
-	/** @type { Array<import('@pins/database/src/client/client').AppealToUser> } */
-	let appealUserRoles = [];
-
-	if (isLpa) {
-		try {
-			await submissionRepo.lpaCanModifyCase({
-				caseReference: caseReference,
-				userLpa: lpaCode
-			});
-		} catch (error) {
-			logger.error({ error }, 'get costs: invalid user access');
-			throw ApiError.forbidden();
-		}
-	} else {
-		try {
-			const result = await caseRepo.userCanModifyCase({
-				caseReference: caseReference,
-				userId: req.auth?.payload.sub
-			});
-			appealUserRoles = result.roles;
-		} catch (error) {
-			logger.error({ error }, 'get costs: invalid user access');
-			throw ApiError.forbidden();
-		}
 	}
 
 	try {
