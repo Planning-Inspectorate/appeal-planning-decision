@@ -295,6 +295,22 @@ module.exports = ({ getSqlClient, appealsApi }) => {
 				expect(notDoc).toBe(0);
 				expect(notRepDoc).toBe(0);
 			});
+
+			it('fails silently if document does not exist', async () => {
+				const caseRef = 'deleteDocument_ref_003';
+				await sqlClient.appealCase.create({
+					data: {
+						Appeal: { create: {} },
+						...createTestAppealCase(caseRef, 'HAS', 'lpa_001')
+					}
+				});
+
+				const docId = crypto.randomUUID();
+
+				const response = await appealsApi.delete(`/api/v2/documents/${docId}`);
+
+				expect(response.status).toBe(200);
+			});
 		});
 
 		describe('get document', () => {
