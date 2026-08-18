@@ -100,10 +100,12 @@ module.exports = class Repo {
 			}
 		});
 
-		await this.dbClient.document.delete({
-			where: {
-				id
-			}
-		});
+		try {
+			await this.dbClient.document.delete({
+				where: { id }
+			});
+		} catch (error) {
+			if (error?.code !== 'P2025') throw error;
+		}
 	}
 };
