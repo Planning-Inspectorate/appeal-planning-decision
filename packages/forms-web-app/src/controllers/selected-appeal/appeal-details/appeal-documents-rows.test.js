@@ -273,7 +273,6 @@ describe('appeal-documents-rows - enforcement and enforcement listed', () => {
 		['Application form', 3],
 		['Evidence of agreement to change description of development', 4],
 		['Decision letter', 5],
-		['Planning obligation', 7],
 		['Costs application', 8],
 		['New supporting documents', 9]
 	])('%s', (rowName, rowNumber) => {
@@ -313,6 +312,41 @@ describe('appeal-documents-rows - enforcement and enforcement listed', () => {
 				expect(rows[6].condition(caseData)).toEqual(true);
 			}
 		);
+	});
+
+	// whether is displayed depends on appeal type and conditions
+	// always displays for ELB, for EN only if there is a statusPlanningObligation
+	describe('Planning obligation document', () => {
+		test('row should always display for ENFORCEMENT LISTED', () => {
+			const caseData = {
+				appealTypeCode: CASE_TYPES.ENFORCEMENT_LISTED.processCode
+			};
+			const rows = documentsRows(caseData);
+			expect(rows[7].keyText).toEqual('Planning obligation');
+			expect(rows[7].valueText).toEqual('No');
+			expect(rows[7].condition(caseData)).toEqual(true);
+		});
+
+		test('row should display for ENFORCEMENT if statusPlanningObligation', () => {
+			const caseData = {
+				appealTypeCode: CASE_TYPES.ENFORCEMENT.processCode,
+				statusPlanningObligation: 'finalised'
+			};
+			const rows = documentsRows(caseData);
+			expect(rows[7].keyText).toEqual('Planning obligation');
+			expect(rows[7].valueText).toEqual('No');
+			expect(rows[7].condition(caseData)).toEqual(true);
+		});
+
+		test('row should not display for ENFORCEMENT if no statusPlanningObligation', () => {
+			const caseData = {
+				appealTypeCode: CASE_TYPES.ENFORCEMENT.processCode
+			};
+			const rows = documentsRows(caseData);
+			expect(rows[7].keyText).toEqual('Planning obligation');
+			expect(rows[7].valueText).toEqual('No');
+			expect(rows[7].condition(caseData)).toEqual(false);
+		});
 	});
 });
 
