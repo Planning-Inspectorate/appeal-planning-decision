@@ -10,8 +10,6 @@ const fullAppealViews = views.VIEW.FULL_APPEAL;
 const lpaViews = views.VIEW.LPA_DASHBOARD;
 const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
 const { mockReq, mockRes } = require('../../mocks');
-const { getSavedAppeal, getExistingAppeal } = require('#lib/appeals-api-wrapper');
-const { getSessionEmail, setSessionEmail } = require('#lib/session-helper');
 const {
 	getLPAUserStatus,
 	setLPAUserStatus,
@@ -21,11 +19,8 @@ const { isTokenValid } = require('#lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
 const { STATUS_CONSTANTS, AUTH } = require('@pins/common/src/constants');
 const { isFeatureActive } = require('../../../../src/featureFlag');
-const { ApiClientError } = require('@pins/common/src/client/api-client-error');
-let { createOTPGrant } = require('@pins/common/src/client/auth-client');
 const config = require('../../../../src/config');
 
-jest.mock('#lib/appeals-api-wrapper');
 jest.mock('#lib/is-token-valid');
 jest.mock('@pins/common/src/utils', () => {
 	return {
@@ -51,8 +46,6 @@ jest.mock('../../../../src/services/user.service', () => {
 	};
 });
 jest.mock('../../../../src/featureFlag');
-jest.mock('#lib/session-helper');
-jest.mock('@pins/common/src/client/auth-client');
 const TEST_EMAIL = 'test@example.com';
 const TEST_ID = '89aa8504-773c-42be-bb68-029716ad9756';
 
@@ -91,44 +84,9 @@ describe('controllers/common/enter-code', () => {
 
 			await returnedFunction(req, res);
 
-			expect(createOTPGrant).toHaveBeenCalledWith(TEST_EMAIL, enterCodeConfig.actions.confirmEmail);
-
 			expect(res.render).toHaveBeenCalledWith(`${householderAppealViews.ENTER_CODE}`, {
 				requestNewCodeLink: `/${householderAppealViews.REQUEST_NEW_CODE}`,
 				confirmEmailLink: `/${householderAppealViews.EMAIL_ADDRESS}`,
-				showNewCode: newCode,
-				bannerHtmlOverride
-			});
-
-			if (newCode) {
-				expect(req.session.enterCode?.newCode).toBe(undefined);
-			}
-		}
-
-		/**
-		 * @param {boolean} [newCode]
-		 */
-		async function getIsReturningFromEmailTest(newCode = undefined) {
-			req = {
-				...req,
-				params: { enterCodeId: TEST_ID },
-				session: { enterCode: { action: enterCodeConfig.actions.saveAndReturn, newCode } }
-			};
-
-			getExistingAppeal.mockResolvedValue(fullAppeal);
-
-			const returnedFunction = getEnterCode(householderAppealViews, { isGeneralLogin: false });
-			await returnedFunction(req, res);
-
-			expect(createOTPGrant).toHaveBeenCalledWith(
-				fullAppeal.email,
-				enterCodeConfig.actions.saveAndReturn
-			);
-
-			expect(setSessionEmail).toHaveBeenCalledWith(req.session, fullAppeal.email, false);
-			expect(res.render).toHaveBeenCalledWith(`${householderAppealViews.ENTER_CODE}`, {
-				requestNewCodeLink: `/${householderAppealViews.REQUEST_NEW_CODE}`,
-				confirmEmailLink: undefined,
 				showNewCode: newCode,
 				bannerHtmlOverride
 			});
@@ -143,15 +101,10 @@ describe('controllers/common/enter-code', () => {
 		});
 
 		it('should handle general log in', async () => {
-			getSessionEmail.mockReturnValue(TEST_EMAIL);
+			req.session.email = TEST_EMAIL;
 			const returnedFunction = getEnterCode(householderAppealViews, { isGeneralLogin: true });
 
 			await returnedFunction(req, res);
-
-			expect(createOTPGrant).toHaveBeenCalledWith(
-				TEST_EMAIL,
-				enterCodeConfig.actions.saveAndReturn
-			);
 
 			expect(res.render).toHaveBeenCalledWith(`${householderAppealViews.ENTER_CODE}`, {
 				confirmEmailLink: `/${householderAppealViews.EMAIL_ADDRESS}`,
@@ -162,30 +115,18 @@ describe('controllers/common/enter-code', () => {
 		});
 
 		it('should handle confirm email for appeal', async () => {
-			getSessionEmail.mockReturnValue(TEST_EMAIL);
+			req.session.email = TEST_EMAIL;
 			await getConfirmEmailTest();
 		});
 
 		it('should handle newCode confirm email', async () => {
-			getSessionEmail.mockReturnValue(TEST_EMAIL);
+			req.session.email = TEST_EMAIL;
 			await getConfirmEmailTest(true);
-		});
-
-		it('should handle save and return', async () => {
-			await getIsReturningFromEmailTest();
-		});
-
-		it('should handle newCode save and return', async () => {
-			await getIsReturningFromEmailTest(true);
 		});
 	});
 
 	describe('postEnterCode', () => {
 		beforeEach(() => {
-			getSavedAppeal.mockReturnValue({
-				token: '12312',
-				createdAt: '2022-07-14T13:00:48.024Z'
-			});
 			isTokenValid.mockReturnValue({
 				valid: true,
 				action: 'unused'
@@ -194,7 +135,7 @@ describe('controllers/common/enter-code', () => {
 		});
 
 		it('should show validation errors to user', async () => {
-			const { ENTER_CODE } = fullAppealViews;
+			const { ENTER_CODE, REQUEST_NEW_CODE, EMAIL_ADDRESS } = fullAppealViews;
 
 			const errors = { 'mock-error': 'Error message' };
 			const errorSummary = [{ text: 'There was an error', href: '#' }];
@@ -209,25 +150,30 @@ describe('controllers/common/enter-code', () => {
 				params: { enterCodeId: 'not-a-valid-id' }
 			};
 
-			const returnedFunction = postEnterCode({ ENTER_CODE }, { isGeneralLogin: false });
+			const returnedFunction = postEnterCode(
+				{ ENTER_CODE, REQUEST_NEW_CODE, EMAIL_ADDRESS },
+				{ isGeneralLogin: false }
+			);
 			await returnedFunction(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(`${ENTER_CODE}`, {
+				confirmEmailLink: '/full-appeal/submit-appeal/email-address',
+				requestNewCodeLink: '/full-appeal/submit-appeal/request-new-code',
 				token: req.body['email-code'],
 				errors: errors,
 				errorSummary: errorSummary
 			});
 			expect(isTokenValid).not.toHaveBeenCalled();
-			expect(getSavedAppeal).not.toHaveBeenCalled();
-			expect(getExistingAppeal).not.toHaveBeenCalled();
 		});
 
 		it('should render need new code page if too many attempts have been made', async () => {
 			const { NEED_NEW_CODE } = fullAppealViews;
-
-			getExistingAppeal.mockReturnValue({
-				fullAppeal
-			});
+			req.session.appeal = {
+				email: 'test@example.com'
+			};
+			req.session.enterCode = {
+				action: enterCodeConfig.actions.confirmEmail
+			};
 
 			isTokenValid.mockReturnValue({
 				tooManyAttempts: true
@@ -242,10 +188,9 @@ describe('controllers/common/enter-code', () => {
 
 		it('should render code expired page when token is expired', async () => {
 			const { CODE_EXPIRED } = fullAppealViews;
-
-			getExistingAppeal.mockReturnValue({
-				fullAppeal
-			});
+			req.session.enterCode = {
+				action: enterCodeConfig.actions.confirmEmail
+			};
 			isTokenValid.mockReturnValue({
 				expired: true
 			});
@@ -258,18 +203,25 @@ describe('controllers/common/enter-code', () => {
 		});
 
 		it('should render page with error message if token invalid', async () => {
-			const { ENTER_CODE } = fullAppealViews;
-
+			const { ENTER_CODE, REQUEST_NEW_CODE, EMAIL_ADDRESS } = fullAppealViews;
+			req.session.enterCode = {
+				action: enterCodeConfig.actions.confirmEmail
+			};
 			isTokenValid.mockReturnValue({
 				valid: false
 			});
 
-			const returnedFunction = postEnterCode({ ENTER_CODE }, { isGeneralLogin: true });
+			const returnedFunction = postEnterCode(
+				{ ENTER_CODE, REQUEST_NEW_CODE, EMAIL_ADDRESS },
+				{ isGeneralLogin: true }
+			);
 			await returnedFunction(req, res);
 
 			const errorMessage = 'Enter the code we sent to your email address';
 
 			expect(res.render).toHaveBeenCalledWith(`${ENTER_CODE}`, {
+				confirmEmailLink: '/full-appeal/submit-appeal/email-address',
+				requestNewCodeLink: '/full-appeal/submit-appeal/request-new-code',
 				token: req.body['email-code'],
 				errors: {
 					'email-code': { msg: errorMessage }
@@ -285,6 +237,7 @@ describe('controllers/common/enter-code', () => {
 
 			const expectUserInSession = () => {
 				expect(req.session.user).toEqual({
+					email: expect.any(String),
 					access_token: 'access',
 					id_token: 'id',
 					expiry: 'expiry'
@@ -293,7 +246,10 @@ describe('controllers/common/enter-code', () => {
 
 			it('should redirect to your appeals for general log on', async () => {
 				const { YOUR_APPEALS } = fullAppealViews;
-
+				req.session.email = 'test@example.com';
+				req.session.enterCode = {
+					action: enterCodeConfig.actions.confirmEmail
+				};
 				isTokenValid.mockResolvedValue({
 					valid: true,
 					access_token: 'access',
@@ -310,6 +266,7 @@ describe('controllers/common/enter-code', () => {
 
 			it('should redirect to confirmed page if email action', async () => {
 				const { EMAIL_CONFIRMED } = fullAppealViews;
+				req.session.appeal = { email: 'test@example.com' };
 				req.session.enterCode = {
 					action: enterCodeConfig.actions.confirmEmail
 				};
@@ -330,6 +287,7 @@ describe('controllers/common/enter-code', () => {
 
 			it('should redirect to custom url if email action', async () => {
 				const { EMAIL_CONFIRMED } = fullAppealViews;
+				req.session.appeal = { email: 'test@example.com' };
 				req.session.enterCode = {
 					action: enterCodeConfig.actions.confirmEmail
 				};
@@ -350,88 +308,12 @@ describe('controllers/common/enter-code', () => {
 				expect(req.appealsApiClient.linkUserToV2Appeal).toHaveBeenCalled();
 			});
 
-			it(`should show user error if returning from email and can't find appeal`, async () => {
-				const { ENTER_CODE } = fullAppealViews;
-				req.session.enterCode = {
-					action: enterCodeConfig.actions.saveAndReturn
-				};
-
-				const error = new ApiClientError('no appeal', 404);
-				getExistingAppeal.mockImplementation(() => Promise.reject(error));
-
-				const returnedFunction = postEnterCode({ ENTER_CODE }, { isGeneralLogin: false });
-				await returnedFunction(req, res);
-
-				const errorMessage = 'We did not find your appeal. Enter the correct code';
-				expect(res.render).toHaveBeenCalledWith(`${ENTER_CODE}`, {
-					token: req.body['email-code'],
-					errors: {
-						'email-code': { msg: errorMessage }
-					},
-					errorSummary: [{ href: '#email-code', text: errorMessage }]
-				});
-			});
-
-			it(`should redirect to custom url if for email return`, async () => {
-				req.session.enterCode = {
-					action: enterCodeConfig.actions.saveAndReturn
-				};
-				req.session.loginRedirect = '/test';
-				req.params = { enterCodeId: 'abc123' };
-
-				const appealLookup = { state: 'DRAFT' };
-
-				getExistingAppeal.mockImplementation(() => Promise.resolve(appealLookup));
-
-				const returnedFunction = postEnterCode({}, { isGeneralLogin: false });
-				await returnedFunction(req, res);
-
-				expect(res.redirect).toHaveBeenCalledWith('/test');
-				expect(req.session.appeal).toEqual(appealLookup);
-			});
-
-			it(`should redirect to appeal submitted for email return if submitted`, async () => {
-				const { APPEAL_ALREADY_SUBMITTED } = fullAppealViews;
-				req.session.enterCode = {
-					action: enterCodeConfig.actions.saveAndReturn
-				};
-
-				const appealLookup = { state: 'SUBMITTED' };
-
-				getExistingAppeal.mockImplementation(() => Promise.resolve(appealLookup));
-
-				const returnedFunction = postEnterCode(
-					{ APPEAL_ALREADY_SUBMITTED },
-					{ isGeneralLogin: false }
-				);
-				await returnedFunction(req, res);
-
-				expect(res.redirect).toHaveBeenCalledWith(`/${APPEAL_ALREADY_SUBMITTED}`);
-				expect(req.session.appeal).toEqual(appealLookup);
-			});
-
-			it(`should redirect to TASK_LIST for email return`, async () => {
-				const { TASK_LIST } = fullAppealViews;
-				req.session.enterCode = {
-					action: enterCodeConfig.actions.saveAndReturn
-				};
-
-				const appealLookup = { state: 'DRAFT' };
-
-				getExistingAppeal.mockImplementation(() => Promise.resolve(appealLookup));
-
-				const returnedFunction = postEnterCode({ TASK_LIST }, { isGeneralLogin: false });
-				await returnedFunction(req, res);
-
-				expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
-				expect(req.session.appeal).toEqual(appealLookup);
-			});
-
 			it('should handle selected page request', async () => {
 				const redirectPath = '/appeals/1234567';
 				req.session.enterCode = {
 					action: enterCodeConfig.actions.confirmEmail
 				};
+				req.session.appeal = { email: 'test@example.com' };
 
 				req.session.loginRedirect = redirectPath;
 				req.session.navigationHistory = ['existing/path'];
@@ -454,10 +336,8 @@ describe('controllers/common/enter-code', () => {
 
 	describe('getEnterCodeLPA', () => {
 		it('should render page', async () => {
-			const userId = '649418158b915f0018524cb7';
 			const expectedURL = 'manage-appeals/enter-code';
 			const expectedContext = {
-				lpaUserId: userId,
 				requestNewCodeLink: '/manage-appeals/request-new-code'
 			};
 			const { ENTER_CODE, CODE_EXPIRED, NEED_NEW_CODE, REQUEST_NEW_CODE, DASHBOARD } = lpaViews;
@@ -469,37 +349,12 @@ describe('controllers/common/enter-code', () => {
 				DASHBOARD
 			};
 			const returnedFunction = getEnterCodeLPA(views);
-			req.params.id = userId;
 			await returnedFunction(req, res);
 			expect(res.render).toHaveBeenCalledWith(expectedURL, expectedContext);
 		});
-		it('should redirect if user id is not supplied', async () => {
-			const {
-				ENTER_CODE,
-				CODE_EXPIRED,
-				NEED_NEW_CODE,
-				REQUEST_NEW_CODE,
-				DASHBOARD,
-				YOUR_EMAIL_ADDRESS
-			} = lpaViews;
-			const views = {
-				ENTER_CODE,
-				CODE_EXPIRED,
-				NEED_NEW_CODE,
-				REQUEST_NEW_CODE,
-				DASHBOARD,
-				YOUR_EMAIL_ADDRESS
-			};
-			const expectedURL = `/${views.YOUR_EMAIL_ADDRESS}`;
-			const returnedFunction = getEnterCodeLPA(views);
-			await returnedFunction(req, res);
-			expect(res.redirect).toHaveBeenCalledWith(expectedURL);
-		});
 		it('should send new code param to view and remove from session', async () => {
-			const userId = '649418158b915f0018524cb7';
 			const expectedURL = 'manage-appeals/enter-code';
 			const expectedContext = {
-				lpaUserId: userId,
 				requestNewCodeLink: '/manage-appeals/request-new-code',
 				showNewCode: true
 			};
@@ -512,71 +367,12 @@ describe('controllers/common/enter-code', () => {
 				DASHBOARD
 			};
 			const returnedFunction = getEnterCodeLPA(views);
-			req.params.id = userId;
 			req.session.enterCode = {
 				newCode: true
 			};
 			await returnedFunction(req, res);
 			expect(res.render).toHaveBeenCalledWith(expectedURL, expectedContext);
-			expect(req.enterCode?.newCode).toBe(undefined);
-		});
-		it('should send token to user if user exists', async () => {
-			const userId = '649418158b915f0018524cb7';
-			const expectedURL = 'manage-appeals/enter-code';
-			const expectedContext = {
-				lpaUserId: userId,
-				requestNewCodeLink: '/manage-appeals/request-new-code'
-			};
-			const fakeUserResponse = {
-				email: 'test@example.com'
-			};
-			const { ENTER_CODE, CODE_EXPIRED, NEED_NEW_CODE, REQUEST_NEW_CODE, DASHBOARD } = lpaViews;
-			const views = {
-				ENTER_CODE,
-				CODE_EXPIRED,
-				NEED_NEW_CODE,
-				REQUEST_NEW_CODE,
-				DASHBOARD
-			};
-
-			getLPAUser.mockResolvedValue(fakeUserResponse);
-
-			const returnedFunction = getEnterCodeLPA(views);
-			req.params.id = userId;
-
-			await returnedFunction(req, res);
-
-			expect(res.render).toHaveBeenCalledWith(expectedURL, expectedContext);
-			expect(createOTPGrant).toHaveBeenCalledWith(
-				fakeUserResponse.email,
-				enterCodeConfig.actions.lpaDashboard
-			);
-		});
-		it('should not send token to user if user lookup fails, but still render page', async () => {
-			const userId = '649418158b915f0018524cb7';
-			const expectedURL = 'manage-appeals/enter-code';
-			const expectedContext = {
-				lpaUserId: userId,
-				requestNewCodeLink: '/manage-appeals/request-new-code'
-			};
-			const { ENTER_CODE, CODE_EXPIRED, NEED_NEW_CODE, REQUEST_NEW_CODE, DASHBOARD } = lpaViews;
-			const views = {
-				ENTER_CODE,
-				CODE_EXPIRED,
-				NEED_NEW_CODE,
-				REQUEST_NEW_CODE,
-				DASHBOARD
-			};
-
-			getLPAUser.mockRejectedValue(new Error('Failed'));
-
-			const returnedFunction = getEnterCodeLPA(views);
-			req.params.id = userId;
-
-			await returnedFunction(req, res);
-
-			expect(res.render).toHaveBeenCalledWith(expectedURL, expectedContext);
-			expect(getLPAUser).toHaveBeenCalledWith(req, userId);
+			expect(req.session.enterCode?.newCode).toBe(undefined);
 		});
 	});
 
@@ -590,8 +386,8 @@ describe('controllers/common/enter-code', () => {
 				REQUEST_NEW_CODE,
 				DASHBOARD
 			};
-			const userId = '649418158b915f0018524cb7';
 			const code = '12345';
+			req.session.email = TEST_EMAIL;
 			isTokenValid.mockResolvedValue({
 				valid: true
 			});
@@ -603,7 +399,6 @@ describe('controllers/common/enter-code', () => {
 
 			const returnedFunction = postEnterCodeLPA(views);
 
-			req.params.id = userId;
 			req.body = {
 				'email-code': code
 			};
@@ -612,8 +407,8 @@ describe('controllers/common/enter-code', () => {
 			expect(isTokenValid).toHaveBeenCalledWith(code, mockUser.email, undefined, [
 				AUTH.SCOPES.USER_DETAILS.LPA
 			]);
-			expect(getLPAUserStatus).toHaveBeenCalledWith(req, userId);
-			expect(setLPAUserStatus).toHaveBeenCalledWith(req, userId, STATUS_CONSTANTS.CONFIRMED);
+			expect(getLPAUserStatus).toHaveBeenCalledWith(req, TEST_EMAIL);
+			expect(setLPAUserStatus).toHaveBeenCalledWith(req, TEST_EMAIL, STATUS_CONSTANTS.CONFIRMED);
 			expect(res.redirect).toHaveBeenCalledWith('/manage-appeals/your-appeals');
 		});
 		it('should redirect on too many attempts', async () => {
@@ -625,9 +420,8 @@ describe('controllers/common/enter-code', () => {
 				REQUEST_NEW_CODE,
 				DASHBOARD
 			};
-			const userId = '649418158b915f0018524cb7';
 			const code = '12345';
-
+			req.session.email = TEST_EMAIL;
 			isTokenValid.mockReturnValue({
 				valid: false,
 				tooManyAttempts: true
@@ -641,13 +435,12 @@ describe('controllers/common/enter-code', () => {
 
 			const returnedFunction = postEnterCodeLPA(views);
 
-			req.params.id = userId;
 			req.body = {
 				'email-code': code
 			};
 
 			await returnedFunction(req, res);
-			expect(res.redirect).toHaveBeenCalledWith(`/manage-appeals/need-new-code/${userId}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/manage-appeals/need-new-code`);
 		});
 		it('should redirect on token expired', async () => {
 			const { ENTER_CODE, CODE_EXPIRED, NEED_NEW_CODE, REQUEST_NEW_CODE, DASHBOARD } = lpaViews;
@@ -658,9 +451,8 @@ describe('controllers/common/enter-code', () => {
 				REQUEST_NEW_CODE,
 				DASHBOARD
 			};
-			const userId = '649418158b915f0018524cb7';
 			const code = '12345';
-
+			req.session.email = TEST_EMAIL;
 			isTokenValid.mockReturnValue({
 				valid: false,
 				expired: true
@@ -674,13 +466,12 @@ describe('controllers/common/enter-code', () => {
 
 			const returnedFunction = postEnterCodeLPA(views);
 
-			req.params.id = userId;
 			req.body = {
 				'email-code': code
 			};
 
 			await returnedFunction(req, res);
-			expect(res.redirect).toHaveBeenCalledWith(`/manage-appeals/code-expired/${userId}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/manage-appeals/code-expired`);
 		});
 
 		it('should set the user session', async () => {
@@ -692,12 +483,12 @@ describe('controllers/common/enter-code', () => {
 				REQUEST_NEW_CODE,
 				DASHBOARD
 			};
-			const userId = '649418158b915f0018524cb7';
 			const code = '12345';
 			const mockUser = {
 				email: 'a',
 				enabled: true
 			};
+			req.session.email = TEST_EMAIL;
 			isTokenValid.mockReturnValue({
 				valid: true
 			});
@@ -706,7 +497,6 @@ describe('controllers/common/enter-code', () => {
 
 			const returnedFunction = postEnterCodeLPA(views);
 
-			req.params.id = userId;
 			req.body = {
 				'email-code': code
 			};
@@ -718,8 +508,8 @@ describe('controllers/common/enter-code', () => {
 
 		it('redirects using session property if a document request', async () => {
 			const views = {};
-			const userId = '649418158b915f0018524cb7';
 			const code = '12345';
+			req.session.email = TEST_EMAIL;
 			isTokenValid.mockResolvedValue({
 				valid: true
 			});
@@ -732,28 +522,25 @@ describe('controllers/common/enter-code', () => {
 			const returnedFunction = postEnterCodeLPA(views);
 
 			req.session.loginRedirect = '/lpa-questionnaire-document/1010101';
-			req.params.id = userId;
 			req.body = {
 				'email-code': code
 			};
 			getLPAUserStatus.mockResolvedValue(STATUS_CONSTANTS.ADDED);
 			await returnedFunction(req, res);
-			expect(getLPAUserStatus).toHaveBeenCalledWith(req, userId);
-			expect(setLPAUserStatus).toHaveBeenCalledWith(req, userId, STATUS_CONSTANTS.CONFIRMED);
+			expect(getLPAUserStatus).toHaveBeenCalledWith(req, TEST_EMAIL);
+			expect(setLPAUserStatus).toHaveBeenCalledWith(req, TEST_EMAIL, STATUS_CONSTANTS.CONFIRMED);
 			expect(res.redirect).toHaveBeenCalledWith('/lpa-questionnaire-document/1010101');
 			expect(req.session.loginRedirect).toEqual(undefined);
 		});
 
 		it('should handle selected page request', async () => {
 			const views = {};
-			const userId = '649418158b915f0018524cb7';
 			const code = '12345';
-
+			req.session.email = TEST_EMAIL;
 			isTokenValid.mockResolvedValue({ valid: true });
 			getLPAUser.mockResolvedValue({ email: 'lpa@example.com' });
 			getLPAUserStatus.mockResolvedValue(STATUS_CONSTANTS.ADDED);
 
-			req.params.id = userId;
 			req.body = { 'email-code': code };
 
 			req.session.loginRedirect = '/manage-appeals/1234567/';

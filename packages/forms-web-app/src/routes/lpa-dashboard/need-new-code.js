@@ -1,5 +1,5 @@
 const express = require('express');
-const { getNeedNewCode, postNeedNewCode } = require('../../controllers/common/need-new-code');
+const { getNeedNewCode, postNeedNewCodeLPA } = require('../../controllers/common/need-new-code');
 
 const router = express.Router();
 
@@ -11,7 +11,7 @@ const {
 
 const needViews = { NEED_NEW_CODE, ENTER_CODE };
 
-router.get('/need-new-code/:id', getNeedNewCode(needViews));
-router.post('/need-new-code/:id', postNeedNewCode(needViews));
+router.get('/need-new-code', getNeedNewCode(needViews));
+router.post('/need-new-code', postNeedNewCodeLPA(needViews));
 
 module.exports = router;

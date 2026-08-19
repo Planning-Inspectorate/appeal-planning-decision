@@ -14,10 +14,7 @@ describe('routes/lpa/request-new-code', () => {
 	});
 
 	it('should define the expected routes', () => {
-		expect(get).toHaveBeenCalledWith('/need-new-code/:id', needNewCodeController.getNeedNewCode());
-		expect(post).toHaveBeenCalledWith(
-			'/need-new-code/:id',
-			needNewCodeController.postNeedNewCode()
-		);
+		expect(get).toHaveBeenCalledWith('/need-new-code', needNewCodeController.getNeedNewCode());
+		expect(post).toHaveBeenCalledWith('/need-new-code', needNewCodeController.postNeedNewCode());
 	});
 });
