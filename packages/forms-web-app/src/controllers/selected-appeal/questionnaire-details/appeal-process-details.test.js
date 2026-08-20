@@ -39,7 +39,7 @@ const expectedRowsHas = [
 ];
 const expectedRowsHasExpedited = [
 	...expectedRowsHas,
-	{ title: 'Significant changes since application', value: '' }
+	{ title: 'Significant changes since application', value: 'No' }
 ];
 const expectedRowsS78 = [
 	{ title: 'Appeal procedure', value: 'Inquiry\ninquiry preference\nExpected duration: 6 days' },
@@ -49,7 +49,7 @@ const expectedRowsS78 = [
 ];
 const expectedRowsS78Expedited = [
 	...expectedRowsS78,
-	{ title: 'Significant changes since application', value: '' }
+	{ title: 'Significant changes since application', value: 'No' }
 ];
 const expectedRowsLDC = [{ title: 'Appeals near the site', value: 'No' }];
 
@@ -107,5 +107,46 @@ describe('appealProcessRows', () => {
 		expect(rows[1].valueText).toEqual('No');
 		expect(rows[2].condition()).toEqual(false);
 		expect(rows[3].condition()).toEqual(false);
+	});
+
+	describe('Significant changes row for LPA Questionnaire', () => {
+		it('should display "No" for HAS expedited questionnaire when anySignificantChangesLpa is "no"', () => {
+			const caseData = {
+				...hasExpeditedLPAQData,
+				anySignificantChangesLpa: 'no'
+			};
+			const rows = appealProcessRows(caseData);
+			const row = rows.find((r) => r.keyText === 'Significant changes since application');
+			expect(row).toBeDefined();
+			expect(row.condition(caseData)).toBe(true);
+			expect(row.valueText).toBe('No');
+		});
+
+		it('should format selected LPA significant changes correctly', () => {
+			const caseData = {
+				...hasExpeditedLPAQData,
+				anySignificantChangesLpa: 'adopted-a-new-local-plan,other',
+				anySignificantChangesLpa_localPlanSignificantChanges: 'New Local Plan 2026',
+				anySignificantChangesLpa_otherSignificantChanges: 'Other changes description'
+			};
+			const rows = appealProcessRows(caseData);
+			const row = rows.find((r) => r.keyText === 'Significant changes since application');
+			expect(row).toBeDefined();
+			expect(row.condition(caseData)).toBe(true);
+			expect(row.valueText).toContain('Adopted a new local plan:<br>New Local Plan 2026');
+			expect(row.valueText).toContain('Other:<br>Other changes description');
+		});
+
+		it('should display "No" for S78 expedited LPA questionnaire when no significant changes option is chosen', () => {
+			const caseData = {
+				...s78ExpeditedLPAQData,
+				anySignificantChangesLpa: 'none'
+			};
+			const rows = appealProcessRows(caseData);
+			const row = rows.find((r) => r.keyText === 'Significant changes since application');
+			expect(row).toBeDefined();
+			expect(row.condition(caseData)).toBe(true);
+			expect(row.valueText).toBe('No');
+		});
 	});
 });
