@@ -222,6 +222,130 @@ describe('getJourneyResponse', () => {
 		expect(next).toHaveBeenCalled();
 	});
 
+	it('should route to JOURNEY_TYPES.S78_QUESTIONNAIRE_PART_1.id when eligible for expedited Part 1 and type of application is permission-in-principle and application decision is granted', async () => {
+		getUserFromSession.mockReturnValue(mockValidTestLpaUser);
+		const s78Appeal = {
+			...mockSubmission,
+			appealTypeCode: CASE_TYPES.S78.processCode,
+			lpaQuestionnaireDueDate: new Date(),
+			typeOfPlanningApplication: 'permission-in-principle',
+			applicationDate: '2026-06-01',
+			applicationDecision: 'granted',
+			caseProcedure: undefined
+		};
+		req.appealsApiClient.getUsersAppealCase.mockResolvedValue(s78Appeal);
+		require('../../lib/is-lpa-in-feature-flag').isLpaInFeatureFlag.mockImplementation(async () => {
+			return true;
+		});
+		isExpeditedPart1Eligible.mockReturnValue(true);
+
+		await getJourneyResponse()(req, res, next);
+
+		expect(res.locals.journeyResponse.journeyId).toBe(JOURNEY_TYPES.S78_QUESTIONNAIRE_PART_1.id);
+		expect(isExpeditedPart1Eligible).toHaveBeenCalledWith({
+			typeOfPlanningApplication: s78Appeal.typeOfPlanningApplication,
+			applicationDate: s78Appeal.applicationDate,
+			eligibility: {
+				applicationDecision: s78Appeal.applicationDecision
+			},
+			appealTypeCode: s78Appeal.appealTypeCode
+		});
+		expect(next).toHaveBeenCalled();
+	});
+
+	it('should route to JOURNEY_TYPES.S78_QUESTIONNAIRE_PART_1.id when eligible for expedited Part 1 and type of application is permission-in-principle and application decision is refused', async () => {
+		getUserFromSession.mockReturnValue(mockValidTestLpaUser);
+		const s78Appeal = {
+			...mockSubmission,
+			appealTypeCode: CASE_TYPES.S78.processCode,
+			lpaQuestionnaireDueDate: new Date(),
+			typeOfPlanningApplication: 'permission-in-principle',
+			applicationDate: '2026-06-01',
+			applicationDecision: 'refused',
+			caseProcedure: undefined
+		};
+		req.appealsApiClient.getUsersAppealCase.mockResolvedValue(s78Appeal);
+		require('../../lib/is-lpa-in-feature-flag').isLpaInFeatureFlag.mockImplementation(async () => {
+			return true;
+		});
+		isExpeditedPart1Eligible.mockReturnValue(true);
+
+		await getJourneyResponse()(req, res, next);
+
+		expect(res.locals.journeyResponse.journeyId).toBe(JOURNEY_TYPES.S78_QUESTIONNAIRE_PART_1.id);
+		expect(isExpeditedPart1Eligible).toHaveBeenCalledWith({
+			typeOfPlanningApplication: s78Appeal.typeOfPlanningApplication,
+			applicationDate: s78Appeal.applicationDate,
+			eligibility: {
+				applicationDecision: s78Appeal.applicationDecision
+			},
+			appealTypeCode: s78Appeal.appealTypeCode
+		});
+		expect(next).toHaveBeenCalled();
+	});
+
+	it('should route to JOURNEY_TYPES.S78_QUESTIONNAIRE.id when ineligible for expedited Part 1 and type of application is permission-in-principle', async () => {
+		getUserFromSession.mockReturnValue(mockValidTestLpaUser);
+		const s78Appeal = {
+			...mockSubmission,
+			appealTypeCode: CASE_TYPES.S78.processCode,
+			lpaQuestionnaireDueDate: new Date(),
+			typeOfPlanningApplication: 'permission-in-principle',
+			applicationDate: '2023-06-01',
+			applicationDecision: 'granted',
+			caseProcedure: undefined
+		};
+		req.appealsApiClient.getUsersAppealCase.mockResolvedValue(s78Appeal);
+		require('../../lib/is-lpa-in-feature-flag').isLpaInFeatureFlag.mockImplementation(async () => {
+			return true;
+		});
+		isExpeditedPart1Eligible.mockReturnValue(false);
+
+		await getJourneyResponse()(req, res, next);
+
+		expect(res.locals.journeyResponse.journeyId).toBe(JOURNEY_TYPES.S78_QUESTIONNAIRE.id);
+		expect(isExpeditedPart1Eligible).toHaveBeenCalledWith({
+			typeOfPlanningApplication: s78Appeal.typeOfPlanningApplication,
+			applicationDate: s78Appeal.applicationDate,
+			eligibility: {
+				applicationDecision: s78Appeal.applicationDecision
+			},
+			appealTypeCode: s78Appeal.appealTypeCode
+		});
+		expect(next).toHaveBeenCalled();
+	});
+
+	it('should route to JOURNEY_TYPES.S78_QUESTIONNAIRE.id when ineligible for expedited Part 1 and type of application is permission-in-principle and application decision is not decided', async () => {
+		getUserFromSession.mockReturnValue(mockValidTestLpaUser);
+		const s78Appeal = {
+			...mockSubmission,
+			appealTypeCode: CASE_TYPES.S78.processCode,
+			lpaQuestionnaireDueDate: new Date(),
+			typeOfPlanningApplication: 'permission-in-principle',
+			applicationDate: '2026-06-01',
+			applicationDecision: 'not decided',
+			caseProcedure: undefined
+		};
+		req.appealsApiClient.getUsersAppealCase.mockResolvedValue(s78Appeal);
+		require('../../lib/is-lpa-in-feature-flag').isLpaInFeatureFlag.mockImplementation(async () => {
+			return true;
+		});
+		isExpeditedPart1Eligible.mockReturnValue(false);
+
+		await getJourneyResponse()(req, res, next);
+
+		expect(res.locals.journeyResponse.journeyId).toBe(JOURNEY_TYPES.S78_QUESTIONNAIRE.id);
+		expect(isExpeditedPart1Eligible).toHaveBeenCalledWith({
+			typeOfPlanningApplication: s78Appeal.typeOfPlanningApplication,
+			applicationDate: s78Appeal.applicationDate,
+			eligibility: {
+				applicationDecision: s78Appeal.applicationDecision
+			},
+			appealTypeCode: s78Appeal.appealTypeCode
+		});
+		expect(next).toHaveBeenCalled();
+	});
+
 	it('should route to JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE_PART_1.id when eligible for expedited ', async () => {
 		getUserFromSession.mockReturnValue(mockValidTestLpaUser);
 		const casAppeal = {
