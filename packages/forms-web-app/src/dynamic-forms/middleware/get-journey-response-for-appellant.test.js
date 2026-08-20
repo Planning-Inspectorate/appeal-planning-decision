@@ -137,6 +137,119 @@ describe('getJourneyResponseForAppellant', () => {
 		expect(next).toHaveBeenCalled();
 	});
 
+	it('should route to S78_PART_1_APPEAL_FORM when eligible for expedited Part 1 and type of application is permission-in-principle', async () => {
+		req.appealsApiClient.getAppellantSubmission.mockResolvedValue({
+			...mockSubmission,
+			appealTypeCode: CASE_TYPES.S78.processCode,
+			typeOfPlanningApplication: 'permission-in-principle',
+			applicationDecision: 'granted'
+		});
+		require('../../lib/is-lpa-in-feature-flag').isLpaInFeatureFlag.mockImplementation(async () => {
+			return true;
+		});
+		isExpeditedPart1Eligible.mockReturnValue(true);
+
+		await getJourneyResponseForAppellant(req, res, next);
+
+		const expectedType = JOURNEY_TYPES.S78_PART_1_APPEAL_FORM.id;
+
+		expect(res.locals.journeyResponse.journeyId).toBe(expectedType);
+		expect(isExpeditedPart1Eligible).toHaveBeenCalledWith({
+			typeOfPlanningApplication: convertedResponse?.typeOfPlanningApplication,
+			applicationDate: convertedResponse?.onApplicationDate,
+			eligibility: {
+				applicationDecision: convertedResponse?.applicationDecision
+			},
+			appealTypeCode: convertedResponse?.appealTypeCode
+		});
+		expect(next).toHaveBeenCalled();
+	});
+
+	it('should route to S78_PART_1_APPEAL_FORM when eligible for expedited Part 1 and type of application is permission-in-principle and application decision is refused', async () => {
+		req.appealsApiClient.getAppellantSubmission.mockResolvedValue({
+			...mockSubmission,
+			appealTypeCode: CASE_TYPES.S78.processCode,
+			typeOfPlanningApplication: 'permission-in-principle',
+			applicationDecision: 'refused'
+		});
+		require('../../lib/is-lpa-in-feature-flag').isLpaInFeatureFlag.mockImplementation(async () => {
+			return true;
+		});
+		isExpeditedPart1Eligible.mockReturnValue(true);
+
+		await getJourneyResponseForAppellant(req, res, next);
+
+		const expectedType = JOURNEY_TYPES.S78_PART_1_APPEAL_FORM.id;
+
+		expect(res.locals.journeyResponse.journeyId).toBe(expectedType);
+		expect(isExpeditedPart1Eligible).toHaveBeenCalledWith({
+			typeOfPlanningApplication: convertedResponse?.typeOfPlanningApplication,
+			applicationDate: convertedResponse?.onApplicationDate,
+			eligibility: {
+				applicationDecision: convertedResponse?.applicationDecision
+			},
+			appealTypeCode: convertedResponse?.appealTypeCode
+		});
+		expect(next).toHaveBeenCalled();
+	});
+
+	it('should route to S78_APPEAL_FORM when ineligible for expedited Part 1 and type of application is permission-in-principle and application decision is not yet decided', async () => {
+		req.appealsApiClient.getAppellantSubmission.mockResolvedValue({
+			...mockSubmission,
+			appealTypeCode: CASE_TYPES.S78.processCode,
+			typeOfPlanningApplication: 'permission-in-principle',
+			applicationDecision: 'not-yet-decided'
+		});
+		require('../../lib/is-lpa-in-feature-flag').isLpaInFeatureFlag.mockImplementation(async () => {
+			return true;
+		});
+		isExpeditedPart1Eligible.mockReturnValue(false);
+
+		await getJourneyResponseForAppellant(req, res, next);
+
+		const expectedType = JOURNEY_TYPES.S78_APPEAL_FORM.id;
+
+		expect(res.locals.journeyResponse.journeyId).toBe(expectedType);
+		expect(isExpeditedPart1Eligible).toHaveBeenCalledWith({
+			typeOfPlanningApplication: convertedResponse?.typeOfPlanningApplication,
+			applicationDate: convertedResponse?.onApplicationDate,
+			eligibility: {
+				applicationDecision: convertedResponse?.applicationDecision
+			},
+			appealTypeCode: convertedResponse?.appealTypeCode
+		});
+		expect(next).toHaveBeenCalled();
+	});
+
+	it('should route to S78_APPEAL_FORM when ineligible for expedited Part 1 and type of application is permission-in-principle', async () => {
+		req.appealsApiClient.getAppellantSubmission.mockResolvedValue({
+			...mockSubmission,
+			appealTypeCode: CASE_TYPES.S78.processCode,
+			typeOfPlanningApplication: 'permission-in-principle',
+			applicationDecision: 'granted',
+			applicationDate: '2023-01-01'
+		});
+		require('../../lib/is-lpa-in-feature-flag').isLpaInFeatureFlag.mockImplementation(async () => {
+			return true;
+		});
+		isExpeditedPart1Eligible.mockReturnValue(false);
+
+		await getJourneyResponseForAppellant(req, res, next);
+
+		const expectedType = JOURNEY_TYPES.S78_APPEAL_FORM.id;
+
+		expect(res.locals.journeyResponse.journeyId).toBe(expectedType);
+		expect(isExpeditedPart1Eligible).toHaveBeenCalledWith({
+			typeOfPlanningApplication: convertedResponse?.typeOfPlanningApplication,
+			applicationDate: convertedResponse?.onApplicationDate,
+			eligibility: {
+				applicationDecision: convertedResponse?.applicationDecision
+			},
+			appealTypeCode: convertedResponse?.appealTypeCode
+		});
+		expect(next).toHaveBeenCalled();
+	});
+
 	it('should set expeditedAppealsEnabled false when expedited flag is inactive', async () => {
 		req.appealsApiClient.getAppellantSubmission.mockResolvedValue(mockSubmission);
 		require('../../lib/is-lpa-in-feature-flag').isLpaInFeatureFlag.mockReturnValue(false);

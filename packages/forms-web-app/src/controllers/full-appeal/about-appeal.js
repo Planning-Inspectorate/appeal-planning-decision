@@ -14,7 +14,8 @@ const {
 			SOMETHING_ELSE,
 			FULL_APPEAL,
 			OUTLINE_PLANNING,
-			RESERVED_MATTERS
+			RESERVED_MATTERS,
+			PERMISSION_IN_PRINCIPLE
 		}
 	}
 } = require('@pins/business-rules');
@@ -121,6 +122,7 @@ const postTypeOfPlanningApplication = async (req, res) => {
 		case FULL_APPEAL:
 		case OUTLINE_PLANNING:
 		case RESERVED_MATTERS:
+		case PERMISSION_IN_PRINCIPLE:
 			return res.redirect('/before-you-start/application-date');
 		case ENFORCEMENT_NOTICE:
 		case ENFORCEMENT_LISTED_BUILDING:

@@ -45,7 +45,8 @@ const TYPE_OF_PLANNING_APPLICATION = {
 	ADVERTISEMENT: 'advertisement',
 	LAWFUL_DEVELOPMENT_CERTIFICATE: 'lawful-development-certificate',
 	SOMETHING_ELSE: 'something-else',
-	I_HAVE_NOT_MADE_A_PLANNING_APPLICATION: 'i-have-not-made-a-planning-application'
+	I_HAVE_NOT_MADE_A_PLANNING_APPLICATION: 'i-have-not-made-a-planning-application',
+	PERMISSION_IN_PRINCIPLE: 'permission-in-principle'
 };
 
 const APPLICATION_DECISION = {
