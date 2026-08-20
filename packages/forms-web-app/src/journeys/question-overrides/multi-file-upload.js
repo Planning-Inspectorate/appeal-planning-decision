@@ -97,6 +97,23 @@ async function getDataToSave(req, journeyResponse, previouslyUploadedFiles) {
 
 	// save valid files to blob storage
 	const uploadedFiles = await saveFilesToBlobStorage.call(this, validFiles, journeyResponse);
+	const successfulUploadedFiles = [];
+
+	for (const uploadedFile of uploadedFiles) {
+		if (Number(uploadedFile.size) === 0) {
+			const errorMsg = `Failed to upload file: ${uploadedFile.originalFileName}`;
+			errors[uploadedFile.id || uploadedFile.originalFileName] = {
+				value: { name: uploadedFile.originalFileName },
+				msg: errorMsg
+			};
+			errorSummary.push({
+				text: errorMsg
+			});
+			continue;
+		}
+
+		successfulUploadedFiles.push(uploadedFile);
+	}
 
 	const journeyFiles = {
 		answers: {
@@ -113,8 +130,8 @@ async function getDataToSave(req, journeyResponse, previouslyUploadedFiles) {
 		journeyFiles.answers[this.fieldName].uploadedFiles.push(...answer.uploadedFiles);
 	}
 
-	if (uploadedFiles) {
-		journeyFiles.answers[this.fieldName].uploadedFiles.push(...uploadedFiles);
+	if (successfulUploadedFiles) {
+		journeyFiles.answers[this.fieldName].uploadedFiles.push(...successfulUploadedFiles);
 	}
 
 	journeyResponse.answers[this.fieldName] = journeyFiles.answers[this.fieldName];
