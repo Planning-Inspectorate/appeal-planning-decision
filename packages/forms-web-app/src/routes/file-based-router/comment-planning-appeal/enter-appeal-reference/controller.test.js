@@ -8,6 +8,9 @@ describe('enterAppealReference Controller Tests', () => {
 			body: {},
 			appealsApiClient: {
 				appealCaseRefExists: jest.fn()
+			},
+			session: {
+				navigationHistory: ['/before-you-start', '/before-you-start']
 			}
 		};
 		res = {
@@ -21,7 +24,8 @@ describe('enterAppealReference Controller Tests', () => {
 			enterAppealReferenceGet(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(
-				'comment-planning-appeal/enter-appeal-reference/index'
+				'comment-planning-appeal/enter-appeal-reference/index',
+				{ backLink: 'https://www.gov.uk/' }
 			);
 		});
 	});
