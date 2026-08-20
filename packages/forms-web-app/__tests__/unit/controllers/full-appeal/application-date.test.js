@@ -78,6 +78,36 @@ describe('controllers/full-appeal/application-date', () => {
 			expect(res.redirect).toHaveBeenCalledWith(`/before-you-start/granted-or-refused`);
 		});
 
+		it('should save the appeal and redirect to correct page if date is within six months and appealType is permission-in-principle', async () => {
+			const applicationDate = addDays(subDays(startOfDay(new Date()), 181), 1);
+			const mockRequest = {
+				...req,
+				session: {
+					appeal: {
+						...appeal,
+						appealType: constants.APPEAL_ID.PLANNING_SECTION_78,
+						typeOfPlanningApplication:
+							constants.TYPE_OF_PLANNING_APPLICATION.PERMISSION_IN_PRINCIPLE
+					}
+				},
+				body: {
+					'application-date-year': getYear(applicationDate),
+					'application-date-month': getMonth(applicationDate) + 1,
+					'application-date-day': getDate(applicationDate)
+				}
+			};
+
+			await postApplicationDate(mockRequest, res);
+
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+				...appeal,
+				typeOfPlanningApplication: constants.TYPE_OF_PLANNING_APPLICATION.PERMISSION_IN_PRINCIPLE,
+				applicationDate: applicationDate.toISOString()
+			});
+
+			expect(res.redirect).toHaveBeenCalledWith(`/before-you-start/granted-or-refused`);
+		});
+
 		it('should save the appeal and redirect to decision-date if appealType is MINOR_COMMERCIAL_ADVERTISEMENT', async () => {
 			const applicationDate = addDays(subDays(startOfDay(new Date()), 181), 1);
 			const mockRequest = {

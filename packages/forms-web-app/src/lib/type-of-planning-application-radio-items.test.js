@@ -13,7 +13,8 @@ const {
 		ADVERTISEMENT,
 		LAWFUL_DEVELOPMENT_CERTIFICATE,
 		ENFORCEMENT_NOTICE,
-		ENFORCEMENT_LISTED_BUILDING
+		ENFORCEMENT_LISTED_BUILDING,
+		PERMISSION_IN_PRINCIPLE
 	}
 } = require('@pins/business-rules/src/constants');
 const {
@@ -33,18 +34,19 @@ describe('typeOfPlanningApplicationRadioItems', () => {
 		[PRIOR_APPROVAL, 8],
 		[RESERVED_MATTERS, 9],
 		[REMOVAL_OR_VARIATION_OF_CONDITIONS, 10],
-		[SOMETHING_ELSE, 11],
-		// Index 12 is for 'or' divider
-		[I_HAVE_NOT_MADE_A_PLANNING_APPLICATION, 13]
+		[PERMISSION_IN_PRINCIPLE, 11],
+		[SOMETHING_ELSE, 12],
+		// Index 13 is for 'or' divider
+		[I_HAVE_NOT_MADE_A_PLANNING_APPLICATION, 14]
 	])(`returns items list with %s, ldc flag === false`, (typeOfApplication, index) => {
 		const itemsList = typeOfPlanningApplicationRadioItems(false);
-		expect(itemsList.length).toEqual(14);
+		expect(itemsList.length).toEqual(15);
 		expect(itemsList[index].value).toEqual(typeOfApplication);
 	});
 
 	it('returns lawful development certificate if ldc feature flag true', () => {
 		const itemsList = typeOfPlanningApplicationRadioItems(true);
-		expect(itemsList.length).toEqual(15);
+		expect(itemsList.length).toEqual(16);
 		expect(itemsList[7].value).toEqual(LAWFUL_DEVELOPMENT_CERTIFICATE);
 	});
 
