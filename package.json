@@ -145,7 +145,7 @@
 		"multer": "2.2.0",
 		"node-cron": "^4.2.1",
 		"node-fetch": "^2.6.7",
-		"notifications-node-client": "^8.2.1",
+		"notifications-node-client": "^8.4.0",
 		"nunjucks": "^3.2.4",
 		"nunjucks-date-filter": "^0.1.1",
 		"oidc-provider": "^9.6.0",
