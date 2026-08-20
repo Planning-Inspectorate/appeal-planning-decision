@@ -95,6 +95,34 @@ describe('multi-file-upload', () => {
 			expect(createDocument).toHaveBeenCalled();
 		});
 
+		it('adds an error for zero-byte uploads and keeps valid uploads', async () => {
+			req.files = {
+				TestUpload: [makeTestFile('empty.pdf'), makeTestFile('file2.pdf')]
+			};
+			createDocument.mockImplementation((_, file) =>
+				Promise.resolve({
+					id: file.name,
+					name: file.name,
+					originalFileName: file.name,
+					location: `/docs/${file.name}`,
+					size: file.name === 'empty.pdf' ? '0' : '456'
+				})
+			);
+
+			const result = await questionInstance.getDataToSave(req, journeyResponse, []);
+
+			expect(result.uploadedFiles).toHaveLength(1);
+			expect(result.uploadedFiles[0].originalFileName).toBe('file2.pdf');
+			expect(req.body.errors['empty.pdf']).toBeDefined();
+			expect(Object.values(req.body.errors)[0].msg).toBe('Failed to upload file: empty.pdf');
+			expect(req.body.errorSummary).toEqual([
+				{
+					text: 'Failed to upload file: empty.pdf',
+					href: '#TestUpload'
+				}
+			]);
+		});
+
 		it('returns new files but does not remove existing files', async () => {
 			journeyResponse.answers.SubmissionDocumentUpload = [
 				{ name: 'existing.pdf', originalFileName: 'existing.pdf', type: 'test' }
