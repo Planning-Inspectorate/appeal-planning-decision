@@ -26,7 +26,6 @@ exports.appealProcessRows = (caseData) => {
 
 	const formatSignificantChanges = (caseData) => {
 		const changes = caseData.anySignificantChangesLpa?.split(',').map((s) => s.trim()) || [];
-		if (changes.length === 0) return '';
 		const mapping = [
 			{
 				key: 'adopted-a-new-local-plan',
@@ -50,9 +49,11 @@ exports.appealProcessRows = (caseData) => {
 			}
 		];
 
+		const matching = mapping.filter((m) => changes.includes(m.key));
+		if (matching.length === 0) return 'No';
+
 		return nl2br(
-			mapping
-				.filter((m) => changes.includes(m.key))
+			matching
 				.map((m) => {
 					const details = m.details ? `\n${m.details}` : '';
 					return `${m.label}:${details}`;

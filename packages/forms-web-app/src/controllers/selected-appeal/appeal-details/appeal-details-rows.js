@@ -339,7 +339,18 @@ const getStandardDetailsRows = (caseData, context) => {
 		{
 			keyText: 'Significant changes since application',
 			valueText: formatSignificantChanges(caseData),
-			condition: (caseData) => isNotUndefinedOrNull(caseData.anySignificantChanges),
+			condition: (caseData) =>
+				isNotUndefinedOrNull(caseData.anySignificantChanges) ||
+				isExpeditedPart1Eligible({
+					...caseData,
+					eligibility: { applicationDecision: caseData.applicationDecision }
+				}) ||
+				([
+					CASE_TYPES.HAS.processCode,
+					CASE_TYPES.CAS_ADVERTS.processCode,
+					CASE_TYPES.CAS_PLANNING.processCode
+				].includes(caseData.appealTypeCode) &&
+					isExpeditedAppealDate(caseData.applicationDate)),
 			isEscaped: true
 		},
 		{
@@ -883,7 +894,18 @@ const getExpeditedDetailsRows = (caseData, context) => {
 		{
 			keyText: 'Significant changes since application',
 			valueText: formatSignificantChanges(caseData),
-			condition: (caseData) => isNotUndefinedOrNull(caseData.anySignificantChanges),
+			condition: (caseData) =>
+				isNotUndefinedOrNull(caseData.anySignificantChanges) ||
+				isExpeditedPart1Eligible({
+					...caseData,
+					eligibility: { applicationDecision: caseData.applicationDecision }
+				}) ||
+				([
+					CASE_TYPES.HAS.processCode,
+					CASE_TYPES.CAS_ADVERTS.processCode,
+					CASE_TYPES.CAS_PLANNING.processCode
+				].includes(caseData.appealTypeCode) &&
+					isExpeditedAppealDate(caseData.applicationDate)),
 			isEscaped: true
 		},
 		{
@@ -925,8 +947,6 @@ const getExpeditedDetailsRows = (caseData, context) => {
 
 const formatSignificantChanges = (caseData) => {
 	const changes = caseData.anySignificantChanges?.split(',').map((s) => s.trim()) || [];
-	if (changes.length === 0) return '';
-
 	const mapping = [
 		{
 			key: 'adopted-a-new-local-plan',
@@ -950,9 +970,11 @@ const formatSignificantChanges = (caseData) => {
 		}
 	];
 
+	const matching = mapping.filter((m) => changes.includes(m.key));
+	if (matching.length === 0) return 'No';
+
 	return nl2br(
-		mapping
-			.filter((m) => changes.includes(m.key))
+		matching
 			.map((m) => {
 				const details = m.details ? `\n${m.details}` : '';
 				return `${m.label}:${details}`;

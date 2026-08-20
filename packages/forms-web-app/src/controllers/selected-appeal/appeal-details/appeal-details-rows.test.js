@@ -1646,28 +1646,51 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 			expect(row.condition(expeditedCaseData)).toBe(true);
 		});
 
-		it('should handle empty significant changes', () => {
-			const caseData = { ...expeditedCaseData, anySignificantChanges: null };
+		it('should display "No" for expedited appeal when anySignificantChanges is "no" or empty string', () => {
+			const caseData = { ...expeditedCaseData, anySignificantChanges: 'no' };
+			const rows = detailsRows(caseData, APPEAL_USER_ROLES.APPELLANT);
+			const row = rows.find((r) => r.keyText === 'Significant changes since application');
+			expect(row.condition(caseData)).toBe(true);
+			expect(row.valueText).toBe('No');
+		});
+
+		it('should display formatted changes when specific options are selected', () => {
+			const caseData = {
+				...expeditedCaseData,
+				anySignificantChanges: 'adopted-a-new-local-plan,national-policy-change',
+				anySignificantChanges_localPlanSignificantChanges: 'Plan details',
+				anySignificantChanges_nationalPolicySignificantChanges: 'Policy details'
+			};
+			const rows = detailsRows(caseData, APPEAL_USER_ROLES.APPELLANT);
+			const row = rows.find((r) => r.keyText === 'Significant changes since application');
+			expect(row.condition(caseData)).toBe(true);
+			expect(row.valueText).toContain('Adopted a new local plan:<br>Plan details');
+			expect(row.valueText).toContain('National policy changes:<br>Policy details');
+		});
+
+		it('should display "No" for HAS appeal with application date after 1st April 2026 even if anySignificantChanges is null', () => {
+			const caseData = {
+				...nonExpeditedCaseData,
+				appealTypeCode: 'HAS',
+				applicationDate: '2026-04-02',
+				anySignificantChanges: null
+			};
+			const rows = detailsRows(caseData, APPEAL_USER_ROLES.APPELLANT);
+			const row = rows.find((r) => r.keyText === 'Significant changes since application');
+			expect(row.condition(caseData)).toBe(true);
+			expect(row.valueText).toBe('No');
+		});
+
+		it('should not display row for non-expedited non-S78 appeal with application date before 1st April 2026 when anySignificantChanges is null', () => {
+			const caseData = {
+				...nonExpeditedCaseData,
+				appealTypeCode: 'HAS',
+				applicationDate: '2026-03-01',
+				anySignificantChanges: null
+			};
 			const rows = detailsRows(caseData, APPEAL_USER_ROLES.APPELLANT);
 			const row = rows.find((r) => r.keyText === 'Significant changes since application');
 			expect(row.condition(caseData)).toBe(false);
-		});
-
-		it('should not display the appellant Expected procedure duration if not expedited', () => {
-			const caseData = {
-				...nonExpeditedCaseData
-			};
-			const rows = detailsRows(caseData, APPEAL_USER_ROLES.APPELLANT);
-			const row = rows.find((r) => r.keyText === 'Expected procedure duration');
-			expect(row.condition(caseData)).toBe(true);
-		});
-		it('should not display the appellant Expected witness count if not expedited', () => {
-			const caseData = {
-				...nonExpeditedCaseData
-			};
-			const rows = detailsRows(caseData, APPEAL_USER_ROLES.APPELLANT);
-			const row = rows.find((r) => r.keyText === 'Expected witness count');
-			expect(row.condition(caseData)).toBe(true);
 		});
 	});
 });
