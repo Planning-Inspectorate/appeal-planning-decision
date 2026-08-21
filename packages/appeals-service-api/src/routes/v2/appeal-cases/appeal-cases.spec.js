@@ -36,6 +36,7 @@ const {
 	exampleEnforcementListedDataModel
 } = require('../../../../__tests__/developer/fixtures/appeals-enforcement-listed-data-model');
 const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
+const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 const { appendLinkedCasesForMultipleAppeals } = require('./service');
 const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
@@ -43,11 +44,12 @@ const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 /**
  * @param {Object} dependencies
  * @param {function(): import('@pins/database/src/client/client').PrismaClient} dependencies.getSqlClient
+ * @param {function(string): void} dependencies.setCurrentSub
  * @param {function(string): void} dependencies.setCurrentLpa
  * @param {import('../index.test').NotifyClientMock} dependencies.mockNotifyClient
  * @param {import('supertest').Agent} dependencies.appealsApi
  */
-module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi }) => {
+module.exports = ({ getSqlClient, setCurrentSub, setCurrentLpa, mockNotifyClient, appealsApi }) => {
 	const sqlClient = getSqlClient();
 
 	/** @type {string[]} */
@@ -1605,6 +1607,77 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 			it('appends linked case information', async () => {
 				const results = await appendLinkedCasesForMultipleAppeals(inputArray);
 				expect(results).toEqual([enhancedChild1, enhancedChild2, enhancedLead, unlinked]);
+			});
+		});
+
+		describe('get', () => {
+			let validUser = '0';
+			let validLpa = 'LPA1';
+			const currentCaseRef = crypto.randomUUID();
+			beforeAll(async () => {
+				setCurrentSub('random');
+				setCurrentLpa('random');
+				const user = await sqlClient.appealUser.create({
+					data: {
+						email: crypto.randomUUID() + '@example.com'
+					}
+				});
+				validUser = user.id;
+
+				const appeal = await sqlClient.appeal.create({
+					include: {
+						AppealCase: true
+					},
+					data: {
+						Users: {
+							create: {
+								userId: validUser,
+								role: APPEAL_USER_ROLES.APPELLANT
+							}
+						},
+						AppealCase: {
+							create: createTestAppealCase(currentCaseRef, 'S78', validLpa)
+						}
+					}
+				});
+
+				appealCaseIds.push(appeal.id);
+			});
+			afterAll(async () => {
+				await _clearSqlData();
+			});
+
+			it(`checks access for LPA`, async () => {
+				setCurrentLpa(validLpa);
+				const response = await appealsApi
+					.get(`/api/v2/appeal-cases/${currentCaseRef}/confirm-access`)
+					.send();
+				expect(response.status).toBe(200);
+			});
+
+			it(`returns 403 when LPA not authorized`, async () => {
+				setCurrentLpa('not allowed lpa');
+				const response = await appealsApi
+					.get(`/api/v2/appeal-cases/${currentCaseRef}/confirm-access`)
+					.send();
+				expect(response.status).toBe(403);
+			});
+
+			it(`checks access for user`, async () => {
+				setCurrentSub(validUser);
+				setCurrentLpa(null);
+				const response = await appealsApi
+					.get(`/api/v2/appeal-cases/${currentCaseRef}/confirm-access`)
+					.send();
+				expect(response.status).toBe(200);
+			});
+
+			it(`returns 403 when user not authorized`, async () => {
+				setCurrentSub('not allowed user');
+				const response = await appealsApi
+					.get(`/api/v2/appeal-cases/${currentCaseRef}/confirm-access`)
+					.send();
+				expect(response.status).toBe(403);
 			});
 		});
 	});

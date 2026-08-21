@@ -15,6 +15,7 @@ const planningObligationDetailsController = require('../../controllers/selected-
 const downloadDocumentsController = require('../../controllers/selected-appeal/downloads/documents');
 const representationsController = require('../../controllers/selected-appeal/representations');
 const costsController = require('../../controllers/selected-appeal/costs/');
+const documentsController = require('../../controllers/selected-appeal/documents');
 
 const userType = LPA_USER_ROLE;
 
@@ -164,6 +165,15 @@ router.get(
 		{ userType, costsType: APPEAL_DOCUMENT_TYPE.LPA_COSTS_CORRESPONDENCE },
 		'layouts/lpa-dashboard/main.njk'
 	)
+);
+
+router.get(
+	'/:appealNumber/supporting-documents',
+	documentsController.get({
+		userType,
+		displayName: 'Supporting documents',
+		documentTypes: [APPEAL_DOCUMENT_TYPE.GENERAL_SUPPORTING]
+	})
 );
 
 module.exports = router;
