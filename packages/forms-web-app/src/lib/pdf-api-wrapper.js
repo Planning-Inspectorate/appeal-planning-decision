@@ -1,12 +1,18 @@
-const fetch = require('node-fetch');
-const FormData = require('form-data');
+const { gzipSync } = require('node:zlib');
+const { minify } = require('html-minifier-terser');
 const { randomUUID } = require('node:crypto');
 
 const config = require('../config');
 const parentLogger = require('./logger');
 
-exports.generatePDF = async (htmlContent) => {
+/**
+ * @param {string} htmlContent
+ * @param {{ gzip?: boolean }} [options]
+ * @returns {Promise<Buffer>}
+ */
+exports.generatePDF = async (htmlContent, options = {}) => {
 	const path = '/api/v1/generate';
+	const { gzip = true } = options;
 
 	const correlationId = randomUUID();
 	const url = `${config.pdf.url}${path}`;
@@ -18,17 +24,39 @@ exports.generatePDF = async (htmlContent) => {
 
 	let apiResponse;
 	try {
-		const fd = new FormData();
-		fd.append('html', htmlContent);
+		/** @type {Record<string, string>} */
+		const headers = {
+			accept: 'application/pdf'
+		};
+
+		const minifiedHtml = await minify(htmlContent, {
+			removeAttributeQuotes: true,
+			html5: true,
+			removeComments: true,
+			removeEmptyAttributes: true,
+			removeScriptTypeAttributes: true,
+			removeStyleLinkTypeAttributes: true,
+			removeTagWhitespace: true,
+			collapseWhitespace: true
+		});
+
+		const body = gzip ? gzipSync(minifiedHtml) : minifiedHtml;
+		if (gzip) {
+			headers['content-encoding'] = 'gzip';
+			headers['content-type'] = 'application/gzip';
+		} else {
+			headers['content-type'] = 'text/html; charset=utf-8';
+		}
 
 		apiResponse = await fetch(url, {
 			method: 'POST',
-			responseType: 'application/pdf',
-			body: fd
+			headers,
+			body
 		});
 	} catch (e) {
-		logger.error(e);
-		throw new Error(e.toString());
+		const error = e instanceof Error ? e : new Error(String(e));
+		logger.error(error);
+		throw error;
 	}
 
 	if (!apiResponse.ok) {
@@ -36,11 +64,9 @@ exports.generatePDF = async (htmlContent) => {
 		throw new Error(apiResponse.statusText);
 	}
 
-	const ok = (await apiResponse.status) === 200;
-
-	if (!ok) {
+	if (apiResponse.status !== 200) {
 		throw new Error(apiResponse.statusText);
 	}
 
-	return apiResponse.buffer();
+	return Buffer.from(await apiResponse.arrayBuffer());
 };

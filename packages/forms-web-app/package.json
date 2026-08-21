@@ -48,6 +48,7 @@
 		"form-data": "*",
 		"govuk-frontend": "*",
 		"helmet": "*",
+		"html-minifier-terser": "*",
 		"lusca": "*",
 		"node-fetch": "*",
 		"nunjucks": "*",

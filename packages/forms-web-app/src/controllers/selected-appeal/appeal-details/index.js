@@ -22,7 +22,7 @@ const { appealAdditionalDocumentsRows } = require('./appeal-additional-documents
  * @returns {import('express').RequestHandler}
  */
 exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
-	return async (req, res) => {
+	return async (req, res, next) => {
 		const appealNumber = req.params.appealNumber;
 		const trailingSlashRegex = /\/$/;
 		const userRouteUrl = req.originalUrl.replace(trailingSlashRegex, '');
@@ -102,18 +102,24 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				additionalDocuments
 			},
 			pdfDownloadUrl,
-			bannerHtmlOverride
+			bannerHtmlOverride,
+			isPdfView: isPagePdfDownload
 		};
 
-		await res.render(VIEW.SELECTED_APPEAL.APPEAL_DETAILS, viewContext, async (_, html) => {
+		res.render(VIEW.SELECTED_APPEAL.APPEAL_DETAILS, viewContext, async (renderErr, html) => {
+			if (renderErr) return next(renderErr);
 			if (!isPagePdfDownload) return res.send(html);
 
-			const pdfHtml = await addCSStoHtml(html);
-			const pdf = await generatePDF(pdfHtml);
+			try {
+				const pdfHtml = await addCSStoHtml(html);
+				const pdf = await generatePDF(pdfHtml);
 
-			res.set('Content-disposition', `attachment; filename="Appeal ${appealNumber}.pdf"`);
-			res.set('Content-type', 'application/pdf');
-			return res.send(pdf);
+				res.set('Content-disposition', `attachment; filename="Appeal ${appealNumber}.pdf"`);
+				res.set('Content-type', 'application/pdf');
+				return res.send(pdf);
+			} catch (err) {
+				return next(err);
+			}
 		});
 	};
 };
