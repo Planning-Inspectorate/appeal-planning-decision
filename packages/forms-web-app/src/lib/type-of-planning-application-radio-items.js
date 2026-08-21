@@ -14,7 +14,8 @@ const {
 			PRIOR_APPROVAL,
 			RESERVED_MATTERS,
 			REMOVAL_OR_VARIATION_OF_CONDITIONS,
-			SOMETHING_ELSE
+			SOMETHING_ELSE,
+			PERMISSION_IN_PRINCIPLE
 		}
 	}
 } = require('@pins/business-rules');
@@ -123,6 +124,15 @@ exports.typeOfPlanningApplicationRadioItems = (isLDCFeatureFlag, typeOfPlanningA
 			checked: typeOfPlanningApplication === REMOVAL_OR_VARIATION_OF_CONDITIONS,
 			hint: {
 				text: 'Planning conditions limit and control the way you must develop.'
+			}
+		},
+		{
+			value: PERMISSION_IN_PRINCIPLE,
+			text: 'Permission in principle',
+			attributes: { 'data-cy': 'answer-permission-in-principle' },
+			checked: typeOfPlanningApplication === PERMISSION_IN_PRINCIPLE,
+			hint: {
+				text: 'To decide if a site is suitable in principle for development.'
 			}
 		},
 		{

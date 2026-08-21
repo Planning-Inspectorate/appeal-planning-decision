@@ -10,7 +10,8 @@ describe('isExpeditedPart1Eligible', () => {
 	it.each([
 		TYPE_OF_PLANNING_APPLICATION.FULL_APPEAL,
 		TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING,
-		TYPE_OF_PLANNING_APPLICATION.RESERVED_MATTERS
+		TYPE_OF_PLANNING_APPLICATION.RESERVED_MATTERS,
+		TYPE_OF_PLANNING_APPLICATION.PERMISSION_IN_PRINCIPLE
 	])('returns true for %s when the date is on the cutoff and the decision is granted', (type) => {
 		expect(
 			isExpeditedPart1Eligible({
