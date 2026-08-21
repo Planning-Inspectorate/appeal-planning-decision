@@ -2205,7 +2205,6 @@ exports.getQuestionProps = (response) => ({
 		question: 'Upload the design and access statement submitted for the application',
 		fieldName: 'uploadDesignAccessStatement',
 		url: 'design-access-statement-upload',
-		html: 'resources/plans-drawings/upload-design-access-part-1.html',
 		validators: [
 			new RequiredFileUploadValidator('Select the design and access statement'),
 			new MultifileUploadValidator(defaultFileUploadValidatorParams)

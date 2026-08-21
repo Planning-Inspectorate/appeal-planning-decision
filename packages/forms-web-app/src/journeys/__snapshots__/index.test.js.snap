@@ -36402,11 +36402,6 @@ exports[`Dynamic forms journey tests lpa Householder Householder should render t
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Original Evidence</span>
             <h1 class="govuk-heading-l">Upload the design and access statement submitted for the application</h1>
-            <p class="govuk-body">Upload the planning officer’s report to committee or delegated report
-                on the application. You can also upload any other relevant documents or
-                minutes.</p>
-            <p class="govuk-body">If you did not make a decision for the application, upload a copy of what
-                your decision notice would have said.</p>
             <form action="/manage-appeals/questionnaire/appeal-ref/original-evidence/design-access-statement-upload"
             method="post" novalidate enctype="multipart/form-data">
                 <div class="moj-multi-file-upload">
