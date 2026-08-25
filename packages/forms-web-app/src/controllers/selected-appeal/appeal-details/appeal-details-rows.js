@@ -333,7 +333,16 @@ const getStandardDetailsRows = (caseData, context) => {
 			valueText: caseData.reasonForAppealAppellant ?? '',
 			condition: (caseData) =>
 				isNotUndefinedOrNull(caseData.reasonForAppealAppellant) ||
-				isExpeditedAppealDate(caseData.applicationDate),
+				isExpeditedPart1Eligible({
+					...caseData,
+					eligibility: { applicationDecision: caseData.applicationDecision }
+				}) ||
+				([
+					CASE_TYPES.HAS.processCode,
+					CASE_TYPES.CAS_ADVERTS.processCode,
+					CASE_TYPES.CAS_PLANNING.processCode
+				].includes(caseData.appealTypeCode) &&
+					isExpeditedAppealDate(caseData.applicationDate)),
 			isEscaped: true
 		},
 		{
@@ -888,7 +897,16 @@ const getExpeditedDetailsRows = (caseData, context) => {
 			valueText: caseData.reasonForAppealAppellant ?? '',
 			condition: (caseData) =>
 				isNotUndefinedOrNull(caseData.reasonForAppealAppellant) ||
-				isExpeditedAppealDate(caseData.applicationDate),
+				isExpeditedPart1Eligible({
+					...caseData,
+					eligibility: { applicationDecision: caseData.applicationDecision }
+				}) ||
+				([
+					CASE_TYPES.HAS.processCode,
+					CASE_TYPES.CAS_ADVERTS.processCode,
+					CASE_TYPES.CAS_PLANNING.processCode
+				].includes(caseData.appealTypeCode) &&
+					isExpeditedAppealDate(caseData.applicationDate)),
 			isEscaped: true
 		},
 		{
