@@ -60,7 +60,7 @@ const mapDataModelToFODBEvent = (dataModelEvent) => ({
 	name: dataModelEvent.eventName,
 	status: dataModelEvent.eventStatus,
 	published: !!dataModelEvent.eventPublished,
-	startDate: new Date(dataModelEvent.eventStartDateTime),
+	startDate: dataModelEvent.eventStartDateTime ? new Date(dataModelEvent.eventStartDateTime) : null,
 	endDate: dataModelEvent.eventEndDateTime ? new Date(dataModelEvent.eventEndDateTime) : null,
 	isUrgent: dataModelEvent.isUrgent,
 	notificationOfSiteVisit: dataModelEvent.notificationOfSiteVisit
