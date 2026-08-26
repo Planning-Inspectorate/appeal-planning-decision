@@ -1218,6 +1218,17 @@ const documentTypes = {
 		publiclyAccessible: false,
 		horizonDocumentType: '',
 		horizonDocumentGroupType: ''
+	},
+	inquiryCore: {
+		name: 'inquiryCore',
+		dataModelName: APPEAL_DOCUMENT_TYPE.INQUIRY_CORE,
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => pinsOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '',
+		horizonDocumentGroupType: ''
 	}
 };
 

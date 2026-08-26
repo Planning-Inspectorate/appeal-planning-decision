@@ -176,4 +176,13 @@ router.get(
 	})
 );
 
+router.get(
+	'/:appealNumber/inquiry-documents',
+	documentsController.get({
+		userType,
+		displayName: 'Inquiry documents',
+		documentTypes: [APPEAL_DOCUMENT_TYPE.INQUIRY_CORE]
+	})
+);
+
 module.exports = router;
