@@ -3,8 +3,8 @@
 import { BasePage } from "../../../../page-objects/base-page";
 import { PrepareAppealSelector } from "../../../../page-objects/prepare-appeal/prepare-appeal-selector";
 import { appealsE2EIntegration } from "../appealsE2EIntegration";
+import { DateService } from "../../../../utils/dateService";
 
-const applicationFormPage = require("../../pages/appellant-aapd/prepare-appeal/applicationFormPage");
 const { ApplicationNamePage } = require("../../pages/appellant-aapd/prepare-appeal/applicationNamePage");
 const { ContactDetailsPage } = require("../../pages/appellant-aapd/prepare-appeal/contactDetailsPage");
 const { AppealSiteAddressPage } = require("../../pages/appellant-aapd/prepare-appeal/appealSiteAddressPage");
@@ -14,6 +14,11 @@ const { DecideAppealsPage } = require("../../pages/appellant-aapd/prepare-appeal
 const { OtherAppealsPage } = require("../../pages/appellant-aapd/prepare-appeal/otherAppealsPage");
 const { ApplyAppealCostsPage } = require("../../pages/appellant-aapd/upload-documents/applyAppealCostsPage");
 const { OtherNewDocumentsPage } = require("../../pages/appellant-aapd/upload-documents/otherNewDocumentsPage");
+const { SubmitPlanningObligationPage } = require("../../pages/appellant-aapd/upload-documents/submitPlanningObligationPage");
+const { WhoIsAppealingPage } = require("../../pages/appellant-aapd/prepare-appeal/whoIsAppealingPage");
+const { InterestInLandPage } = require("../../pages/appellant-aapd/prepare-appeal/interestInLandPage");
+const { ChooseGroundsPage } = require("../../pages/appellant-aapd/prepare-appeal/chooseGroundsPage");
+const { GroundsFactsPage } = require("../../pages/appellant-aapd/prepare-appeal/groundsFactsPage");
 
 module.exports = (planning, context, prepareAppealData) => {
     const basePage = new BasePage();
@@ -27,8 +32,14 @@ module.exports = (planning, context, prepareAppealData) => {
     const otherAppealsPage = new OtherAppealsPage();
     const applyAppealCostsPage = new ApplyAppealCostsPage();
     const otherNewDocumentsPage = new OtherNewDocumentsPage();
+    const submitPlanningObligationPage = new SubmitPlanningObligationPage();
+    const whoIsAppealingPage = new WhoIsAppealingPage();
+    const interestInLandPage = new InterestInLandPage();
+    const chooseGroundsPage = new ChooseGroundsPage();
+    const groundsFactsPage = new GroundsFactsPage();
+    const date = new DateService();
 
-    cy.pause();
+    //cy.pause();
 
     //  "Before You Start" page
     cy.visit(`${Cypress.config('appeals_beta_base_url')}/before-you-start`);
@@ -39,26 +50,28 @@ module.exports = (planning, context, prepareAppealData) => {
     cy.get(basePage?._selectors?.localPlanningDepartmentOptionZero).click();
     cy.advanceToNextPage();
 
-    // Have you received an enforcement notice? -> Yes (Enforcement appeal)
-    cy.getByData(basePage?._selectors.answerYes).click();
-    cy.advanceToNextPage();
-
+    // // Have you received an enforcement notice? -> Yes (Enforcement appeal)
+    // cy.getByData(basePage?._selectors.answerYes).click();
+    // cy.advanceToNextPage();
+    // Select the application type
+	cy.get(`[data-cy="${planning}"]`).click();
+	cy.advanceToNextPage();
     // Is your enforcement notice about a listed building?
-    if (context?.isListedBuilding) {
-        cy.getByData(basePage?._selectors.answerYes).click();
+  //  if (context?.isListedBuilding) {
+        //cy.getByData(basePage?._selectors.answerYes).click();
 
         // What is the issue date on your enforcement notice?
         // cy.validateURL(`${Cypress.config('appeals_beta_base_url')}/before-you-start/contact-planning-inspectorate`);
-        cy.get('#enforcement-notice-issue-date-day').type(context?.enforcementNotice?.issueDate?.day);
-        cy.get('#enforcement-notice-issue-date-month').type(context?.enforcementNotice?.issueDate?.month);
-        cy.get('#enforcement-notice-issue-date-year').type(context?.enforcementNotice?.issueDate?.year);
+        cy.get(prepareAppealSelector?._enforcementAppealSelectors?.enforcementIssueDateDay).type(context?.enforcementNotice?.issueDate?.day);
+        cy.get(prepareAppealSelector?._enforcementAppealSelectors?.enforcementIssueDateMonth).type(context?.enforcementNotice?.issueDate?.month);
+        cy.get(prepareAppealSelector?._enforcementAppealSelectors?.enforcementIssueDateYear).type(context?.enforcementNotice?.issueDate?.year);
         cy.advanceToNextPage();
 
         // What is the effective date on your enforcement notice? - future date -
         cy.validateURL(`${Cypress.config('appeals_beta_base_url')}/before-you-start/enforcement-effective-date`);
-        cy.get(prepareAppealSelector?._enforcementAppealSelectors?.enforcementNoticeEffectiveDateDay).type(date.futureDay());
-        cy.get(prepareAppealSelector?._enforcementAppealSelectors?.enforcementNoticeEffectiveDateMonth).type(date.futureMonth());
-        cy.get(prepareAppealSelector?._enforcementAppealSelectors?.enforcementNoticeEffectiveDateYear).type(date.futureYear());
+        cy.get(prepareAppealSelector?._enforcementAppealSelectors?.enforcementEffectiveDateDay).type(date.futureDay());
+        cy.get(prepareAppealSelector?._enforcementAppealSelectors?.enforcementEffectiveDateMonth).type(date.futureMonth());
+        cy.get(prepareAppealSelector?._enforcementAppealSelectors?.enforcementEffectiveDateYear).type(date.futureYear());
         cy.advanceToNextPage();
 
         // // Did you contact the Planning Inspectorate to tell them you will appeal the enforcement notice?
@@ -78,28 +91,28 @@ module.exports = (planning, context, prepareAppealData) => {
         // 	cy.advanceToNextPage();
         // }
 
-    } else {
-        cy.getByData(basePage?._selectors.answerNo).click();
-    }
+  //  } else {
+  //      cy.getByData(basePage?._selectors.answerNo).click();
+  //  }
 
     // You can appeal using this service -> Start Appeal
     cy.advanceToNextPage(prepareAppealData?.button);
 
     // What is the reference number on the enforcement notice?
-    cy.get(prepareAppealSelector?._selectors?.applicationReference).type(context?.enforcementNotice?.referenceNumber);
+    cy.getByData(prepareAppealSelector?._selectors?.referenceNumber).type(context?.enforcementNotice?.referenceNumber);
     cy.advanceToNextPage();
 
     // What is your email address?
-        cy.validateURL(`${prepareAppealSelector?._advertURLs?.advert}/email-address`);
+    cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.enforcement}/email-address`);
     cy.getByData(prepareAppealSelector?._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress);
     cy.advanceToNextPage();
 
     // Enter the code we sent to your email address
-        cy.validateURL(`${prepareAppealSelector?._advertURLs?.advert}/enter-code`);
+    cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.enforcement}/enter-code`);
     cy.get(prepareAppealSelector?._selectors?.emailCode).type(prepareAppealData?.email?.emailCode);
     cy.advanceToNextPage();
 
-    cy.validateURL(`${prepareAppealSelector?._advertURLs?.advert}/email-address-confirmed`);
+    cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.enforcement}/email-address-confirmed`);
     cy.advanceToNextPage();
 
     // Before you start (appeal form)
@@ -109,88 +122,32 @@ module.exports = (planning, context, prepareAppealData) => {
         const params = new URLSearchParams(search);
         const dynamicId = params.get('id');
 
-        // Your appeal (application form page)
+        // Your appeal (application form page) - enforcement's first prepare-appeal task is "who-is-appealing", not "application-name"
         cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.appealsEnforcementAppealForm}/your-appeal`);
-        applicationFormPage(prepareAppealSelector?._selectors?.enforcementApplicationType, prepareAppealSelector?._selectors?.appellantOther, dynamicId);
+        cy.taskListComponent(prepareAppealSelector?._selectors?.enforcementApplicationType, 'who-is-appealing', dynamicId);
 
         // 1. Who is appealing against the enforcement notice?
         cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.appealsEnforcementPrepareAppeal}/who-is-appealing`);
-        if (context?.applicationForm?.appellantType === 'organisation') {
-            cy.getByData('answer-organisation').click();
-        } else if (context?.applicationForm?.appellantType === 'additional-appellants') {
-            cy.getByData('answer-additional-appellants').click();
-        } else {
-            cy.getByData('answer-individual').click();
-        }
+        const showContactDetailsAndCompleteOnBehalf = whoIsAppealingPage.addWhoIsAppealingData(context, prepareAppealData);
 
-        cy.advanceToNextPage();
+        if (showContactDetailsAndCompleteOnBehalf) {
+            // Contact details
+            cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.appealsEnforcementPrepareAppeal}/contact-details`);
+            contactDetailsPage.addContactDetailsData(context, prepareAppealSelector?._selectors?.enforcementApplicationType, prepareAppealData);
 
-        // What is the name of the individual appealing against the enforcement notice?
-        if (context?.applicationForm?.appellantType === 'individual' || !context?.applicationForm?.appellantType) {
-            cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.appealsEnforcementPrepareAppeal}/appellant-name`);
-            cy.get('#firstName').type(prepareAppealData?.appellant?.firstName ?? 'Test first name');
-            cy.get('#lastName').type(prepareAppealData?.appellant?.lastName ?? 'Test Last name');
+            // What is your phone number? (handled within contactDetailsPage)
+
+            // Complete the appeal on behalf of [appellant name] - informational page, just continue
+            cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.appealsEnforcementPrepareAppeal}/complete-appeal`);
             cy.advanceToNextPage();
-
-            cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.appealsEnforcementPrepareAppeal}/are-you-appellant`);
-            if (context?.applicationForm?.isAppellant) {
-                // Yes - I am the appellant
-                cy.getByData(basePage?._selectors.answerYes).click();
-                cy.advanceToNextPage();
-
-                // What is your phone number?
-                cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.appealsEnforcementPrepareAppeal}/phone-number`);
-                cy.get('#contactPhoneNumber').type(prepareAppealData?.appellant?.phoneNumber ?? '01234567890');
-                cy.advanceToNextPage();
-
-                // TODO: need to complete here
-
-            } else {
-                // No - I am appealing on behalf of the appellant
-                cy.getByData(basePage?._selectors.answerNo).click();
-                cy.advanceToNextPage();
-            }
         }
-
-        // Contact details
-        cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.appealsEnforcementPrepareAppeal}/contact-details`);
-        contactDetailsPage.addContactDetailsData(context, prepareAppealSelector?._selectors?.enforcementApplicationType, prepareAppealData);
-
-        // What is your phone number? (handled within contactDetailsPage)
-
-        // Complete the appeal on behalf of [appellant name] - informational page, just continue
-        cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.appealsEnforcementPrepareAppeal}/complete-appeal`);
-        cy.advanceToNextPage();
 
         // What is the address of the appeal site?
         cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.appealsEnforcementPrepareAppeal}/appeal-site-address`);
         appealSiteAddressPage.addAppealSiteAddressData(prepareAppealData);
 
-        // Is the appeal site address your contact address?
-        // If Yes -> What is [appellant name]'s interest in the land?
-        if (context?.applicationForm?.isSiteAddressContactAddress) {
-            cy.getByData(basePage?._selectors.answerYes).click();
-            cy.advanceToNextPage();
-
-            cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.appealsEnforcementPrepareAppeal}/interest-in-land`);
-            if (context?.applicationForm?.interestInLand === 'other') {
-                cy.getByData('answer-other').click();
-                cy.get('#interestInAppealLand_interestInAppealLandDetails').type(
-                    prepareAppealData?.interestInLandDetails ?? 'Other interest in land details'
-                );
-            } else if (context?.applicationForm?.interestInLand === 'tenant') {
-                cy.getByData('answer-tenant').click();
-            } else if (context?.applicationForm?.interestInLand === 'mortgageLender') {
-                cy.getByData('answer-mortgageLender').click();
-            } else {
-                // Default: Owner
-                cy.getByData('answer-owner').click();
-            }
-            cy.advanceToNextPage();
-        } else {
-            cy.getByData(basePage?._selectors.answerNo).click();
-            cy.advanceToNextPage();
-        }
+        // Is the appeal site address your contact address? -> What is [appellant name]'s interest in the land?
+        interestInLandPage.addInterestInLandData(context, prepareAppealData);
 
         // Will an inspector need to access the land or property?
         cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.appealsEnforcementPrepareAppeal}/inspector-need-access`);
@@ -202,40 +159,17 @@ module.exports = (planning, context, prepareAppealData) => {
 
         // Enter the description of the alleged breach
         cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.appealsEnforcementPrepareAppeal}/description-alleged-breach`);
-        cy.get(prepareAppealSelector?._selectors?.developmentDescriptionOriginal).type(prepareAppealData?.develpmentDescriptionOriginal);
+        cy.get(prepareAppealSelector?._enforcementAppealSelectors?.allegedBreachDescription).type(prepareAppealData?.develpmentDescriptionOriginal);
         cy.advanceToNextPage();
 
         // Choose your grounds of appeal
         cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.appealsEnforcementPrepareAppeal}/choose-grounds`);
         const grounds = context?.applicationForm?.groundsOfAppeal ?? ['a', 'b'];
-        grounds.forEach((ground) => {
-            cy.getByData(`answer-${ground}`).click();
-        });
-        cy.advanceToNextPage();
+        chooseGroundsPage.addChooseGroundsData(grounds);
 
         // Facts for individual grounds (only shown if that ground was selected)
-        const allGrounds = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k'];
-        const selectedGrounds = context?.applicationForm?.groundsOfAppeal ?? [];
+        groundsFactsPage.addGroundsFactsData(grounds, context, prepareAppealData);
 
-        allGrounds.forEach((ground) => {
-            if (selectedGrounds.includes(ground)) {
-                // Facts textarea for this ground
-                cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.appealsEnforcementPrepareAppeal}/facts-ground-${ground}`);
-                cy.get(`#facts-${ground}`).type(prepareAppealData?.groundsFacts?.[ground] ?? `Facts for ground ${ground} test text`);
-                cy.advanceToNextPage();
-
-                // Do you have any documents to support your ground ([x]) facts?
-                cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.appealsEnforcementPrepareAppeal}/facts-ground-${ground}-supporting-documents`);
-                if (context?.applicationForm?.groundsSupportingDocuments?.[ground]) {
-                    cy.getByData('answer-yes').click();
-                    cy.advanceToNextPage();
-                    cy.uploadFileFromFixtureDirectory(context?.documents?.["uploadGroundSupportingDoc_" + ground] ?? context?.documents?.uploadOtherNewSupportDoc);
-                } else {
-                    cy.getByData('answer-no').click();
-                }
-                cy.advanceToNextPage();
-            }
-        });
         // How would you prefer us to decide your appeal?
         decideAppealsPage.addDecideAppealsData(context?.applicationForm?.appellantProcedurePreference);
 
@@ -246,13 +180,19 @@ module.exports = (planning, context, prepareAppealData) => {
         // 2. Upload documents
 
         // Enforcement notice
-        cy.uploadDocuments(prepareAppealSelector?._selectors?.enforcementApplicationType, prepareAppealSelector?._selectors?.uploadEnforcementNotice, dynamicId);
+        cy.uploadDocuments(prepareAppealSelector?._selectors?.enforcementApplicationType, prepareAppealSelector?._enforcementAppealSelectors?.uploadEnforcementNoticeTask, dynamicId);
         cy.uploadFileFromFixtureDirectory(context?.documents?.uploadEnforcementNotice);
         cy.advanceToNextPage();
 
         // Enforcement notice plan
         cy.uploadFileFromFixtureDirectory(context?.documents?.uploadEnforcementNoticePlan);
         cy.advanceToNextPage();
+
+        // Ground (a) only: do you plan to submit a planning obligation?
+        if (grounds.includes('a')) {
+            cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.appealsEnforcementUploadDocuments}/submit-planning-obligation`);
+            submitPlanningObligationPage.addSubmitPlanningObligationData(context);
+        }
 
         // Do you want to apply for an award of appeal costs?
         applyAppealCostsPage.addApplyAppealCostsData(context);
@@ -261,7 +201,7 @@ module.exports = (planning, context, prepareAppealData) => {
         otherNewDocumentsPage.addOtherNewDocumentsData(context);
 
         // Submit
-        cy.get(`a[href*="/appeals/enforcement/submit/declaration?id=${dynamicId}"]`).click();
+        cy.get(`a[href*="${prepareAppealSelector?._enforcementAppealURLs?.appealsEnforcementSubmitDeclaration}?id=${dynamicId}"]`).click();
         cy.containsMessage(basePage?._selectors.govukButton, prepareAppealData?.acceptAndSubmitButton).click();
 
         cy.get(basePage?._selectors.govukPanelTitle).invoke('text').should((text) => {

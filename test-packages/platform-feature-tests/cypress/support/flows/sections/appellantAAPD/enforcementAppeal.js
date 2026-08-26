@@ -1,15 +1,12 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 const initialiseEnforcementPlanning = require('./initialiseEnforcementPlanning');
+const { validateTypeOfDecisionRequested } = require('./appeal');
 
 function submitEnforcementAppealFlow(appealOptions) {
 	const { typeOfDecisionRequested, planning, context, prepareAppealData } = appealOptions;
 
-	if (['written', 'hearing', 'inquiry'].includes(typeOfDecisionRequested) === false) {
-		throw new Error(
-			`The type of decision requested "${typeOfDecisionRequested}" is not supported!`
-		);
-	}
+	validateTypeOfDecisionRequested(typeOfDecisionRequested);
 
 	if (planning !== 'answer-enforcement') {
 		throw new Error(

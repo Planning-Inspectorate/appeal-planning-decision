@@ -1,11 +1,11 @@
 const documents = {
-    uploadEnforcementNotice: 'enforcement-notice.pdf',
-    uploadEnforcementNoticePlan: 'enforcement-notice-plan.pdf',
+    uploadEnforcementNotice: 'other-supporting-docs.pdf',
+    uploadEnforcementNoticePlan: 'other-supporting-docs.pdf',
     uploadApplicationForAppealCost: 'other-supporting-docs.pdf',
     uploadOtherNewSupportDoc: 'other-supporting-docs.pdf',
     uploadGroundSupportingDoc_a: 'other-supporting-docs.pdf',
     uploadGroundSupportingDoc_d: 'other-supporting-docs.pdf',
-    uploadGroundSupportingDoc_h: 'other-supporting-docs.pdf',
+    uploadGroundSupportingDoc_g: 'other-supporting-docs.pdf',
 };
 
 export const enforcementAppealTestCases = [
@@ -104,8 +104,45 @@ export const enforcementAppealTestCases = [
             appellantProcedurePreference: 'inquiry',
             isSiteAddressContactAddress: true,
             interestInLand: 'other',
-            groundsOfAppeal: ['f', 'g', 'h', 'i'],
-            groundsSupportingDocuments: { f: false, g: false, h: true, i: false },
+            hasPermissionToUseLand: true,
+            groundsOfAppeal: ['e', 'f', 'g'],
+            groundsSupportingDocuments: { e: false, f: false, g: true },
+            anyOtherAppeals: true,
+            isAppellantLinkedCaseAdd: true
+        },
+        uploadDocuments: {
+            isApplyAwardCost: true,
+            isOtherNewDocumentAvailable: true
+        },
+        documents,
+        otherAppeals: [
+            { appealReferenceNumber: '1234567' },
+            { appealReferenceNumber: '7654321' }
+        ]
+    },
+    // Test case 4: Enforcement notice, individual appealing on behalf of the appellant, written procedure
+    {
+        statusOfOriginalApplication: 'enforcement',
+        typeOfDecisionRequested: 'written',
+        typeOfPlanningApplication: 'answer-enforcement',
+        isListedBuilding: false,
+        endToEndIntegration: false,
+        enforcementNotice: {
+            issueDate: { day: '2', month: '2', year: '2026' },
+            effectiveDate: { day: '3', month: '3', year: '2026' },
+            referenceNumber: '1234567',
+            contactedPlanningInspectorate: false
+        },
+        applicationForm: {
+            isAppellant: false,
+            appellantType: 'individual',
+            isInspectorNeedAccess: true,
+            isAppellantSiteSafety: true,
+            appellantProcedurePreference: 'written',
+            isSiteAddressContactAddress: true,
+            interestInLand: 'mortgageLender',
+            groundsOfAppeal: ['b', 'c'],
+            groundsSupportingDocuments: { b: false, c: false },
             anyOtherAppeals: true,
             isAppellantLinkedCaseAdd: true
         },
