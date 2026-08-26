@@ -32,7 +32,7 @@ const {
 const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
 const {
 	isExpeditedPart1Eligible,
-	isExpeditedAppealDate
+	isS78ExpeditedPart1Eligible
 } = require('#lib/is-expedited-part1-eligible');
 const { nl2br } = require('@pins/common/src/utils');
 
@@ -57,11 +57,24 @@ const { nl2br } = require('@pins/common/src/utils');
  */
 
 /**
- * @param {AppealCaseDetailed } caseData
+ * @param {AppealCaseDetailed} caseData
+ * @returns {boolean}
+ */
+const shouldDisplayReasonForAppeal = (caseData) =>
+	isNotUndefinedOrNull(caseData.reasonForAppealAppellant) || isExpeditedPart1Eligible(caseData);
+
+/**
+ * @param {AppealCaseDetailed} caseData
+ * @returns {boolean}
+ */
+const shouldDisplaySignificantChanges = (caseData) =>
+	isNotUndefinedOrNull(caseData.anySignificantChanges) || isExpeditedPart1Eligible(caseData);
+
+/**
+ * @param {AppealCaseDetailed} caseData
  * @param {string} userType
  * @returns {Rows}
  */
-
 exports.detailsRows = (caseData, userType) => {
 	if (
 		caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode ||
@@ -122,7 +135,7 @@ exports.detailsRows = (caseData, userType) => {
 	};
 
 	if (
-		isExpeditedPart1Eligible({
+		isS78ExpeditedPart1Eligible({
 			...caseData,
 			eligibility: { applicationDecision: caseData.applicationDecision }
 		})
@@ -331,35 +344,13 @@ const getStandardDetailsRows = (caseData, context) => {
 		{
 			keyText: 'Why are you appealing?',
 			valueText: caseData.reasonForAppealAppellant ?? '',
-			condition: (caseData) =>
-				isNotUndefinedOrNull(caseData.reasonForAppealAppellant) ||
-				isExpeditedPart1Eligible({
-					...caseData,
-					eligibility: { applicationDecision: caseData.applicationDecision }
-				}) ||
-				([
-					CASE_TYPES.HAS.processCode,
-					CASE_TYPES.CAS_ADVERTS.processCode,
-					CASE_TYPES.CAS_PLANNING.processCode
-				].includes(caseData.appealTypeCode) &&
-					isExpeditedAppealDate(caseData.applicationDate)),
+			condition: shouldDisplayReasonForAppeal,
 			isEscaped: true
 		},
 		{
 			keyText: 'Significant changes since application',
 			valueText: formatSignificantChanges(caseData),
-			condition: (caseData) =>
-				isNotUndefinedOrNull(caseData.anySignificantChanges) ||
-				isExpeditedPart1Eligible({
-					...caseData,
-					eligibility: { applicationDecision: caseData.applicationDecision }
-				}) ||
-				([
-					CASE_TYPES.HAS.processCode,
-					CASE_TYPES.CAS_ADVERTS.processCode,
-					CASE_TYPES.CAS_PLANNING.processCode
-				].includes(caseData.appealTypeCode) &&
-					isExpeditedAppealDate(caseData.applicationDate)),
+			condition: shouldDisplaySignificantChanges,
 			isEscaped: true
 		},
 		{
@@ -895,35 +886,13 @@ const getExpeditedDetailsRows = (caseData, context) => {
 		{
 			keyText: 'Why are you appealing?',
 			valueText: caseData.reasonForAppealAppellant ?? '',
-			condition: (caseData) =>
-				isNotUndefinedOrNull(caseData.reasonForAppealAppellant) ||
-				isExpeditedPart1Eligible({
-					...caseData,
-					eligibility: { applicationDecision: caseData.applicationDecision }
-				}) ||
-				([
-					CASE_TYPES.HAS.processCode,
-					CASE_TYPES.CAS_ADVERTS.processCode,
-					CASE_TYPES.CAS_PLANNING.processCode
-				].includes(caseData.appealTypeCode) &&
-					isExpeditedAppealDate(caseData.applicationDate)),
+			condition: shouldDisplayReasonForAppeal,
 			isEscaped: true
 		},
 		{
 			keyText: 'Significant changes since application',
 			valueText: formatSignificantChanges(caseData),
-			condition: (caseData) =>
-				isNotUndefinedOrNull(caseData.anySignificantChanges) ||
-				isExpeditedPart1Eligible({
-					...caseData,
-					eligibility: { applicationDecision: caseData.applicationDecision }
-				}) ||
-				([
-					CASE_TYPES.HAS.processCode,
-					CASE_TYPES.CAS_ADVERTS.processCode,
-					CASE_TYPES.CAS_PLANNING.processCode
-				].includes(caseData.appealTypeCode) &&
-					isExpeditedAppealDate(caseData.applicationDate)),
+			condition: shouldDisplaySignificantChanges,
 			isEscaped: true
 		},
 		{
