@@ -146,6 +146,15 @@ router.get(
 );
 
 router.get(
+	'/:appealNumber/inquiry-event-documents',
+	documentsController.get({
+		userType,
+		displayName: 'Inquiry event documents',
+		documentTypes: [APPEAL_DOCUMENT_TYPE.INQUIRY_POST_EVENT]
+	})
+);
+
+router.get(
 	`/:appealNumber/download/:documentsLocation/documents/:appealCaseStage`,
 	downloadDocumentsController.get()
 );

@@ -848,6 +848,23 @@ const appealDocuments = [
 		origin: 'pins',
 		stage: 'decision',
 		AppealCase: {}
+	},
+	{
+		id: 'd4290e68-bfbb-3bc8-b621-5a9590aa29aa',
+		filename: 'test-inquiry-event-document.pdf',
+		originalFilename: 'test-inquiry-event-document.pdf',
+		size: 16,
+		mime: 'text/plain',
+		documentURI: '',
+		dateCreated: new Date(),
+		published: true,
+		redacted: true,
+		virusCheckStatus: APPEAL_VIRUS_CHECK_STATUS.SCANNED,
+		documentType: APPEAL_DOCUMENT_TYPE.INQUIRY_POST_EVENT,
+		sourceSystem: 'appeals',
+		origin: 'pins',
+		stage: 'decision',
+		AppealCase: {}
 	}
 ];
 

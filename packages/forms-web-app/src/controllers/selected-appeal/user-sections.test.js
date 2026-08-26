@@ -471,7 +471,7 @@ describe('LPA and Appellant Sections', () => {
 	});
 
 	describe('Inquiry documents', () => {
-		it('should show supporting documents when docs are present', () => {
+		it('should show inquiry documents when docs are present', () => {
 			appealCase.Documents = [
 				{
 					documentType: APPEAL_DOCUMENT_TYPE.INQUIRY_CORE,
@@ -482,6 +482,21 @@ describe('LPA and Appellant Sections', () => {
 			const link = findLinkByUrl(section, '/inquiry-documents');
 			expect(link?.condition(appealCase)).toBe(true);
 			expect(link?.text).toBe('View inquiry documents');
+		});
+	});
+
+	describe('Inquiry event documents', () => {
+		it('should show inquiry event documents when docs are present', () => {
+			appealCase.Documents = [
+				{
+					documentType: APPEAL_DOCUMENT_TYPE.INQUIRY_POST_EVENT,
+					published: true
+				}
+			];
+			const section = findSectionByHeading(lpaSections, 'Inquiry Event Documents');
+			const link = findLinkByUrl(section, '/inquiry-event-documents');
+			expect(link?.condition(appealCase)).toBe(true);
+			expect(link?.text).toBe('View inquiry event documents');
 		});
 	});
 

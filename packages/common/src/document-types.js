@@ -1229,6 +1229,17 @@ const documentTypes = {
 		publiclyAccessible: false,
 		horizonDocumentType: '',
 		horizonDocumentGroupType: ''
+	},
+	inquiryPostEvent: {
+		name: 'inquiryPostEvent',
+		dataModelName: APPEAL_DOCUMENT_TYPE.INQUIRY_POST_EVENT,
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => pinsOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '',
+		horizonDocumentGroupType: ''
 	}
 };
 
