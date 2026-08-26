@@ -226,6 +226,20 @@ exports.sections = [
 		]
 	},
 	{
+		heading: 'Inquiry Documents',
+		links: [
+			{
+				url: '/inquiry-documents',
+				text: 'View inquiry documents',
+				condition: (appealCase) =>
+					appealCase.Documents.some(
+						/** @type {DocumentExistsCondition} */
+						(doc) => doc.documentType === APPEAL_DOCUMENT_TYPE.INQUIRY_CORE
+					)
+			}
+		]
+	},
+	{
 		heading: 'Costs',
 		links: [
 			{

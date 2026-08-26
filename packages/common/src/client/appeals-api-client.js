@@ -1282,7 +1282,7 @@ class AppealsApiClient {
 	 * @returns {Promise<boolean>}
 	 */
 	async confirmUserHasAccessToAppealCase(id) {
-		const endpoint = `${v2}/appeal-case/${id}/confirm-access`;
+		const endpoint = `${v2}/appeal-cases/${id}/confirm-access`;
 		const response = await this.#makeGetRequest(endpoint);
 		return response.status === 200;
 	}

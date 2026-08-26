@@ -110,7 +110,10 @@ class RepresentationsRepository {
 								// APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_WITHDRAWAL,
 
 								// General Supporting
-								APPEAL_DOCUMENT_TYPE.GENERAL_SUPPORTING
+								APPEAL_DOCUMENT_TYPE.GENERAL_SUPPORTING,
+
+								// Inquiry
+								APPEAL_DOCUMENT_TYPE.INQUIRY_CORE
 							]
 						}
 					}

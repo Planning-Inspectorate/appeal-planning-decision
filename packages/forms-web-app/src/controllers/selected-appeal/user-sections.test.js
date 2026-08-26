@@ -470,6 +470,21 @@ describe('LPA and Appellant Sections', () => {
 		});
 	});
 
+	describe('Inquiry documents', () => {
+		it('should show supporting documents when docs are present', () => {
+			appealCase.Documents = [
+				{
+					documentType: APPEAL_DOCUMENT_TYPE.INQUIRY_CORE,
+					published: true
+				}
+			];
+			const section = findSectionByHeading(lpaSections, 'Inquiry Documents');
+			const link = findLinkByUrl(section, '/inquiry-documents');
+			expect(link?.condition(appealCase)).toBe(true);
+			expect(link?.text).toBe('View inquiry documents');
+		});
+	});
+
 	describe('Appellant Sections', () => {
 		describe('Appeal details', () => {
 			it('should show "View your appeal details" when caseValidDate is present (is always true)', () => {
