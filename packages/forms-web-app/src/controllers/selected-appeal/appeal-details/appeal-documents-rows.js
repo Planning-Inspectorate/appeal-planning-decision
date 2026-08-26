@@ -12,8 +12,9 @@ const {
 } = require('@planning-inspectorate/data-model');
 const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
 const {
-	isExpeditedPart1Eligible,
-	isExpeditedAppealDate
+	isS78ExpeditedPart1Eligible,
+	isExpeditedAppealDate,
+	isNonS78ExpeditedPart1Eligible
 } = require('#lib/is-expedited-part1-eligible');
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
@@ -38,7 +39,7 @@ exports.documentsRows = (caseData) => {
 		caseData.appealTypeCode === CASE_TYPES.S78.processCode;
 
 	if (
-		isExpeditedPart1Eligible({
+		isS78ExpeditedPart1Eligible({
 			...caseData,
 			eligibility: { applicationDecision: caseData.applicationDecision }
 		})
@@ -99,17 +100,8 @@ exports.documentsRows = (caseData) => {
 		{
 			keyText: 'Appeal statement',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.APPELLANT_STATEMENT),
-			condition: () => {
-				if (
-					(caseData &&
-						(caseData.appealTypeCode === CASE_TYPES.HAS.processCode ||
-							caseData.appealTypeCode === CASE_TYPES.CAS_PLANNING.processCode)) ||
-					caseData.appealTypeCode === CASE_TYPES.CAS_ADVERTS.processCode
-				) {
-					return !isExpeditedAppealDate(caseData.applicationDate);
-				}
-				return true;
-			},
+			condition: () =>
+				!isNonS78ExpeditedPart1Eligible(caseData?.appealTypeCode, caseData?.applicationDate),
 			isEscaped: true
 		},
 		{
@@ -141,7 +133,7 @@ exports.documentsRows = (caseData) => {
 			condition: () =>
 				(isS20orS78 || isLDC) &&
 				caseData.appellantProcedurePreference !== APPEAL_APPELLANT_PROCEDURE_PREFERENCE.WRITTEN &&
-				!isExpeditedPart1Eligible(caseData),
+				!isS78ExpeditedPart1Eligible(caseData),
 			isEscaped: true
 		},
 		{

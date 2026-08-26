@@ -42,7 +42,7 @@ const parseApplicationDate = (value) => {
  * @param {{ applicationDate?: string|Date|null, typeOfPlanningApplication?: string|null, eligibility?: { applicationDecision?: string|null }, appealTypeCode?: string |null, typeDevelopment?: string|null, developmentType?: string|null } | undefined | null} appeal
  * @returns {boolean}
  */
-const isExpeditedPart1Eligible = (appeal) => {
+const isS78ExpeditedPart1Eligible = (appeal) => {
 	if (!eligibleAppealTypesForPart1.has(appeal?.appealTypeCode || '')) {
 		return false;
 	}
@@ -89,8 +89,47 @@ const isExpeditedAppealDate = (value) => {
 	);
 };
 
+/** @type {Set<string>} */
+const expeditedNonS78AppealTypeCodes = new Set([
+	CASE_TYPES.HAS.processCode,
+	CASE_TYPES.CAS_ADVERTS.processCode,
+	CASE_TYPES.CAS_PLANNING.processCode
+]);
+
+/**
+ * @param {string|null|undefined} appealTypeCode
+ * @param {string|Date|null|undefined} applicationDate
+ * @returns {boolean}
+ */
+const isNonS78ExpeditedPart1Eligible = (appealTypeCode, applicationDate) => {
+	if (!appealTypeCode || !expeditedNonS78AppealTypeCodes.has(appealTypeCode)) {
+		return false;
+	}
+
+	return isExpeditedAppealDate(applicationDate);
+};
+
+/**
+ * @param {Object} [caseData]
+ * @returns {boolean}
+ */
+const isExpeditedPart1Eligible = (caseData) => {
+	if (!caseData) {
+		return false;
+	}
+
+	return (
+		isS78ExpeditedPart1Eligible({
+			...caseData,
+			eligibility: { applicationDecision: caseData.applicationDecision }
+		}) || isNonS78ExpeditedPart1Eligible(caseData.appealTypeCode, caseData.applicationDate)
+	);
+};
+
 module.exports = {
 	EXPEDITED_PART_1_CUTOFF_DATE,
-	isExpeditedPart1Eligible,
-	isExpeditedAppealDate
+	isS78ExpeditedPart1Eligible,
+	isExpeditedAppealDate,
+	isNonS78ExpeditedPart1Eligible,
+	isExpeditedPart1Eligible
 };

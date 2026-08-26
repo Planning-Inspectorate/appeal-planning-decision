@@ -14,7 +14,7 @@ const {
 	}
 } = require('../../lib/views');
 const {
-	isExpeditedPart1Eligible,
+	isS78ExpeditedPart1Eligible,
 	isExpeditedAppealDate
 } = require('#lib/is-expedited-part1-eligible');
 const { FLAG } = require('@pins/common/src/feature-flags');
@@ -55,7 +55,7 @@ module.exports =
 			FLAG.EXPEDITED_APPEALS_FO_V2
 		);
 
-		const expeditedEligible = isExpeditedPart1Eligible({
+		const expeditedEligible = isS78ExpeditedPart1Eligible({
 			typeOfPlanningApplication: appeal?.typeOfPlanningApplication,
 			applicationDate: appeal?.applicationDate,
 			eligibility: {

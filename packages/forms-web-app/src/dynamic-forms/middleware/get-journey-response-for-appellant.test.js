@@ -5,7 +5,7 @@ const { ApiClientError } = require('@pins/common/src/client/api-client-error.js'
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { FLAG } = require('@pins/common/src/feature-flags');
-const { isExpeditedPart1Eligible } = require('#lib/is-expedited-part1-eligible');
+const { isS78ExpeditedPart1Eligible } = require('#lib/is-expedited-part1-eligible');
 
 jest.mock('./utils');
 jest.mock('#lib/is-expedited-part1-eligible');
@@ -40,7 +40,7 @@ describe('getJourneyResponseForAppellant', () => {
 		next = jest.fn();
 		mapDBResponseToJourneyResponseFormat.mockReturnValue(convertedResponse);
 		require('../../lib/is-lpa-in-feature-flag').isLpaInFeatureFlag.mockResolvedValue(true);
-		isExpeditedPart1Eligible.mockReturnValue(false);
+		isS78ExpeditedPart1Eligible.mockReturnValue(false);
 	});
 
 	it('should 404 if submissionId is invalid', async () => {
@@ -119,14 +119,14 @@ describe('getJourneyResponseForAppellant', () => {
 		require('../../lib/is-lpa-in-feature-flag').isLpaInFeatureFlag.mockImplementation(async () => {
 			return true;
 		});
-		isExpeditedPart1Eligible.mockReturnValue(true);
+		isS78ExpeditedPart1Eligible.mockReturnValue(true);
 
 		await getJourneyResponseForAppellant(req, res, next);
 
 		const expectedType = JOURNEY_TYPES.S78_PART_1_APPEAL_FORM.id;
 
 		expect(res.locals.journeyResponse.journeyId).toBe(expectedType);
-		expect(isExpeditedPart1Eligible).toHaveBeenCalledWith({
+		expect(isS78ExpeditedPart1Eligible).toHaveBeenCalledWith({
 			typeOfPlanningApplication: convertedResponse?.typeOfPlanningApplication,
 			applicationDate: convertedResponse?.onApplicationDate,
 			eligibility: {
@@ -147,14 +147,14 @@ describe('getJourneyResponseForAppellant', () => {
 		require('../../lib/is-lpa-in-feature-flag').isLpaInFeatureFlag.mockImplementation(async () => {
 			return true;
 		});
-		isExpeditedPart1Eligible.mockReturnValue(true);
+		isS78ExpeditedPart1Eligible.mockReturnValue(true);
 
 		await getJourneyResponseForAppellant(req, res, next);
 
 		const expectedType = JOURNEY_TYPES.S78_PART_1_APPEAL_FORM.id;
 
 		expect(res.locals.journeyResponse.journeyId).toBe(expectedType);
-		expect(isExpeditedPart1Eligible).toHaveBeenCalledWith({
+		expect(isS78ExpeditedPart1Eligible).toHaveBeenCalledWith({
 			typeOfPlanningApplication: convertedResponse?.typeOfPlanningApplication,
 			applicationDate: convertedResponse?.onApplicationDate,
 			eligibility: {
@@ -175,14 +175,14 @@ describe('getJourneyResponseForAppellant', () => {
 		require('../../lib/is-lpa-in-feature-flag').isLpaInFeatureFlag.mockImplementation(async () => {
 			return true;
 		});
-		isExpeditedPart1Eligible.mockReturnValue(true);
+		isS78ExpeditedPart1Eligible.mockReturnValue(true);
 
 		await getJourneyResponseForAppellant(req, res, next);
 
 		const expectedType = JOURNEY_TYPES.S78_PART_1_APPEAL_FORM.id;
 
 		expect(res.locals.journeyResponse.journeyId).toBe(expectedType);
-		expect(isExpeditedPart1Eligible).toHaveBeenCalledWith({
+		expect(isS78ExpeditedPart1Eligible).toHaveBeenCalledWith({
 			typeOfPlanningApplication: convertedResponse?.typeOfPlanningApplication,
 			applicationDate: convertedResponse?.onApplicationDate,
 			eligibility: {
@@ -203,14 +203,14 @@ describe('getJourneyResponseForAppellant', () => {
 		require('../../lib/is-lpa-in-feature-flag').isLpaInFeatureFlag.mockImplementation(async () => {
 			return true;
 		});
-		isExpeditedPart1Eligible.mockReturnValue(false);
+		isS78ExpeditedPart1Eligible.mockReturnValue(false);
 
 		await getJourneyResponseForAppellant(req, res, next);
 
 		const expectedType = JOURNEY_TYPES.S78_APPEAL_FORM.id;
 
 		expect(res.locals.journeyResponse.journeyId).toBe(expectedType);
-		expect(isExpeditedPart1Eligible).toHaveBeenCalledWith({
+		expect(isS78ExpeditedPart1Eligible).toHaveBeenCalledWith({
 			typeOfPlanningApplication: convertedResponse?.typeOfPlanningApplication,
 			applicationDate: convertedResponse?.onApplicationDate,
 			eligibility: {
@@ -232,14 +232,14 @@ describe('getJourneyResponseForAppellant', () => {
 		require('../../lib/is-lpa-in-feature-flag').isLpaInFeatureFlag.mockImplementation(async () => {
 			return true;
 		});
-		isExpeditedPart1Eligible.mockReturnValue(false);
+		isS78ExpeditedPart1Eligible.mockReturnValue(false);
 
 		await getJourneyResponseForAppellant(req, res, next);
 
 		const expectedType = JOURNEY_TYPES.S78_APPEAL_FORM.id;
 
 		expect(res.locals.journeyResponse.journeyId).toBe(expectedType);
-		expect(isExpeditedPart1Eligible).toHaveBeenCalledWith({
+		expect(isS78ExpeditedPart1Eligible).toHaveBeenCalledWith({
 			typeOfPlanningApplication: convertedResponse?.typeOfPlanningApplication,
 			applicationDate: convertedResponse?.onApplicationDate,
 			eligibility: {

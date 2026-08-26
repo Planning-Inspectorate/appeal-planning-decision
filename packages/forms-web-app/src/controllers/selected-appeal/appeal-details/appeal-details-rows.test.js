@@ -877,11 +877,11 @@ describe('appeal-details-rows', () => {
 			{ type: 'CAS Adverts', appealTypeCode: CASE_TYPES.CAS_ADVERTS.processCode },
 			{ type: 'CAS Planning', appealTypeCode: CASE_TYPES.CAS_PLANNING.processCode }
 		])(
-			'should display the reason for appeal if application date is after April 1 even if not set for $type',
+			'should display the reason for appeal if application date is on or after 1 April even if not set for $type',
 			({ appealTypeCode }) => {
 				const testCase = structuredClone(caseWithAppellant);
 				testCase.appealTypeCode = appealTypeCode;
-				testCase.applicationDate = '2026-04-02';
+				testCase.applicationDate = '2026-04-01';
 				testCase.reasonForAppealAppellant = null;
 				const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 				expect(rows[reasonForAppealIndex].condition(testCase)).toBeTruthy();
@@ -915,23 +915,23 @@ describe('appeal-details-rows', () => {
 			expect(rows[reasonForAppealIndex].condition(testCase)).toBeFalsy();
 		});
 
-		it('should not display the reason for appeal for non-expedited S78 appeal with post-April 1 application date if not Part 1 eligible', () => {
+		it('should not display the reason for appeal for non-expedited S78 appeal on or after April 1 application date if not Part 1 eligible', () => {
 			const testCase = structuredClone(caseWithAppellant);
 			testCase.appealTypeCode = CASE_TYPES.S78.processCode;
 			testCase.typeOfPlanningApplication = 'other-ineligible-type';
 			testCase.applicationDecision = 'refused';
-			testCase.applicationDate = '2026-04-02';
+			testCase.applicationDate = '2026-04-01';
 			testCase.reasonForAppealAppellant = null;
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 			expect(rows[reasonForAppealIndex].condition(testCase)).toBeFalsy();
 		});
 
-		it('should display the reason for appeal for expedited S78 Part 1 eligible appeal with post-April 1 application date', () => {
+		it('should display the reason for appeal for expedited S78 Part 1 eligible appeal on or after April 1 application date', () => {
 			const testCase = structuredClone(caseWithAppellant);
 			testCase.appealTypeCode = CASE_TYPES.S78.processCode;
 			testCase.typeOfPlanningApplication = 'full-appeal';
 			testCase.applicationDecision = 'refused';
-			testCase.applicationDate = '2026-04-02';
+			testCase.applicationDate = '2026-04-01';
 			testCase.reasonForAppealAppellant = null;
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 			const row = rows.find((r) => r.keyText === 'Why are you appealing?');
