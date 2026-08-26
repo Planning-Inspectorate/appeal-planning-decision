@@ -5,11 +5,30 @@ import { BasePage } from "../../../page-objects/base-page";
 
 export const appealIdWaitingForReview = () => {
     const basePage = new BasePage();
-    cy.get('#tab_waiting-for-review').click();
-    cy.wait(10000);
-    cy.reload();
-    cy.get(basePage?._selectors.trgovukTableRow).should('exist');    
     const correlationId = Cypress.env('correlationId');
+    const maxAttempts = 15;
+    const retryDelayMs = 3000;
+
+    cy.get('#tab_waiting-for-review').click();
+
+    // Poll instead of a single fixed wait to avoid pipeline timeouts when the row appears late
+    const waitForCaseRow = (attempt = 1) => {
+        cy.wait(retryDelayMs);
+        cy.reload();
+        cy.get('body').then(($body) => {
+            const rowFound = correlationId
+                ? $body.find(`table tr:contains("${correlationId}")`).length > 0
+                : $body.find(basePage?._selectors.trgovukTableRow).length > 0;
+
+            if (!rowFound && attempt < maxAttempts) {
+                waitForCaseRow(attempt + 1);
+            }
+        });
+    };
+
+    waitForCaseRow();
+
+    cy.get(basePage?._selectors.trgovukTableRow).should('exist');
     // Prefer the row that contains our correlation ID; fallback to last row
     const rowChain = correlationId
         ? cy.contains('table tr', correlationId).last()
