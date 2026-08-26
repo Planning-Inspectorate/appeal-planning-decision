@@ -216,6 +216,20 @@ exports.sections = [
 		]
 	},
 	{
+		heading: 'Inquiry Event Documents',
+		links: [
+			{
+				url: '/inquiry-event-documents',
+				text: 'View inquiry event documents',
+				condition: (appealCase) =>
+					appealCase.Documents.some(
+						/** @type {DocumentExistsCondition} */
+						(doc) => doc.documentType === APPEAL_DOCUMENT_TYPE.INQUIRY_POST_EVENT
+					)
+			}
+		]
+	},
+	{
 		heading: 'Costs',
 		links: [
 			{

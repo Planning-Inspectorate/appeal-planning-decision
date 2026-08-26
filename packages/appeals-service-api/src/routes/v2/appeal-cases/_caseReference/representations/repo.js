@@ -113,7 +113,8 @@ class RepresentationsRepository {
 								APPEAL_DOCUMENT_TYPE.GENERAL_SUPPORTING,
 
 								// Inquiry
-								APPEAL_DOCUMENT_TYPE.INQUIRY_CORE
+								APPEAL_DOCUMENT_TYPE.INQUIRY_CORE,
+								APPEAL_DOCUMENT_TYPE.INQUIRY_POST_EVENT
 							]
 						}
 					}
