@@ -104,6 +104,11 @@ condition: () => shouldDisplayTellingTenants(response, questions);
 - radio `/health-safety-issues/` Health and safety issues
 - single-line-input `/reference-number/` What is the application reference number?
 - date `/application-date/` What date did you submit your application?
+
+```js
+condition: () => !shouldDisplayBasedOnTypeOfApplication(response, bysApplicationDateTypes);
+```
+
 - radio `/major-minor-development/` Was your application for a major or minor development?
 - radio `/application-about/` Was your application about any of the following?
 - text-entry `/enter-description-of-development/` Enter the description of development that you submitted in your application
