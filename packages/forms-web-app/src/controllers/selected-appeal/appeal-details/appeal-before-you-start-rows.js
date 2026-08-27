@@ -91,7 +91,8 @@ const applicationTypeMappings = {
 	'reserved-matters': 'Reserved matters',
 	'removal-or-variation-of-conditions': 'Removal or variation of conditions',
 	'something-else': 'Something else',
-	'i-have-not-made-a-planning-application': 'I have not made a planning application'
+	'i-have-not-made-a-planning-application': 'I have not made a planning application',
+	'permission-in-principle': 'Permission in principle'
 };
 
 const mapApplicationDecision = (/** @type {string | null | undefined} */ decision) => {
