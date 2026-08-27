@@ -10,6 +10,7 @@ const { isExpeditedAppealDate } = require('#lib/is-expedited-part1-eligible');
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('@pins/dynamic-forms/src/question')} Question
+ * @typedef {import('@pins/business-rules/src/constants').TYPE_OF_PLANNING_APPLICATION} TYPE_OF_PLANNING_APPLICATION
  */
 
 /**
@@ -209,6 +210,16 @@ exports.shouldDisplayPreviousApplicationQuestions = (response, questions) => {
  */
 exports.shouldDisplayPriorCorrespondenceUpload = (response) =>
 	!!response.answers.hasContactedPlanningInspectorate;
+
+// A display util which returns true if an appeal response has a typeOfPlanningApplication
+// which is in a specified array
+/**
+ * @param {JourneyResponse} response
+ * @param {TYPE_OF_PLANNING_APPLICATION[]} applicationTypes
+ * @returns {boolean}
+ */
+exports.shouldDisplayBasedOnTypeOfApplication = (response, applicationTypes) =>
+	applicationTypes.includes(response.answers.typeOfPlanningApplication);
 
 /**
  * @param {JourneyResponse} response

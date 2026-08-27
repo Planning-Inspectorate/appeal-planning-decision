@@ -189,7 +189,7 @@ describe('Full Appeal Validations', { tags: '@S78-appeal-validation-2' }, () => 
             if (!context?.applicationForm?.isOwnsAllLand) {
                 //Do you own some of the land involved in the appeal?
                 ownSomeLandPage.addOwnSomeLandData(context?.applicationForm?.isOwnsSomeLand, context);
-                //cy.advanceToNextPage();			
+                //cy.advanceToNextPage();
             }
             agriculturalHoldingPage.addAgriculturalHoldingData(context?.applicationForm?.isAgriculturalHolding, context);
 
@@ -199,15 +199,6 @@ describe('Full Appeal Validations', { tags: '@S78-appeal-validation-2' }, () => 
             //What is the application reference number?
             const applicationNumber = `TEST-${Date.now()}`;
             cy.get(prepareAppealSelector?._selectors?.applicationReference).type(applicationNumber);
-            cy.advanceToNextPage();
-            //What date did you submit your application?
-
-            cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).clear();
-            cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).type(date.today());
-            cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).clear();
-            cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(date.currentMonth() - 3);
-            cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).clear();
-            cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).type(date.currentYear());
             cy.advanceToNextPage();
             //Was your application for a major or minor development?
             majorMinorDevelopmentPage.addMajorMionorDevelopmentData(context?.applicationForm?.majorMionorDevelopmentData);
@@ -227,7 +218,7 @@ describe('Full Appeal Validations', { tags: '@S78-appeal-validation-2' }, () => 
                 cy.advanceToNextPage();
             }
 
-            //How would you prefer us to decide your appeal?		
+            //How would you prefer us to decide your appeal?
             decideAppealsPage.addDecideAppealsData(context?.applicationForm?.appellantProcedurePreference);
             otherAppealsPage.addOtherAppealsData(context?.applicationForm?.anyOtherAppeals, context);
             cy.containsMessage(basePage._selectors?.govukSummaryListKey, 'Was the application made in your name?').next('.govuk-summary-list__value').contains(`${context.applicationForm?.isAppellant === true ? 'Yes' : 'No'}`);

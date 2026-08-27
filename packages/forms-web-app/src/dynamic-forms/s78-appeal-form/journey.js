@@ -17,9 +17,20 @@ const {
 	shouldDisplayIdentifyingLandowners,
 	shouldDisplayTellingLandowners,
 	shouldDisplayTellingTenants,
-	shouldDisplayUploadDecisionLetter
+	shouldDisplayUploadDecisionLetter,
+	shouldDisplayBasedOnTypeOfApplication
 } = require('../display-questions');
 const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
+const { TYPE_OF_PLANNING_APPLICATION } = require('@pins/business-rules/src/constants');
+
+// An array of typeOfPlanningApplications where the 'date of application'
+// question is asked during the BYS journey
+const bysApplicationDateTypes = [
+	TYPE_OF_PLANNING_APPLICATION.FULL_APPEAL,
+	TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING,
+	TYPE_OF_PLANNING_APPLICATION.RESERVED_MATTERS,
+	TYPE_OF_PLANNING_APPLICATION.PERMISSION_IN_PRINCIPLE
+];
 
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
@@ -105,6 +116,9 @@ const makeSections = (response) => {
 			.addQuestion(questions.healthAndSafety)
 			.addQuestion(questions.enterApplicationReference)
 			.addQuestion(questions.planningApplicationDate)
+			.withCondition(
+				() => !shouldDisplayBasedOnTypeOfApplication(response, bysApplicationDateTypes)
+			)
 			.addQuestion(questions.majorMinorDevelopment)
 			.withVariables({
 				[QUESTION_VARIABLES.MAJOR_MINOR_CONTENT]: 'resources/major-minor-development/content.html'
