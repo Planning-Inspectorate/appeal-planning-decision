@@ -60,7 +60,6 @@ jest.mock('#middleware/create-api-clients', () => ({
 		next();
 	}
 }));
-jest.mock('@pins/common/src/client/clamav-client');
 jest.mock('@pins/common/src/client/blob-storage-client.js');
 
 // skip validation - would otherwise require setup of valid example values for every question, this can be setup later

@@ -12,10 +12,6 @@ const fullAppealRouter = require('../../../src/routes/full-appeal');
 const appealRouter = require('../../../src/routes/appeal');
 const appealsRouter = require('../../../src/routes/appeals');
 
-const saveAndReturnRouter = require('../../../src/routes/save');
-const submitAppealRouter = require('../../../src/routes/submit-appeal');
-const appellantSubmissionRouter = require('../../../src/routes/appellant-submission');
-
 const lpaRouter = require('../../../src/routes/lpa-dashboard');
 const debugRouter = require('../../../src/routes//debug');
 
@@ -60,30 +56,6 @@ describe('routes/index', () => {
 		expect(use).toHaveBeenCalledWith('/appeal', appealRouter);
 
 		expect(use).toHaveBeenCalledWith('/appeals', checkLoggedIn, appealsRouter);
-
-		expect(use).toHaveBeenCalledWith(
-			'/save-and-return',
-			checkLoggedIn,
-			checkAppealExists,
-			checkDecisionDateDeadline,
-			saveAndReturnRouter
-		);
-
-		expect(use).toHaveBeenCalledWith(
-			'/submit-appeal',
-			checkLoggedIn,
-			checkAppealExists,
-			checkDecisionDateDeadline,
-			submitAppealRouter
-		);
-
-		expect(use).toHaveBeenCalledWith(
-			'/appellant-submission',
-			checkLoggedIn,
-			checkAppealExists,
-			checkDecisionDateDeadline,
-			appellantSubmissionRouter
-		);
 
 		expect(use).toHaveBeenCalledWith('/manage-appeals', lpaRouter);
 

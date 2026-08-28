@@ -19,7 +19,6 @@ const config = require('../../../../../src/config');
 
 jest.mock('../../../../../src/lib/is-lpa-in-feature-flag');
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
-jest.mock('../../../../../src/services/task.service');
 
 describe('controllers/householder-planning/eligibility/conditions-householder-permission', () => {
 	let req;
