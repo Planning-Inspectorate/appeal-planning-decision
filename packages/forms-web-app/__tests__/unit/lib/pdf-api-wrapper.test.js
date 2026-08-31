@@ -19,12 +19,18 @@ describe('lib/pdf-api-wrapper', () => {
 		});
 
 		it('should throw an error if the API response is not ok', async () => {
-			fetchMock.mockResponseOnce('fake response body', { status: 400 });
+			fetchMock.mockResponseOnce('fake response body', {
+				status: 400,
+				statusText: 'Bad Request'
+			});
 			await expect(generatePDF(html)).rejects.toThrow('Bad Request');
 		});
 
 		it('should throw an error if the API response status is not 200', async () => {
-			fetchMock.mockResponseOnce('fake response body', { status: 401 });
+			fetchMock.mockResponseOnce('fake response body', {
+				status: 401,
+				statusText: 'Unauthorized'
+			});
 			await expect(generatePDF(html)).rejects.toThrow('Unauthorized');
 		});
 

@@ -1,4 +1,3 @@
-const { PassThrough } = require('node:stream');
 const buildZipFilename = require('#lib/build-zip-filename');
 
 /** @type {function():import('express').RequestHandler} */
@@ -16,17 +15,12 @@ exports.get = () => {
 			`attachment; filename=${buildZipFilename(appealNumber, appealCaseStage)}`
 		);
 
-		const bufferStream = new PassThrough();
-
-		bufferStream.end(
-			await req.docsApiClient.getBulkDocumentsDownload(
-				appealNumber,
-				appealCaseStage,
-				documentsLocation
-			)
+		const documentStream = await req.docsApiClient.getBulkDocumentsDownload(
+			appealNumber,
+			appealCaseStage,
+			documentsLocation
 		);
-
-		bufferStream.pipe(res);
+		documentStream.pipe(res);
 
 		return res.status(200);
 	};
@@ -45,17 +39,12 @@ exports.getByType = () => {
 		res.setHeader('content-type', 'application/zip');
 		res.setHeader('content-disposition', `attachment; filename=${buildZipFilename(appealNumber)}`);
 
-		const bufferStream = new PassThrough();
-
-		bufferStream.end(
-			await req.docsApiClient.getBulkDocumentsDownloadByType(
-				appealNumber,
-				documentsLocation,
-				filter
-			)
+		const documentStream = await req.docsApiClient.getBulkDocumentsDownloadByType(
+			appealNumber,
+			documentsLocation,
+			filter
 		);
-
-		bufferStream.pipe(res);
+		documentStream.pipe(res);
 
 		return res.status(200);
 	};

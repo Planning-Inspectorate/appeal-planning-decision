@@ -40,13 +40,19 @@ describe('services/pdf.service', () => {
 		});
 
 		it('should throw if the remote API response is not ok', async () => {
-			fetchMock.mockResponse('fake response body', { status: 400 });
+			fetchMock.mockResponse(htmlContent, {
+				status: 400,
+				statusText: 'Bad Request'
+			});
 			await expect(getHtml(id, url, cookieString)).rejects.toThrow('Bad Request');
 		});
 
 		it('should throw if the response code is anything other than a 202', async () => {
-			fetchMock.mockResponse('a response body', { status: 204 });
-			await expect(getHtml(id, url, cookieString)).rejects.toThrow('No Content');
+			fetchMock.mockResponse('a response body', {
+				status: 202,
+				statusText: 'Accepted'
+			});
+			await expect(getHtml(id, url, cookieString)).rejects.toThrow('Accepted');
 		});
 
 		it('should return the expected response if the fetch status is 200', async () => {
@@ -58,7 +64,10 @@ describe('services/pdf.service', () => {
 
 	describe('storePdfAppeal', () => {
 		it('should throw if the get html appeal API response is not ok', async () => {
-			fetchMock.mockResponse(htmlContent, { status: 400 });
+			fetchMock.mockResponse(htmlContent, {
+				status: 400,
+				statusText: 'Bad Request'
+			});
 			await createDocument.mockResolvedValue({ data: [] });
 			try {
 				await storePdfAppeal({ appeal: mockAppeal });

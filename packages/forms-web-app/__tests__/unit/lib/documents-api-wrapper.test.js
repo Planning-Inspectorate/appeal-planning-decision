@@ -52,7 +52,10 @@ describe('lib/documents-api-wrapper', () => {
 		});
 
 		it('should throw if the remote API response is not ok', async () => {
-			fetch.mockResponse('fake response body', { status: 400 });
+			fetch.mockResponse('fake response body', {
+				status: 400,
+				statusText: 'Bad Request'
+			});
 			try {
 				await createDocument(mockAppeal, data, null, documentTypes.appealStatement.name);
 				expect('to be').not.toBe('to be');
@@ -62,12 +65,15 @@ describe('lib/documents-api-wrapper', () => {
 		});
 
 		it('should throw if the response code is not 200 or 202', async () => {
-			fetch.mockResponse('a response body', { status: 204 });
+			fetch.mockResponse('a response body', {
+				status: 201,
+				statusText: 'Created'
+			});
 			try {
 				await createDocument(mockAppeal, data, null, documentTypes.appealStatement.name);
 				expect('to be').not.toBe('to be');
 			} catch (e) {
-				expect(e.message).toBe('No Content');
+				expect(e.message).toBe('Created');
 			}
 		});
 
@@ -227,8 +233,7 @@ describe('lib/documents-api-wrapper', () => {
 					method: 'GET'
 				}
 			);
-			/* eslint-disable-next-line no-undef */
-			expect(res).toEqual(new Response(documentBuffer));
+			expect(Buffer.from(await res.arrayBuffer())).toEqual(documentBuffer);
 		});
 	});
 
@@ -247,7 +252,10 @@ describe('lib/documents-api-wrapper', () => {
 		});
 
 		it('should throw if the remote API response is not ok', async () => {
-			fetch.mockResponse('fake response body', { status: 400 });
+			fetch.mockResponse('fake response body', {
+				status: 400,
+				statusText: 'Bad Request'
+			});
 			try {
 				await removeDocument(id, docId);
 				expect('to be').not.toBe('to be');
@@ -257,7 +265,10 @@ describe('lib/documents-api-wrapper', () => {
 		});
 
 		it('should throw if the response code is not 204', async () => {
-			fetch.mockResponse('a response body', { status: 200 });
+			fetch.mockResponse('a response body', {
+				status: 200,
+				statusText: 'OK'
+			});
 			try {
 				await removeDocument(id, docId);
 				expect('to be').not.toBe('to be');
@@ -267,7 +278,7 @@ describe('lib/documents-api-wrapper', () => {
 		});
 
 		it('should return the expected response if the fetch status is 202 with form data input', async () => {
-			fetch.mockResponse('', { status: 204 });
+			fetch.mockResponse(null, { status: 204 });
 			expect(await removeDocument(id, docId)).toEqual(expect.objectContaining({ status: 204 }));
 		});
 	});
