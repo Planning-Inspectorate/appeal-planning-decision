@@ -51,19 +51,17 @@ class DocumentsApiClient {
 	 * @param {string} caseRef
 	 * @param {string} caseStage
 	 * @param {string} documentsLocation
-	 * @returns {Promise<Buffer>}
 	 */
 	async getBulkDocumentsDownload(caseRef, caseStage, documentsLocation) {
 		const endpoint = `${v2}/${documentsLocation}/${caseRef}/case-stage/${caseStage}`;
 		const response = await this.#makeGetRequest(endpoint);
-		return response.buffer();
+		return response.body;
 	}
 
 	/**
 	 * @param {string} caseRef
 	 * @param {string} documentsLocation
 	 * @param {string} filter
-	 * @returns {Promise<Buffer>}
 	 */
 	async getBulkDocumentsDownloadByType(caseRef, documentsLocation, filter) {
 		const urlParams = new URLSearchParams();
@@ -73,7 +71,7 @@ class DocumentsApiClient {
 
 		const endpoint = `${v2}/${documentsLocation}/${caseRef}/document-type?${urlParams.toString()}`;
 		const response = await this.#makeGetRequest(endpoint);
-		return response.buffer();
+		return response.body;
 	}
 
 	/**

@@ -21,7 +21,6 @@ const { getDepartmentFromId } = require('../services/department.service');
 const { getLPAById, deleteAppeal } = require('../lib/appeals-api-wrapper');
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 const { APPEAL_CASE_STAGE } = require('@planning-inspectorate/data-model');
-const { PassThrough } = require('node:stream');
 const buildZipFilename = require('#lib/build-zip-filename');
 const { getUserFromSession } = require('../services/user.service');
 const { storePdfQuestionnaireSubmission } = require('../services/pdf.service');
@@ -982,17 +981,12 @@ exports.bulkDownloadSubmissionDocuments = async (req, res) => {
 		`attachment; filename=${buildZipFilename(referenceId, appealCaseStage)}`
 	);
 
-	const bufferStream = new PassThrough();
-
-	bufferStream.end(
-		await req.docsApiClient.getBulkDocumentsDownload(
-			referenceId,
-			appealCaseStage,
-			documentsLocation
-		)
+	const documentStream = await req.docsApiClient.getBulkDocumentsDownload(
+		referenceId,
+		appealCaseStage,
+		documentsLocation
 	);
-
-	bufferStream.pipe(res);
+	documentStream.pipe(res);
 
 	return res.status(200);
 };
