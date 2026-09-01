@@ -1240,6 +1240,17 @@ const documentTypes = {
 		publiclyAccessible: false,
 		horizonDocumentType: '',
 		horizonDocumentGroupType: ''
+	},
+	hearingProcess: {
+		name: 'hearingProcess',
+		dataModelName: APPEAL_DOCUMENT_TYPE.HEARING_PROCESS,
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => pinsOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '',
+		horizonDocumentGroupType: ''
 	}
 };
 
