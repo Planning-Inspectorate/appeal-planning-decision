@@ -1,19 +1,6 @@
 export class PrepareAppealSelector {
 
-    _commonDecisionDateSelectors = {
-        decisionDateDay: '#decision-date-day',
-        decisionDateMonth: '#decision-date-month',
-        decisionDateYear: '#decision-date-year'
-    }
-
-    _commonApplicationDateSelectors = {
-        applicationDateDay: '#application-date-day',
-        applicationDateMonth: '#application-date-month',
-        applicationDateYear: '#application-date-year'
-    }
-
     _selectors = {
-
         emailCode: '#email-code',
         applicationReference: '#applicationReference',
         applicationNumber: 'application-number',
@@ -23,7 +10,6 @@ export class PrepareAppealSelector {
         onApplicationDateMonth: '#onApplicationDate_month',
         onApplicationDateYear: '#onApplicationDate_year',
         developmentDescriptionOriginal: '#developmentDescriptionOriginal',
-        whyAreYouAppealing: '#whyAreYouAppealing',
         siteUseAtTimeOfApplication: '#siteUseAtTimeOfApplication',
         govukFieldsetHeading: ".govuk-fieldset__heading",
         govukLabelGovUkLabel1: "label.govuk-label.govuk-label--l",
@@ -56,8 +42,9 @@ export class PrepareAppealSelector {
         systemTest2BoroughCouncil: "System Test Borough Council 2"
     }
     _fullAppealselectors = {
-        ...this._commonDecisionDateSelectors,
-        ...this._commonApplicationDateSelectors
+        decisionDateDay: '#decision-date-day',
+        decisionDateMonth: '#decision-date-month',
+        decisionDateYear: '#decision-date-year',
     }
     _houseHolderSelectors = {
         decisionDateHouseholderDay: '#decision-date-householder-day',
@@ -65,18 +52,28 @@ export class PrepareAppealSelector {
         decisionDateHouseholderYear: '#decision-date-householder-year',
     }
     _listedBuildingSelectors = {
-        ...this._commonDecisionDateSelectors,
+        decisionDateDay: '#decision-date-day',
+        decisionDateMonth: '#decision-date-month',
+        decisionDateYear: '#decision-date-year',
     }
     _casPlanningSelectors = {
-        ...this._commonDecisionDateSelectors,
+        decisionDateDay: '#decision-date-day',
+        decisionDateMonth: '#decision-date-month',
+        decisionDateYear: '#decision-date-year',
     }
     _advertSelectors = {
-        ...this._commonDecisionDateSelectors,
-        ...this._commonApplicationDateSelectors,
+        decisionDateDay: '#decision-date-day',
+        decisionDateMonth: '#decision-date-month',
+        decisionDateYear: '#decision-date-year',
+        onApplicationDateDay: '#onApplicationDate_day',
+        onApplicationDateMonth: '#onApplicationDate_month',
+        onApplicationDateYear: '#onApplicationDate_year',
     }
 
     _ldcAppealSelectors = {
-        ...this._commonDecisionDateSelectors,
+        decisionDateDay: '#decision-date-day',
+        decisionDateMonth: '#decision-date-month',
+        decisionDateYear: '#decision-date-year',
     }
 
     _enforcementAppealSelectors = {
@@ -86,6 +83,9 @@ export class PrepareAppealSelector {
         enforcementEffectiveDateDay: '#enforcement-effective-date-day',
         enforcementEffectiveDateMonth: '#enforcement-effective-date-month',
         enforcementEffectiveDateYear: '#enforcement-effective-date-year',
+        contactPlanningInspectorateDateDay: '#contact-planning-inspectorate-date-day',
+        contactPlanningInspectorateDateMonth: '#contact-planning-inspectorate-date-month',
+        contactPlanningInspectorateDateYear: '#contact-planning-inspectorate-date-year',
         answerOrganisation: 'answer-organisation',
         answerAdditionalAppellants: 'answer-group',
         answerIndividual: 'answer-individual',
@@ -98,6 +98,7 @@ export class PrepareAppealSelector {
         answerInterestInLandOwner: 'answer-owner',
         interestInAppealLandDetails: '#interestInAppealLand_interestInAppealLandDetails',
         allegedBreachDescription: '#allegedBreachDescription',
+        uploadPriorCorrespondenceTask: 'upload-planning-inspectorate-communication',
         uploadEnforcementNoticeTask: 'upload-enforcement-notice',
         namedIndividualFirstName: '#namedIndividual_firstName',
         namedIndividualLastName: '#namedIndividual_lastName',
@@ -107,7 +108,7 @@ export class PrepareAppealSelector {
 
 
     _houseHolderURLs = {
-        beforeYouStart: '/before-you-start',
+        beforeYouStart: '/before-you-start',     
         appealHouseholderDecison: '/appeal-householder-decision',
         appealsHouseholderAppealForm: '/appeals/householder/appeal-form',
         appealsHouseholderPrepareAppeal: '/appeals/householder/prepare-appeal',
@@ -149,7 +150,7 @@ export class PrepareAppealSelector {
         appealslistedBuildingPrepareAppeal: '/appeals/listed-building/prepare-appeal',
         appealslistedBuildingUploadDocuments: '/appeals/listed-building/upload-documents'
     }
-    _ldcAppealURLs = {
+      _ldcAppealURLs = {
         beforeYouStart: '/before-you-start',
         ldcAppealSubmit: '/ldc',
         appealsLdcAppealForm: '/appeals/ldc/appeal-form',

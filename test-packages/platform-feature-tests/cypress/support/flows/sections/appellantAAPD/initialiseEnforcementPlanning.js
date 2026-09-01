@@ -3,7 +3,6 @@
 import { BasePage } from "../../../../page-objects/base-page";
 import { PrepareAppealSelector } from "../../../../page-objects/prepare-appeal/prepare-appeal-selector";
 import { appealsE2EIntegration } from "../appealsE2EIntegration";
-import { DateService } from "../../../../utils/dateService";
 
 const { ApplicationNamePage } = require("../../pages/appellant-aapd/prepare-appeal/applicationNamePage");
 const { ContactDetailsPage } = require("../../pages/appellant-aapd/prepare-appeal/contactDetailsPage");
@@ -37,9 +36,6 @@ module.exports = (planning, context, prepareAppealData) => {
     const interestInLandPage = new InterestInLandPage();
     const chooseGroundsPage = new ChooseGroundsPage();
     const groundsFactsPage = new GroundsFactsPage();
-    const date = new DateService();
-
-    //cy.pause();
 
     //  "Before You Start" page
     cy.visit(`${Cypress.config('appeals_beta_base_url')}/before-you-start`);
@@ -50,50 +46,47 @@ module.exports = (planning, context, prepareAppealData) => {
     cy.get(basePage?._selectors?.localPlanningDepartmentOptionZero).click();
     cy.advanceToNextPage();
 
-    // // Have you received an enforcement notice? -> Yes (Enforcement appeal)
-    // cy.getByData(basePage?._selectors.answerYes).click();
-    // cy.advanceToNextPage();
-    // Select the application type
-	cy.get(`[data-cy="${planning}"]`).click();
-	cy.advanceToNextPage();
-    // Is your enforcement notice about a listed building?
-  //  if (context?.isListedBuilding) {
-        //cy.getByData(basePage?._selectors.answerYes).click();
+    cy.get(`[data-cy="${planning}"]`).click();
+    cy.advanceToNextPage();
 
-        // What is the issue date on your enforcement notice?
-        // cy.validateURL(`${Cypress.config('appeals_beta_base_url')}/before-you-start/contact-planning-inspectorate`);
-        cy.get(prepareAppealSelector?._enforcementAppealSelectors?.enforcementIssueDateDay).type(context?.enforcementNotice?.issueDate?.day);
-        cy.get(prepareAppealSelector?._enforcementAppealSelectors?.enforcementIssueDateMonth).type(context?.enforcementNotice?.issueDate?.month);
-        cy.get(prepareAppealSelector?._enforcementAppealSelectors?.enforcementIssueDateYear).type(context?.enforcementNotice?.issueDate?.year);
-        cy.advanceToNextPage();
+    // What is the issue date on your enforcement notice?
+    cy.get(prepareAppealSelector?._enforcementAppealSelectors?.enforcementIssueDateDay).type(context?.enforcementNotice?.issueDate?.day);
+    cy.get(prepareAppealSelector?._enforcementAppealSelectors?.enforcementIssueDateMonth).type(context?.enforcementNotice?.issueDate?.month);
+    cy.get(prepareAppealSelector?._enforcementAppealSelectors?.enforcementIssueDateYear).type(context?.enforcementNotice?.issueDate?.year);
+    cy.advanceToNextPage();
 
-        // What is the effective date on your enforcement notice? - future date -
-        cy.validateURL(`${Cypress.config('appeals_beta_base_url')}/before-you-start/enforcement-effective-date`);
-        cy.get(prepareAppealSelector?._enforcementAppealSelectors?.enforcementEffectiveDateDay).type(date.futureDay());
-        cy.get(prepareAppealSelector?._enforcementAppealSelectors?.enforcementEffectiveDateMonth).type(date.futureMonth());
-        cy.get(prepareAppealSelector?._enforcementAppealSelectors?.enforcementEffectiveDateYear).type(date.futureYear());
-        cy.advanceToNextPage();
+    // What is the effective date on your enforcement notice?
+    cy.validateURL(`${Cypress.config('appeals_beta_base_url')}/before-you-start/enforcement-effective-date`);
+    const effectiveDate = context?.enforcementNotice?.effectiveDate;
+    const effectiveDateIsInFuture = new Date(
+        effectiveDate?.year,
+        effectiveDate?.month - 1,
+        effectiveDate?.day
+    ) > new Date();
+    cy.get(prepareAppealSelector?._enforcementAppealSelectors?.enforcementEffectiveDateDay).type(effectiveDate?.day);
+    cy.get(prepareAppealSelector?._enforcementAppealSelectors?.enforcementEffectiveDateMonth).type(effectiveDate?.month);
+    cy.get(prepareAppealSelector?._enforcementAppealSelectors?.enforcementEffectiveDateYear).type(effectiveDate?.year);
+    cy.advanceToNextPage();
 
-        // // Did you contact the Planning Inspectorate to tell them you will appeal the enforcement notice?
-        // cy.validateURL(`${Cypress.config('appeals_beta_base_url')}/before-you-start/contact-planning-inspectorate`);
-        // if (context?.enforcementNotice?.contactedPlanningInspectorate) {
-        // 	cy.getByData(basePage?._selectors.answerYes).click();
-        // 	cy.advanceToNextPage();
+    if (!effectiveDateIsInFuture) {
+        // Did you contact the Planning Inspectorate to tell them you will appeal the enforcement notice?
+        cy.validateURL(`${Cypress.config('appeals_beta_base_url')}/before-you-start/contact-planning-inspectorate`);
+        if (context?.enforcementNotice?.contactedPlanningInspectorate) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+            cy.advanceToNextPage();
 
-        // 	// When did you contact the Planning Inspectorate?
-        // 	cy.validateURL(`${Cypress.config('appeals_beta_base_url')}/before-you-start/contact-planning-inspectorate-date`);
-        // 	cy.get(prepareAppealSelector?._enforcementAppealSelectors?.contactPlanningInspectorateDateDay).type(date.futureDay());
-        // 	cy.get(prepareAppealSelector?._enforcementAppealSelectors?.contactPlanningInspectorateDateMonth).type(date.futureMonth());
-        // 	cy.get(prepareAppealSelector?._enforcementAppealSelectors?.contactPlanningInspectorateDateYear).type(date.futureYear());
-        // 	cy.advanceToNextPage();
-        // } else {
-        // 	cy.getByData(basePage?._selectors.answerNo).click();
-        // 	cy.advanceToNextPage();
-        // }
-
-  //  } else {
-  //      cy.getByData(basePage?._selectors.answerNo).click();
-  //  }
+            // When did you contact the Planning Inspectorate?
+            cy.validateURL(`${Cypress.config('appeals_beta_base_url')}/before-you-start/contact-planning-inspectorate-date`);
+            const contactPlanningInspectorateDate = context?.enforcementNotice?.contactedPlanningInspectorateDate;
+            cy.get(prepareAppealSelector?._enforcementAppealSelectors?.contactPlanningInspectorateDateDay).type(contactPlanningInspectorateDate?.day);
+            cy.get(prepareAppealSelector?._enforcementAppealSelectors?.contactPlanningInspectorateDateMonth).type(contactPlanningInspectorateDate?.month);
+            cy.get(prepareAppealSelector?._enforcementAppealSelectors?.contactPlanningInspectorateDateYear).type(contactPlanningInspectorateDate?.year);
+            cy.advanceToNextPage();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+            cy.advanceToNextPage();
+        }
+    }
 
     // You can appeal using this service -> Start Appeal
     cy.advanceToNextPage(prepareAppealData?.button);
@@ -134,8 +127,6 @@ module.exports = (planning, context, prepareAppealData) => {
             // Contact details
             cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.appealsEnforcementPrepareAppeal}/contact-details`);
             contactDetailsPage.addContactDetailsData(context, prepareAppealSelector?._selectors?.enforcementApplicationType, prepareAppealData);
-
-            // What is your phone number? (handled within contactDetailsPage)
 
             // Complete the appeal on behalf of [appellant name] - informational page, just continue
             cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.appealsEnforcementPrepareAppeal}/complete-appeal`);
@@ -179,8 +170,17 @@ module.exports = (planning, context, prepareAppealData) => {
 
         // 2. Upload documents
 
+        // Communication with the Planning Inspectorate (shown for past effective dates)
+        if (!effectiveDateIsInFuture && context?.enforcementNotice?.contactedPlanningInspectorate) {
+            cy.uploadDocuments(prepareAppealSelector?._selectors?.enforcementApplicationType, prepareAppealSelector?._enforcementAppealSelectors?.uploadPriorCorrespondenceTask, dynamicId);
+            cy.uploadFileFromFixtureDirectory(context?.documents?.uploadPriorCorrespondence);
+            cy.advanceToNextPage();
+        } else {
+            cy.uploadDocuments(prepareAppealSelector?._selectors?.enforcementApplicationType, prepareAppealSelector?._enforcementAppealSelectors?.uploadEnforcementNoticeTask, dynamicId);
+        }
+
         // Enforcement notice
-        cy.uploadDocuments(prepareAppealSelector?._selectors?.enforcementApplicationType, prepareAppealSelector?._enforcementAppealSelectors?.uploadEnforcementNoticeTask, dynamicId);
+        cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.appealsEnforcementUploadDocuments}/upload-enforcement-notice`);
         cy.uploadFileFromFixtureDirectory(context?.documents?.uploadEnforcementNotice);
         cy.advanceToNextPage();
 

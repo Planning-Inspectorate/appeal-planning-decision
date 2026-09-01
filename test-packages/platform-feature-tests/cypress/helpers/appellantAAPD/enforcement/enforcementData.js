@@ -1,4 +1,5 @@
 const documents = {
+    uploadPriorCorrespondence: 'other-supporting-docs.pdf',
     uploadEnforcementNotice: 'other-supporting-docs.pdf',
     uploadEnforcementNoticePlan: 'other-supporting-docs.pdf',
     uploadApplicationForAppealCost: 'other-supporting-docs.pdf',
@@ -8,20 +9,38 @@ const documents = {
     uploadGroundSupportingDoc_g: 'other-supporting-docs.pdf',
 };
 
+const getRelativeDate = (daysFromToday) => {
+    const date = new Date();
+    date.setHours(12, 0, 0, 0);
+    date.setDate(date.getDate() + daysFromToday);
+
+    return {
+        day: String(date.getDate()),
+        month: String(date.getMonth() + 1),
+        year: String(date.getFullYear())
+    };
+};
+
+const issueDate = getRelativeDate(-7);
+const futureEffectiveDate = getRelativeDate(7);
+const pastEffectiveDate = getRelativeDate(-1);
+const contactedPlanningInspectorateDate = getRelativeDate(-2);
+
 export const enforcementAppealTestCases = [
     // Test case 1: Enforcement notice, written procedure
     {
+        tags: ['smoke'],
         statusOfOriginalApplication: 'enforcement',
         typeOfDecisionRequested: 'written',
         typeOfPlanningApplication: 'answer-enforcement',
         isListedBuilding: false,
         endToEndIntegration: false,
         enforcementNotice: {
-            issueDate: { day: '2', month: '2', year: '2026' },
-            effectiveDate: { day: '3', month: '3', year: '2026' },
+            issueDate,
+            effectiveDate: futureEffectiveDate,
             referenceNumber: '1234567',
             contactedPlanningInspectorate: true,
-            contactedPlanningInspectorateDate: { day: '24', month: '1', year: '2026' }
+            contactedPlanningInspectorateDate
         },
         applicationForm: {
             isAppellant: true,
@@ -46,7 +65,46 @@ export const enforcementAppealTestCases = [
             { appealReferenceNumber: '7654321' }
         ]
     },
-    // Test case 2: Enforcement notice about a listed building, hearing procedure
+    // Test case 2: Enforcement notice about a listed building, inquiry procedure
+    {
+        tags: ['smoke'],
+        statusOfOriginalApplication: 'enforcement',
+        typeOfDecisionRequested: 'inquiry',
+        typeOfPlanningApplication: 'answer-enforcement',
+        isListedBuilding: true,
+        endToEndIntegration: false,
+        enforcementNotice: {
+            issueDate,
+            effectiveDate: pastEffectiveDate,
+            referenceNumber: '1234567',
+            contactedPlanningInspectorate: true,
+            contactedPlanningInspectorateDate
+        },
+        applicationForm: {
+            isAppellant: false,
+            appellantType: 'organisation',
+            isInspectorNeedAccess: false,
+            isAppellantSiteSafety: true,
+            appellantProcedurePreference: 'inquiry',
+            isSiteAddressContactAddress: true,
+            interestInLand: 'other',
+            hasPermissionToUseLand: true,
+            groundsOfAppeal: ['e', 'f', 'g'],
+            groundsSupportingDocuments: { e: false, f: false, g: true },
+            anyOtherAppeals: true,
+            isAppellantLinkedCaseAdd: true
+        },
+        uploadDocuments: {
+            isApplyAwardCost: true,
+            isOtherNewDocumentAvailable: true
+        },
+        documents,
+        otherAppeals: [
+            { appealReferenceNumber: '1234567' },
+            { appealReferenceNumber: '7654321' }
+        ]
+    },
+    // Test case 3: Enforcement notice about a listed building, hearing procedure
     {
         statusOfOriginalApplication: 'enforcement',
         typeOfDecisionRequested: 'hearing',
@@ -54,8 +112,8 @@ export const enforcementAppealTestCases = [
         isListedBuilding: true,
         endToEndIntegration: false,
         enforcementNotice: {
-            issueDate: { day: '2', month: '2', year: '2026' },
-            effectiveDate: { day: '3', month: '3', year: '2026' },
+            issueDate,
+            effectiveDate: futureEffectiveDate,
             referenceNumber: '1234567',
             contactedPlanningInspectorate: false
         },
@@ -82,44 +140,7 @@ export const enforcementAppealTestCases = [
             { appealReferenceNumber: '7654321' }
         ]
     },
-    // Test case 3: Enforcement notice about a listed building, inquiry procedure
-    {
-        statusOfOriginalApplication: 'enforcement',
-        typeOfDecisionRequested: 'inquiry',
-        typeOfPlanningApplication: 'answer-enforcement',
-        isListedBuilding: true,
-        endToEndIntegration: false,
-        enforcementNotice: {
-            issueDate: { day: '2', month: '2', year: '2026' },
-            effectiveDate: { day: '3', month: '3', year: '2026' },
-            referenceNumber: '1234567',
-            contactedPlanningInspectorate: true,
-            contactedPlanningInspectorateDate: { day: '10', month: '2', year: '2026' }
-        },
-        applicationForm: {
-            isAppellant: false,
-            appellantType: 'organisation',
-            isInspectorNeedAccess: false,
-            isAppellantSiteSafety: true,
-            appellantProcedurePreference: 'inquiry',
-            isSiteAddressContactAddress: true,
-            interestInLand: 'other',
-            hasPermissionToUseLand: true,
-            groundsOfAppeal: ['e', 'f', 'g'],
-            groundsSupportingDocuments: { e: false, f: false, g: true },
-            anyOtherAppeals: true,
-            isAppellantLinkedCaseAdd: true
-        },
-        uploadDocuments: {
-            isApplyAwardCost: true,
-            isOtherNewDocumentAvailable: true
-        },
-        documents,
-        otherAppeals: [
-            { appealReferenceNumber: '1234567' },
-            { appealReferenceNumber: '7654321' }
-        ]
-    },
+
     // Test case 4: Enforcement notice, individual appealing on behalf of the appellant, written procedure
     {
         statusOfOriginalApplication: 'enforcement',
@@ -128,8 +149,8 @@ export const enforcementAppealTestCases = [
         isListedBuilding: false,
         endToEndIntegration: false,
         enforcementNotice: {
-            issueDate: { day: '2', month: '2', year: '2026' },
-            effectiveDate: { day: '3', month: '3', year: '2026' },
+            issueDate,
+            effectiveDate: futureEffectiveDate,
             referenceNumber: '1234567',
             contactedPlanningInspectorate: false
         },
