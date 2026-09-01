@@ -155,6 +155,15 @@ router.get(
 );
 
 router.get(
+	'/:appealNumber/hearing-documents',
+	documentsController.get({
+		userType,
+		displayName: 'Hearing documents',
+		documentTypes: [APPEAL_DOCUMENT_TYPE.HEARING_PROCESS]
+	})
+);
+
+router.get(
 	`/:appealNumber/download/:documentsLocation/documents/:appealCaseStage`,
 	downloadDocumentsController.get()
 );

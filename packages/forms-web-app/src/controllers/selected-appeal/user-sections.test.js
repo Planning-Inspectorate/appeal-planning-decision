@@ -500,6 +500,21 @@ describe('LPA and Appellant Sections', () => {
 		});
 	});
 
+	describe('Hearing documents', () => {
+		it('should show hearing documents when docs are present', () => {
+			appealCase.Documents = [
+				{
+					documentType: APPEAL_DOCUMENT_TYPE.HEARING_PROCESS,
+					published: true
+				}
+			];
+			const section = findSectionByHeading(lpaSections, 'Hearing Documents');
+			const link = findLinkByUrl(section, '/hearing-documents');
+			expect(link?.condition(appealCase)).toBe(true);
+			expect(link?.text).toBe('View hearing documents');
+		});
+	});
+
 	describe('Appellant Sections', () => {
 		describe('Appeal details', () => {
 			it('should show "View your appeal details" when caseValidDate is present (is always true)', () => {

@@ -254,6 +254,20 @@ exports.sections = [
 		]
 	},
 	{
+		heading: 'Hearing Documents',
+		links: [
+			{
+				url: '/hearing-documents',
+				text: 'View hearing documents',
+				condition: (appealCase) =>
+					appealCase.Documents.some(
+						/** @type {DocumentExistsCondition} */
+						(doc) => doc.documentType === APPEAL_DOCUMENT_TYPE.HEARING_PROCESS
+					)
+			}
+		]
+	},
+	{
 		heading: 'Costs',
 		links: [
 			{

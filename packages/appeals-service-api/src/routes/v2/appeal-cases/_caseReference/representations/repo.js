@@ -114,7 +114,9 @@ class RepresentationsRepository {
 
 								// Inquiry
 								APPEAL_DOCUMENT_TYPE.INQUIRY_CORE,
-								APPEAL_DOCUMENT_TYPE.INQUIRY_POST_EVENT
+								APPEAL_DOCUMENT_TYPE.INQUIRY_POST_EVENT,
+								// Hearing
+								APPEAL_DOCUMENT_TYPE.HEARING_PROCESS
 							]
 						}
 					}

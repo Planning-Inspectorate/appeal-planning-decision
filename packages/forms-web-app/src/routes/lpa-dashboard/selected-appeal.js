@@ -194,4 +194,13 @@ router.get(
 	})
 );
 
+router.get(
+	'/:appealNumber/hearing-documents',
+	documentsController.get({
+		userType,
+		displayName: 'Hearing documents',
+		documentTypes: [APPEAL_DOCUMENT_TYPE.HEARING_PROCESS]
+	})
+);
+
 module.exports = router;
