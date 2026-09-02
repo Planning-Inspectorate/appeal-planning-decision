@@ -2,6 +2,14 @@
 /// <reference types="cypress"/>
 const initialiseApplicationTypeAppeal = require('./initialiseApplicationTypeAppeal');
 
+function validateTypeOfDecisionRequested(typeOfDecisionRequested) {
+	if (['written', 'hearing', 'inquiry'].includes(typeOfDecisionRequested) === false) {
+		throw new Error(
+			`The type of decision requested "${typeOfDecisionRequested}" is not supported!`
+		);
+	}
+}
+
 function submitAppealFlow(appealOptions) {
 	const { statusOfOriginalApplication, typeOfDecisionRequested, statusOfPlanningObligation, planning, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases } =
 		appealOptions;
@@ -12,11 +20,7 @@ function submitAppealFlow(appealOptions) {
 		);
 	}
 
-	if (['written', 'hearing', 'inquiry'].includes(typeOfDecisionRequested) === false) {
-		throw new Error(
-			`The stype of decision requested "${typeOfDecisionRequested}" is not supported!`
-		);
-	}
+	validateTypeOfDecisionRequested(typeOfDecisionRequested);
 
 	if (['not started', 'finalised', 'in draft'].includes(statusOfPlanningObligation) === false) {
 		throw new Error(
@@ -26,5 +30,6 @@ function submitAppealFlow(appealOptions) {
 	initialiseApplicationTypeAppeal(statusOfOriginalApplication, planning, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
 }
 module.exports = {
-	submitAppealFlow
+	submitAppealFlow,
+	validateTypeOfDecisionRequested
 };
