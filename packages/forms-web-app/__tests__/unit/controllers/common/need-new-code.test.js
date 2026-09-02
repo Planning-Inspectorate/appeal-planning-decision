@@ -47,7 +47,7 @@ describe('controllers/common/enter-code', () => {
 			};
 			await returnedFunction(req, res);
 
-			expect(res.redirect).toHaveBeenCalledWith(`/${ENTER_CODE}/${tokenId}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${ENTER_CODE}`);
 		});
 	});
 });
