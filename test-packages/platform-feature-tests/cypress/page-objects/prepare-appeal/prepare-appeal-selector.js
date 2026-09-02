@@ -13,10 +13,10 @@ export class PrepareAppealSelector {
     }
 
     _selectors = {
-
         emailCode: '#email-code',
         applicationReference: '#applicationReference',
         applicationNumber: 'application-number',
+        referenceNumber: 'reference-number',
         emailAddress: 'email-address',
         onApplicationDateDay: '#onApplicationDate_day',
         onApplicationDateMonth: '#onApplicationDate_month',
@@ -32,6 +32,7 @@ export class PrepareAppealSelector {
         advertApplicationType: "adverts",
         listedBuildingApplicaitonType: "listed-building",
         ldcApplicationType: "ldc",
+        enforcementApplicationType: "enforcement",
         appellantOther: "other",
         uploadApplicationForm: "upload-application-form",
         statusOfOriginalApplicationWritten: "written",
@@ -76,6 +77,36 @@ export class PrepareAppealSelector {
     _ldcAppealSelectors = {
         ...this._commonDecisionDateSelectors,
     }
+    _enforcementAppealSelectors = {
+        enforcementIssueDateDay: '#enforcement-issue-date-day',
+        enforcementIssueDateMonth: '#enforcement-issue-date-month',
+        enforcementIssueDateYear: '#enforcement-issue-date-year',   
+        enforcementEffectiveDateDay: '#enforcement-effective-date-day',
+        enforcementEffectiveDateMonth: '#enforcement-effective-date-month',
+        enforcementEffectiveDateYear: '#enforcement-effective-date-year',
+        contactPlanningInspectorateDateDay: '#contact-planning-inspectorate-date-day',
+        contactPlanningInspectorateDateMonth: '#contact-planning-inspectorate-date-month',
+        contactPlanningInspectorateDateYear: '#contact-planning-inspectorate-date-year',
+        answerOrganisation: 'answer-organisation',
+        answerAdditionalAppellants: 'answer-group',
+        answerIndividual: 'answer-individual',
+        appellantFirstName: '#appellantFirstName',
+        appellantLastName: '#appellantLastName',
+        contactPhoneNumber: '#contactPhoneNumber',
+        answerInterestInLandOther: 'answer-other',
+        answerInterestInLandTenant: 'answer-tenant',
+        answerInterestInLandMortgageLender: 'answer-mortgageLender',
+        answerInterestInLandOwner: 'answer-owner',
+        interestInAppealLandDetails: '#interestInAppealLand_interestInAppealLandDetails',
+        allegedBreachDescription: '#allegedBreachDescription',
+        uploadPriorCorrespondenceTask: 'upload-planning-inspectorate-communication',
+        uploadEnforcementNoticeTask: 'upload-enforcement-notice',
+        namedIndividualFirstName: '#namedIndividual_firstName',
+        namedIndividualLastName: '#namedIndividual_lastName',
+        answerSelectYourNameNone: 'answer-None',
+        enforcementOrganisationName: '#enforcementOrganisationName',
+    }
+
     _houseHolderURLs = {
         beforeYouStart: '/before-you-start',
         appealHouseholderDecison: '/appeal-householder-decision',
@@ -97,6 +128,15 @@ export class PrepareAppealSelector {
         appealsAdvertPrepareAppeal: '/appeals/adverts/prepare-appeal',
         appealsAdvertUploadDocuments: '/appeals/adverts/upload-documents'
     }
+    _enforcementAppealURLs = {
+        beforeYouStart: '/before-you-start',
+        enforcement: '/enforcement',
+        appealsEnforcementAppealForm: '/appeals/enforcement/appeal-form',
+        appealsEnforcementPrepareAppeal: '/appeals/enforcement/prepare-appeal',
+        appealsEnforcementUploadDocuments: '/appeals/enforcement/upload-documents',
+        appealsEnforcementSubmitDeclaration: '/appeals/enforcement/submit/declaration'
+    }
+
     _fullAppealURLs = {
         beforeYouStart: '/before-you-start',
         fullAppealSubmit: '/full-appeal/submit-appeal',
