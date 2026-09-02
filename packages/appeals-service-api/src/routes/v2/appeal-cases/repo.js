@@ -9,6 +9,7 @@ const { subYears } = require('date-fns');
 const logger = require('#lib/logger');
 const ApiError = require('#errors/apiError');
 const sanitizePostcode = require('#lib/sanitize-postcode');
+const { APPEAL_CASE_STATUS } = require('@planning-inspectorate/data-model');
 
 /**
  * @typedef {import('@pins/database/src/client/client').Appeal} Appeal
@@ -694,6 +695,8 @@ class AppealCaseRepository {
 		];
 		if (isStarted) {
 			AND.push({ caseStartedDate: { not: null } });
+			AND.push({ caseStatus: { not: APPEAL_CASE_STATUS.READY_TO_START } });
+			AND.push({ caseStatus: { not: APPEAL_CASE_STATUS.VALIDATION } });
 		}
 		addDecidedClauseToQuery(AND, decidedOnly);
 		/** @type {AppealCaseFindManyArgs}	*/

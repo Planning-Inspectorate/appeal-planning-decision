@@ -35,7 +35,7 @@ const {
 const {
 	exampleEnforcementListedDataModel
 } = require('../../../../__tests__/developer/fixtures/appeals-enforcement-listed-data-model');
-const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
+const { APPEAL_CASE_STATUS, SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 const { appendLinkedCasesForMultipleAppeals } = require('./service');
@@ -301,6 +301,44 @@ module.exports = ({ getSqlClient, setCurrentSub, setCurrentLpa, mockNotifyClient
 								firstName: 'Post',
 								lastName: 'Code'
 							})
+						])
+					);
+				});
+
+				it("doesn't return started cases in validation or ready_to_start", async () => {
+					const validationCase = appealCase('LPA1', 'BS1 6AA', true, true);
+					validationCase.CaseStatus = {
+						connect: { key: APPEAL_CASE_STATUS.VALIDATION }
+					};
+
+					const readyToStartCase = appealCase('LPA1', 'BS1 6AA', true, true);
+					readyToStartCase.CaseStatus = {
+						connect: { key: APPEAL_CASE_STATUS.READY_TO_START }
+					};
+
+					await _createSqlAppealCase(validationCase);
+					await _createSqlAppealCase(readyToStartCase);
+
+					const response = await appealsApi
+						.get(
+							`/api/v2/appeal-cases` +
+								buildQueryString({
+									postcode: 'BS1 6AA',
+									'decided-only': 'false',
+									isStarted: 'true'
+								})
+						)
+						.send();
+
+					expect(response.status).toBe(200);
+					expect(response.body).not.toEqual(
+						expect.arrayContaining([
+							expect.objectContaining({ caseReference: validationCase.caseReference })
+						])
+					);
+					expect(response.body).not.toEqual(
+						expect.arrayContaining([
+							expect.objectContaining({ caseReference: readyToStartCase.caseReference })
 						])
 					);
 				});
