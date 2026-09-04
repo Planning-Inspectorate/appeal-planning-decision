@@ -40,8 +40,7 @@ flowchart TD
 
     %% questions
     lpa[LPA?]
-    enforcement[enforcement?]
-    applicationType[application type?]
+    appealAbout[what is your appeal about?]
     applicationAbout[application about?]
     applicationAboutCAS[commercial application about?]
     existingHome[existing-home?]
@@ -58,13 +57,22 @@ flowchart TD
     contactPlanningInspectorateDate[contact planning inspectorate date?]
 
     %% routing
-    lpa --> enforcement
+    lpa --> appealAbout
 
-    enforcement -- Yes --> enforcementListedBuilding
-    enforcement -- No --> applicationType
-
-    enforcementListedBuilding -- Yes --> acp1
-    enforcementListedBuilding -- No --> enforcementIssueDate
+    appealAbout -- full planning --> decideS78A
+    appealAbout -- householder --> grantedRefusedUndecided
+    appealAbout -- listed building consent --> decideS20
+    appealAbout -- enforcement --> enforcementIssueDate
+    appealAbout -- enforcementListedBuilding --> enforcementIssueDate
+    appealAbout -- display advert --> decideAdvert
+    appealAbout -- minor commercial --> applicationAboutCAS
+    appealAbout -- lawful development certificate --> decideLDC
+    appealAbout -- outline planning --> decideS78A
+    appealAbout -- prior approval --> existingHome
+    appealAbout -- reserved --> decideS78A
+    appealAbout -- conditions --> conditionsHouseholder
+    appealAbout -- permission in principle -->
+    appealAbout -- none/something else --> acp1
 
     enforcementIssueDate --> enforcementEffectiveDate
 
@@ -77,16 +85,6 @@ flowchart TD
     contactPlanningInspectorateDate -- valid date --> Enforcement
     contactPlanningInspectorateDate -- missed deadline --> deadline
 
-    applicationType -- full/outline/reserved --> decideS78A
-    applicationType -- householder --> grantedRefusedUndecided
-    applicationType -- listed building consent --> decideS20
-    applicationType -- display advert --> decideAdvert
-    applicationType -- minor commercial --> applicationAboutCAS
-    applicationType -- lawful development certificate --> decideLDC
-    applicationType -- prior --> existingHome
-    applicationType -- conditions --> conditionsHouseholder
-    applicationType -- none/something else --> acp1
-
     applicationAbout -- any --> acp1
     applicationAbout -- none --> decideS78A
 
@@ -94,7 +92,7 @@ flowchart TD
     applicationAboutCAS -- any other --> decideS78A
 
     existingHome -- yes --> grantedRefusedUndecided
-	  existingHome -- no --> decideS78A
+	existingHome -- no --> decideS78A
 
     conditionsHouseholder -- yes --> listedBuilding
     conditionsHouseholder -- no --> listedBuilding
