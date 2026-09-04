@@ -104,7 +104,6 @@ const makeSections = (response) => {
 			.addQuestion(questions.inspectorAccess)
 			.addQuestion(questions.healthAndSafety)
 			.addQuestion(questions.enterApplicationReference)
-			.addQuestion(questions.planningApplicationDate)
 			.addQuestion(questions.majorMinorDevelopment)
 			.withVariables({
 				[QUESTION_VARIABLES.MAJOR_MINOR_CONTENT]: 'resources/major-minor-development/content.html'

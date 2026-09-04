@@ -103,7 +103,6 @@ condition: () => shouldDisplayTellingTenants(response, questions);
 - radio `/inspector-need-access/` Will an inspector need to access your land or property?
 - radio `/health-safety-issues/` Health and safety issues
 - single-line-input `/reference-number/` What is the application reference number?
-- date `/application-date/` What date did you submit your application?
 - radio `/major-minor-development/` Was your application for a major or minor development?
 - radio `/application-about/` Was your application about any of the following?
 - text-entry `/enter-description-of-development/` Enter the description of development that you submitted in your application
