@@ -8,7 +8,7 @@ const beforeStatus = getStatus();
 
 try {
 	execSync('npm run doc', { stdio: 'inherit' });
-} catch (err) {
+} catch {
 	process.exit(1);
 }
 

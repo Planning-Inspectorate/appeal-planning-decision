@@ -43,7 +43,7 @@ class ListedBuildingAddMoreQuestion extends AddMoreQuestion {
 			);
 
 			return { answers: {}, addMoreId: randomUUID(), value: listedBuilding };
-		} catch (err) {
+		} catch {
 			throw new Error(`Could not find listed building: ${listedBuildingReference}`);
 		}
 	}

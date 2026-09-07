@@ -17,7 +17,7 @@ exports.formatBeforeYouStartSection = async (appellantSubmission) => {
 	let lpa;
 	try {
 		lpa = await getLPA(LPACode);
-	} catch (err) {
+	} catch {
 		lpa = await getLPAById(LPACode);
 	}
 

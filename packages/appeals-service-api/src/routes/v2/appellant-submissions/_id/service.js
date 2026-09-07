@@ -60,7 +60,7 @@ exports.getForBOSubmission = async ({ appellantSubmissionId, userId }) => {
 exports.confirmOwnership = async ({ appellantSubmissionId, userId }) => {
 	try {
 		return await repo.userOwnsAppealSubmission({ appellantSubmissionId, userId });
-	} catch (err) {
+	} catch {
 		throw ApiError.forbidden();
 	}
 };
@@ -71,7 +71,7 @@ exports.confirmOwnership = async ({ appellantSubmissionId, userId }) => {
 exports.getDownloadDetails = async ({ appellantSubmissionId, userId }) => {
 	try {
 		return await repo.getDownloadDetails({ appellantSubmissionId, userId });
-	} catch (err) {
+	} catch {
 		throw ApiError.forbidden();
 	}
 };
@@ -82,7 +82,7 @@ exports.getDownloadDetails = async ({ appellantSubmissionId, userId }) => {
 exports.getCaseReference = async ({ appellantSubmissionId, userId }) => {
 	try {
 		return await repo.getCaseReference({ appellantSubmissionId, userId });
-	} catch (err) {
+	} catch {
 		throw ApiError.forbidden();
 	}
 };

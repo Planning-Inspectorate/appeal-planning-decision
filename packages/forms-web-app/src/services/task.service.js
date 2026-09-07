@@ -180,7 +180,7 @@ const getTaskStatus = (appeal, sectionName, taskName, sections = SECTIONS) => {
 	try {
 		const { rule } = taskName ? sections[sectionName][taskName] : sections[sectionName];
 		return rule(appeal);
-	} catch (e) {
+	} catch {
 		return null;
 	}
 };
@@ -201,7 +201,7 @@ const getNextTask = (appeal, currentTask, sections = SECTIONS) => {
 
 		let status = getTaskStatus(appeal, sectionName, nextTaskName);
 		if (!status && status !== TASK_STATUS.CANNOT_START_YET) {
-			// eslint-disable-next-line prefer-destructuring
+			 
 			status = tasks[i][1];
 		}
 

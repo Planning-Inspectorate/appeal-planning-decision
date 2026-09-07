@@ -207,7 +207,7 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 		if (isReturningFromEmail) {
 			try {
 				req.session.appeal = await getExistingAppeal(enterCodeId);
-			} catch (err) {
+			} catch {
 				return renderError('We did not find your appeal. Enter the correct code');
 			}
 
