@@ -34,7 +34,7 @@ const generatePdf = async (html) => {
 		return Buffer.from(pdfBuffer);
 	} catch (err) {
 		logger.error({ err }, 'Failed to generate pdf');
-		throw new Error(err);
+		throw new Error(err, { cause: err });
 	}
 };
 

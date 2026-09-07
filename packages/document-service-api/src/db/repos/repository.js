@@ -321,7 +321,7 @@ class DocumentsRepository {
 			return true;
 		} catch (err) {
 			logger.error({ err }, 'invalid user access');
-			throw new Error(`${userLpa} does not have access to case: ${caseReference}`);
+			throw new Error(`${userLpa} does not have access to case: ${caseReference}`, { cause: err });
 		}
 	}
 
@@ -357,7 +357,7 @@ class DocumentsRepository {
 			return true;
 		} catch (err) {
 			logger.error({ err }, 'invalid user access');
-			throw new Error('Forbidden');
+			throw new Error('Forbidden', { cause: err });
 		}
 	}
 

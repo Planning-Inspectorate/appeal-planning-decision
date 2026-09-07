@@ -48,7 +48,7 @@ async function handler(path, method = 'GET', opts = {}, headers = {}) {
 						/* istanbul ignore next */
 						throw new Error(apiResponse.statusText);
 					} catch (e) {
-						throw new Error(e.message);
+						throw new Error(e.message, { cause: e });
 					}
 				}
 

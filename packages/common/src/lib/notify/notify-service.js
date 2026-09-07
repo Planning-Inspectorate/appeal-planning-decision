@@ -143,17 +143,21 @@ class NotifyService {
 				const errorMessage = matches[3] || 'issue';
 				if (message.includes('attempted to output null or undefined value')) {
 					throw new Error(
-						`populateTemplate error: missing parameter at line #${line} and column #${column} in template: ${templateName}`
+						`populateTemplate error: missing parameter at line #${line} and column #${column} in template: ${templateName}`,
+						{ cause: e }
 					);
 				}
 				throw new Error(
-					`populateTemplate error: '${errorMessage}' at line #${line} and column #${column} in template: ${templateName}`
+					`populateTemplate error: '${errorMessage}' at line #${line} and column #${column} in template: ${templateName}`,
+					{ cause: e }
 				);
 			} else if (message.includes('template not found')) {
-				throw new Error(`populateTemplate error: template not found: ${templateName}`);
+				throw new Error(`populateTemplate error: template not found: ${templateName}`, {
+					cause: e
+				});
 			}
 
-			throw new Error(`populateTemplate error: ${message}`);
+			throw new Error(`populateTemplate error: ${message}`, { cause: e });
 		}
 	}
 }

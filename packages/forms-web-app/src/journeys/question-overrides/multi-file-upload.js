@@ -231,7 +231,7 @@ async function saveAction(req, res, saveFunction, journey, section, journeyRespo
 				await uploadDocuments(journeyResponse.referenceId, chunk);
 			} catch (error) {
 				logger.error(error, `Error uploading document batch starting at index ${i}`);
-				throw new Error('Failed to save uploaded files. Please try again.');
+				throw new Error('Failed to save uploaded files. Please try again.', { cause: error });
 			}
 		}
 	}
