@@ -40,7 +40,7 @@ const handler = async (url, method = 'GET', data = {}, allowedResponseCodes = [2
 		});
 	} catch (e) {
 		logger.error(e);
-		throw new Error(e.toString());
+		throw new Error(e.toString(), { cause: e });
 	}
 
 	if (!apiResponse.ok) {

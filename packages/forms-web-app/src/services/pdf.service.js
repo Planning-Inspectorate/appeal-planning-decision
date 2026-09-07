@@ -123,7 +123,7 @@ const storePdfAppeal = async ({ appeal, fileName, cookieString }) => {
 		const msg = 'Error during the appeal pdf generation';
 		log.error({ err }, msg);
 
-		throw new Error(msg);
+		throw new Error(msg, { cause: err });
 	}
 };
 
@@ -176,7 +176,7 @@ const storePdfAppellantSubmission = async ({
 		const msg = 'Error during the appeal pdf generation';
 		log.error({ err }, msg);
 
-		throw new Error(msg);
+		throw new Error(msg, { cause: err });
 	}
 };
 
@@ -237,7 +237,7 @@ const storePdfQuestionnaireSubmission = async ({
 	} catch (err) {
 		const msg = 'Error during the lpa questionnaire submission pdf generation';
 		log.error({ err }, msg);
-		throw new Error(msg);
+		throw new Error(msg, { cause: err });
 	}
 };
 

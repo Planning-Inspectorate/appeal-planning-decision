@@ -138,7 +138,7 @@ class BackOfficeV2Service {
 			await sendSubmissionReceivedEmailToAppellantV2(appellantSubmission, email);
 		} catch (err) {
 			logger.error({ err }, 'failed to sendSubmissionReceivedEmailToAppellantV2');
-			throw new Error('failed to send submission email to appellant');
+			throw new Error('failed to send submission email to appellant', { cause: err });
 		}
 
 		return result;
@@ -196,7 +196,7 @@ class BackOfficeV2Service {
 			await sendLPAHASQuestionnaireSubmittedEmailV2(appealCase, appellantOrAgentEmailAddress);
 		} catch (err) {
 			logger.error({ err }, 'failed to sendLPAQuestionnaireSubmittedEmailV2');
-			throw new Error('failed to send LPA questionnaire submission email');
+			throw new Error('failed to send LPA questionnaire submission email', { cause: err });
 		}
 
 		return result;
@@ -247,7 +247,7 @@ class BackOfficeV2Service {
 				await sendCommentSubmissionConfirmationEmailToIp(interestedPartySubmission);
 			} catch (err) {
 				logger.error({ err }, 'failed to sendCommentSubmissionConfirmationEmailToIp');
-				throw new Error('failed to send interested party comment submission email');
+				throw new Error('failed to send interested party comment submission email', { cause: err });
 			}
 		}
 		return result;
@@ -302,7 +302,7 @@ class BackOfficeV2Service {
 			await sendLpaStatementSubmissionReceivedEmailToLpaV2(lpaStatement);
 		} catch (err) {
 			logger.error({ err }, 'failed to sendLpaStatementSubmissionReceivedEmailToLpaV2');
-			throw new Error('failed to send lpa statement submission email');
+			throw new Error('failed to send lpa statement submission email', { cause: err });
 		}
 		return result;
 	}
@@ -363,7 +363,7 @@ class BackOfficeV2Service {
 			await sendAppellantStatementSubmissionReceivedEmailToAppellantV2(appellantStatement, email);
 		} catch (err) {
 			logger.error({ err }, 'failed to sendAppellantStatementSubmissionReceivedEmailToAppellantV2');
-			throw new Error('failed to send appellant statement submission email');
+			throw new Error('failed to send appellant statement submission email', { cause: err });
 		}
 		return result;
 	}
@@ -420,7 +420,7 @@ class BackOfficeV2Service {
 			await sendLPAFinalCommentSubmissionEmailToLPAV2(lpaFinalCommentSubmission);
 		} catch (err) {
 			logger.error({ err }, 'failed to sendLPAFinalCommentSubmissionEmailToLPAV2');
-			throw new Error('failed to send lpa final comment submission email');
+			throw new Error('failed to send lpa final comment submission email', { cause: err });
 		}
 
 		return result;
@@ -475,7 +475,7 @@ class BackOfficeV2Service {
 			await sendLPAProofEvidenceSubmissionEmailToLPAV2(lpaProofEvidenceSubmission);
 		} catch (err) {
 			logger.error({ err }, 'failed to sendLpaProofEvidenceSubmissionEmailToLPAV2');
-			throw new Error('failed to send lpa proof evidence submission email');
+			throw new Error('failed to send lpa proof evidence submission email', { cause: err });
 		}
 
 		return result;
@@ -551,7 +551,7 @@ class BackOfficeV2Service {
 			);
 		} catch (err) {
 			logger.error({ err }, 'failed to sendAppellantFinalCommentSubmissionEmailToAppellantV2');
-			throw new Error('failed to send appellant final comment submission email');
+			throw new Error('failed to send appellant final comment submission email', { cause: err });
 		}
 
 		return result;
@@ -627,7 +627,9 @@ class BackOfficeV2Service {
 			);
 		} catch (err) {
 			logger.error({ err }, 'failed to sendAppellantProofEvidenceSubmissionEmailToAppellantV2');
-			throw new Error('failed to send appellant proof of evidence submission email');
+			throw new Error('failed to send appellant proof of evidence submission email', {
+				cause: err
+			});
 		}
 
 		return result;
@@ -702,7 +704,7 @@ class BackOfficeV2Service {
 			);
 		} catch (err) {
 			logger.error({ err }, 'failed to sendRule6ProofOfEvidenceSubmissionEmailToRule6PartyV2');
-			throw new Error('failed to send rule 6 proof of evidence submission email');
+			throw new Error('failed to send rule 6 proof of evidence submission email', { cause: err });
 		}
 
 		return result;
@@ -764,7 +766,7 @@ class BackOfficeV2Service {
 			await sendRule6StatementSubmissionEmailToRule6PartyV2(rule6Statement, email, serviceUser);
 		} catch (err) {
 			logger.error({ err }, 'failed to sendRule6StatementSubmissionEmailToRule6PartyV2');
-			throw new Error('failed to send rule 6 statement submission email');
+			throw new Error('failed to send rule 6 statement submission email', { cause: err });
 		}
 
 		return result;

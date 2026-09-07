@@ -20,7 +20,7 @@ const handler = async (timer, context) => {
 		context.log('Data cleanup completed successfully:', result);
 	} catch (error) {
 		context.log('Error during data cleanup:', error.message);
-		throw new Error('Error deleting old submissions');
+		throw new Error('Error deleting old submissions', { cause: error });
 	} finally {
 		context.log('Timer object:', timer);
 	}
