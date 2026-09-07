@@ -1,4 +1,3 @@
-
 const initialiseGoogleAnalytics = (document) => {
 	const gaId = document.getElementById('gaId') ? document.getElementById('gaId').textContent : null;
 

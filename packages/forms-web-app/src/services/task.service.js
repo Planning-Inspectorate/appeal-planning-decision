@@ -201,7 +201,6 @@ const getNextTask = (appeal, currentTask, sections = SECTIONS) => {
 
 		let status = getTaskStatus(appeal, sectionName, nextTaskName);
 		if (!status && status !== TASK_STATUS.CANNOT_START_YET) {
-			 
 			status = tasks[i][1];
 		}
 

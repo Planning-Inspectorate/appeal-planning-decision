@@ -1,4 +1,3 @@
-
 function applyConsent(consent) {
 	window.dataLayer = window.dataLayer || [];
 

@@ -16,13 +16,13 @@ module.exports = (statusOfOriginalApplication, planning, expeditedAppeal, contex
 	const prepareAppealSelector = new PrepareAppealSelector();
 	const basePage = new BasePage();
 	const applicationDateValues = getApplicationDateValues(expeditedAppeal);
-	// Visit the "Before You Start" page 
+	// Visit the "Before You Start" page
 	cy.visit(`${Cypress.config('appeals_beta_base_url')}/before-you-start`);
 	cy.advanceToNextPage();
 	// Select the local planning authority
 	cy.get(basePage?._selectors?.localPlanningDepartment).type(prepareAppealSelector?._selectors?.systemTest2BoroughCouncil);
 	cy.get(basePage?._selectors?.localPlanningDepartmentOptionZero).click();
-	cy.advanceToNextPage();	
+	cy.advanceToNextPage();
 	// Select the application type
 	cy.get(`[data-cy="${planning}"]`).click().should('be.checked');
 	cy.advanceToNextPage();

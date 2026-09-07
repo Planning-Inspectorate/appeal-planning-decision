@@ -1,4 +1,3 @@
-
 // https://www.quirksmode.org/js/cookies.html
 
 const createCookie = (document, name, value, days = 365) => {
@@ -14,7 +13,7 @@ const createCookie = (document, name, value, days = 365) => {
 	if (process.env.NODE_ENV === 'production') {
 		secure = '; secure';
 	}
-	 
+
 	document.cookie = `${name}=${encodeURIComponent(value)}${expires}${secure}; SameSite=Lax; path=/`;
 };
 
