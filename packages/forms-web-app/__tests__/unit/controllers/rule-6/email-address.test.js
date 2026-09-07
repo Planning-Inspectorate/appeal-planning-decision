@@ -43,11 +43,9 @@ describe('controllers/rule-6/email-address', () => {
 
 	describe('postR6Address', () => {
 		it('redirect to enter code', async () => {
-			const testId = '64c789bf8672ef00122fe30c';
 			const testEmail = 'testR6user@planninginspectorate.gov.uk';
 			req.appealsApiClient.getUserByEmailV2.mockImplementation(() =>
 				Promise.resolve({
-					id: testId,
 					email: 'testR6user@planninginspectorate.gov.uk'
 				})
 			);
@@ -55,7 +53,7 @@ describe('controllers/rule-6/email-address', () => {
 			req.body['email-address'] = testEmail;
 			const returnedFunction = postR6EmailAddress(rule6Views);
 			await returnedFunction(req, res);
-			expect(res.redirect).toHaveBeenCalledWith(`/${rule6Views.ENTER_CODE}/${testId}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${rule6Views.ENTER_CODE}`);
 		});
 		it('should error with missing email address', async () => {
 			const customErrorSummary = [

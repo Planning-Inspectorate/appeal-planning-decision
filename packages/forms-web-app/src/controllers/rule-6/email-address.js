@@ -1,20 +1,32 @@
 const {
 	setSessionEmail,
-	setSessionEnterCode,
+	getSessionEmail,
 	setSessionEnterCodeAction
 } = require('../../lib/session-helper');
 const { enterCodeConfig } = require('@pins/common');
 const { logoutUser } = require('../../services/user.service');
+const logger = require('../../lib/logger');
+const config = require('../../config');
+const { getAuthClientConfig, createOTPGrant } = require('@pins/common/src/client/auth-client');
+const { isRule6UserByEmail } = require('../../services/user.service');
 
+/**
+ * @param {{EMAIL_ADDRESS: string}} views
+ * @returns {import('express').RequestHandler}
+ */
 const getR6EmailAddress = (views) => {
 	return (req, res) => {
-		const { email } = req.session;
+		const email = getSessionEmail(req.session, false);
 		res.render(views.EMAIL_ADDRESS, {
-			email: email
+			email
 		});
 	};
 };
 
+/**
+ * @param {{EMAIL_ADDRESS: string, ENTER_CODE: string}} views
+ * @returns {import('express').RequestHandler}
+ */
 const postR6EmailAddress = (views) => {
 	return async (req, res) => {
 		const { body } = req;
@@ -38,7 +50,6 @@ const postR6EmailAddress = (views) => {
 		}
 
 		if (Object.keys(errors).length > 0) {
-			console.log('errors', errors);
 			res.render(views.EMAIL_ADDRESS, {
 				email,
 				errors,
@@ -48,31 +59,22 @@ const postR6EmailAddress = (views) => {
 		}
 
 		try {
-			const user = await req.appealsApiClient.getUserByEmailV2(email);
-			if (!user) {
-				throw new Error('user not found');
+			logoutUser(req);
+			setSessionEnterCodeAction(req.session, enterCodeConfig.actions.rule6Dashboard);
+			const isRule6User = await isRule6UserByEmail(req, email);
+			if (isRule6User) {
+				await getAuthClientConfig(
+					config.oauth.baseUrl,
+					config.oauth.clientID,
+					config.oauth.clientSecret
+				);
+				await createOTPGrant(email, enterCodeConfig.actions.rule6Dashboard);
 			}
-			const id = user.id;
-			setSession();
-			res.redirect(`/${views.ENTER_CODE}/${id}`);
 		} catch (e) {
-			res.render(views.EMAIL_ADDRESS, {
-				email,
-				errors: {
-					'email-address': {
-						msg: 'Enter your email address'
-					}
-				},
-				errorSummary: emailErrorSummary
-			});
-			return;
+			logger.error(e, 'failed to send token to rule 6 user');
 		}
 
-		function setSession() {
-			logoutUser(req);
-			setSessionEnterCode(req.session, {}, true);
-			setSessionEnterCodeAction(req.session, enterCodeConfig.actions.confirmEmail);
-		}
+		res.redirect(`/${views.ENTER_CODE}`);
 	};
 };
 

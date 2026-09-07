@@ -5,7 +5,8 @@ const { VIEW } = require('../../lib/views');
 const { logoutUser } = require('../../services/user.service');
 const config = require('../../config');
 const { caseTypeLookup } = require('@pins/common/src/database/data-static');
-
+const { getAuthClientConfig, createOTPGrant } = require('@pins/common/src/client/auth-client');
+const { setSessionEnterCodeAction } = require('../../lib/session-helper');
 const getEmailAddress = (req, res) => {
 	const {
 		appeal,
@@ -56,10 +57,20 @@ const postEmailAddress = async (req, res) => {
 	}
 
 	logoutUser(req);
-	req.session.enterCode = req.session.enterCode || {};
-	req.session.enterCode.action = enterCodeConfig.actions.confirmEmail;
+	setSessionEnterCodeAction(req.session, enterCodeConfig.actions.confirmEmail);
 
-	res.redirect(`/appeal-householder-decision/enter-code/${req.session.appeal.id}`);
+	try {
+		await getAuthClientConfig(
+			config.oauth.baseUrl,
+			config.oauth.clientID,
+			config.oauth.clientSecret
+		);
+		await createOTPGrant(email, enterCodeConfig.actions.confirmEmail);
+	} catch (e) {
+		logger.error(e, 'failed to send token to general login user');
+	}
+
+	res.redirect(`/appeal-householder-decision/enter-code`);
 };
 
 module.exports = {

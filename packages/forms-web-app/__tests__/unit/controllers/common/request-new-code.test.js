@@ -4,6 +4,8 @@ const {
 	postRequestNewCodeLPA
 } = require('../../../../src/controllers/common/request-new-code');
 const { mockRes, mockReq } = require('../../mocks');
+jest.mock('#lib/logger');
+jest.mock('@pins/common/src/client/auth-client');
 
 describe('controllers/common/enter-code', () => {
 	let req;
@@ -50,21 +52,23 @@ describe('controllers/common/enter-code', () => {
 	});
 
 	describe('postRequestNewCode', () => {
-		it('should redirect to correct page', () => {
+		it('should redirect to correct page', async () => {
 			const {
 				VIEW: {
 					APPELLANT_SUBMISSION: { ENTER_CODE }
 				}
-			} = require('../../../../src/lib/views');
-			const tokenId = '1552441a-1e56-4e83-8d85-de7b246d2594';
+			} = require('#lib/views');
 			req.session = {
-				enterCodeId: tokenId
+				email: 'test@example.com',
+				enterCode: {
+					action: 'test-action'
+				}
 			};
 
 			const returnedFunction = postRequestNewCode(ENTER_CODE);
-			returnedFunction(req, res);
+			await returnedFunction(req, res);
 
-			expect(res.redirect).toHaveBeenCalledWith(`/${ENTER_CODE}/${tokenId}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${ENTER_CODE}`);
 			expect(req.session.enterCodeId).not.toBeDefined();
 			expect(req.session.enterCode.newCode).toBe(true);
 		});
@@ -82,6 +86,12 @@ describe('controllers/common/enter-code', () => {
 				ENTER_CODE
 			};
 			const email_address = 'admin1@planninginspectorate.gov.uk';
+			req.session = {
+				email: email_address,
+				enterCode: {
+					action: 'test-action'
+				}
+			};
 			const user = {
 				_id: '649954a21134d20012a8eb12',
 				email: 'admin1@planninginspectorate.gov.uk',
@@ -94,40 +104,11 @@ describe('controllers/common/enter-code', () => {
 			req.body = {
 				emailAddress: email_address
 			};
-			const returnedFunction = postRequestNewCodeLPA(views);
+			const returnedFunction = postRequestNewCodeLPA(views.ENTER_CODE);
 			await returnedFunction(req, res);
 			expect(req.appealsApiClient.getUserByEmailV2).toHaveBeenCalledWith(email_address);
 			expect(res.render).not.toHaveBeenCalled();
-			expect(res.redirect).toHaveBeenCalledWith(`/${ENTER_CODE}/${user.id}`);
-		});
-
-		it('should redirect to request-new-code page if the email is incorrect', async () => {
-			const {
-				VIEW: {
-					LPA_DASHBOARD: { REQUEST_NEW_CODE, ENTER_CODE }
-				}
-			} = require('../../../../src/lib/views');
-			const views = {
-				REQUEST_NEW_CODE,
-				ENTER_CODE
-			};
-			const email_address = 'admin1@planninginspectorate.gov.uk';
-			const customErrorSummary = [{ text: 'Enter a correct email address', href: '#' }];
-
-			req.body = {
-				emailAddress: email_address
-			};
-
-			req.appealsApiClient.getUserByEmailV2.mockImplementation(() => Promise.reject(new Error()));
-
-			const returnedFunction = postRequestNewCodeLPA(views);
-			await returnedFunction(req, res);
-			expect(req.appealsApiClient.getUserByEmailV2).toHaveBeenCalledWith(email_address);
-			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledWith(`${REQUEST_NEW_CODE}`, {
-				errorSummary: customErrorSummary,
-				errors: {}
-			});
+			expect(res.redirect).toHaveBeenCalledWith(`/${views.ENTER_CODE}`);
 		});
 	});
 });

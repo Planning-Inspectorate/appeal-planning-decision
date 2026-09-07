@@ -62,6 +62,9 @@ const getAuthToken = async (token, emailAddress, action, additionalScopes) => {
 		if (err?.error === 'code_expired') {
 			return codeExpired;
 		}
+		if (err?.error === 'unknown_user_id') {
+			return invalidCode;
+		}
 		throw err;
 	}
 };

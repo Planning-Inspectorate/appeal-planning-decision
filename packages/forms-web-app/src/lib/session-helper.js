@@ -4,6 +4,7 @@ const APPEAL_SQL_ID = 'appealSqlId';
 const EMAIL_KEY = 'email';
 const ENTER_CODE_KEY = 'enterCode';
 const ID = 'id';
+const NEW_CODE = 'newCode';
 
 const getSessionAppeal = (session) => session[APPEAL_KEY];
 
@@ -36,16 +37,34 @@ const setSessionEmail = (session, email, appealInSession) => {
 	}
 };
 
-const setSessionEnterCode = (session, code, useExistingValue) => {
-	if (useExistingValue) {
-		session[ENTER_CODE_KEY] = session[ENTER_CODE_KEY] || code;
-	} else {
-		session[ENTER_CODE_KEY] = code;
-	}
+const createSessionEnterCode = (session) => {
+	session[ENTER_CODE_KEY] = session[ENTER_CODE_KEY] || {};
 };
 
 const setSessionEnterCodeAction = (session, action) => {
+	createSessionEnterCode(session);
 	session[ENTER_CODE_KEY][ACTION_KEY] = action;
+};
+
+const getSessionEnterCodeAction = (session) => {
+	return session[ENTER_CODE_KEY][ACTION_KEY];
+};
+
+const deleteSessionEnterCodeAction = (session) => {
+	delete session?.[ENTER_CODE_KEY]?.[ACTION_KEY];
+};
+
+const setSessionNewCode = (session) => {
+	createSessionEnterCode(session);
+	session[ENTER_CODE_KEY][NEW_CODE] = true;
+};
+
+const getSessionNewCode = (session) => {
+	return session?.[ENTER_CODE_KEY]?.[NEW_CODE];
+};
+
+const deleteSessionNewCode = (session) => {
+	delete session?.[ENTER_CODE_KEY]?.[NEW_CODE];
 };
 
 module.exports = {
@@ -55,6 +74,10 @@ module.exports = {
 	getSessionEmail,
 	setSessionAppeal,
 	setSessionEmail,
-	setSessionEnterCode,
-	setSessionEnterCodeAction
+	setSessionEnterCodeAction,
+	getSessionEnterCodeAction,
+	deleteSessionEnterCodeAction,
+	setSessionNewCode,
+	getSessionNewCode,
+	deleteSessionNewCode
 };
