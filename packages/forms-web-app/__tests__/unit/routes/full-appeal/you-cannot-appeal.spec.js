@@ -3,7 +3,6 @@ const youCannotAppealController = require('../../../../src/controllers/full-appe
 
 describe('routes/full-appeal/you-cannot-appeal', () => {
 	beforeEach(() => {
-		// eslint-disable-next-line global-require
 		require('../../../../src/routes/full-appeal/you-cannot-appeal');
 	});
 
