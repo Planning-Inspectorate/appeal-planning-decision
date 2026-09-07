@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-/* eslint-env browser */
 
 const { getByTestId } = require('@testing-library/dom');
 const { default: userEvent } = require('@testing-library/user-event');

@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-/* eslint-env browser */
 
 const googleTagManager = require('../../../../src/lib/client-side/google-tag-manager');
 

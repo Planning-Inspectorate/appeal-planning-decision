@@ -1,4 +1,3 @@
-/* eslint-env browser */
 /* istanbul ignore file */
 
 const { readCookie } = require('./cookie/cookie-jar');
@@ -12,13 +11,13 @@ function initialiseTagManager(consent) {
 	}
 
 	if (consent === true) {
-		// eslint-disable-next-line no-console
+		 
 		console.log('Consent granted. Third party cookies are enabled.');
 		googleTagManager.grantConsent();
 		return;
 	}
 
-	// eslint-disable-next-line no-console
+	 
 	console.log('Declined consent. Third party cookies are not enabled.');
 	googleTagManager.denyConsent();
 }
@@ -27,7 +26,7 @@ const initialiseOptionalJavaScripts = (document) => {
 	const cookie = readCookie(document, cookieConfig.COOKIE_POLICY_KEY);
 
 	if (cookie === null) {
-		// eslint-disable-next-line no-console
+		 
 		console.log('Consent not yet given for optional JavaScripts.');
 		return;
 	}
@@ -50,7 +49,7 @@ const initialiseOptionalJavaScripts = (document) => {
 			initialiseGoogleAnalytics(document);
 		}
 	} catch (e) {
-		// eslint-disable-next-line no-console
+		 
 		console.error('Unable to decode the value of cookie', e);
 	}
 };
