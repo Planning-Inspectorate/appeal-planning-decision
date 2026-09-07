@@ -27,7 +27,6 @@ const statusAppealSiteSection = (appeal) => {
 				}
 			}
 		} else {
-			/* eslint-disable no-lonely-if */
 			if (knowsTheOwners === KNOW_THE_OWNERS.YES) {
 				sectionPath.add('tellingTheLandowners');
 			} else {

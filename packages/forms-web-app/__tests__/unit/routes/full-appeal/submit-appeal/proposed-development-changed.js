@@ -18,7 +18,6 @@ jest.mock('../../../../../src/validators/common/textfield');
 
 describe.only('routes/full-appeal/submit-appeal/proposed-development-changed', () => {
 	beforeEach(() => {
-		// eslint-disable-next-line global-require
 		require('../../../../../src/routes/full-appeal/submit-appeal/proposed-development-changed');
 	});
 

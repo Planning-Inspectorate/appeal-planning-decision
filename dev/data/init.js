@@ -102,11 +102,9 @@ module.exports = async function main(log = true) {
 					if (name === 'appeals') {
 						const now = new Date();
 						if (!item.createdAt && meta.created !== false) {
-							// eslint-disable-next-line no-param-reassign
 							item.createdAt = now;
 						}
 						if (!item.updatedAt && meta.updated !== false) {
-							// eslint-disable-next-line no-param-reassign
 							item.updatedAt = now;
 						}
 					}

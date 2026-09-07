@@ -38,7 +38,6 @@ exports.postSupportingDocuments = async (req, res) => {
 		if ('files' in body && 'supporting-documents' in body.files) {
 			const validFiles = getValidFiles(errors, body.files['supporting-documents']);
 
-			// eslint-disable-next-line no-restricted-syntax
 			for await (const file of validFiles) {
 				const document = await createDocument(
 					appeal,
