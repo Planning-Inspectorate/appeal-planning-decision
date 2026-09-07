@@ -58,8 +58,9 @@ exports.get = (costsParams, layoutTemplate = 'layouts/no-banner-link/main.njk') 
 		const headlineData = formatHeadlineData({ caseData, lpaName: lpa.name, role: userType });
 
 		/** @type {string} */
-		let costsTypeName = '';
-		let zipDownloadText = '';
+		let costsTypeName;
+		/** @type {string} */
+		let zipDownloadText;
 
 		const isLpa = userType === LPA_USER_ROLE;
 

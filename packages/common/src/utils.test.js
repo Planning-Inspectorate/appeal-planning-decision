@@ -126,7 +126,7 @@ describe('Utils test', () => {
 
 		it('returns a map that allows for internal transformation of objects without affecting map keys', async () => {
 			const testObjArr = [{ a: 'a' }, { a: 'b' }];
-			const testAsyncFunction = async (str) => (str += 'b');
+			const testAsyncFunction = async (str) => str + 'b';
 
 			const result = await util.conjoinedPromises(testObjArr, (obj) => testAsyncFunction(obj.a));
 

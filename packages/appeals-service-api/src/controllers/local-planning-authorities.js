@@ -12,7 +12,7 @@ const lpaService = new LpaService();
 const get = async (req, res) => {
 	req.log.info(req.params.id, 'Retrieving LPA');
 
-	let lpa = {};
+	let lpa;
 
 	lpa = await lpaService.getLpaById(req.params.id);
 
@@ -26,7 +26,7 @@ const get = async (req, res) => {
 const getBylpaCode = async (req, res) => {
 	req.log.info(req.params.lpaCode, 'Retrieving LPA');
 
-	let lpa = {};
+	let lpa;
 
 	lpa = await lpaService.getLpaByCode(req.params.lpaCode);
 

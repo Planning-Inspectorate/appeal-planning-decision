@@ -37,14 +37,14 @@ class HorizonMapper {
 
 		if (contactName) {
 			let sanitisedContactName = this.#escapeXml(contactName);
-			[firstName, ...lastName] = sanitisedContactName.split(' ');
+			[, ...lastName] = sanitisedContactName.split(' ');
 
 			if (sanitisedContactName.split(' ').length <= 1) {
 				firstName = ',';
-				// eslint-disable-next-line prefer-destructuring
+				 
 				lastName = sanitisedContactName.split(' ')[0];
 			} else {
-				// eslint-disable-next-line prefer-destructuring
+				 
 				firstName = sanitisedContactName.split(' ')[0];
 				lastName = lastName.join(' ');
 			}
@@ -305,10 +305,10 @@ class HorizonMapper {
 	}
 
 	#getAttributes(appealTypeId, appeal, caseworkReason) {
-		let caseProcedureAppellantValue = null;
-		let caseSiteOwnershipCertificateValue = null;
-		let caseSiteViewableFromRoadValue = null;
-		let caseSiteInspectorNeedsToEnterSiteValue = null;
+		let caseProcedureAppellantValue;
+		let caseSiteOwnershipCertificateValue;
+		let caseSiteViewableFromRoadValue;
+		let caseSiteInspectorNeedsToEnterSiteValue;
 
 		if (appealTypeId == '1001') {
 			caseProcedureAppellantValue = 'Written Representations';

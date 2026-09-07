@@ -15,7 +15,7 @@ const getEmailConfirmed = async (req, res) => {
 		config.betaBannerText +
 		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType));
 
-	let listOfDocumentsUrl = '';
+	let listOfDocumentsUrl;
 
 	switch (appeal.appealType) {
 		case APPEAL_ID.PLANNING_SECTION_78:
