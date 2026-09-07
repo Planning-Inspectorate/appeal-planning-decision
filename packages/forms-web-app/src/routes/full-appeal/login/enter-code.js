@@ -1,9 +1,8 @@
 const express = require('express');
 
 const { rules: ruleEnterCode } = require('../../../validators/common/enter-code');
-const { rules: idValidationRules } = require('../../../validators/common/check-id-is-uuid');
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
-const { getEnterCode, postEnterCode } = require('../../../controllers/common/enter-code');
+const { postEnterCode } = require('../../../controllers/common/enter-code');
 
 const {
 	VIEW: {
@@ -39,9 +38,10 @@ const router = express.Router();
 
 router.get(
 	'/submit-appeal/enter-code/:enterCodeId',
-	idValidationRules('enterCodeId'),
-	validationErrorHandler,
-	getEnterCode(views, { isGeneralLogin: false })
+	/** @type {import('express').RequestHandler} */
+	(_, res) => {
+		return res.redirect(`/${views.YOUR_APPEALS}`);
+	}
 );
 
 router.post(

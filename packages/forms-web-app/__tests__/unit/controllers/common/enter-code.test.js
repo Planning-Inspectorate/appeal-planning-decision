@@ -10,8 +10,7 @@ const fullAppealViews = views.VIEW.FULL_APPEAL;
 const lpaViews = views.VIEW.LPA_DASHBOARD;
 const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
 const { mockReq, mockRes } = require('../../mocks');
-const { getSavedAppeal, getExistingAppeal } = require('#lib/appeals-api-wrapper');
-const { getSessionEmail, setSessionEmail } = require('#lib/session-helper');
+const { getSessionEmail } = require('#lib/session-helper');
 const {
 	getLPAUserStatus,
 	setLPAUserStatus,
@@ -21,7 +20,6 @@ const { isTokenValid } = require('#lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
 const { STATUS_CONSTANTS, AUTH } = require('@pins/common/src/constants');
 const { isFeatureActive } = require('../../../../src/featureFlag');
-const { ApiClientError } = require('@pins/common/src/client/api-client-error');
 let { createOTPGrant } = require('@pins/common/src/client/auth-client');
 const config = require('../../../../src/config');
 
@@ -105,39 +103,6 @@ describe('controllers/common/enter-code', () => {
 			}
 		}
 
-		/**
-		 * @param {boolean} [newCode]
-		 */
-		async function getIsReturningFromEmailTest(newCode = undefined) {
-			req = {
-				...req,
-				params: { enterCodeId: TEST_ID },
-				session: { enterCode: { action: enterCodeConfig.actions.saveAndReturn, newCode } }
-			};
-
-			getExistingAppeal.mockResolvedValue(fullAppeal);
-
-			const returnedFunction = getEnterCode(householderAppealViews, { isGeneralLogin: false });
-			await returnedFunction(req, res);
-
-			expect(createOTPGrant).toHaveBeenCalledWith(
-				fullAppeal.email,
-				enterCodeConfig.actions.saveAndReturn
-			);
-
-			expect(setSessionEmail).toHaveBeenCalledWith(req.session, fullAppeal.email, false);
-			expect(res.render).toHaveBeenCalledWith(`${householderAppealViews.ENTER_CODE}`, {
-				requestNewCodeLink: `/${householderAppealViews.REQUEST_NEW_CODE}`,
-				confirmEmailLink: undefined,
-				showNewCode: newCode,
-				bannerHtmlOverride
-			});
-
-			if (newCode) {
-				expect(req.session.enterCode?.newCode).toBe(undefined);
-			}
-		}
-
 		beforeEach(() => {
 			isFeatureActive.mockResolvedValue(true);
 		});
@@ -170,22 +135,10 @@ describe('controllers/common/enter-code', () => {
 			getSessionEmail.mockReturnValue(TEST_EMAIL);
 			await getConfirmEmailTest(true);
 		});
-
-		it('should handle save and return', async () => {
-			await getIsReturningFromEmailTest();
-		});
-
-		it('should handle newCode save and return', async () => {
-			await getIsReturningFromEmailTest(true);
-		});
 	});
 
 	describe('postEnterCode', () => {
 		beforeEach(() => {
-			getSavedAppeal.mockReturnValue({
-				token: '12312',
-				createdAt: '2022-07-14T13:00:48.024Z'
-			});
 			isTokenValid.mockReturnValue({
 				valid: true,
 				action: 'unused'
@@ -218,16 +171,10 @@ describe('controllers/common/enter-code', () => {
 				errorSummary: errorSummary
 			});
 			expect(isTokenValid).not.toHaveBeenCalled();
-			expect(getSavedAppeal).not.toHaveBeenCalled();
-			expect(getExistingAppeal).not.toHaveBeenCalled();
 		});
 
 		it('should render need new code page if too many attempts have been made', async () => {
 			const { NEED_NEW_CODE } = fullAppealViews;
-
-			getExistingAppeal.mockReturnValue({
-				fullAppeal
-			});
 
 			isTokenValid.mockReturnValue({
 				tooManyAttempts: true
@@ -243,9 +190,6 @@ describe('controllers/common/enter-code', () => {
 		it('should render code expired page when token is expired', async () => {
 			const { CODE_EXPIRED } = fullAppealViews;
 
-			getExistingAppeal.mockReturnValue({
-				fullAppeal
-			});
 			isTokenValid.mockReturnValue({
 				expired: true
 			});
@@ -348,83 +292,6 @@ describe('controllers/common/enter-code', () => {
 
 				expect(res.redirect).toHaveBeenCalledWith('/test');
 				expect(req.appealsApiClient.linkUserToV2Appeal).toHaveBeenCalled();
-			});
-
-			it(`should show user error if returning from email and can't find appeal`, async () => {
-				const { ENTER_CODE } = fullAppealViews;
-				req.session.enterCode = {
-					action: enterCodeConfig.actions.saveAndReturn
-				};
-
-				const error = new ApiClientError('no appeal', 404);
-				getExistingAppeal.mockImplementation(() => Promise.reject(error));
-
-				const returnedFunction = postEnterCode({ ENTER_CODE }, { isGeneralLogin: false });
-				await returnedFunction(req, res);
-
-				const errorMessage = 'We did not find your appeal. Enter the correct code';
-				expect(res.render).toHaveBeenCalledWith(`${ENTER_CODE}`, {
-					token: req.body['email-code'],
-					errors: {
-						'email-code': { msg: errorMessage }
-					},
-					errorSummary: [{ href: '#email-code', text: errorMessage }]
-				});
-			});
-
-			it(`should redirect to custom url if for email return`, async () => {
-				req.session.enterCode = {
-					action: enterCodeConfig.actions.saveAndReturn
-				};
-				req.session.loginRedirect = '/test';
-				req.params = { enterCodeId: 'abc123' };
-
-				const appealLookup = { state: 'DRAFT' };
-
-				getExistingAppeal.mockImplementation(() => Promise.resolve(appealLookup));
-
-				const returnedFunction = postEnterCode({}, { isGeneralLogin: false });
-				await returnedFunction(req, res);
-
-				expect(res.redirect).toHaveBeenCalledWith('/test');
-				expect(req.session.appeal).toEqual(appealLookup);
-			});
-
-			it(`should redirect to appeal submitted for email return if submitted`, async () => {
-				const { APPEAL_ALREADY_SUBMITTED } = fullAppealViews;
-				req.session.enterCode = {
-					action: enterCodeConfig.actions.saveAndReturn
-				};
-
-				const appealLookup = { state: 'SUBMITTED' };
-
-				getExistingAppeal.mockImplementation(() => Promise.resolve(appealLookup));
-
-				const returnedFunction = postEnterCode(
-					{ APPEAL_ALREADY_SUBMITTED },
-					{ isGeneralLogin: false }
-				);
-				await returnedFunction(req, res);
-
-				expect(res.redirect).toHaveBeenCalledWith(`/${APPEAL_ALREADY_SUBMITTED}`);
-				expect(req.session.appeal).toEqual(appealLookup);
-			});
-
-			it(`should redirect to TASK_LIST for email return`, async () => {
-				const { TASK_LIST } = fullAppealViews;
-				req.session.enterCode = {
-					action: enterCodeConfig.actions.saveAndReturn
-				};
-
-				const appealLookup = { state: 'DRAFT' };
-
-				getExistingAppeal.mockImplementation(() => Promise.resolve(appealLookup));
-
-				const returnedFunction = postEnterCode({ TASK_LIST }, { isGeneralLogin: false });
-				await returnedFunction(req, res);
-
-				expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
-				expect(req.session.appeal).toEqual(appealLookup);
 			});
 
 			it('should handle selected page request', async () => {
