@@ -85,7 +85,7 @@ const postEmailAddress = (views, appealInSession) => {
 		}
 
 		if (!user) {
-			user = await req.appealsApiClient.createUser({
+			await req.appealsApiClient.createUser({
 				email: email
 			});
 		}

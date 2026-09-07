@@ -27,7 +27,7 @@ const getAppealPropsForCanUseServicePage = async (appeal) => {
 		applicationType =
 			applicationType === TYPE_OF_PLANNING_APPLICATION.LISTED_BUILDING
 				? 'Listed building consent'
-				: (applicationType = removeDashesAndCapitaliseString(applicationType));
+				: removeDashesAndCapitaliseString(applicationType);
 	}
 
 	let { applicationDecision = '' } = appeal.eligibility;

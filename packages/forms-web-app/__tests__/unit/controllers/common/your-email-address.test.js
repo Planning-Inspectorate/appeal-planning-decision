@@ -105,7 +105,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 
 			req.body['email-address'] = testEmail;
 
-			let laterReq = mockReq();
+			let laterReq;
 			laterReq = { ...req };
 			let laterRes = mockRes();
 

@@ -288,7 +288,7 @@ module.exports = class MockedExternalApis {
 	}
 
 	async mockHorizonUploadDocumentResponse(statusCode, document) {
-		let body = {};
+		let body;
 
 		if (statusCode >= 500) {
 			body = {

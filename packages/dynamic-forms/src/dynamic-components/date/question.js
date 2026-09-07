@@ -78,7 +78,7 @@ class DateQuestion extends Question {
 		});
 
 		/** @type {Record<string, unknown>} */
-		let answer = {};
+		let answer;
 		let day;
 		let month;
 		let year;

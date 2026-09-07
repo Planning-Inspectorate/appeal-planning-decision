@@ -6,7 +6,7 @@ const { put, get } = require('./service');
 exports.put = async (req, res) => {
 	const listedBuildings = req.body;
 
-	let result = {};
+	let result;
 	if (Array.isArray(listedBuildings)) {
 		result = await put(listedBuildings);
 	} else {

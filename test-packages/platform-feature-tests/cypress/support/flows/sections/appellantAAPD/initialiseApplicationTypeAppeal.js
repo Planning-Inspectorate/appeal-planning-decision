@@ -98,7 +98,7 @@ module.exports = (statusOfOriginalApplication, planning, expeditedAppeal, contex
 	}
 
 	// Select the application decision granted or refused or no decision
-	let grantedOrRefusedId = '';
+	let grantedOrRefusedId;
 	if (statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused) {
 		grantedOrRefusedId = basePage._selectors?.answerRefused;
 	} else if (statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationNoDecision) {
