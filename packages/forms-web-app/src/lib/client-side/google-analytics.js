@@ -1,10 +1,9 @@
-/* eslint-env browser */
 
 const initialiseGoogleAnalytics = (document) => {
 	const gaId = document.getElementById('gaId') ? document.getElementById('gaId').textContent : null;
 
 	function gtag() {
-		// eslint-disable-next-line no-undef, prefer-rest-params
+		// eslint-disable-next-line no-undef
 		dataLayer.push(arguments);
 	}
 

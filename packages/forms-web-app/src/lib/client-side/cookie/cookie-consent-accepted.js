@@ -1,5 +1,3 @@
-/* eslint-env browser */
-
 const cookieConfig = require('./cookie-config');
 const {
 	hideSingleDomElementBySelector,

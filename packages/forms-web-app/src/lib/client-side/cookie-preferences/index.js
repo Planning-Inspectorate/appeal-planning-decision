@@ -1,5 +1,3 @@
-/* eslint-env browser */
-
 const initialiseCookiePreferencePage = (document) => {
 	document
 		.querySelectorAll('.cookie-settings__no-js')

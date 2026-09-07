@@ -1,4 +1,3 @@
-/* eslint-env browser */
 
 // https://www.quirksmode.org/js/cookies.html
 
@@ -15,7 +14,7 @@ const createCookie = (document, name, value, days = 365) => {
 	if (process.env.NODE_ENV === 'production') {
 		secure = '; secure';
 	}
-	// eslint-disable-next-line no-param-reassign
+	 
 	document.cookie = `${name}=${encodeURIComponent(value)}${expires}${secure}; SameSite=Lax; path=/`;
 };
 

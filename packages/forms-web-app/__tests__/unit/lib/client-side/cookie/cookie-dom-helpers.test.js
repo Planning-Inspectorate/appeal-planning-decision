@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-/* eslint-env browser */
 
 const { getByTestId } = require('@testing-library/dom');
 const domHelpers = require('../../../../../src/lib/client-side/cookie/cookie-dom-helpers');
