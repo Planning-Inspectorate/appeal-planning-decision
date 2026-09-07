@@ -41,10 +41,9 @@ class HorizonMapper {
 
 			if (sanitisedContactName.split(' ').length <= 1) {
 				firstName = ',';
-				 
+
 				lastName = sanitisedContactName.split(' ')[0];
 			} else {
-				 
 				firstName = sanitisedContactName.split(' ')[0];
 				lastName = lastName.join(' ');
 			}
