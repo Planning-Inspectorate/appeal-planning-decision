@@ -35,7 +35,7 @@ flowchart TD
     S20@{ shape: doc, label: "S20 Appeal" }
     CAS@{ shape: doc, label: "CAS Planning Appeal" }
     Advert@{ shape: doc, label: "Advert/CAS Advert Appeal" }
-    Enforcement@{ shape: doc, label: "Enforcement Notice Appeal" }
+    Enforcement@{ shape: doc, label: "Enforcement Notice Appeal / Enforcement Listed Building Appeal" }
     LDC@{ shape: doc, label: "Lawful Development Certificate Appeal"}
 
     %% questions
@@ -56,37 +56,29 @@ flowchart TD
     didYouContactPlanningInspectorate[did you contact planning inspectorate?]
     contactPlanningInspectorateDate[contact planning inspectorate date?]
 
-    %% routing
+    %% routing - non-enforcement
     lpa --> appealAbout
 
+    appealAbout -- householder --> applicationDate
     appealAbout -- full planning --> decideS78A
-    appealAbout -- householder --> grantedRefusedUndecided
     appealAbout -- listed building consent --> decideS20
     appealAbout -- enforcement --> enforcementIssueDate
     appealAbout -- enforcementListedBuilding --> enforcementIssueDate
     appealAbout -- display advert --> decideAdvert
     appealAbout -- minor commercial --> applicationAboutCAS
     appealAbout -- lawful development certificate --> decideLDC
-    appealAbout -- outline planning --> decideS78A
+    appealAbout -- outline planning --> applicationDate
     appealAbout -- prior approval --> existingHome
-    appealAbout -- reserved --> decideS78A
+    appealAbout -- reserved --> applicationDate
     appealAbout -- conditions --> conditionsHouseholder
-    appealAbout -- permission in principle -->
+    appealAbout -- permission in principle --> applicationDate
     appealAbout -- none/something else --> acp1
 
-    enforcementIssueDate --> enforcementEffectiveDate
+    applicationDate -- householder --> grantedRefusedUndecided
+    applicationDate -- any non-householder --> grantedRefused
 
-    enforcementEffectiveDate -- valid date --> Enforcement
-    enforcementEffectiveDate -- current/past date --> didYouContactPlanningInspectorate
-
-    didYouContactPlanningInspectorate -- Yes --> contactPlanningInspectorateDate
-    didYouContactPlanningInspectorate -- missed deadline --> deadline
-
-    contactPlanningInspectorateDate -- valid date --> Enforcement
-    contactPlanningInspectorateDate -- missed deadline --> deadline
-
-    applicationAbout -- any --> acp1
-    applicationAbout -- none --> decideS78A
+    %% applicationAbout -- any --> acp1
+    %% applicationAbout -- none --> decideS78A
 
     applicationAboutCAS -- none --> decideCAS
     applicationAboutCAS -- any other --> decideS78A
@@ -108,7 +100,6 @@ flowchart TD
     decideCAS --> grantedRefused
     decideLDC --> listedBuilding
 
-    applicationDate --> grantedRefused
     grantedRefused --> decisionDate
 
     grantedRefusedUndecided -- granted/no decision --> decideS78B
@@ -124,6 +115,19 @@ flowchart TD
     decisionDate -- CAS --> CAS
     decisionDate -- S20 --> S20
     decisionDate -- LDC --> LDC
+
+    %% routing - enforcement
+
+    enforcementIssueDate --> enforcementEffectiveDate
+
+    enforcementEffectiveDate -- valid date --> Enforcement
+    enforcementEffectiveDate -- current/past date --> didYouContactPlanningInspectorate
+
+    didYouContactPlanningInspectorate -- Yes --> contactPlanningInspectorateDate
+    didYouContactPlanningInspectorate -- missed deadline --> deadline
+
+    contactPlanningInspectorateDate -- valid date --> Enforcement
+    contactPlanningInspectorateDate -- missed deadline --> deadline
 
     %% styles
     classDef decisionStyle fill:#ffe8c6,stroke:#c26d00,color:#111,stroke-width:2px;
