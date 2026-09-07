@@ -4,7 +4,6 @@ const { MongoRepository } = require('./mongo-repository');
 const ApiError = require('../errors/apiError');
 class BackOfficeRepository extends MongoRepository {
 	#mapper;
-	#sender = null;
 
 	constructor() {
 		super('to-submit-to-back-office');
