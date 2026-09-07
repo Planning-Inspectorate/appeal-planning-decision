@@ -16,7 +16,7 @@ const chunckSize = 10;
 exports.getAll = async () => {
 	try {
 		return await repo.getAll();
-	} catch (error) {
+	} catch {
 		throw ApiError.lpaNotFound();
 	}
 };
@@ -30,7 +30,7 @@ exports.getAll = async () => {
 exports.get = async (id, lpaCode, lpa19CD) => {
 	try {
 		return await repo.get(id, lpaCode, lpa19CD);
-	} catch (error) {
+	} catch {
 		throw ApiError.lpaNotFound();
 	}
 };

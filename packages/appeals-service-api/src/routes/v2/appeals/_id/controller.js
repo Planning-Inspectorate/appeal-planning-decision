@@ -20,7 +20,7 @@ exports.patch = async (req, res) => {
 		}
 
 		res.send(appeal);
-	} catch (error) {
+	} catch {
 		res.status(500).send({ error: 'Internal server error' });
 	}
 };

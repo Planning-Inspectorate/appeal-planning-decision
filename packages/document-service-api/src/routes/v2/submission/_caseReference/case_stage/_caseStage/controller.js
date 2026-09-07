@@ -62,7 +62,7 @@ async function createBlobDownloadStream(blobStorageContainer, blobStoragePath) {
 
 		// @ts-ignore
 		return blobDownloadResponseParsed.blobDownloadStream;
-	} catch (error) {
+	} catch {
 		return null;
 	}
 }

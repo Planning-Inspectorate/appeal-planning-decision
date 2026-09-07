@@ -55,7 +55,7 @@ const postR6EmailAddress = (views) => {
 			const id = user.id;
 			setSession();
 			res.redirect(`/${views.ENTER_CODE}/${id}`);
-		} catch (e) {
+		} catch {
 			res.render(views.EMAIL_ADDRESS, {
 				email,
 				errors: {

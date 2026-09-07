@@ -217,7 +217,6 @@ const getGroundOptions = (appealCaseType) => {
  * @param {'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k'} appealGround
  * @returns {Array<{question: QuestionProps, condition?: () => boolean}>}
  */
-// eslint-disable-next-line no-unused-vars
 const getCommonAppealGroundsQuestionProps = (response, appealGround) => [
 	{
 		question: {

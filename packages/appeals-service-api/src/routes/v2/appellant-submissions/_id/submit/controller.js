@@ -122,7 +122,7 @@ const getLpa = async (appellantSubmission) => {
 
 	try {
 		lpa = await lpaService.getLpaByCode(appellantSubmission.LPACode);
-	} catch (err) {
+	} catch {
 		lpa = await lpaService.getLpaById(appellantSubmission.LPACode);
 	}
 

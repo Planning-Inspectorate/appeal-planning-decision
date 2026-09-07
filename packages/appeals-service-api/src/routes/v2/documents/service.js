@@ -15,7 +15,7 @@ const { getValidator } = new SchemaValidator();
 exports.get = async (id) => {
 	try {
 		return await repo.get(id);
-	} catch (error) {
+	} catch {
 		throw ApiError.documentDetailsNotFound(id);
 	}
 };

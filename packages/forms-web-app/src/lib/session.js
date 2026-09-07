@@ -13,7 +13,7 @@ module.exports = () => {
 
 	try {
 		sessionSecret = JSON.parse(sessionSecret);
-	} catch (err) {
+	} catch {
 		logger.warn('session secret not valid json, entire value will be used as a string');
 	}
 

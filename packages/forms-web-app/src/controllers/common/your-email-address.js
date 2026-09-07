@@ -46,7 +46,7 @@ const postYourEmailAddress = (views, emailUUIDcache) => {
 				throw new Error('User does not exist');
 			}
 			res.redirect(`/${views.ENTER_CODE}/${user.id}`);
-		} catch (error) {
+		} catch {
 			let id = emailUUIDcache.get(email);
 			if (!id) {
 				id = crypto.randomUUID();

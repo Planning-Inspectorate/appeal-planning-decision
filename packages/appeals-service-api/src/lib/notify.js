@@ -315,7 +315,7 @@ const sendSubmissionReceivedEmailToLpaV2 = async (appealCase, appellantSubmissio
 		let lpa;
 		try {
 			lpa = await lpaService.getLpaByCode(LPACode);
-		} catch (err) {
+		} catch {
 			lpa = await lpaService.getLpaById(LPACode);
 		}
 		const lpaEmail = lpa.getEmail();
@@ -400,7 +400,7 @@ const sendLpaStatementSubmissionReceivedEmailToLpaV2 = async (lpaStatementSubmis
 		let lpa;
 		try {
 			lpa = await lpaService.getLpaByCode(lpaCode);
-		} catch (err) {
+		} catch {
 			lpa = await lpaService.getLpaById(lpaCode);
 		}
 		const lpaEmail = lpa.getEmail();
@@ -477,7 +477,7 @@ const sendLPAFinalCommentSubmissionEmailToLPAV2 = async (lpaFinalCommentSubmissi
 		let lpa;
 		try {
 			lpa = await lpaService.getLpaByCode(lpaCode);
-		} catch (err) {
+		} catch {
 			lpa = await lpaService.getLpaById(lpaCode);
 		}
 		const lpaEmail = lpa.getEmail();
@@ -554,7 +554,7 @@ const sendLPAProofEvidenceSubmissionEmailToLPAV2 = async (lpaProofEvidenceSubmis
 		let lpa;
 		try {
 			lpa = await lpaService.getLpaByCode(lpaCode);
-		} catch (err) {
+		} catch {
 			lpa = await lpaService.getLpaById(lpaCode);
 		}
 		const lpaEmail = lpa.getEmail();
