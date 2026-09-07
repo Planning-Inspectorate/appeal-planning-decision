@@ -169,8 +169,7 @@ describe('controllers/full-appeal/application-date', () => {
 						typeOfPlanningApplication: constants.TYPE_OF_PLANNING_APPLICATION.PRIOR_APPROVAL,
 						eligibility: {
 							hasPriorApprovalForExistingHome: true
-						},
-						appealSiteSection: {}
+						}
 					}
 				}
 			};
@@ -179,13 +178,7 @@ describe('controllers/full-appeal/application-date', () => {
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(
 				expect.objectContaining({
-					appealType: constants.APPEAL_ID.HOUSEHOLDER,
-					appealSiteSection: {
-						siteOwnership: {
-							ownsWholeSite: null,
-							haveOtherOwnersBeenTold: null
-						}
-					}
+					appealType: constants.APPEAL_ID.HOUSEHOLDER
 				})
 			);
 			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/granted-or-refused-householder');
@@ -206,8 +199,7 @@ describe('controllers/full-appeal/application-date', () => {
 						typeOfPlanningApplication: constants.TYPE_OF_PLANNING_APPLICATION.PRIOR_APPROVAL,
 						eligibility: {
 							hasPriorApprovalForExistingHome: true
-						},
-						appealSiteSection: {}
+						}
 					}
 				}
 			};
@@ -216,13 +208,7 @@ describe('controllers/full-appeal/application-date', () => {
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(
 				expect.objectContaining({
-					appealType: constants.APPEAL_ID.HOUSEHOLDER,
-					appealSiteSection: {
-						siteOwnership: {
-							ownsWholeSite: null,
-							haveOtherOwnersBeenTold: null
-						}
-					}
+					appealType: constants.APPEAL_ID.HOUSEHOLDER
 				})
 			);
 			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/granted-or-refused-householder');

@@ -164,9 +164,7 @@ module.exports = {
 			}
 		},
 		tempFileDir: process.env.FILE_UPLOAD_TMP_PATH,
-		useTempFiles: process.env.FILE_UPLOAD_USE_TEMP_FILES === 'true',
-		clamAVHost: process.env.CLAMAV_HOST,
-		clamAVPort: numberWithDefault(process.env.CLAMAV_PORT, 3310)
+		useTempFiles: process.env.FILE_UPLOAD_USE_TEMP_FILES === 'true'
 	},
 	filterTime: {
 		FIVE_YEARS_IN_MILISECONDS: 5 * 365 * 24 * 60 * 60 * 1000
@@ -201,7 +199,6 @@ module.exports = {
 		allowTestingOverrides: process.env.ALLOW_TESTING_OVERRIDES === 'true'
 	},
 	featureFlag: {
-		commentsEnabled: process.env.COMMENTS_ENABLED === 'true',
 		googleTagManager: process.env.FEATURE_FLAG_GOOGLE_TAG_MANAGER === 'true',
 		gridReferenceEnabled: process.env.GRID_REF_ENABLED === 'true',
 		rule6Enabled: process.env.RULE_6_ENABLED === 'true',
@@ -210,8 +207,6 @@ module.exports = {
 	},
 	validation: {
 		characterLimits: {
-			finalComment: process.env.CHARACTER_LIMIT_FINAL_COMMENT || 32500,
-			emailCode: process.env.CHARACTER_LIMIT_EMAIL_SECURITY_CODE || 5,
 			questionnaire: {
 				addressLine1MaxLength: process.env.ADDRESS_LINE_1_MAX_LENGTH || 255,
 				addressLine1MinLength: process.env.ADDRESS_LINE_1_MIN_LENGTH || 1,
