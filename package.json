@@ -3,7 +3,7 @@
 	"version": "0.0.0",
 	"private": true,
 	"engines": {
-		"node": ">=22.21.0 <23.0.0"
+		"node": ">=22.22.1 <23.0.0"
 	},
 	"description": "Appeal a planning decision - these are utility scripts for the whole repo",
 	"workspaces": [
