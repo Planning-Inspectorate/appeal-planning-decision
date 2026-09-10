@@ -1,19 +1,23 @@
-const puppeteer = require('puppeteer-core');
-const generatePdf = require('./generatePdf');
-
 const html = '<html><body><p>A test pdf</p></body></html>';
 const mockPdfBuffer = Buffer.from(html);
+const mockLaunch = jest.fn();
 
-jest.mock('puppeteer-core', () => ({
-	launch: () => ({
+jest.unstable_mockModule('puppeteer-core', () => ({
+	launch: mockLaunch
+}));
+
+const generatePdf = require('./generatePdf');
+
+beforeEach(() => {
+	mockLaunch.mockImplementation(() => ({
 		newPage: () => ({
 			setContent: jest.fn(),
 			pdf: jest.fn().mockReturnValue(mockPdfBuffer),
 			emulateMediaType: jest.fn()
 		}),
 		close: jest.fn()
-	})
-}));
+	}));
+});
 
 describe('lib/generatePdf', () => {
 	it('should return a pdf buffer', async () => {
@@ -22,7 +26,7 @@ describe('lib/generatePdf', () => {
 	});
 
 	it('should throw an error', async () => {
-		puppeteer.launch = jest.fn().mockImplementation(() => {
+		mockLaunch.mockImplementation(() => {
 			throw new Error('Internal Server Error');
 		});
 

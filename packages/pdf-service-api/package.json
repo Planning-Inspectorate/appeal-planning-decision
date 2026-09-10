@@ -9,9 +9,9 @@
 		"lint": "eslint ./",
 		"start": "node ./",
 		"start:dev": "nodemon -e .js,.json,.yml,.yaml ./ | pino-pretty -tlc",
-		"test": "jest --ci --verbose",
-		"test:cov": "jest --ci --verbose --coverage",
-		"test:watch": "jest --watchAll --runInBand"
+		"test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules\" jest --ci --verbose",
+		"test:cov": "cross-env NODE_OPTIONS=\"--experimental-vm-modules\" jest --ci --verbose --coverage",
+		"test:watch": "cross-env NODE_OPTIONS=\"--experimental-vm-modules\" jest --watchAll --runInBand"
 	},
 	"dependencies": {
 		"applicationinsights": "*",
@@ -22,6 +22,7 @@
 		"puppeteer-core": "*"
 	},
 	"devDependencies": {
+		"cross-env": "*",
 		"jest": "*",
 		"jest-junit": "*",
 		"nodemon": "*"

@@ -1,4 +1,3 @@
-const puppeteer = require('puppeteer-core');
 const logger = require('./logger');
 
 /**
@@ -8,6 +7,8 @@ const logger = require('./logger');
 const generatePdf = async (html) => {
 	logger.info('Generating pdf');
 	try {
+		// common js support dropped
+		const puppeteer = await import('puppeteer-core');
 		const browser = await puppeteer.launch({
 			executablePath: '/usr/bin/chromium-browser',
 			headless: true,
