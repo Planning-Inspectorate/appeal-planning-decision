@@ -440,7 +440,7 @@ describe('constraintsRows', () => {
 		);
 		expect(rows[NOTICE_RELATES_TO_BUILDING_ENGINEERING_ROW].valueText).toEqual('No');
 
-		expect(rows[TOTAL_SITE_AREA_ROW].condition()).toEqual(true);
+		expect(rows[TOTAL_SITE_AREA_ROW].condition()).toEqual(false);
 		expect(rows[TOTAL_SITE_AREA_ROW].keyText).toEqual('Total site area');
 		expect(rows[TOTAL_SITE_AREA_ROW].valueText).toEqual('23 m\u00B2');
 

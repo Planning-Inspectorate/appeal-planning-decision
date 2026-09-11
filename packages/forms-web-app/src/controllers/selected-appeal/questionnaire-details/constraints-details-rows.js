@@ -14,6 +14,12 @@ const {
 const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
 const {
+	isEnforcementNotice,
+	isEnforcementListed,
+	isLDC,
+	isAnyEnforcement
+} = require('@pins/common/src/lib/appeal-type-checks');
+const {
 	mapAppealTypeToDisplayTextWithAnOrA
 } = require('@pins/common/src/appeal-type-to-display-text');
 
@@ -24,19 +30,20 @@ const {
 exports.constraintsRows = (caseData) => {
 	const documents = caseData.Documents || [];
 
-	const caseType = caseTypeLookup(caseData.appealTypeCode, 'processCode');
+	const { appealTypeCode } = caseData;
+
+	const caseType = caseTypeLookup(appealTypeCode, 'processCode');
 
 	const isExpeditedAppealType = caseType?.expedited === true;
 	const isS20orS78 =
-		caseData.appealTypeCode === CASE_TYPES.S20.processCode ||
-		caseData.appealTypeCode === CASE_TYPES.S78.processCode;
+		appealTypeCode === CASE_TYPES.S20.processCode || appealTypeCode === CASE_TYPES.S78.processCode;
 	const isAdvertAppeal =
-		caseData.appealTypeCode === CASE_TYPES.CAS_ADVERTS.processCode ||
-		caseData.appealTypeCode === CASE_TYPES.ADVERTS.processCode;
-	const isEnforcementAppeal = caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode;
-	const isEnforcementListedAppeal =
-		caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT_LISTED.processCode;
-	const isLDCAppeal = caseData.appealTypeCode === CASE_TYPES.LDC.processCode;
+		appealTypeCode === CASE_TYPES.CAS_ADVERTS.processCode ||
+		appealTypeCode === CASE_TYPES.ADVERTS.processCode;
+	const isEnforcementAppeal = isEnforcementNotice(appealTypeCode);
+	const isEnforcementListedAppeal = isEnforcementListed(appealTypeCode);
+	const isAnyEnforcementAppeal = isAnyEnforcement(appealTypeCode);
+	const isLDCAppeal = isLDC(appealTypeCode);
 
 	const affectedListedBuildings = caseData.ListedBuildings?.filter(
 		(x) => x.type === LISTED_RELATION_TYPES.affected
@@ -183,7 +190,7 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Total site area',
 			valueText: `${caseData.siteAreaSquareMetres} m\u00B2`,
-			condition: () => isNotUndefinedOrNull(caseData.siteAreaSquareMetres)
+			condition: () => isAnyEnforcementAppeal && isNotUndefinedOrNull(caseData.siteAreaSquareMetres)
 		},
 		{
 			keyText: 'Has alleged breach area',
