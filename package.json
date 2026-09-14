@@ -144,7 +144,7 @@
 		"lusca": "^1.6.1",
 		"mongodb": "^3.7.3",
 		"multer": "2.3.0",
-		"node-cron": "^4.2.1",
+		"node-cron": "^4.6.0",
 		"node-fetch": "^2.6.7",
 		"notifications-node-client": "^8.4.0",
 		"nunjucks": "^3.2.4",
