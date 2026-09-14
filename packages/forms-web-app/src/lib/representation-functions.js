@@ -323,6 +323,20 @@ const formatDocumentLink = (document) => {
 };
 
 /**
+ * @param {import('appeals-service-api').Api.Document} document
+ * @returns {string}
+ */
+const formatDocumentLinkWithAwaitingSignOff = (document) => {
+	if (document.redacted) {
+		return `<a href="/published-document/${document.id}" class="govuk-link">${escape(
+			document.filename
+		)}</a>`;
+	}
+
+	return escape(document.filename) + ' - Awaiting sign off';
+};
+
+/**
  * @param {RepresentationTypes} representationType
  * @returns {string}
  */
@@ -357,5 +371,6 @@ module.exports = {
 	filterRepresentationsForDisplay,
 	formatRepresentationHeading,
 	formatRepresentations,
-	formatDocumentLink
+	formatDocumentLink,
+	formatDocumentLinkWithAwaitingSignOff
 };
