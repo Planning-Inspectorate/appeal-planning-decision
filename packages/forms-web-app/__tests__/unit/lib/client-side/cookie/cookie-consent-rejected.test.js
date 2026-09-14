@@ -64,9 +64,9 @@ describe('lib/client-side/cookie/cookie-consent-rejected', () => {
 				expect(elementCookieBanner).not.toHaveClass(govUkDisplayNoneCssClass);
 			});
 
-			test('addCookieConsentRejectedListener', () => {
+			test('addCookieConsentRejectedListener', async () => {
 				addCookieConsentRejectedListener(document);
-				userEvent.click(elementAcknowledgeRejectedButton);
+				await userEvent.click(elementAcknowledgeRejectedButton);
 				expect(elementCookieBanner).toHaveClass(govUkDisplayNoneCssClass);
 			});
 		});
