@@ -4,7 +4,7 @@ const { mockRes } = require('../../../../__tests__/unit/mocks');
 const { getDepartmentFromCode } = require('../../../services/department.service');
 const { formatTitleSuffix } = require('#lib/selected-appeal-page-setup');
 const { getParentPathLink } = require('#lib/get-user-back-links');
-const { formatDocumentLink } = require('#lib/representation-functions');
+const { formatDocumentLinkWithAwaitingSignOff } = require('#lib/representation-functions');
 const logger = require('#lib/logger');
 const { formatHeadlineData } = require('@pins/common');
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
@@ -22,7 +22,7 @@ describe('controllers/selected-appeal/supporting-documents', () => {
 		/** @type {jest.MockedFunction<typeof getDepartmentFromCode>} */ (getDepartmentFromCode);
 	const mockFormatTitleSuffix = formatTitleSuffix;
 	const mockGetParentPathLink = getParentPathLink;
-	const mockFormatDocumentLink = formatDocumentLink;
+	const mockFormatDocumentLink = formatDocumentLinkWithAwaitingSignOff;
 	const mockFormatHeadlineData = formatHeadlineData;
 	const appealNumber = 'ABC123';
 	const testDocument = {
@@ -91,7 +91,7 @@ describe('controllers/selected-appeal/supporting-documents', () => {
 			lpaName: 'Test LPA',
 			role: APPEAL_USER_ROLES.APPELLANT
 		});
-		expect(formatDocumentLink).toHaveBeenCalledWith(testDocument);
+		expect(formatDocumentLinkWithAwaitingSignOff).toHaveBeenCalledWith(testDocument);
 		expect(formatTitleSuffix).toHaveBeenCalledWith(APPEAL_USER_ROLES.APPELLANT);
 		expect(res.render).toHaveBeenCalledWith(VIEW.SELECTED_APPEAL.APPEAL_DOCUMENTS, {
 			layoutTemplate: 'layouts/test/test.njk',
@@ -181,6 +181,6 @@ describe('controllers/selected-appeal/supporting-documents', () => {
 		await expect(handler(req, res, next)).rejects.toThrow(
 			'Unknown document type: unknownDocumentType'
 		);
-		expect(formatDocumentLink).not.toHaveBeenCalled();
+		expect(formatDocumentLinkWithAwaitingSignOff).not.toHaveBeenCalled();
 	});
 });

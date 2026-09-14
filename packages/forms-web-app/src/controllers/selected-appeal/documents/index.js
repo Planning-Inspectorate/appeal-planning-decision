@@ -5,7 +5,7 @@ const {
 		SELECTED_APPEAL: { APPEAL_DOCUMENTS: documentsView }
 	}
 } = require('#lib/views');
-const { formatDocumentLink } = require('#lib/representation-functions');
+const { formatDocumentLinkWithAwaitingSignOff } = require('#lib/representation-functions');
 const { formatTitleSuffix } = require('#lib/selected-appeal-page-setup');
 const { getDepartmentFromCode } = require('../../../services/department.service');
 const { getParentPathLink } = require('#lib/get-user-back-links');
@@ -64,7 +64,9 @@ exports.get = (documentParams, layoutTemplate = 'layouts/no-banner-link/main.njk
 		const lpa = await getDepartmentFromCode(caseData.LPACode);
 		const headlineData = formatHeadlineData({ caseData, lpaName: lpa.name, role: userType });
 
-		const formattedDocumentLinks = documents.map((doc) => formatDocumentLink(doc));
+		const formattedDocumentLinks = documents.map((doc) =>
+			formatDocumentLinkWithAwaitingSignOff(doc)
+		);
 
 		const viewContext = {
 			layoutTemplate,
