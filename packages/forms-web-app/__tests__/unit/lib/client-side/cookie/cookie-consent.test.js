@@ -129,10 +129,10 @@ describe('lib/client-side/cookie/cookie-consent', () => {
 		expect(rejectButton).not.toHaveClass(govUkDisplayNoneCssClass);
 	});
 
-	test('addAcceptCookieConsentListener', () => {
+	test('addAcceptCookieConsentListener', async () => {
 		addAcceptCookieConsentListener(document, acceptButton);
 
-		userEvent.click(acceptButton);
+		await userEvent.click(acceptButton);
 
 		expect(eraseCookie).toHaveBeenCalledWith(document, cookieConfig.COOKIE_POLICY_KEY);
 		expect(createCookie).toHaveBeenCalledWith(
@@ -150,10 +150,10 @@ describe('lib/client-side/cookie/cookie-consent', () => {
 		expect(initialiseOptionalJavaScripts).toHaveBeenCalled();
 	});
 
-	test('addRejectCookieConsentListener', () => {
+	test('addRejectCookieConsentListener', async () => {
 		addRejectCookieConsentListener(document, rejectButton);
 
-		userEvent.click(rejectButton);
+		await userEvent.click(rejectButton);
 
 		expect(eraseCookie).toHaveBeenCalledWith(document, cookieConfig.COOKIE_POLICY_KEY);
 		expect(createCookie).toHaveBeenCalledWith(
