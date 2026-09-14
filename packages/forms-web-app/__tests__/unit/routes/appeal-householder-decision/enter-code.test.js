@@ -4,12 +4,9 @@ const { getEnterCode, postEnterCode } = require('../../../../src/controllers/com
 
 const { rules: ruleEnterCode } = require('../../../../src/validators/common/enter-code');
 
-const { rules: idValidationRules } = require('../../../../src/validators/common/check-id-is-uuid');
-
 const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
 
 jest.mock('../../../../src/validators/common/enter-code');
-jest.mock('../../../../src/validators/common/check-id-is-uuid');
 jest.mock('../../../../src/validators/validation-error-handler');
 jest.mock('../../../../src/controllers/common/enter-code');
 
@@ -24,17 +21,13 @@ describe('routes/appeal-householder-planning/enter-code', () => {
 	});
 
 	it('should define the expected routes', () => {
-		expect(get).toHaveBeenCalledWith(
-			'/enter-code/:enterCodeId',
-			idValidationRules(),
-			validationErrorHandler,
-			getEnterCode()
-		);
+		expect(get).toHaveBeenNthCalledWith(1, '/enter-code/:enterCodeId', expect.any(Function));
+		expect(get).toHaveBeenNthCalledWith(2, '/enter-code', getEnterCode(expect.any(Object)));
 		expect(post).toHaveBeenCalledWith(
-			'/enter-code/:enterCodeId',
+			'/enter-code',
 			ruleEnterCode(),
 			validationErrorHandler,
-			postEnterCode()
+			postEnterCode(expect.any(Object), { isGeneralLogin: false })
 		);
 	});
 });
