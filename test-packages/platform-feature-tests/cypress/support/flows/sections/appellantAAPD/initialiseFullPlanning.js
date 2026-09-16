@@ -156,17 +156,7 @@ module.exports = (planning, grantedOrRefusedId, applicationType, expeditedAppeal
 		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/reference-number`);
 		cy.get(prepareAppealSelector?._selectors?.applicationReference).type(applicationNumber);
 		cy.advanceToNextPage();
-		if (!expeditedAppeal) {
-			//What date did you submit your application?
-			cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/application-date`);
-			cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).clear()
-			cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).type(applicationDateValues.day);
-			cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).clear();
-			cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(applicationDateValues.month);
-			cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).clear();
-			cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).type(applicationDateValues.year);
-			cy.advanceToNextPage();
-		}
+
 		//Was your application for a major or minor development?
 		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/major-minor-development`);
 		majorMinorDevelopmentPage.addMajorMionorDevelopmentData(context?.applicationForm?.majorMionorDevelopmentData);
