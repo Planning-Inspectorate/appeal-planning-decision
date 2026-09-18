@@ -10,7 +10,10 @@ const {
 	createInterestedPartySession
 } = require('../../../../../services/interested-party.service');
 const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
-const { isChildLinkedAppeal } = require('@pins/common/src/lib/linked-appeals');
+const {
+	isChildLinkedAppeal,
+	isEnforcementChildLinkedAppeal
+} = require('@pins/common/src/lib/linked-appeals');
 
 const decisionDocumentTypes = [
 	APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_DECISION_LETTER,
@@ -44,8 +47,14 @@ const selectedAppeal = async (req, res) => {
 
 	const decidedData = formatCommentDecidedData(appeal, unfilteredDecisionDocuments);
 
-	const inquiries = appeal.Events ? formatCommentInquiryText(appeal.Events) : [];
-	const hearings = appeal.Events ? formatCommentHearingText(appeal.Events, appeal.caseStatus) : [];
+	const isEnforcementChildLinked = isEnforcementChildLinkedAppeal(appeal);
+
+	const inquiries =
+		!isEnforcementChildLinked && appeal.Events ? formatCommentInquiryText(appeal.Events) : [];
+	const hearings =
+		!isEnforcementChildLinked && appeal.Events
+			? formatCommentHearingText(appeal.Events, appeal.caseStatus)
+			: [];
 
 	res.render(`comment-planning-appeal/appeals/_appealNumber/index`, {
 		appeal: {
