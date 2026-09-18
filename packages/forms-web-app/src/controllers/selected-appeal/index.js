@@ -39,7 +39,8 @@ const config = require('../../config');
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 const {
 	formatDashboardLinkedCaseDetails,
-	isChildLinkedAppeal
+	isChildLinkedAppeal,
+	isEnforcementChildLinkedAppeal
 } = require('@pins/common/src/lib/linked-appeals');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const { isFeatureActive } = require('../../featureFlag');
@@ -150,7 +151,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				headlineData,
 				siteVisits,
 				inquiries: formatInquiries(events, userType),
-				hearings: formatHearings(events, userType),
+				hearings: isEnforcementChildLinkedAppeal(caseData) ? [] : formatHearings(events, userType),
 				sections: formatSections({ caseData, sections }),
 				baseUrl: userRouteUrl,
 				decision: mapDecisionTag(caseData.caseDecisionOutcome, isEnforcementNotice(appealTypeCode)),
