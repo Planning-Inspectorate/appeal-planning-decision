@@ -9,11 +9,21 @@
 {%- switch (status | string | lower) -%}
 		{# appeal statuses #}
 		{%- case 'lpa_questionnaire' -%}
-			{%- set statusTagColor = 'green' -%}
-			{%- set statusText = 'Open for comments' -%}
+    	{%- switch (procedure) -%}
+				{%- case 'writtenPart1' -%}
+					{%- set statusText = 'Closed' -%}
+				{%- default -%}
+					{%- set statusTagColor = 'green' -%}
+					{%- set statusText = 'Open for comments' -%}
+			{%- endswitch -%}
 		{%- case 'statements' -%}
-      {%- set statusTagColor = 'green' -%}
-      {%- set statusText = 'Open for comments' -%}
+    	{%- switch (procedure) -%}
+				{%- case 'writtenPart1' -%}
+					{%- set statusText = 'Closed' -%}
+				{%- default -%}
+					{%- set statusTagColor = 'green' -%}
+					{%- set statusText = 'Open for comments' -%}
+			{%- endswitch -%}
     {%- case 'final_comments' -%}
       {%- set statusTagColor = 'yellow' -%}
       {%- set statusText = 'Awaiting site visit' -%}
