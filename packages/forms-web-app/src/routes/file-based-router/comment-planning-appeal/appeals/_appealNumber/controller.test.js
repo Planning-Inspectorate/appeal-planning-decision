@@ -10,7 +10,10 @@ const { getDepartmentFromCode } = require('../../../../../services/department.se
 const {
 	createInterestedPartySession
 } = require('../../../../../services/interested-party.service');
-const { isChildLinkedAppeal } = require('@pins/common/src/lib/linked-appeals');
+const {
+	isChildLinkedAppeal,
+	isEnforcementChildLinkedAppeal
+} = require('@pins/common/src/lib/linked-appeals');
 const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 
 jest.mock('#utils/appeal-status');
@@ -61,6 +64,7 @@ describe('selectedAppeal Controller Tests', () => {
 
 		getDepartmentFromCode.mockResolvedValue(lpa);
 		isChildLinkedAppeal.mockReturnValue(false);
+		isEnforcementChildLinkedAppeal.mockReturnValue(false);
 		getAppealStatus.mockReturnValue(status);
 		formatCommentHeadlineText.mockReturnValue(headlineText);
 		formatCommentDeadlineText.mockReturnValue(deadlineText);
@@ -101,7 +105,7 @@ describe('selectedAppeal Controller Tests', () => {
 		});
 	});
 
-	it('should render the appeal page with formatted data - child linked appeal', async () => {
+	it('should render the appeal page with formatted data - child linked enforcement appeal', async () => {
 		const lpa = { name: 'Local Planning Authority' };
 		const status = 'In Progress';
 		const headlineText = 'Headline Text';
@@ -158,13 +162,13 @@ describe('selectedAppeal Controller Tests', () => {
 
 		getDepartmentFromCode.mockResolvedValue(lpa);
 		isChildLinkedAppeal.mockReturnValue(true);
+		isEnforcementChildLinkedAppeal.mockReturnValue(true);
+
 		req.appealsApiClient.getDocumentsByCaseRef.mockResolvedValue(decisionDocuments);
 		getAppealStatus.mockReturnValue(status);
 		formatCommentHeadlineText.mockReturnValue(headlineText);
 		formatCommentDeadlineText.mockReturnValue(deadlineText);
 		formatCommentDecidedData.mockReturnValue(decidedData);
-		formatCommentInquiryText.mockReturnValue(inquiries);
-		formatCommentHearingText.mockReturnValue(hearings);
 		formatHeadlineData.mockReturnValue('Headline Data');
 
 		await selectedAppeal(req, res);
@@ -179,11 +183,8 @@ describe('selectedAppeal Controller Tests', () => {
 		expect(formatCommentHeadlineText).toHaveBeenCalledWith('12345', status);
 		expect(formatCommentDeadlineText).toHaveBeenCalledWith(req.appealCase, status);
 		expect(formatCommentDecidedData).toHaveBeenCalledWith(req.appealCase, decisionDocuments);
-		expect(formatCommentInquiryText).toHaveBeenCalledWith(req.appealCase.Events);
-		expect(formatCommentHearingText).toHaveBeenCalledWith(
-			req.appealCase.Events,
-			req.appealCase.caseStatus
-		);
+		expect(formatCommentInquiryText).not.toHaveBeenCalled();
+		expect(formatCommentHearingText).not.toHaveBeenCalled();
 		expect(formatHeadlineData).toHaveBeenCalledWith({
 			caseData: req.appealCase,
 			lpaName: lpa.name

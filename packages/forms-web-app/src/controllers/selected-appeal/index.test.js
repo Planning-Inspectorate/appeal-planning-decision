@@ -2,7 +2,10 @@ const { get } = require('./index');
 const { determineUser } = require('../../lib/determine-user');
 const { getUserFromSession } = require('../../services/user.service');
 const { getDepartmentFromCode } = require('../../services/department.service');
-const { isChildLinkedAppeal } = require('@pins/common/src/lib/linked-appeals');
+const {
+	isChildLinkedAppeal,
+	isEnforcementChildLinkedAppeal
+} = require('@pins/common/src/lib/linked-appeals');
 const { VIEW } = require('../../lib/views');
 
 jest.mock('../../lib/determine-user');
@@ -70,10 +73,11 @@ describe('get', () => {
 		);
 	});
 
-	it('should render the view with the lead appeal decision docs - child appeal', async () => {
+	it('should render the view with the lead appeal decision docs - child linked enforcement appeal', async () => {
 		determineUser.mockReturnValue('Appellant');
 		getUserFromSession.mockReturnValue({ email: 'test@example.com' });
 		isChildLinkedAppeal.mockReturnValue(true);
+		isEnforcementChildLinkedAppeal.mockReturnValue(true);
 		req.appealsApiClient.getUserByEmailV2.mockResolvedValue({ id: 'user-id' });
 		req.appealsApiClient.getAppealCaseWithRepresentations.mockResolvedValue({
 			LPACode: 'LPA123',
@@ -87,7 +91,21 @@ describe('get', () => {
 				}
 			]
 		});
-		req.appealsApiClient.getEventsByCaseRef.mockResolvedValue([]);
+		req.appealsApiClient.getEventsByCaseRef.mockResolvedValue([
+			{
+				internalId: 'test123',
+				published: true,
+				type: 'hearing',
+				subtype: null,
+				startDate: new Date(2025, 11, 29, 9),
+				endDate: new Date(2025, 11, 30, 9),
+				addressLine1: '101 The Street',
+				addressLine2: 'Flat 2',
+				addressTown: 'Town',
+				addressCounty: 'County',
+				addressPostcode: 'AB1 2CD'
+			}
+		]);
 		req.appealsApiClient.getDocumentsByCaseRef.mockResolvedValue([
 			{
 				id: '31c354b1-287b-4492-92d7-4e23e3aa211c',
@@ -112,6 +130,8 @@ describe('get', () => {
 				appeal: expect.objectContaining({
 					appealNumber: '123',
 					baseUrl: '/appeals/123',
+					inquiries: [],
+					hearings: [],
 					decisionDocuments: expect.arrayContaining([
 						expect.objectContaining({
 							id: '31c354b1-287b-4492-92d7-4e23e3aa211c',
