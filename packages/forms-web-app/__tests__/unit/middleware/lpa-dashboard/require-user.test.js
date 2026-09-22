@@ -101,4 +101,15 @@ describe('requireUser', () => {
 		expect(req.session.loginRedirect).toBe('/manage-appeals/1234567/appeal-details');
 		expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.LPA_DASHBOARD.YOUR_EMAIL_ADDRESS}`);
 	});
+
+	it('ignores enter code in redirect', () => {
+		getUserFromSession.mockReturnValue(null);
+
+		req.originalUrl = '/test/enter-code/test';
+
+		requireUser(req, res, next);
+
+		expect(req.session.loginRedirect).toBeUndefined();
+		expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.LPA_DASHBOARD.YOUR_EMAIL_ADDRESS}`);
+	});
 });

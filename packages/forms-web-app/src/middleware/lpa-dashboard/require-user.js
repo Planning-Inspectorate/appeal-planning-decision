@@ -35,7 +35,9 @@ const requireUser = (req, res, next) => {
 			req.session = {};
 		}
 
-		req.session.loginRedirect = req.originalUrl;
+		if (!req.originalUrl.includes('enter-code')) {
+			req.session.loginRedirect = req.originalUrl;
+		}
 
 		return res.redirect(`/${YOUR_EMAIL_ADDRESS}`);
 	});

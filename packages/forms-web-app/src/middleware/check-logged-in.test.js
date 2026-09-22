@@ -129,4 +129,15 @@ describe('checkLoggedIn middleware', () => {
 
 		expect(req.session.loginRedirect).toBe('/appeals/1234567/appeal-details');
 	});
+
+	it('ignores enter code in redirect', async () => {
+		const mockUser = null;
+		getUserFromSession.mockReturnValue(mockUser);
+
+		req.originalUrl = '/test/enter-code/test';
+
+		await checkLoggedIn(req, res, next);
+
+		expect(req.session.loginRedirect).toBeUndefined();
+	});
 });
