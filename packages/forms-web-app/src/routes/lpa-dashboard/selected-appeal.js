@@ -169,38 +169,50 @@ router.get(
 
 router.get(
 	'/:appealNumber/supporting-documents',
-	documentsController.get({
-		userType,
-		displayName: 'Supporting documents',
-		documentTypes: [APPEAL_DOCUMENT_TYPE.GENERAL_SUPPORTING]
-	})
+	documentsController.get(
+		{
+			userType,
+			displayName: 'Supporting documents',
+			documentTypes: [APPEAL_DOCUMENT_TYPE.GENERAL_SUPPORTING]
+		},
+		'layouts/lpa-dashboard/main.njk'
+	)
 );
 
 router.get(
 	'/:appealNumber/inquiry-documents',
-	documentsController.get({
-		userType,
-		displayName: 'Inquiry documents',
-		documentTypes: [APPEAL_DOCUMENT_TYPE.INQUIRY_CORE]
-	})
+	documentsController.get(
+		{
+			userType,
+			displayName: 'Inquiry documents',
+			documentTypes: [APPEAL_DOCUMENT_TYPE.INQUIRY_CORE]
+		},
+		'layouts/lpa-dashboard/main.njk'
+	)
 );
 
 router.get(
 	'/:appealNumber/inquiry-event-documents',
-	documentsController.get({
-		userType,
-		displayName: 'Inquiry event documents',
-		documentTypes: [APPEAL_DOCUMENT_TYPE.INQUIRY_POST_EVENT]
-	})
+	documentsController.get(
+		{
+			userType,
+			displayName: 'Inquiry event documents',
+			documentTypes: [APPEAL_DOCUMENT_TYPE.INQUIRY_POST_EVENT]
+		},
+		'layouts/lpa-dashboard/main.njk'
+	)
 );
 
 router.get(
 	'/:appealNumber/hearing-documents',
-	documentsController.get({
-		userType,
-		displayName: 'Hearing documents',
-		documentTypes: [APPEAL_DOCUMENT_TYPE.HEARING_PROCESS]
-	})
+	documentsController.get(
+		{
+			userType,
+			displayName: 'Hearing documents',
+			documentTypes: [APPEAL_DOCUMENT_TYPE.HEARING_PROCESS]
+		},
+		'layouts/lpa-dashboard/main.njk'
+	)
 );
 
 module.exports = router;
