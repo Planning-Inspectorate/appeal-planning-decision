@@ -210,6 +210,6 @@ module.exports = (planning, context, prepareAppealData) => {
     });
 
     if (context?.endToEndIntegration) {
-        appealsE2EIntegration(context, 'Enforcement appeal', null, [], []);
+        appealsE2EIntegration(context, 'Enforcement appeal', null, [], [], false);
     }
 };

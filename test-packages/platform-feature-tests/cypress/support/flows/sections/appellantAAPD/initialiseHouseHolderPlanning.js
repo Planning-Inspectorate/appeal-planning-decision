@@ -211,6 +211,6 @@ module.exports = (planning, grantedOrRefusedId, applicationType, expeditedAppeal
 		});
 	});
 	if (context?.endToEndIntegration){
-		appealsE2EIntegration(context, applicationType, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+		appealsE2EIntegration(context, applicationType, lpaManageAppealsData, questionnaireTestCases, statementTestCases, expeditedAppeal);
 	}
 };
