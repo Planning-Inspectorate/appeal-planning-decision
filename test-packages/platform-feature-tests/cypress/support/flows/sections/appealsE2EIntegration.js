@@ -10,7 +10,7 @@ import { questionnaire } from "./lpaManageAppeals/questionnaire";
 import { statementForCaseRef } from "./lpaManageAppeals/statement";
 import { viewValidatedAppealDetailsLPA } from "./lpaManageAppeals/viewValidatedAppealDetailsLPA";
 
-export const appealsE2EIntegration = (context, planning, lpaManageAppealsData, questionnaireTestCases, statementTestCases) => {
+export const appealsE2EIntegration = (context, planning, lpaManageAppealsData, questionnaireTestCases, statementTestCases, expeditedAppeal) => {
     if (context?.endToEndIntegration) {
         // Get the Case Reference and validate submitted appeal details
         cy.get(`a[href="/appeals/your-appeals"]`).click();
@@ -31,10 +31,16 @@ export const appealsE2EIntegration = (context, planning, lpaManageAppealsData, q
                 cy.updateAppealDetailsViaApi(caseRef, { validationOutcome: 'valid', validAt: date });
             });
             cy.reload();
-            // if appeal type is s20 send context?.applicationForm?.appellantProcedurePreference as parameter to start appleal api
-            if (appealType === lpaManageAppealsData?.s20AppealType && context?.applicationForm?.appellantProcedurePreference == 'hearing') {
-                cy.log(`start Appeal With Preference: ${context?.applicationForm?.appellantProcedurePreference}`);
-                cy.startAppealWithPreference(caseRef, context?.applicationForm?.appellantProcedurePreference);
+            // Send the procedure preference when starting S20 hearings, S78 hearings or expedited Part 1 appeals.
+            const appellantProcedurePreference = expeditedAppeal
+                ? 'writtenPart1'
+                : context?.applicationForm?.appellantProcedurePreference;
+            const shouldStartWithPreference =
+                ((appealType === lpaManageAppealsData?.s20AppealType && context?.applicationForm?.appellantProcedurePreference == 'hearing') ||
+                expeditedAppeal);
+
+            if (shouldStartWithPreference) {
+                cy.startAppealWithPreference(caseRef, appellantProcedurePreference);
             } else {
                 cy.startAppeal(caseRef);
             }
@@ -52,7 +58,7 @@ export const appealsE2EIntegration = (context, planning, lpaManageAppealsData, q
 
             // Submit the LPA statement in LPA dash board
 
-            if (appealType === lpaManageAppealsData?.s78AppealType || appealType === lpaManageAppealsData?.s20AppealType || appealType === lpaManageAppealsData?.advertAppealType || appealType === lpaManageAppealsData?.ldcAppealType) {
+            if ((appealType === lpaManageAppealsData?.s78AppealType || appealType === lpaManageAppealsData?.s20AppealType || appealType === lpaManageAppealsData?.advertAppealType || appealType === lpaManageAppealsData?.ldcAppealType) && (!expeditedAppeal)) {
 
                 viewValidatedAppealDetailsLPA(caseRef);
                 statementForCaseRef(statementTestCases[1], caseRef);
@@ -80,20 +86,19 @@ export const appealsE2EIntegration = (context, planning, lpaManageAppealsData, q
                     finalCommnetForCaseRef(finalCommentTestCases[1], caseRef);
                 }
 
-
                 // Submit appellant final comments in AAPD     
                 viewValidatedAppealDetailsAppellant(caseRef);
                 if (!(appealType === lpaManageAppealsData?.s20AppealType && context?.applicationForm?.appellantProcedurePreference == 'hearing')) {
                     finalCommnetForCaseRefAAPD(finalCommentTestCases[1], caseRef);
 
-                    // Review LPA final comments in Back Office
+                // Review LPA final comments in Back Office
                     cy.reviewLpaFinalCommentsViaApi(caseRef);
 
 
-                    // Review appellant final comments in Back Office
+                // Review appellant final comments in Back Office
                     cy.reviewAppellantFinalCommentsViaApi(caseRef);
 
-                    // Elapse final comments through api call
+                // Elapse final comments through api call
                     cy.simulateFinalCommentsDeadlineElapsed(caseRef);
                 }
                 // Share final comments in Back Office
@@ -105,10 +110,20 @@ export const appealsE2EIntegration = (context, planning, lpaManageAppealsData, q
 
             // Validate site visit text in LPA dash board
             // validate site visit text in appellant dash board
+            // validate site visit text in IP dash board
 
             // Elapse site visit date through api call
-            cy.simulateSiteVisit(caseRef);
+            cy.simulateSiteVisit(caseRef);            
 
+            //Hearing set up flow 
+            if ((appealType === lpaManageAppealsData?.s20AppealType || appealType === lpaManageAppealsData?.s78AppealType) && (context?.applicationForm?.appellantProcedurePreference == 'hearing')) {
+                //setupHearingViaApi
+                cy.setupHearingViaApi(caseRef);
+                //addEstimateViaApi
+                cy.addEstimateViaApi(context?.applicationForm?.appellantProcedurePreference, caseRef, null);
+                //Elapse due date for hearing through api call
+                cy.simulateHearingElapsed(caseRef);
+            } 
             // Issue decision in back office
             cy.issueDecisionViaApi(caseRef);
 
@@ -121,14 +136,6 @@ export const appealsE2EIntegration = (context, planning, lpaManageAppealsData, q
             // Validate issued decision in IP  dash board
 
             // Validate notification email.
-
-            //Hearing set up flow 
-            //setupHearingViaApi
-            cy.setupHearingViaApi(caseRef);
-            //addEstimateViaApi
-            cy.addEstimateViaApi(context?.applicationForm?.appellantProcedurePreference, caseRef, null);
-            //Elapse due date for hearing through api call
-            cy.simulateHearingElapsed(caseRef);
 
             //Inquiry booked flow to be added here
 

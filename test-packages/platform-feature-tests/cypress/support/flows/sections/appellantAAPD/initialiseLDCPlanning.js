@@ -200,6 +200,6 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 		});
 	});
 	if (context?.endToEndIntegration) {
-		appealsE2EIntegration(context, applicationType, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+		appealsE2EIntegration(context, applicationType, lpaManageAppealsData, questionnaireTestCases, statementTestCases, false);
 	}
 };
