@@ -406,13 +406,19 @@ describe('appeal-documents-rows - expedited part 1', () => {
 				documentType: APPEAL_DOCUMENT_TYPE.OTHER_NEW_DOCUMENTS,
 				filename: 'new-supporting-documents.pdf',
 				redacted: false
+			},
+			{
+				id: 7,
+				documentType: APPEAL_DOCUMENT_TYPE.PLANNING_OBLIGATION,
+				filename: 'planning-obligation.pdf',
+				redacted: false
 			}
 		]
 	};
 
 	it('should create rows for an expedited part 1 appeal', () => {
 		const rows = documentsRows(expeditedCaseData);
-		expect(rows.length).toEqual(12);
+		expect(rows.length).toEqual(13);
 	});
 
 	it('should have the correct rows in the correct order without optional docs', () => {
@@ -428,6 +434,7 @@ describe('appeal-documents-rows - expedited part 1', () => {
 		const expectedRows = [
 			'Application form',
 			'Decision letter',
+			'Planning obligation',
 			'Separate ownership certificate in application',
 			'Evidence of agreement to change description of development',
 			'Environmental statement',
@@ -454,6 +461,7 @@ describe('appeal-documents-rows - expedited part 1', () => {
 		const expectedRows = [
 			'Application form',
 			'Decision letter',
+			'Planning obligation',
 			'Separate ownership certificate in application',
 			'Evidence of agreement to change description of development',
 			'Environmental statement',
@@ -477,9 +485,9 @@ describe('appeal-documents-rows - expedited part 1', () => {
 		const rows = documentsRows(minimalCaseData);
 
 		// Evidence of agreement to change description
-		expect(rows[3].condition(minimalCaseData)).toEqual(false);
+		expect(rows[4].condition(minimalCaseData)).toEqual(false);
 		// Costs application
-		expect(rows[5].condition(minimalCaseData)).toEqual(false);
+		expect(rows[6].condition(minimalCaseData)).toEqual(false);
 	});
 });
 
