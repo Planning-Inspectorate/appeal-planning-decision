@@ -263,6 +263,12 @@ const getExpeditedDocumentsRows = (caseData) => {
 			isEscaped: true
 		},
 		{
+			keyText: 'Planning obligation',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANNING_OBLIGATION),
+			condition: () => isS78,
+			isEscaped: true
+		},
+		{
 			keyText: 'Separate ownership certificate in application',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.OWNERSHIP_CERTIFICATE),
 			condition: () => true,
