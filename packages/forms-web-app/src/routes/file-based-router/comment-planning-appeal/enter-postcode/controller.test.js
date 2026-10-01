@@ -9,7 +9,11 @@ describe('enterPostcode Controller Tests', () => {
 
 	beforeEach(() => {
 		req = {
-			body: {}
+			body: {},
+			originalUrl: '/comment-planning-appeal/enter-postcode',
+			session: {
+				navigationHistory: ['/before-you-start', '/comment-planning-appeal/enter-appeal-reference']
+			}
 		};
 		res = {
 			render: jest.fn(),
@@ -19,10 +23,11 @@ describe('enterPostcode Controller Tests', () => {
 
 	describe('enterPostcodeGet', () => {
 		it('should render the enter-postcode page and reset interested party session', () => {
-			req.session = {};
 			enterPostcodeGet(req, res);
 
-			expect(res.render).toHaveBeenCalledWith('comment-planning-appeal/enter-postcode/index');
+			expect(res.render).toHaveBeenCalledWith('comment-planning-appeal/enter-postcode/index', {
+				backLink: '/comment-planning-appeal/enter-appeal-reference'
+			});
 			expect(resetInterestedPartySession).toHaveBeenCalledWith(req);
 		});
 	});
