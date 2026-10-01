@@ -1,6 +1,7 @@
 {% extends "govuk/template.njk" %}
 
 {% from "govuk/components/header/macro.njk" import govukHeader %}
+{% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
 {% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
 
 {% block head %}
@@ -10,12 +11,10 @@
 {% block header %}
   {% include "includes/cookie-banner.njk" %}
 
-  {{ govukHeader({
-    homepageUrl: "https://www.gov.uk/",
-    serviceName: 'Appeal a planning decision',
-    serviceUrl: "/",
-    containerClasses: "govuk-width-container",
-    useTudorCrown: true
+  {{ govukHeader({}) }}
+  {{ govukServiceNavigation({
+    serviceName: "Appeal a planning decision",
+    serviceUrl: "/"
   }) }}
 {% endblock %}
 
