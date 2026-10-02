@@ -39,7 +39,7 @@ module.exports = (statusOfOriginalApplication, planning, expeditedAppeal, contex
 		}
 	});
 
-	if (planning === prepareAppealSelector?._selectors?.answerFullAppeal || planning === prepareAppealSelector?._selectors?.answerHouseholderPlanning || planning === prepareAppealSelector?._selectors?.answerMinorCommercialDevelopment) {
+	if (planning === prepareAppealSelector?._selectors?.answerFullAppeal || planning === prepareAppealSelector?._selectors?.answerOutlinePlanning || planning === prepareAppealSelector?._selectors?.answerHouseholderPlanning || planning === prepareAppealSelector?._selectors?.answerMinorCommercialDevelopment) {
 		// Application date step is conditional in staging; complete it only when shown.
 		cy.url().then((url) => {
 			if (url.includes('/application-date')) {
@@ -106,8 +106,11 @@ module.exports = (statusOfOriginalApplication, planning, expeditedAppeal, contex
 	} else {
 		grantedOrRefusedId = basePage._selectors?.answerGranted;
 	}
-	if (planning === prepareAppealSelector?._selectors?.answerFullAppeal) {
-		initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.fullAppealText, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+	if (planning === prepareAppealSelector?._selectors?.answerFullAppeal || planning === prepareAppealSelector?._selectors?.answerOutlinePlanning) {
+		const applicationType = planning === prepareAppealSelector?._selectors?.answerOutlinePlanning
+			? prepareAppealSelector?._selectors?.outlinePlanningText
+			: prepareAppealSelector?._selectors?.fullAppealText;
+		initialiseFullPlanning(planning, grantedOrRefusedId, applicationType, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
 	} else if (planning === prepareAppealSelector?._selectors?.answerListedBuilding) {
 		initialiseListedBuilding(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.listedBuildingText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
 	} else if (planning === prepareAppealSelector?._selectors?.answerHouseholderPlanning) {
