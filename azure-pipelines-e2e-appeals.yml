@@ -67,6 +67,12 @@ jobs:
         group7:
           GROUP_NAME: 'E2E-LDC'
           SPEC: cypress/e2e/appellant-aapd/submit-ldc-appeal/submit-ldc-appeal-granted.cy.js,cypress/e2e/appellant-aapd/submit-ldc-appeal/submit-ldc-appeal-nodecision.cy.js,cypress/e2e/appellant-aapd/submit-ldc-appeal/submit-ldc-appeal-refused.cy.js,cypress/e2e/appellant-aapd/submit-ldc-appeal/submit-ldc-appeal-noListedBuilding.cy.js       
+        group8:
+          GROUP_NAME: 'E2E-OUTLINE-PLANNING'
+          SPEC: cypress/e2e/appellant-aapd/submit-outline-appeal/submit-outline-appeal-granted.cy.js,cypress/e2e/appellant-aapd/submit-outline-appeal/submit-outline-appeal-nodecision.cy.js,cypress/e2e/appellant-aapd/submit-outline-appeal/submit-outline-appeal-refused.cy.js
+        group9:
+          GROUP_NAME: 'E2E-ENFORCEMENT'
+          SPEC: cypress/e2e/appellant-aapd/submit-enforcement-appeal/submit-enforcement-appeal.cy.js
 
     steps:
       - checkout: self
