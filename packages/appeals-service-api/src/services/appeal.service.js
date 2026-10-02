@@ -43,14 +43,14 @@ async function createAppeal(req, res) {
 	logger.debug(`Creating appeal ${appeal.id} ...`);
 	logger.debug({ appeal }, 'Appeal data in createAppeal');
 
-	const document = await appealsCosmosRepository.create(appeal);
 	const sqlAppeal = await appealsSQLRepository.createAppeal({
 		legacyAppealSubmissionId: appeal.id
 	});
+	appeal.appealSqlId = sqlAppeal.id;
+	const document = await appealsCosmosRepository.create(appeal);
 
 	if (document.result && document.result.ok) {
 		logger.debug(`Appeal ${appeal.id} created`);
-		appeal.appealSqlId = sqlAppeal.id;
 		res.status(201).send(appeal);
 		return;
 	}
@@ -72,8 +72,16 @@ async function getAppeal(id) {
 		throw ApiError.appealNotFound(id);
 	}
 
+	const appeal = document.appeal;
+	if (appeal && !appeal.appealSqlId) {
+		const sqlAppeal = await appealsSQLRepository.getByLegacyId(id);
+		if (sqlAppeal) {
+			appeal.appealSqlId = sqlAppeal.id;
+		}
+	}
+
 	logger.info(`Appeal ${id} retrieved`);
-	return document.appeal;
+	return appeal;
 }
 
 async function getAppealByLPACodeAndId(lpaCode, id) {
@@ -146,6 +154,13 @@ async function updateAppeal(id, appealUpdate) {
 	}
 
 	let appeal = savedAppealEntity.appeal;
+
+	if (appeal && !appeal.appealSqlId) {
+		const sqlAppeal = await appealsSQLRepository.getByLegacyId(id);
+		if (sqlAppeal) {
+			appeal.appealSqlId = sqlAppeal.id;
+		}
+	}
 
 	// set link to user
 	await linkToUser(appeal, appealUpdate);

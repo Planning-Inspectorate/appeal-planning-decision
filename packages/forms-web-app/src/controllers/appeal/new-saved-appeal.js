@@ -41,6 +41,7 @@ exports.post = async (req, res) => {
 	if (body['new-or-saved-appeal'] === NEW_OR_SAVED_APPEAL_OPTION.RETURN) {
 		res.redirect(`/${VIEW.APPEAL.EMAIL_ADDRESS}`);
 	} else {
+		req.session.appeal = undefined;
 		res.redirect(config.appeals.startingPoint);
 	}
 };

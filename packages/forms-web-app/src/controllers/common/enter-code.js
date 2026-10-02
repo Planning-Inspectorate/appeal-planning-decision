@@ -116,10 +116,14 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 		let redirect;
 
 		if (isAppealConfirmation) {
-			await req.appealsApiClient.linkUserToV2Appeal(
-				sessionEmail,
-				getSessionAppealSqlId(req.session)
-			);
+			try {
+				await req.appealsApiClient.linkUserToV2Appeal(
+					sessionEmail,
+					getSessionAppealSqlId(req.session)
+				);
+			} catch (err) {
+				logger.error(err, 'Failed to link user to appeal');
+			}
 			redirect = `/${views.EMAIL_CONFIRMED}`;
 		} else if (isGeneralLogin) {
 			redirect = `/${views.YOUR_APPEALS}`;
