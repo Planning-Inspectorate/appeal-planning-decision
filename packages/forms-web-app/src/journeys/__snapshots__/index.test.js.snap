@@ -4297,12 +4297,6 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement renders 
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/reference-number?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What is the application reference number?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> What date did you submit your application?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/application-date?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What date did you submit your application?</span></a>
-                                </dd>
-                        </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Enter the description of the advertisement</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
@@ -4313,12 +4307,6 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement renders 
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/description-advertisement-correct?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Did the local planning authority change the description of the advertisement?</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> How would you prefer us to decide your appeal?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/decide-appeal?id=appeal-ref">Answer<span class="govuk-visually-hidden"> How would you prefer us to decide your appeal?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there other appeals linked to your development?</dt>

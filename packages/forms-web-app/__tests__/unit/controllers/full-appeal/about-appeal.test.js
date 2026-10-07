@@ -226,13 +226,13 @@ describe('controllers/full-appeal/about-appeal', () => {
 			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/application-date');
 		});
 
-		const defaultFeatureFlaggedTypes = [
+		const advertisementTypes = [
 			['cas advert', ADVERTISEMENT],
 			['advert', ADVERTISEMENT]
 		];
 
-		it.each(defaultFeatureFlaggedTypes)(
-			'should redirect to the granted-or-refused page if %s',
+		it.each(advertisementTypes)(
+			'should redirect to the application-date page if %s',
 			async (_, type) => {
 				const planningApplication = type;
 
@@ -253,7 +253,7 @@ describe('controllers/full-appeal/about-appeal', () => {
 					...updatedAppeal
 				});
 
-				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/granted-or-refused');
+				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/application-date');
 			}
 		);
 

@@ -6,6 +6,7 @@ const {
 const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
 const { fieldValues } = require('@pins/common/src/dynamic-forms/field-values');
 const { isExpeditedAppealDate } = require('#lib/is-expedited-part1-eligible');
+const { isCASAdverts } = require('@pins/common/src/lib/appeal-type-checks');
 
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
@@ -101,7 +102,7 @@ exports.shouldDisplayUploadDecisionLetter = (response) => {
  * @returns {boolean}
  */
 exports.shouldDisplayAdvertsQuestions = (response) => {
-	return response.answers.applicationDecision !== APPLICATION_DECISION.REFUSED;
+	return !isCASAdverts(response.answers.appealTypeCode);
 };
 
 /**

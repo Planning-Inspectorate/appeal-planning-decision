@@ -14,10 +14,12 @@ const { APPEAL_ID, TYPE_OF_PLANNING_APPLICATION } = require('@pins/business-rule
 const logger = require('../../../../src/lib/logger');
 const { mockReq, mockRes } = require('../../mocks');
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
+const { isExpeditedAppealDate } = require('#lib/is-expedited-part1-eligible');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
 jest.mock('../../../../src/lib/is-lpa-in-feature-flag');
+jest.mock('../../../../src/lib/is-expedited-part1-eligible');
 
 describe('controllers/full-appeal/granted-or-refused', () => {
 	let req;
@@ -196,11 +198,12 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 
 				expect(createOrUpdateAppeal).toHaveBeenCalledWith(advertisementApplicationAppeal);
 
-				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/application-date');
+				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/decision-date');
 			});
 
-			it(`'should redirect to '/${DECISION_DATE}' with appeal type ADVERTISEMENT if 'applicationDecision' is 'granted'`, async () => {
+			it(`'should redirect to '/${DECISION_DATE}' with appeal type ADVERTISEMENT if 'applicationDecision' is 'granted' and 'isExpeditedAppealDate' is 'false'`, async () => {
 				isLpaInFeatureFlag.mockReturnValue(true);
+				isExpeditedAppealDate.mockReturnValue(false);
 				const applicationDecision = 'granted';
 				const mockRequest = {
 					...req,
@@ -223,6 +226,38 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 					...appeal,
 					typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.ADVERTISEMENT,
 					appealType: APPEAL_ID.ADVERTISEMENT
+				};
+
+				expect(createOrUpdateAppeal).toHaveBeenCalledWith(advertisementApplicationAppeal);
+
+				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/decision-date');
+			});
+
+			it(`'should redirect to '/${DECISION_DATE}' with appeal type MINOR_COMMERCIAL_ADVERTISEMENT if 'applicationDecision' is 'granted' and 'isExpeditedAppealDate' is 'true'`, async () => {
+				isLpaInFeatureFlag.mockReturnValue(true);
+				isExpeditedAppealDate.mockReturnValue(true);
+				const applicationDecision = 'granted';
+				const mockRequest = {
+					...req,
+					body: {
+						'granted-or-refused': applicationDecision
+					},
+					session: {
+						...req.session,
+						appeal: {
+							...req.session.appeal,
+							typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.ADVERTISEMENT,
+							appealType: APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT
+						}
+					}
+				};
+
+				await postGrantedOrRefused(mockRequest, res);
+
+				const advertisementApplicationAppeal = {
+					...appeal,
+					typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.ADVERTISEMENT,
+					appealType: APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT
 				};
 
 				expect(createOrUpdateAppeal).toHaveBeenCalledWith(advertisementApplicationAppeal);
