@@ -2,6 +2,7 @@ const config = require('../../config');
 const { Journey } = require('@pins/dynamic-forms/src/journey');
 const { baseAdvertsSubmissionUrl, ...params } = require('./journey');
 const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 const mockResponse = {
 	journeyId: 'adverts-appeal-form',
@@ -166,6 +167,7 @@ describe('ADVERTS Appeal Form Journey', () => {
 				...mockResponse,
 				answers: {
 					applicationDecision: APPLICATION_DECISION.REFUSED,
+					appealTypeCode: CASE_TYPES.CAS_ADVERTS.processCode,
 					onApplicationDate: '2026-04-30T12:00:00.000Z'
 				}
 			}
@@ -178,6 +180,7 @@ describe('ADVERTS Appeal Form Journey', () => {
 					...mockResponse,
 					answers: {
 						applicationDecision: APPLICATION_DECISION.REFUSED,
+						appealTypeCode: CASE_TYPES.CAS_ADVERTS.processCode,
 						onApplicationDate: '2026-04-30T12:00:00.000Z'
 					}
 				})
@@ -194,6 +197,7 @@ describe('ADVERTS Appeal Form Journey', () => {
 					...mockResponse,
 					answers: {
 						applicationDecision: APPLICATION_DECISION.REFUSED,
+						appealTypeCode: CASE_TYPES.CAS_ADVERTS.processCode,
 						onApplicationDate: '2026-04-30T12:00:00.000Z'
 					}
 				})
@@ -204,7 +208,10 @@ describe('ADVERTS Appeal Form Journey', () => {
 			...params,
 			response: {
 				...mockResponse,
-				answers: { applicationDecision: APPLICATION_DECISION.REFUSED }
+				answers: {
+					applicationDecision: APPLICATION_DECISION.REFUSED,
+					appealTypeCode: CASE_TYPES.CAS_ADVERTS.processCode
+				}
 			}
 		});
 		expect(
@@ -214,7 +221,10 @@ describe('ADVERTS Appeal Form Journey', () => {
 				)
 				?.shouldDisplay({
 					...mockResponse,
-					answers: { applicationDecision: APPLICATION_DECISION.REFUSED }
+					answers: {
+						applicationDecision: APPLICATION_DECISION.REFUSED,
+						appealTypeCode: CASE_TYPES.CAS_ADVERTS.processCode
+					}
 				})
 		).toBe(false);
 	});
@@ -279,6 +289,7 @@ describe('ADVERTS Appeal Form Journey', () => {
 		it('should include uploadAppellantStatement for CAS adverts appeals if onApplicationDate is before April 1st 2026', () => {
 			const answers = {
 				applicationDecision: APPLICATION_DECISION.REFUSED,
+				appealTypeCode: CASE_TYPES.CAS_ADVERTS.processCode,
 				onApplicationDate: '2026-03-30T12:00:00.000Z'
 			};
 			const journey = new Journey({
@@ -295,6 +306,7 @@ describe('ADVERTS Appeal Form Journey', () => {
 		it('should not include uploadAppellantStatement for CAS adverts appeals if onApplicationDate is on or after April 1st 2026', () => {
 			const answers = {
 				applicationDecision: APPLICATION_DECISION.REFUSED,
+				appealTypeCode: CASE_TYPES.CAS_ADVERTS.processCode,
 				onApplicationDate: '2026-04-01T00:00:00.000Z'
 			};
 			const journey = new Journey({
@@ -310,7 +322,7 @@ describe('ADVERTS Appeal Form Journey', () => {
 	});
 
 	describe('planningApplicationDate condition', () => {
-		it('should include planningApplicationDate for non-CAS adverts appeals (application decision: GRANTED)', () => {
+		it('should include planningApplicationDate for non-CAS adverts appeals', () => {
 			const answers = {
 				applicationDecision: APPLICATION_DECISION.GRANTED
 			};
@@ -325,9 +337,10 @@ describe('ADVERTS Appeal Form Journey', () => {
 			expect(dateQuestion?.shouldDisplay(journey.response)).toBe(true);
 		});
 
-		it('should not include planningApplicationDate for CAS adverts appeals (application decision: REFUSED)', () => {
+		it('should not include planningApplicationDate for CAS adverts appeals', () => {
 			const answers = {
-				applicationDecision: APPLICATION_DECISION.REFUSED
+				applicationDecision: APPLICATION_DECISION.REFUSED,
+				appealTypeCode: CASE_TYPES.CAS_ADVERTS.processCode
 			};
 			const journey = new Journey({
 				...params,

@@ -57,19 +57,26 @@ exports.postGrantedOrRefused = async (req, res) => {
 	}
 
 	if (appeal.typeOfPlanningApplication == TYPE_OF_PLANNING_APPLICATION.ADVERTISEMENT) {
-		appeal.appealType =
-			applicationDecision == APPLICATION_DECISION.REFUSED
-				? (appeal.appealType = APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT)
-				: (appeal.appealType = APPEAL_ID.ADVERTISEMENT);
+		if (
+			(applicationDecision === APPLICATION_DECISION.GRANTED &&
+				isExpeditedAppealDate(appeal.applicationDate)) ||
+			applicationDecision === APPLICATION_DECISION.REFUSED
+		) {
+			appeal.appealType = APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT;
+		} else {
+			appeal.appealType = APPEAL_ID.ADVERTISEMENT;
+		}
 	}
+
 	if (
 		appeal.typeOfPlanningApplication == TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT
 	) {
 		appeal.appealType =
-			applicationDecision == APPLICATION_DECISION.REFUSED
+			applicationDecision === APPLICATION_DECISION.REFUSED
 				? appeal.appealType // leave as current appeal type (either CAS planning or S78 based on planning application about answer)
 				: (appeal.appealType = APPEAL_ID.PLANNING_SECTION_78);
 	}
+
 	if (
 		(appeal.typeOfPlanningApplication === TYPE_OF_PLANNING_APPLICATION.PRIOR_APPROVAL &&
 			appeal.eligibility?.hasPriorApprovalForExistingHome) ||
@@ -112,10 +119,6 @@ exports.postGrantedOrRefused = async (req, res) => {
 			errorSummary: [{ text: e.toString(), href: '#' }]
 		});
 		return;
-	}
-
-	if (appeal.appealType === APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT) {
-		return res.redirect('/before-you-start/application-date');
 	}
 
 	if (appeal.appealType === APPEAL_ID.HOUSEHOLDER) {

@@ -34,10 +34,17 @@ const isLDC = (appealTypeCode) => appealTypeCode === CASE_TYPES.LDC.processCode;
 const isAnyEnforcementOrLDC = (appealTypeCode) =>
 	isLDC(appealTypeCode) || isAnyEnforcement(appealTypeCode);
 
+/**
+ * @param {string | undefined | unknown} appealTypeCode
+ * @returns {boolean}
+ */
+const isCASAdverts = (appealTypeCode) => appealTypeCode === CASE_TYPES.CAS_ADVERTS.processCode;
+
 module.exports = {
 	isEnforcementNotice,
 	isEnforcementListed,
 	isAnyEnforcement,
 	isLDC,
-	isAnyEnforcementOrLDC
+	isAnyEnforcementOrLDC,
+	isCASAdverts
 };

@@ -55,7 +55,7 @@ const getNextPageFromCanUseServicePage = async (appeal) => {
 			}
 			return nextPage.fullAppeal;
 		case ADVERTISEMENT:
-			if (applicationDecision === REFUSED) {
+			if (appeal.appealType === APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT) {
 				return nextPage.casAdvert;
 			}
 			return nextPage.advert;

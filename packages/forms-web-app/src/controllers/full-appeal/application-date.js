@@ -85,10 +85,6 @@ const postApplicationDate = async (req, res) => {
 
 		req.session.appeal = await createOrUpdateAppeal(appeal);
 
-		if (appeal.appealType === APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT) {
-			return res.redirect('/before-you-start/decision-date');
-		}
-
 		if (appeal.typeOfPlanningApplication === TYPE_OF_PLANNING_APPLICATION.HOUSEHOLDER_PLANNING) {
 			return res.redirect('/before-you-start/granted-or-refused-householder');
 		}
