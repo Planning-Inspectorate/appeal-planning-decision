@@ -462,7 +462,7 @@ describe('LPA and Appellant Sections', () => {
 						published: true
 					}
 				];
-				const section = findSectionByHeading(lpaSections, 'Supporting Documents');
+				const section = findSectionByHeading(lpaSections, 'Supporting documents');
 				const link = findLinkByUrl(section, '/supporting-documents');
 				expect(link?.condition(appealCase)).toBe(true);
 				expect(link?.text).toBe('View supporting documents');
@@ -478,7 +478,7 @@ describe('LPA and Appellant Sections', () => {
 					published: true
 				}
 			];
-			const section = findSectionByHeading(lpaSections, 'Inquiry Documents');
+			const section = findSectionByHeading(lpaSections, 'Inquiry documents');
 			const link = findLinkByUrl(section, '/inquiry-documents');
 			expect(link?.condition(appealCase)).toBe(true);
 			expect(link?.text).toBe('View inquiry documents');
@@ -493,7 +493,7 @@ describe('LPA and Appellant Sections', () => {
 					published: true
 				}
 			];
-			const section = findSectionByHeading(lpaSections, 'Inquiry Event Documents');
+			const section = findSectionByHeading(lpaSections, 'Inquiry event documents');
 			const link = findLinkByUrl(section, '/inquiry-event-documents');
 			expect(link?.condition(appealCase)).toBe(true);
 			expect(link?.text).toBe('View inquiry event documents');
@@ -508,7 +508,7 @@ describe('LPA and Appellant Sections', () => {
 					published: true
 				}
 			];
-			const section = findSectionByHeading(lpaSections, 'Hearing Documents');
+			const section = findSectionByHeading(lpaSections, 'Hearing documents');
 			const link = findLinkByUrl(section, '/hearing-documents');
 			expect(link?.condition(appealCase)).toBe(true);
 			expect(link?.text).toBe('View hearing documents');
@@ -833,7 +833,7 @@ describe('LPA and Appellant Sections', () => {
 						published: true
 					}
 				];
-				const section = findSectionByHeading(appellantSections, 'Supporting Documents');
+				const section = findSectionByHeading(appellantSections, 'Supporting documents');
 				const link = findLinkByUrl(section, '/supporting-documents');
 				expect(link?.condition(appealCase)).toBe(true);
 				expect(link?.text).toBe('View supporting documents');
