@@ -212,7 +212,7 @@ exports.sections = [
 		]
 	},
 	{
-		heading: 'Supporting Documents',
+		heading: 'Supporting documents',
 		links: [
 			{
 				url: '/supporting-documents',
@@ -226,7 +226,7 @@ exports.sections = [
 		]
 	},
 	{
-		heading: 'Inquiry Documents',
+		heading: 'Inquiry documents',
 		links: [
 			{
 				url: '/inquiry-documents',
@@ -240,7 +240,7 @@ exports.sections = [
 		]
 	},
 	{
-		heading: 'Inquiry Event Documents',
+		heading: 'Inquiry event documents',
 		links: [
 			{
 				url: '/inquiry-event-documents',
@@ -254,7 +254,7 @@ exports.sections = [
 		]
 	},
 	{
-		heading: 'Hearing Documents',
+		heading: 'Hearing documents',
 		links: [
 			{
 				url: '/hearing-documents',
