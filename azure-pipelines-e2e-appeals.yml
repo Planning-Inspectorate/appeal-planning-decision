@@ -73,6 +73,9 @@ jobs:
         group9:
           GROUP_NAME: 'E2E-ENFORCEMENT'
           SPEC: cypress/e2e/appellant-aapd/submit-enforcement-appeal/submit-enforcement-appeal.cy.js
+        group10:
+          GROUP_NAME: 'E2E-PRIOR-APPROVAL'
+          SPEC: cypress/e2e/appellant-aapd/submit-prior-approval/submit-prior-approval-refused.cy.js,cypress/e2e/appellant-aapd/submit-prior-approval/submit-prior-approval-granted.cy.js,cypress/e2e/appellant-aapd/submit-prior-approval/submit-prior-approval-nodecision.cy.js
 
     steps:
       - checkout: self
