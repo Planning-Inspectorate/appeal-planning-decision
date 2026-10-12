@@ -57,7 +57,7 @@ module.exports = (planning, grantedOrRefusedId, applicationType, expeditedAppeal
 	cy.advanceToNextPage();
 
 	cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.beforeYouStart}/can-use-service`);
-	cy.getByData(basePage?._selectors.applicationType).should('have.text', prepareAppealSelector?._selectors?.householderPlanningText);
+	cy.getByData(basePage?._selectors.applicationType).should('have.text', applicationType);
 	cy.advanceToNextPage(prepareAppealData?.button);
 
 	cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealHouseholderDecison}/email-address`);

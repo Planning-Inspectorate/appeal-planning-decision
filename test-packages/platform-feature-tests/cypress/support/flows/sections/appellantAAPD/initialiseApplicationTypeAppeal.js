@@ -27,6 +27,15 @@ module.exports = (statusOfOriginalApplication, planning, expeditedAppeal, contex
 	cy.get(`[data-cy="${planning}"]`).click().should('be.checked');
 	cy.advanceToNextPage();
 
+	if (planning === prepareAppealSelector?._selectors?.answerPriorApproval) {
+		cy.validateURL('/before-you-start/prior-approval-existing-home');
+		const existingHomeAnswer = context.hasPriorApprovalForExistingHome
+			? basePage._selectors.answerYes
+			: basePage._selectors.answerNo;
+		cy.getByData(existingHomeAnswer).click();
+		cy.advanceToNextPage();
+	}
+
 	// Decision date step: may show decision-date or date-decision-due depending on status
 	cy.url().then((url) => {
 		if (url.includes('/decision-date') || url.includes('/date-decision-due')) {
@@ -39,7 +48,7 @@ module.exports = (statusOfOriginalApplication, planning, expeditedAppeal, contex
 		}
 	});
 
-	if (planning === prepareAppealSelector?._selectors?.answerFullAppeal || planning === prepareAppealSelector?._selectors?.answerOutlinePlanning || planning === prepareAppealSelector?._selectors?.answerHouseholderPlanning || planning === prepareAppealSelector?._selectors?.answerMinorCommercialDevelopment) {
+	if (planning === prepareAppealSelector?._selectors?.answerFullAppeal || planning === prepareAppealSelector?._selectors?.answerOutlinePlanning || planning === prepareAppealSelector?._selectors?.answerPriorApproval || planning === prepareAppealSelector?._selectors?.answerHouseholderPlanning || planning === prepareAppealSelector?._selectors?.answerMinorCommercialDevelopment) {
 		// Application date step is conditional in staging; complete it only when shown.
 		cy.url().then((url) => {
 			if (url.includes('/application-date')) {
@@ -106,10 +115,16 @@ module.exports = (statusOfOriginalApplication, planning, expeditedAppeal, contex
 	} else {
 		grantedOrRefusedId = basePage._selectors?.answerGranted;
 	}
-	if (planning === prepareAppealSelector?._selectors?.answerFullAppeal || planning === prepareAppealSelector?._selectors?.answerOutlinePlanning) {
-		const applicationType = planning === prepareAppealSelector?._selectors?.answerOutlinePlanning
-			? prepareAppealSelector?._selectors?.outlinePlanningText
-			: prepareAppealSelector?._selectors?.fullAppealText;
+	if (planning === prepareAppealSelector?._selectors?.answerPriorApproval) {
+		context.hasPriorApprovalForExistingHome === true && statusOfOriginalApplication === prepareAppealSelector._selectors.statusOfOriginalApplicationRefused ?
+			initialiseHouseHolderPlanning(planning, grantedOrRefusedId, prepareAppealSelector._selectors.priorApprovalText, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases) :
+			initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector._selectors.priorApprovalText, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+	} else if (planning === prepareAppealSelector?._selectors?.answerFullAppeal || planning === prepareAppealSelector?._selectors?.answerOutlinePlanning) {
+		const applicationTypes = {
+			[prepareAppealSelector._selectors.answerFullAppeal]: prepareAppealSelector._selectors.fullAppealText,
+			[prepareAppealSelector._selectors.answerOutlinePlanning]: prepareAppealSelector._selectors.outlinePlanningText
+		};
+		const applicationType = applicationTypes[planning];
 		initialiseFullPlanning(planning, grantedOrRefusedId, applicationType, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
 	} else if (planning === prepareAppealSelector?._selectors?.answerListedBuilding) {
 		initialiseListedBuilding(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.listedBuildingText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
