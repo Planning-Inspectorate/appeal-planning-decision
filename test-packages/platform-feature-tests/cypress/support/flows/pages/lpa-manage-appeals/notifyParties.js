@@ -7,7 +7,7 @@ export class NotifyParties {
     }
     selectAndNotifyParties(context, lpaManageAppealsData) {
         //Who did you notify about this application      
-        cy.uploadFileFromFixtureDirectories(context?.documents?.uploadNotifyParties);   
+        cy.uploadFileFromFixtureDirectories(context?.documents?.uploadNotifyParties);
         cy.advanceToNextPage();
         cy.checkIfUnchecked(lpaManageAppealsData?.notifyParties?.siteNotice);
         cy.checkIfUnchecked(lpaManageAppealsData?.notifyParties?.lettersEmailsToParties);
@@ -23,6 +23,17 @@ export class NotifyParties {
         cy.uploadFileFromFixtureDirectories(context?.documents?.uploadPressAdvertisement);
         cy.advanceToNextPage();
         // Upload the appeal notification letter and the list of people that you notified
+        cy.uploadFileFromFixtureDirectories(context?.documents?.uploadAppealNotificationLetter);
+        cy.advanceToNextPage();
+    };
+
+    selectEnforcementNotifyParties(context) {
+        cy.uploadFileFromFixtureDirectories(context?.documents?.uploadEnforcementNotice);
+        cy.advanceToNextPage();
+        cy.uploadFileFromFixtureDirectories(context?.documents?.uploadEnforcementNoticePlan);
+        cy.advanceToNextPage();
+        cy.uploadFileFromFixtureDirectories(context?.documents?.uploadEnforcementList);
+        cy.advanceToNextPage();
         cy.uploadFileFromFixtureDirectories(context?.documents?.uploadAppealNotificationLetter);
         cy.advanceToNextPage();
     };

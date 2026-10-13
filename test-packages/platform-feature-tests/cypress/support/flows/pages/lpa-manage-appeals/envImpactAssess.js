@@ -22,7 +22,7 @@ export class EnvImpactAssess {
         sensitiveAreaSensitiveAreaDetails: "#sensitiveArea_sensitiveAreaDetails"
     }
 
-    selectScheduleType(context, lpaManageAppealsData) {       
+    selectScheduleType(context, lpaManageAppealsData) {     
         if (context?.environmentalImpact?.isSchedule === 'one') {
             this.selectScheduleOne(context);
         } else if (context?.environmentalImpact?.isSchedule === 'two') {
@@ -85,6 +85,13 @@ export class EnvImpactAssess {
         cy.advanceToNextPage();
         this.selectIssuedScreeningOpinion(context);
         this.selectEnvironmentalStatement(context);
+    };
+
+    selectScheduleNoEnforcement(context) {
+        cy.getByData(this?._selectors.noScheduleThree).click();
+        cy.advanceToNextPage();
+        this.selectIssuedScreeningOpinion(context);
+        this.selectEnvironmentalStatementForScheduleOne(context);
     };
 
 

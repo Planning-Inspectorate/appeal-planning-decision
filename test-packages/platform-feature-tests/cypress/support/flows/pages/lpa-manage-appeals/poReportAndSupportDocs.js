@@ -12,7 +12,7 @@ export class PoReportAndSupportDocs {
         infrastructureLevyExpectedDateMonth: '#infrastructureLevyExpectedDate_month',
         infrastructureLevyExpectedDateYear: '#infrastructureLevyExpectedDate_year'
     }
-    // LDC-specific: Do you have a planning officer’s report?
+    // LDC-specific: Do you have a planning officer's report?
     selectLdcPlanningOfficersReport(context) {
         const basePage = new BasePage();
         if (context?.poReportAndSupportDocs?.ldcPlanningOfficersReport) {
@@ -55,7 +55,7 @@ export class PoReportAndSupportDocs {
     }
     selectPOReportAndSupportDocsHas(context, lpaManageAppealsData, lpaAppealType) {
         const basePage = new BasePage();
-        // Upload the planning officer’s report or what your decision notice would have said
+        // Upload the planning officer's report or what your decision notice would have said
         cy.uploadFileFromFixtureDirectories(context?.documents?.uploadPoReportDecisionNotice);
         cy.advanceToNextPage();
         // Upload the plans, drawings and list of plans
@@ -73,14 +73,14 @@ export class PoReportAndSupportDocs {
 
     selectPOReportAndSupportDocsAdv(context, lpaManageAppealsData, lpaAppealType) {
         const basePage = new BasePage();
-        //Upload the planning officer’s report or what your decision notice would have said
+        //Upload the planning officer's report or what your decision notice would have said
         cy.uploadFileFromFixtureDirectories(context?.documents?.uploadPoReportDecisionNotice);
         cy.advanceToNextPage();
 
     };
     selectPOReportAndSupportDocsS78(context) {
         const basePage = new BasePage();
-        //Upload the planning officer’s report or what your decision notice would have said
+        //Upload the planning officer's report or what your decision notice would have said
         cy.uploadFileFromFixtureDirectories(context?.documents?.uploadPoReportDecisionNotice);
         cy.advanceToNextPage();
 
@@ -227,6 +227,45 @@ export class PoReportAndSupportDocs {
             cy.get(this._selectors?.infrastructureLevyAdoptedDateMonth).type(date.currentMonth());
             cy.get(this._selectors?.infrastructureLevyAdoptedDateYear).clear();
             cy.get(this._selectors?.infrastructureLevyAdoptedDateYear).type(date.nextYear());
+            cy.advanceToNextPage();
+        }
+    };
+
+    selectLocalDevelopmentOrder(context) {
+        const basePage = new BasePage();
+        if (context?.poReportAndSupportDocs?.isLocalDevelopmentOrder) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+            cy.advanceToNextPage();
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadLocalDevelopmentOrder);
+            cy.advanceToNextPage();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+            cy.advanceToNextPage();
+        }
+    };
+
+    selectPreviousPlanningPermission(context) {
+        const basePage = new BasePage();
+        if (context?.poReportAndSupportDocs?.isPreviousPlanningPermission) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+            cy.advanceToNextPage();
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadPlanningCondition);
+            cy.advanceToNextPage();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+            cy.advanceToNextPage();
+        }
+    };
+
+    selectPlanningContraventionNotice(context) {
+        const basePage = new BasePage();
+        if (context?.poReportAndSupportDocs?.isPlanningContraventionNotice) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+            cy.advanceToNextPage();
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadPlanningContraventionNotice);
+            cy.advanceToNextPage();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
             cy.advanceToNextPage();
         }
     };
