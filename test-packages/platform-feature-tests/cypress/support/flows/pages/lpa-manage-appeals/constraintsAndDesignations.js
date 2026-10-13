@@ -1,4 +1,3 @@
-
 // @ts-nocheck
 /// <reference types="cypress"/>
 import { BasePage } from "../../../../page-objects/base-page";
@@ -18,7 +17,8 @@ export class ConstraintsAndDesignations {
         existingDevelopment: 'answer-existing-development',
         proposedUseOfADevelopment: 'answer-proposed-use-of-a-development',
         proposedChangesToAListedBuilding: 'answer-proposed-changes-to-a-listed-building',
-        lpaConsiderAppealInvalidLpaAppealInvalidReasons: '#lpaConsiderAppealInvalid_lpaAppealInvalidReasons'
+        lpaConsiderAppealInvalidLpaAppealInvalidReasons: '#lpaConsiderAppealInvalid_lpaAppealInvalidReasons',
+        siteAreaSquareMetres: '#siteAreaSquareMetres',
     }
     // LDC-specific: What type of lawful development certificate is the appeal about?
     selectLdcTypeOfCertificate(context) {
@@ -92,7 +92,7 @@ export class ConstraintsAndDesignations {
     }
 
     selectCorrectTypeOfAppeal(context) {
-        const basePage = new BasePage();        
+        const basePage = new BasePage();
         if (context?.constraintsAndDesignations?.isCorrectTypeOfAppeal) {
             cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();
@@ -101,6 +101,7 @@ export class ConstraintsAndDesignations {
             cy.advanceToNextPage();
         }
     };
+
     selectChangesListedBuilding(context, lpaManageAppealsData) {
         const basePage = new BasePage();
         if (context?.constraintsAndDesignations?.isChangesListedBuilding) {
@@ -122,6 +123,7 @@ export class ConstraintsAndDesignations {
             cy.advanceToNextPage();
         }
     };
+
     selectAffectListedBuildings(context, lpaManageAppealsData) {
         const basePage = new BasePage();
         if (context?.constraintsAndDesignations?.isAffectListedBuildings) {
@@ -143,6 +145,7 @@ export class ConstraintsAndDesignations {
             cy.advanceToNextPage();
         }
     };
+
     selectPreserverGrantLoan(context) {
         const basePage = new BasePage();
         if (context?.constraintsAndDesignations?.isSection3aGrant) {
@@ -177,6 +180,7 @@ export class ConstraintsAndDesignations {
             cy.advanceToNextPage();
         }
     };
+
     selectConservationArea(context) {
         const basePage = new BasePage();
         if (context?.constraintsAndDesignations?.isConservationArea) {
@@ -190,6 +194,7 @@ export class ConstraintsAndDesignations {
             cy.advanceToNextPage();
         }
     };
+
     selectProtectedSpecies(context) {
         const basePage = new BasePage();
         if (context?.constraintsAndDesignations?.isProtectedSpecies) {
@@ -200,6 +205,7 @@ export class ConstraintsAndDesignations {
             cy.advanceToNextPage();
         }
     };
+
     selectSpecialControlAdvertisement(context) {
         const basePage = new BasePage();
         if (context?.constraintsAndDesignations?.isSpecialControlAdvertisement) {
@@ -210,6 +216,7 @@ export class ConstraintsAndDesignations {
             cy.advanceToNextPage();
         }
     };
+
     selectGreenBelt(context) {
         const basePage = new BasePage();
         if (context?.constraintsAndDesignations?.isGreenBelt) {
@@ -220,6 +227,7 @@ export class ConstraintsAndDesignations {
             cy.advanceToNextPage();
         }
     };
+
     selectAreaOfOutstandingNaturalBeauty(context, lpaManageAppealsData) {
         const basePage = new BasePage();
         if (context?.constraintsAndDesignations?.isAreaOutstandingBeauty) {
@@ -283,6 +291,152 @@ export class ConstraintsAndDesignations {
             cy.advanceToNextPage();
             //Upload the definitive map and statement extract
             cy.uploadFileFromFixtureDirectories(context?.documents?.uploadDefinitiveMapStmt);
+            cy.advanceToNextPage();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+            cy.advanceToNextPage();
+        }
+    };
+
+    // Enforcement-specific questions
+    selectEnforcementOtherOperations(context) {
+        const basePage = new BasePage();
+        if (context?.constraintsAndDesignations?.isOtherOperations) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+        }
+        cy.advanceToNextPage();
+    };
+
+    selectEnforcementSiteArea(context) {
+        cy.get(this._selectors?.siteAreaSquareMetres).clear();
+        cy.get(this._selectors?.siteAreaSquareMetres).type(context?.constraintsAndDesignations?.siteAreaSquareMetres);
+        cy.advanceToNextPage();
+    };
+
+    selectEnforcementAllegedBreachArea(context) {
+        const basePage = new BasePage();
+        if (context?.constraintsAndDesignations?.isAllegedBreachArea) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+        }
+        cy.advanceToNextPage();
+    };
+
+    selectEnforcementCreateFloorSpace(context) {
+        const basePage = new BasePage();
+        if (context?.constraintsAndDesignations?.isCreateFloorSpace) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+        }
+        cy.advanceToNextPage();
+    };
+
+    selectEnforcementRefuseWasteMaterials(context) {
+        const basePage = new BasePage();
+        if (context?.constraintsAndDesignations?.isRefuseWasteMaterials) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+        }
+        cy.advanceToNextPage();
+    };
+
+    selectEnforcementMineralExtractionMaterials(context) {
+        const basePage = new BasePage();
+        if (context?.constraintsAndDesignations?.isMineralExtractionMaterials) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+        }
+        cy.advanceToNextPage();
+    };
+
+    selectEnforcementStoreMinerals(context) {
+        const basePage = new BasePage();
+        if (context?.constraintsAndDesignations?.isStoreMinerals) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+        }
+        cy.advanceToNextPage();
+    };
+
+    selectEnforcementCreateBuilding(context) {
+        const basePage = new BasePage();
+        if (context?.constraintsAndDesignations?.isCreateBuilding) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+        }
+        cy.advanceToNextPage();
+    };
+
+    selectEnforcementAgriculturalPurposes(context) {
+        const basePage = new BasePage();
+        if (context?.constraintsAndDesignations?.isAgriculturalPurposes) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+        }
+        cy.advanceToNextPage();
+    };
+
+    selectEnforcementSingleHouse(context) {
+        const basePage = new BasePage();
+        if (context?.constraintsAndDesignations?.isSingleHouse) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+        }
+        cy.advanceToNextPage();
+    };
+
+    selectEnforcementTrunkRoad(context) {
+        const basePage = new BasePage();
+        if (context?.constraintsAndDesignations?.isTrunkRoad) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+        }
+        cy.advanceToNextPage();
+    };
+
+    selectEnforcementCrownLand(context) {
+        const basePage = new BasePage();
+        if (context?.constraintsAndDesignations?.isCrownLand) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+        }
+        cy.advanceToNextPage();
+    };
+
+    selectEnforcementStopNotice(context) {
+        const basePage = new BasePage();
+        if (context?.constraintsAndDesignations?.isStopNotice) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+            cy.advanceToNextPage();
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadStopNotice);
+            cy.advanceToNextPage();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+            cy.advanceToNextPage();
+        }
+    };
+
+    selectEnforcementDevelopmentRights(context) {
+        const basePage = new BasePage();
+        if (context?.constraintsAndDesignations?.isDevelopmentRights) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+            cy.advanceToNextPage();
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadPlanningCondition);
+            cy.advanceToNextPage();
+            // Development rights removed (also conditional on yes)
+            cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();
         } else {
             cy.getByData(basePage?._selectors.answerNo).click();
