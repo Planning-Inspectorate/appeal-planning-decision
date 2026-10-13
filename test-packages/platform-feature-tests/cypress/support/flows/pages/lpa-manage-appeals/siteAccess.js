@@ -24,7 +24,7 @@ export class SiteAccess {
         cy.advanceToNextPage();
     }
 
-    // LDC-specific: Will the inspector need to enter a neighbour’s land or property?
+    // LDC-specific: Will the inspector need to enter a neighbour's land or property?
     selectLdcNeighbourSiteAccess(context, lpaManageAppealsData) {
         const basePage = new BasePage();
         if (context?.siteAccess?.ldcNeighbourSiteAccess) {
@@ -84,6 +84,7 @@ export class SiteAccess {
             cy.advanceToNextPage();
         }
     };
+
     selectLpaSiteSafetyRisks(context, lpaManageAppealsData) {
         const basePage = new BasePage();
         if (context?.siteAccess?.isLpaSiteSafetyRisks) {
