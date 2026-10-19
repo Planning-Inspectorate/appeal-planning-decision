@@ -1,25 +1,23 @@
 {% from "govuk/components/footer/macro.njk" import govukFooter %}
-
 {{ govukFooter({
-  navigation: [
-    {
-      title: "Contact the Planning Inspectorate",
-      columns: 2,
-      items: [
-        {
-          href: "tel:" + contactPhone | replace(" ", ""),
-          text: "Customer Support: England " + contactPhone,
-          attributes: { "data-cy":"customer-support-telephone-number" }
-        },
-        {
-          href: contactForm,
-          text: 'Use our contact form',
-          attributes: { "data-cy":"customer-support-contact-form" }
-        }
-      ]
-    },
-    {
-      title: "Service information",
+    navigation: [
+      {
+        title: "Contact the Planning Inspectorate",
+        items: [
+          {
+            href: "tel:" + (contactPhone | replace(" ", "")),
+            text: "Customer Support: England " + contactPhone,
+            attributes: { "data-cy": "customer-support-telephone-number" }
+          },
+          {
+            href: contactForm,
+            text: "Use our contact form",
+            attributes: { "data-cy": "customer-support-contact-form" }
+          }
+        ]
+      }
+    ],
+    meta: {
       items: [
         {
           href: "https://www.gov.uk/government/publications/planning-inspectorate-privacy-notices/customer-privacy-notice ",
@@ -43,5 +41,4 @@
         }
       ]
     }
-  ]
-}) }}
+  }) }}

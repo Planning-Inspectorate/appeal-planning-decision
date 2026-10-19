@@ -1,5 +1,7 @@
 // https://github.com/UKHomeOffice/design-system/tree/master/components/loading-spinner
 
+@use "govuk-frontend/dist/govuk/base" as *;
+
 .remove-content {
 	display: none;
 }

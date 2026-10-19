@@ -6,6 +6,8 @@
  * PINS ticket: https://pins-ds.atlassian.net/browse/UCD-829
  */
 
+@use 'govuk-frontend/dist/govuk' as *;
+
 .govuk-file-upload--error {
 	$component-padding: govuk-spacing(1);
 
