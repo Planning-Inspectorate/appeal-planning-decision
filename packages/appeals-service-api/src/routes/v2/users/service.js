@@ -45,7 +45,10 @@ async function createUser(user) {
 	} else {
 		addedUser = await appealUserRepository.createUser(user);
 	}
-	await sendLPADashboardInviteEmail(addedUser);
+
+	if (addedUser.isLpaUser) {
+		await sendLPADashboardInviteEmail(addedUser);
+	}
 	return addedUser;
 }
 

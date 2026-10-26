@@ -1,5 +1,5 @@
 import { UnknownUserId } from 'oidc-provider/lib/helpers/errors.js';
-import { sendConfirmRegistrationEmailToAppellant } from '../lib/notify.js';
+// import { sendConfirmRegistrationEmailToAppellant } from '../lib/notify.js';
 import { isEmailLike } from '../validators/email.js';
 import consts from '@pins/common/src/constants.js';
 
@@ -23,7 +23,8 @@ class Account {
 		) {
 			this.user.isEnrolled = true;
 			await repo.updateUser(this.user);
-			await sendConfirmRegistrationEmailToAppellant(this.user.email, this.accountId);
+			// temporaily removing this until content makes sense, currently drags users out of current process
+			//await sendConfirmRegistrationEmailToAppellant(this.user.email, this.accountId);
 		}
 	}
 
