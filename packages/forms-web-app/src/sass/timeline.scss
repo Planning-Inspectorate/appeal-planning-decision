@@ -1,3 +1,6 @@
+@use "govuk-frontend/dist/govuk/base" as *;
+@use "govuk-frontend/dist/govuk/core";
+
 .timeline {
 	list-style: none;
 	position: relative;
@@ -36,7 +39,7 @@
 			width: govuk-spacing(7);
 			height: govuk-spacing(7);
 			border-radius: 50%;
-			border: 3px solid govuk-colour('mid-grey');
+			border: 3px solid govuk-colour('black', $variant: 'tint-80');
 			background-color: white;
 			z-index: 2;
 			line-height: govuk-spacing(6);
@@ -55,26 +58,26 @@
 			margin-left: 1px;
 			width: 4px;
 			height: 100%;
-			background-color: govuk-colour('mid-grey');
+			background-color: govuk-colour('black', $variant: 'tint-80');
 			z-index: 1;
 		}
 
 		&--current {
 			&:before {
-				border-color: govuk-colour('dark-blue');
+				border-color: govuk-colour('blue', $variant: 'shade-50');
 			}
 		}
 
 		&--complete {
 			&:before {
 				color: white;
-				background-color: govuk-colour('dark-blue');
-				border-color: govuk-colour('dark-blue');
+				background-color: govuk-colour('blue', $variant: 'shade-50');
+				border-color: govuk-colour('blue', $variant: 'shade-50');
 			}
 		}
 
 		&--complete:after {
-			background-color: govuk-colour('dark-blue');
+			background-color: govuk-colour('blue', $variant: 'shade-50');
 		}
 
 		&:last-child:after {

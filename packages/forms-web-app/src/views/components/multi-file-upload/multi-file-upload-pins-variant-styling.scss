@@ -2,6 +2,8 @@
 * Custom styling required for Planning Inspectorate variant of MOJ multi file upload component
 */
 
+@use 'govuk-frontend/dist/govuk' as *;
+
 .moj-hidden {
 	display: none;
 }
@@ -15,7 +17,7 @@
 		padding: 80px 15px;
 
 		&--dragover {
-			background-color: govuk-colour('light-grey');
+			background-color: govuk-colour('black', $variant: 'tint-95');
 			color: govuk-colour('black');
 			outline-color: govuk-colour('yellow');
 		}
