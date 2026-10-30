@@ -14,7 +14,6 @@ const {
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
-jest.mock('../../../../src/services/task.service');
 jest.mock('../../../../src/lib/is-lpa-in-feature-flag');
 
 describe('controllers/full-appeal/submit-appeal/prior-approval-existing-home', () => {
@@ -96,10 +95,6 @@ describe('controllers/full-appeal/submit-appeal/prior-approval-existing-home', (
 			isLpaInFeatureFlag.mockReturnValueOnce(false);
 			fullAppealCopy[sectionName].hasPriorApprovalForExistingHome = true;
 			fullAppealCopy.appealType = '1001';
-			fullAppealCopy.appealSiteSection.siteOwnership = {
-				ownsWholeSite: null,
-				haveOtherOwnersBeenTold: null
-			};
 
 			const submittedAppeal = {
 				...fullAppealCopy,
