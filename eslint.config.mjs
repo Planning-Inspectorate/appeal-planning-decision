@@ -22,6 +22,18 @@ export default defineConfig([
 		}
 	},
 	{
+		files: ['packages/forms-web-app/src/**/*.js'],
+		ignores: ['**/*.test.js', '**/*.spec.js', '**/__tests__/**', '**/__mocks__/**'],
+		rules: {
+			'no-restricted-modules': [
+				'error',
+				{
+					patterns: ['./**/src/**', '../**/src/**', './**/dist/**', '../**/dist/**']
+				}
+			]
+		}
+	},
+	{
 		files: ['packages/forms-web-app/src/lib/client-side/**/*.js'],
 		languageOptions: {
 			globals: {

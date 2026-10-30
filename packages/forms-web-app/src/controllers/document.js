@@ -6,7 +6,7 @@ const {
 	}
 } = require('@pins/business-rules');
 const logger = require('../lib/logger');
-const { storePdfAppellantSubmission } = require('../../src/services/pdf.service');
+const { storePdfAppellantSubmission } = require('../services/pdf.service');
 
 /**
  * links user to a document, requires an active session

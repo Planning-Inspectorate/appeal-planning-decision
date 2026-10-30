@@ -91,6 +91,16 @@ The application uses docker compose to run locally and the ports can be found in
 - Some have variations held in `docker-compose.full.yml` and `docker-compose.slim.yml`
 - As a convention, public facing web service will use the port range `9000-9999` and API services will use the port range `3000-3999`
 
+### Running the built web app
+
+The web Docker image starts with `node --conditions=production ./dist/server.js`.
+The `production` condition resolves the web app's `#lib`, `#middleware`, and `#utils`
+imports from `dist`; development and tests resolve them from `src` by default.
+
+ESLint rejects relative `require` paths targeting explicit `src` or `dist` trees
+within web application source. Use paths relative to the importing module or
+package aliases so imports work in both development and the built image.
+
 ## Additional Tools
 
 - [Azure Data Studio](https://learn.microsoft.com/en-us/sql/azure-data-studio/download-azure-data-studio) or the [MSSQL VS code extension](https://marketplace.visualstudio.com/items?itemName=ms-mssql.mssql) can be used as a SQL database client using the following local connection settings:
