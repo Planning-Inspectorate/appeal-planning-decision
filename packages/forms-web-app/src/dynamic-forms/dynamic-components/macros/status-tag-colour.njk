@@ -26,7 +26,14 @@
 			{%- endswitch -%}
     {%- case 'final_comments' -%}
       {%- set statusTagColor = 'yellow' -%}
-      {%- set statusText = 'Awaiting site visit' -%}
+			{%- switch (procedure) -%}
+				{%- case 'inquiry' -%}
+					{%- set statusText = 'Awaiting inquiry' -%}
+				{%- case 'hearing' -%}
+					{%- set statusText = 'Awaiting hearing' -%}
+				{%- default -%}
+					{%- set statusText = 'Awaiting site visit' -%}
+			{%- endswitch -%}
     {%- case 'evidence' -%}
       {%- set statusTagColor = 'yellow' -%}
      	{%- set statusText = 'Awaiting inquiry' -%}
