@@ -53,6 +53,7 @@ const getAppealTypeFeedbackUrl = (appealTypeCode) => {
 
 const oneGigabyte = 1024 * 1024 * 1024;
 const ninetyMinsInMs = 90 * 60 * 1000;
+const eightHoursInMs = 8 * 60 * 60 * 1000;
 const httpPort = numberWithDefault(process.env.PORT, 3000);
 
 const feedbackUrl =
@@ -191,7 +192,7 @@ module.exports = {
 			process.env.SESSION_IDLE_TIMEOUT_APPELLANT,
 			ninetyMinsInMs
 		),
-		sessionIdleTimeoutLPA: numberWithDefault(process.env.SESSION_IDLE_TIMEOUT_LPA, ninetyMinsInMs),
+		sessionIdleTimeoutLPA: numberWithDefault(process.env.SESSION_IDLE_TIMEOUT_LPA, eightHoursInMs),
 		sessionIdleTimeoutDelay: numberWithDefault(process.env.SESSION_IDLE_TIMEOUT_DELAY, 300000),
 		// https://expressjs.com/en/5x/api.html#app.set - to account for .gov.uk
 		subdomainOffset: numberWithDefault(process.env.SUBDOMAIN_OFFSET, 3),
