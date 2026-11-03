@@ -178,7 +178,7 @@
 		"eslint-plugin-cypress": "^7.0.2",
 		"eslint-plugin-enforce-catch-block-error-type-guards": "file:dev/eslint-custom-catch-blocks",
 		"eslint-plugin-jest": "^29.16.6",
-		"glob": "^13.0.6",
+		"glob": "^14.0.2",
 		"globals": "^17.13.0",
 		"html": "^1.0.0",
 		"husky": "^8.0.0",
