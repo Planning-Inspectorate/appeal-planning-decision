@@ -6,9 +6,17 @@ import globals from 'globals';
 
 export default defineConfig([
 	...eslintConfig,
-	globalIgnores(['public/**', 'dist/**', 'webpack.**', '*.bundle.js', 'test-packages/**/*.js']),
+	globalIgnores([
+		'**/public/**',
+		'**/dist/**',
+		'**/webpack.**',
+		'**/*.bundle.js',
+		'test-packages/**/*.js'
+	]),
 	{
 		rules: {
+			// Preserve existing naming conventions, including external API fields.
+			camelcase: 'off',
 			'no-unused-vars': [
 				'error',
 				{
