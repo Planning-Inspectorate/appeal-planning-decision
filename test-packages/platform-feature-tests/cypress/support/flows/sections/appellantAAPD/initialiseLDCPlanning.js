@@ -2,7 +2,6 @@
 /// <reference types="cypress"/>
 import { BasePage } from "../../../../page-objects/base-page";
 import { DateService } from "../../../../utils/dateService";
-import { assignCaseOfficer } from "../../pages/back-office-appeals/assign-case-officer";
 import { happyPathHelper } from "../../pages/back-office-appeals/happyPathHelper";
 import { appealIdWaitingForReview } from "../appealIdWaitingForReview";
 import { ipCommentsForAppealRef } from "../ipComments/ipComments";
