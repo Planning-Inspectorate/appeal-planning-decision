@@ -42,6 +42,7 @@ const escape = require('escape-html');
  * @property {string} [appealId] the uuid of the appeal in our db
  * @property {string} appealNumber the caseReference for the appeal
  * @property {string} address the address of the site subject to the appeal
+ * @property {string | null} [siteAddressLine1] first line of the site address
  * @property {string | undefined | null} appealType the type of appeal
  * @property {DueJourneyType} nextJourneyDue object with details of the next journey due
  * @property {boolean} [isNewAppeal] whether this is a new appeal
@@ -176,6 +177,7 @@ const mapToAppellantDashboardDisplayData = (appealData, featureFlags) => {
 					? ''
 					: appealData.caseReference,
 			address: escapedAddress.replace(/\n/g, '<br>'),
+			siteAddressLine1: appealData.siteAddressLine1 ?? null, // for e2e lookup
 			appealType: getAppealType(appealData),
 			nextJourneyDue: determineJourneyToDisplayAppellantDashboard(appealData, featureFlags),
 			isDraft: isAppealSubmission(appealData) || isV2Submission(appealData),
