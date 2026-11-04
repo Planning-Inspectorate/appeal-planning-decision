@@ -45,6 +45,7 @@ jobs:
     pool: pins-odt-agent-pool-tests
 
     strategy:
+      maxParallel: 4
       matrix:
         group1:
           GROUP_NAME: 'E2E-S78'

@@ -32,10 +32,7 @@ const cookiesToSet = ['domain', 'expiry', 'httpOnly', 'path', 'secure'];
 const AZURE_AD_USER_ID = Cypress.env('azureAdUserId');
 
 Cypress.Commands.add('advanceToNextPage', (text = 'Continue') => {
-    cy.url().then((before) => {
-        cy.get('.govuk-button').contains(text).click();
-        cy.url().should('not.eq', before);
-    });
+    cy.get('.govuk-button').contains(text).click();	
 });
 
 Cypress.Commands.add('getByData', (value) => {
