@@ -26,7 +26,6 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-import { BrowserAuthData } from '../fixtures/browser-auth-data';
 import { appealsApiClient } from './appealsApiClient';
 const cookiesToSet = ['domain', 'expiry', 'httpOnly', 'path', 'secure'];
 const AZURE_AD_USER_ID = Cypress.env('azureAdUserId');
@@ -162,28 +161,6 @@ Cypress.Commands.add('checkIfUnchecked', (labelText) => {
 	});
 });
 
-export function setLocalCookies(userId) {
-	cy.log(userId);
-	cy.readFile(
-		`${BrowserAuthData.BrowserAuthDataFolder}/${userId}-${BrowserAuthData.CookiesFile}`
-	).then((data) => {
-		cy.clearCookies();
-		data.forEach((cookie) => {
-			cy.setCookie(cookie.name, cookie.value, {
-				domain: cookie.domain,
-				expiry: cookie.expires,
-				httpOnly: cookie.httpOnly,
-				path: cookie.path,
-				secure: cookie.secure,
-				log: false
-			});
-			if (cookiesToSet.includes(cookie.name)) {
-				cy.getCookie(cookie.name).should('not.be.empty');
-			}
-		});
-	});
-}
-
 Cypress.Commands.add('setCurrentCookies', (cookies) => {
 	cy.clearCookies();
 	cookies.forEach((cookie) => {
@@ -199,14 +176,13 @@ Cypress.Commands.add('setCurrentCookies', (cookies) => {
 });
 
 Cypress.Commands.add('login', (user) => {
-	//cy.clearCookies();
-	cy.task('CookiesFileExists', user.id).then((exists) => {
-		if (!exists) {
-			cy.log(`No cookies 🍪 found!\nLogging in as: ${user.id}`);
-			cy.loginWithPuppeteer(user);
-		} else {
-			cy.log(`Found some cookies! 🍪\nSetting cookies for: ${user.id}`);
-			setLocalCookies(user.id);
+	// Signs in once per run and reuses the session across specs while App Service still accepts it.
+	cy.session(user.id, () => cy.loginWithPuppeteer(user), {
+		cacheAcrossSpecs: true,
+		validate: () => {
+			cy.request(`${Cypress.config('appeals_beta_base_url')}/.auth/me`)
+				.its('status')
+				.should('eq', 200);
 		}
 	});
 });
