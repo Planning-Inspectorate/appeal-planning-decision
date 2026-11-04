@@ -2,8 +2,7 @@ const { defineConfig } = require('cypress');
 const { verifyDownloadTasks } = require('cy-verify-downloads');
 const { azureSignIn } = require('./cypress/support/login');
 const {
-  clearAllCookies,
-  cookiesFileExists
+  clearAllCookies
 } = require('./cypress/support/cypressUtils');
 const { generateTestJpg } = require('./cypress/fixtures/generate-jpg.js');
 
@@ -37,7 +36,6 @@ module.exports = defineConfig({
       on('task', verifyDownloadTasks);
       on('task', { AzureSignIn: azureSignIn });
       on('task', { ClearAllCookies: clearAllCookies });
-      on('task', { CookiesFileExists: cookiesFileExists });
       on('task', {
         async generateTestJpg(options) {
           await generateTestJpg(options);

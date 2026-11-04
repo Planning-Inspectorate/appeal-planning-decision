@@ -15,29 +15,6 @@ const clearAllCookies = () => {
 };
 
 /**
- * Checks if a cookies file exists for the given user ID and is still valid.
- * @param {string} userId - The user ID to check for.
- * @returns {boolean} True if the cookies file exists and is still valid, false otherwise.
- */
-const cookiesFileExists = (userId) => {
-	const fileName = path.join(__dirname, `browserAuthData/${userId}-cookies.json`);
-	if (fileName.trim().length === 0) {
-		return false;
-	}
-
-	if (!fs.existsSync(fileName)) {
-		return false;
-	}
-
-	const fileStats = fs.statSync(fileName);
-	const { ctimeMs } = fileStats;
-	const maxAge = 5; // in minutes
-	const ageInMinutes = (Date.now() - ctimeMs) / (1000 * 60);
-	const isValid = ageInMinutes < maxAge;
-	return isValid;
-};
-
-/**
  * Deletes all files and directories in the 'downloads' directory.
  * @returns {null}
  */
@@ -140,7 +117,6 @@ const getCookiesFileContents = (userId) => {
 
 module.exports = {
 	clearAllCookies,
-	cookiesFileExists,
 	getCookiesFileContents,
 	deleteUnwantedFixtures,
 	deleteDownloads,

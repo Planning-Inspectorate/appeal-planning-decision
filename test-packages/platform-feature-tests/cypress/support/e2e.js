@@ -18,7 +18,6 @@ import './commands';
 import 'cypress-mochawesome-reporter/register';
 import 'cypress-wait-until';
 import registerCypressGrep from '@cypress/grep/src/support';
-import { randomUUID } from 'crypto';
 registerCypressGrep();
 
 require('cy-verify-downloads').addCustomCommand();
@@ -28,29 +27,9 @@ before(() => {
   cy.task('generateTestJpg', { sizeInMB: 51, fileName: '51mb.jpg' });
 });
 
-// Generate a unique correlation ID for each test and expose via Cypress.env
-beforeEach(function () {
-  try {
-    const uuidPart = (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function')
-      ? crypto.randomUUID().split('-')[0] // first 8 chars keeps it compact
-      : (() => {
-        try {
-          if (typeof randomUUID === 'function') {
-            return randomUUID().split('-')[0];
-          }
-          if (typeof crypto !== 'undefined' && typeof crypto.getRandomValues === 'function') {
-            const bytes = new Uint8Array(4); // 8 hex chars
-            crypto.getRandomValues(bytes);
-            return Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
-          }
-        } catch (_) { }
-        return '00000000';
-      })();
-    const correlationId = `CID-${uuidPart}`; // compact, UUID-based
-    Cypress.env('correlationId', correlationId);
-  } catch (e) {
-    // Non-fatal: leave correlationId unset if anything goes wrong
-  }
+// Unique correlation ID per test, typed into the appeal site address so the appeal can be found later
+beforeEach(() => {
+  Cypress.env('correlationId', `CID-${crypto.randomUUID()}`);
 });
 
 // Alternatively you can use CommonJS syntax:
