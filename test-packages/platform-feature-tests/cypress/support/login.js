@@ -12,8 +12,6 @@ const locators = {
 	optTextInput: '.table-row'
 };
 
-const timeout = async (ms) => await new Promise((resolve) => setTimeout(resolve, ms));
-
 const azureSignIn = async (config) => {
 	const browser = await puppeteer.launch({
 		headless: false, //false, //'new',
@@ -26,11 +24,27 @@ const azureSignIn = async (config) => {
 		await page.waitForSelector(locators.usernameInput, { visible: true, timeout: 10000 });
 		await page.type(locators.usernameInput, config.username);
 		await page.keyboard.press('Enter');
-		await page.waitForSelector(locators.passwordInput, { visible: true, timeout: 10000 });
-		await timeout(2000);
+		// wait for animation to show password input
+		await page.waitForFunction(
+			(selector) => {
+				const input = document.querySelector(selector);
+				if (!input || input.disabled || input.getAttribute('aria-hidden') === 'true') return false;
+				return true;
+			},
+			{ timeout: 10000 },
+			locators.passwordInput
+		);
 		await page.type(locators.passwordInput, config.password);
 		await page.keyboard.press('Enter');
-		await timeout(5000);
+		// wait until we have gone through the auth callback
+		await page.waitForFunction(
+			(origin) =>
+				location.origin === origin &&
+				!location.pathname.startsWith('/.auth/') &&
+				document.readyState === 'complete',
+			{ timeout: 20000 },
+			new URL(config.loginUrl).origin
+		);
 
 		const cookies = await getCookies(page);
 
