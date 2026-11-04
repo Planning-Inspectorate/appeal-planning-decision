@@ -12,6 +12,7 @@ import { PoReportAndSupportDocs } from "../../pages/lpa-manage-appeals/poReportA
 import { SiteAccess } from "../../pages/lpa-manage-appeals/siteAccess";
 import { OriginalEvidence } from "../../pages/lpa-manage-appeals/originalEvidence";
 import { waitingForReview } from "../../pages/lpa-manage-appeals/waitingForReview";
+import { waitForPageElement } from "../../../waitForPageElement";
 
 
 let appealId = '';
@@ -75,8 +76,7 @@ export const questionnaire = (context, lpaManageAppealsData, lpaAppealType, case
 	selectAppealIdFromTable(context, lpaManageAppealsData, lpaAppealType, caseRef).then(($link) => {
 		if (caseRef) {
 			appealId = caseRef;
-			cy.wait(10000); // Adjust the wait time as needed
-			cy.contains('a.govuk-link', 'Submit questionnaire').click();
+			waitForPageElement(`[data-cy="submit-questionnaire"][data-case-reference="${caseRef}"]`).click();
 		}
 
 		cy.get(basePage?._selectors.dlgovukSummaryListAppealDetails).within(() => {
