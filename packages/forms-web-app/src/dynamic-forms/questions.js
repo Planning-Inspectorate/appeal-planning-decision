@@ -1394,8 +1394,8 @@ exports.getQuestionProps = (response) => ({
 	},
 	tellingLandowners: {
 		type: 'boolean',
-		title: 'Have the landowners been told about the appeal?',
-		question: 'Telling the landowners',
+		title: 'Have you told the landowners about the appeal?',
+		question: 'Tell the landowners about the appeal',
 		interfaceType: 'checkbox',
 		html: 'resources/land-ownership/telling-landowners.html',
 		description: 'Have the landowners been told about the appeal?',
@@ -1403,13 +1403,13 @@ exports.getQuestionProps = (response) => ({
 		url: 'telling-landowners',
 		options: [
 			{
-				text: 'I confirm that I’ve told all the landowners about my appeal within the last 21 days using a copy of the form in annexe 2A or 2B',
+				text: 'I confirm that I have told all of the landowners about the appeal',
 				value: 'yes'
 			}
 		],
 		validators: [
 			new RequiredValidator(
-				'You must confirm that you’ve told all the landowners about your appeal within the last 21 days using a copy of the form in annexe 2A or 2B'
+				'You must confirm that you have told all of the landowners about the appeal'
 			)
 		]
 	},

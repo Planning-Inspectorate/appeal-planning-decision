@@ -65,7 +65,7 @@ condition: () =>
 	questionHasAnswer(response, questions.identifyingLandowners, 'yes');
 ```
 
-- boolean `/telling-landowners/` Telling the landowners
+- boolean `/telling-landowners/` Tell the landowners about the appeal
 
 ```js
 condition: () =>
