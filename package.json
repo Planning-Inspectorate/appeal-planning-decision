@@ -105,7 +105,7 @@
 		"@azure/app-configuration": "^1.13.0",
 		"@azure/functions": "^4.16.2",
 		"@azure/identity": "^4.13.3",
-		"@azure/service-bus": "^7.9.1",
+		"@azure/service-bus": "^7.10.0",
 		"@azure/storage-blob": "^12.29.1",
 		"@ministryofjustice/frontend": "^1.6.4",
 		"@planning-inspectorate/data-model": "^2.49.0",
