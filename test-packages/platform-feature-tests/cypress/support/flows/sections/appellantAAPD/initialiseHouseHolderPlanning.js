@@ -42,19 +42,26 @@ module.exports = (planning, grantedOrRefusedId, applicationType, expeditedAppeal
 	cy.getByData(grantedOrRefusedId).click();
 	cy.advanceToNextPage();
 
-	cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.beforeYouStart}/decision-date-householder`);
+	cy.url().should('match', /before-you-start\/decision-date(?:-householder)?/).then((url) => {
+		const isHouseholderDateRoute = url.includes('/decision-date-householder');
+		const decisionDatePath = isHouseholderDateRoute ? 'decision-date-householder' : 'decision-date';
+		const decisionDateSelectors = isHouseholderDateRoute
+			? prepareAppealSelector?._houseHolderSelectors
+			: prepareAppealSelector?._fullAppealselectors;
+		cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.beforeYouStart}/${decisionDatePath}`);
 
-	//const decisionDate = new Date();
-	//decisionDate.setDate(decisionDate.getDate() - (expeditedAppeal ? 7 : 28));
+		const decisionDateDay = isHouseholderDateRoute ? decisionDateSelectors?.decisionDateHouseholderDay : decisionDateSelectors?.decisionDateDay;
+		const decisionDateMonth = isHouseholderDateRoute ? decisionDateSelectors?.decisionDateHouseholderMonth : decisionDateSelectors?.decisionDateMonth;
+		const decisionDateYear = isHouseholderDateRoute ? decisionDateSelectors?.decisionDateHouseholderYear : decisionDateSelectors?.decisionDateYear;
+		cy.get(decisionDateDay).clear();
+		cy.get(decisionDateDay).type(String(date.today()));
+		cy.get(decisionDateMonth).clear();
+		cy.get(decisionDateMonth).type(String(date.currentMonth()));
+		cy.get(decisionDateYear).clear();
+		cy.get(decisionDateYear).type(String(date.currentYear()));
 
-	cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).clear();
-	cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(String(date.today()));
-	cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).clear();
-	cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(String(date.currentMonth()));
-	cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).clear();
-	cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(String(date.currentYear()));
-
-	cy.advanceToNextPage();
+		cy.advanceToNextPage();
+	});
 
 	cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.beforeYouStart}/can-use-service`);
 	cy.getByData(basePage?._selectors.applicationType).should('have.text', applicationType);
