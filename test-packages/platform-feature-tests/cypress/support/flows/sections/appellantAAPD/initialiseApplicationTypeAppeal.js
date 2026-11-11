@@ -35,6 +35,21 @@ module.exports = (statusOfOriginalApplication, planning, expeditedAppeal, contex
 		cy.getByData(existingHomeAnswer).click();
 		cy.advanceToNextPage();
 	}
+	if (planning === prepareAppealSelector?._selectors?.answerRemovalOrVariationOfConditions) {
+		cy.validateURL('/before-you-start/conditions-householder-permission');
+		const hasHouseholderConditions = !context?.isListedBuilding &&
+			statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused;
+		cy.getByData(hasHouseholderConditions ? basePage._selectors.answerYes : basePage._selectors.answerNo).click();
+		cy.advanceToNextPage();
+		cy.validateURL(hasHouseholderConditions
+			? '/before-you-start/listed-building-householder'
+			: '/before-you-start/listed-building');
+		const listedBuildingAnswer = context?.isListedBuilding
+			? 'answer-full-planning'
+			: 'answer-listed-building';
+		cy.getByData(listedBuildingAnswer).click();
+		cy.advanceToNextPage();
+	}
 
 	// Decision date step: may show decision-date or date-decision-due depending on status
 	cy.url().then((url) => {
@@ -48,7 +63,7 @@ module.exports = (statusOfOriginalApplication, planning, expeditedAppeal, contex
 		}
 	});
 
-	if (planning === prepareAppealSelector?._selectors?.answerFullAppeal || planning === prepareAppealSelector?._selectors?.answerOutlinePlanning || planning === prepareAppealSelector?._selectors?.answerPriorApproval || planning === prepareAppealSelector?._selectors?.answerHouseholderPlanning || planning === prepareAppealSelector?._selectors?.answerMinorCommercialDevelopment) {
+	if (planning === prepareAppealSelector?._selectors?.answerFullAppeal || planning === prepareAppealSelector?._selectors?.answerOutlinePlanning || planning === prepareAppealSelector?._selectors?.answerPriorApproval || planning === prepareAppealSelector?._selectors?.answerHouseholderPlanning || planning === prepareAppealSelector?._selectors?.answerMinorCommercialDevelopment || planning === prepareAppealSelector?._selectors?.answerRemovalOrVariationOfConditions) {
 		// Application date step is conditional in staging; complete it only when shown.
 		cy.url().then((url) => {
 			if (url.includes('/application-date')) {
@@ -128,6 +143,15 @@ module.exports = (statusOfOriginalApplication, planning, expeditedAppeal, contex
 		initialiseFullPlanning(planning, grantedOrRefusedId, applicationType, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
 	} else if (planning === prepareAppealSelector?._selectors?.answerListedBuilding) {
 		initialiseListedBuilding(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.listedBuildingText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+	} else if (planning === prepareAppealSelector?._selectors?.answerRemovalOrVariationOfConditions) {
+		const applicationType = prepareAppealSelector?._selectors?.removalOrVariationOfConditionsText;
+		if (context?.isListedBuilding) {
+			initialiseListedBuilding(planning, grantedOrRefusedId, applicationType, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+		} else if (grantedOrRefusedId === basePage._selectors?.answerRefused) {
+			initialiseHouseHolderPlanning(planning, grantedOrRefusedId, applicationType, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+		} else {
+			initialiseFullPlanning(planning, grantedOrRefusedId, applicationType, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+		}
 	} else if (planning === prepareAppealSelector?._selectors?.answerHouseholderPlanning) {
 		statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ?
 			initialiseHouseHolderPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases) : initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);

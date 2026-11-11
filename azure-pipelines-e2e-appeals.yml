@@ -76,6 +76,9 @@ jobs:
         group10:
           GROUP_NAME: 'E2E-PRIOR-APPROVAL'
           SPEC: cypress/e2e/appellant-aapd/submit-prior-approval/submit-prior-approval-refused.cy.js,cypress/e2e/appellant-aapd/submit-prior-approval/submit-prior-approval-granted.cy.js,cypress/e2e/appellant-aapd/submit-prior-approval/submit-prior-approval-nodecision.cy.js
+        group11:
+          GROUP_NAME: 'E2E-REMOVAL-VARIATION-CONDITION'
+          SPEC: cypress/e2e/appellant-aapd/submit-removal-variation-condition/submit-removal-variation-condition-refused.cy.js,cypress/e2e/appellant-aapd/submit-removal-variation-condition/submit-removal-variation-condition-granted.cy.js,cypress/e2e/appellant-aapd/submit-removal-variation-condition/submit-removal-variation-condition-nodecision.cy.js
 
     steps:
       - checkout: self
