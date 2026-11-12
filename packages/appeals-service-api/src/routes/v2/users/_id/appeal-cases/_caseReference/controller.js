@@ -9,8 +9,10 @@ exports.get = async (req, res) => {
 	let statusCode = 200;
 	let body = {};
 
-	const { caseReference, id: userId } = req.params;
+	const { userId, isLpa = false, id_token, auth: { token: access_token } = {} } = req;
+	const { caseReference } = req.params;
 	const { role } = req.query;
+	const appealUserRoles = req.appealUserRoles || [];
 
 	if (!caseReference || !userId || !role || typeof role !== 'string') {
 		throw ApiError.badRequest();
@@ -20,7 +22,10 @@ exports.get = async (req, res) => {
 		body = await service.get({
 			caseReference,
 			userId,
-			role
+			isLpa,
+			appealUserRoles,
+			access_token,
+			id_token
 		});
 	} catch (error) {
 		if (error instanceof ApiError) {

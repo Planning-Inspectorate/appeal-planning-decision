@@ -45,7 +45,7 @@ describe('case-auth-middleware', () => {
 	it('should include assertCanAccessCase when enforceUserLoggedIn is true', async () => {
 		const result = checkCaseAccess({ enforceUserLoggedIn: true });
 
-		expect(result).toHaveLength(3);
+		expect(result).toHaveLength(4);
 
 		for (const middleWare of result) {
 			await middleWare(req, res, next);
@@ -59,7 +59,7 @@ describe('case-auth-middleware', () => {
 	it('should not include assertCanAccessCase when enforceUserLoggedIn is false', async () => {
 		const result = checkCaseAccess({ enforceUserLoggedIn: false });
 
-		expect(result).toHaveLength(2);
+		expect(result).toHaveLength(3);
 
 		for (const middleWare of result) {
 			await middleWare(req, res, next);
@@ -71,7 +71,7 @@ describe('case-auth-middleware', () => {
 
 	it('should call userCanModifyCase and set roles', async () => {
 		const middleware = checkCaseAccess({ enforceUserLoggedIn: true });
-		const assertCanAccessCase = middleware[2];
+		const assertCanAccessCase = middleware[3];
 
 		mockUserCanModifyCase.mockResolvedValue({
 			roles: ['CASE_OFFICER']
@@ -93,6 +93,7 @@ describe('case-auth-middleware', () => {
 
 		const next = jest.fn();
 
+		await middleware[2](req, res, next);
 		await assertCanAccessCase(req, res, next);
 
 		expect(mockUserCanModifyCase).toHaveBeenCalledWith({
@@ -101,12 +102,13 @@ describe('case-auth-middleware', () => {
 		});
 
 		expect(req.appealUserRoles).toEqual(['CASE_OFFICER']);
+		expect(req.userId).toBe('user-1');
 		expect(next).toHaveBeenCalled();
 	});
 
 	it('should call lpaCanModifyCase for LPA users', async () => {
 		const middleware = checkCaseAccess({ enforceUserLoggedIn: true });
-		const assertCanAccessCase = middleware[2];
+		const assertCanAccessCase = middleware[3];
 
 		mockLpaCanModifyCase.mockResolvedValue();
 
@@ -133,5 +135,33 @@ describe('case-auth-middleware', () => {
 
 		expect(req.appealUserRoles).toEqual([]);
 		expect(next).toHaveBeenCalled();
+	});
+
+	it('checkCaseAccess should call error without caseReference in URL', async () => {
+		const middleware = checkCaseAccess({ enforceUserLoggedIn: true });
+		const assertCanAccessCase = middleware[3];
+
+		const req = {
+			params: { other: 'value' },
+			id_token: {
+				lpaCode: 'LPA1'
+			}
+		};
+
+		const res = {
+			status: jest.fn().mockReturnThis(),
+			send: jest.fn()
+		};
+
+		const next = jest.fn();
+
+		await assertCanAccessCase(req, res, next);
+
+		expect(mockLpaCanModifyCase).not.toHaveBeenCalled();
+
+		expect(req.appealUserRoles).toBeUndefined();
+		expect(next).not.toHaveBeenCalled();
+		expect(res.status).toHaveBeenCalledWith(400);
+		expect(res.send).toHaveBeenCalledWith(['Case reference is required as url param']);
 	});
 });

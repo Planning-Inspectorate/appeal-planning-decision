@@ -25,7 +25,8 @@ jest.mock('express-oauth2-jwt-bearer', () => {
 				req.auth = {
 					payload: {
 						sub: currentSub
-					}
+					},
+					token: 'integration-test-token'
 				};
 				next();
 			};

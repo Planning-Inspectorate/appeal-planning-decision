@@ -4,7 +4,7 @@ const { APPEAL_VIRUS_CHECK_STATUS } = require('@planning-inspectorate/data-model
 
 const { documentTypes } = require('@pins/common/src/document-types');
 const lpaOwnedDoc = documentTypes.conservationMap;
-const appellantOwnedDoc = documentTypes.originalApplication;
+const appellantOwnedDoc = documentTypes.uploadAppellantStatementDocuments;
 const rule6OwnedDoc = documentTypes.uploadRule6StatementDocuments;
 
 const validDoc = {
@@ -289,6 +289,55 @@ describe('v2/back-office/access-rules', () => {
 				checkDocAccess({
 					logger: mockLogger,
 					documentWithAppeal: docWithAppeal,
+					appealUserRoles: roles,
+					access_token: access_tk,
+					id_token: id_tk
+				})
+			).toBe(true);
+		});
+
+		it('should allow the document owner to access a published document before redaction', () => {
+			const roles = [{ role: APPEAL_USER_ROLES.APPELLANT }];
+			const id_tk = { sub: userId };
+			expect(
+				checkDocAccess({
+					logger: mockLogger,
+					documentWithAppeal: {
+						...docWithAppeal,
+						published: true,
+						redacted: false,
+						documentType: appellantOwnedDoc.dataModelName
+					},
+					appealUserRoles: roles,
+					access_token: access_tk,
+					id_token: id_tk
+				})
+			).toBe(true);
+		});
+
+		it('should require redaction before other appeal users can access a published document', () => {
+			const roles = [{ role: APPEAL_USER_ROLES.RULE_6_PARTY }];
+			const id_tk = { sub: userId };
+			const documentWithAppeal = {
+				...docWithAppeal,
+				published: true,
+				redacted: false,
+				documentType: appellantOwnedDoc.dataModelName
+			};
+
+			expect(
+				checkDocAccess({
+					logger: mockLogger,
+					documentWithAppeal,
+					appealUserRoles: roles,
+					access_token: access_tk,
+					id_token: id_tk
+				})
+			).toBe(false);
+			expect(
+				checkDocAccess({
+					logger: mockLogger,
+					documentWithAppeal: { ...documentWithAppeal, redacted: true },
 					appealUserRoles: roles,
 					access_token: access_tk,
 					id_token: id_tk
