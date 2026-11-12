@@ -73,7 +73,7 @@ exports.formatPlanningObligationStatus = (planningObligationStatus) => {
  * @returns {string}
  */
 exports.formatDocumentLink = (document) => {
-	if (document.redacted) {
+	if (document.redacted || document.userOwned) {
 		return `<a href="/published-document/${document.id}" class="govuk-link">${escape(
 			document.filename
 		)}</a>`;

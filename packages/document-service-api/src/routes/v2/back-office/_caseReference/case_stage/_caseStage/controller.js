@@ -44,7 +44,6 @@ async function getBlobCollection(
 	const representationMap = new Map(representations.map((rep) => [rep.documentId, rep]));
 
 	return allDocuments
-		.filter((document) => document.redacted)
 		.filter((document) => checkDocumentAccessByRepresentationOwner(document, representationMap))
 		.filter((document) =>
 			checkDocAccess({

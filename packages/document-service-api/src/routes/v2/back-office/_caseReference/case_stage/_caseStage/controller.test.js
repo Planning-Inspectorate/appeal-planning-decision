@@ -79,25 +79,25 @@ jest.mock('../../../../../../db/repos/repository', () => ({
 			{
 				documentId: 'doc1',
 				userOwnsRepresentation: true,
-				representationStatus: 'DRAFT',
+				representationStatus: 'draft',
 				documentType: testDocumentTypes[0]
 			},
 			{
 				documentId: 'doc2',
 				userOwnsRepresentation: true,
-				representationStatus: 'PUBLISHED',
+				representationStatus: 'published',
 				documentType: testDocumentTypes[0]
 			},
 			{
 				documentId: 'doc3',
 				userOwnsRepresentation: false,
-				representationStatus: 'PUBLISHED',
+				representationStatus: 'published',
 				documentType: testDocumentTypes[0]
 			},
 			{
 				documentId: 'doc4',
 				userOwnsRepresentation: false,
-				representationStatus: 'DRAFT',
+				representationStatus: 'draft',
 				documentType: testDocumentTypes[0]
 			}
 		])
@@ -168,24 +168,33 @@ describe('/v2/back-office/{caseReference}/case_stage/{caseStage}', () => {
 		expect(res.status).toHaveBeenCalledWith(200);
 	});
 
-	it('should expect 1 blob stream to be appended, 5 not included due to access rules', async () => {
+	it('should include owned documents regardless of redaction and published documents from other owners', async () => {
 		checkDocAccess.mockImplementation(
 			(params) => params.documentWithAppeal.documentType === testDocumentTypes[0]
 		);
 
 		await getDocumentsByCaseReferenceAndCaseStage(req, res);
 
-		// only adds
-		expect(mockAppend).toHaveBeenCalledTimes(1);
+		expect(mockAppend).toHaveBeenCalledTimes(3);
 
-		testDocumentTypes
-			.filter((x) => x === testDocumentTypes[0])
-			.forEach((documentType, index) => {
-				expect(mockAppend).toHaveBeenNthCalledWith(
-					index + 1,
-					{ stream: documentURI },
-					{ name: `${documentType}/document.pdf` }
-				);
-			});
+		['document.pdf', 'document2.pdf', 'document3.pdf'].forEach((filename, index) => {
+			expect(mockAppend).toHaveBeenNthCalledWith(
+				index + 1,
+				{ stream: documentURI },
+				{ name: `${testDocumentTypes[0]}/${filename}` }
+			);
+		});
+	});
+
+	it('should exclude owned documents when document access is denied', async () => {
+		checkDocAccess.mockReturnValue(false);
+
+		await getDocumentsByCaseReferenceAndCaseStage(req, res);
+
+		expect(mockAppend).toHaveBeenCalledTimes(1);
+		expect(mockAppend).toHaveBeenCalledWith(
+			Buffer.from(JSON.stringify(['No documents found in this case'])),
+			{ name: 'missing-files.json' }
+		);
 	});
 });
