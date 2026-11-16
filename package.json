@@ -163,7 +163,7 @@
 		"@commitlint/cli": "^21.2.4",
 		"@commitlint/config-conventional": "^21.0.2",
 		"@commitlint/cz-commitlint": "^21.2.4",
-		"@planning-inspectorate/coding-standards": "^1.1.2",
+		"@planning-inspectorate/coding-standards": "^2.0.0",
 		"@sinonjs/fake-timers": "^15.1.0",
 		"@testing-library/dom": "^10.4.2",
 		"@testing-library/jest-dom": "^7.0.1",
