@@ -70,7 +70,15 @@ exports.documentsRows = (caseData) => {
 				) {
 					return false;
 				}
-				return caseData.appealTypeCode !== CASE_TYPES.HAS.processCode;
+				const typesWithPlans = [
+					CASE_TYPES.S78.processCode,
+					CASE_TYPES.S20.processCode,
+					CASE_TYPES.CAS_PLANNING.processCode,
+					CASE_TYPES.ADVERTS.processCode,
+					CASE_TYPES.CAS_ADVERTS.processCode,
+					CASE_TYPES.LDC.processCode
+				];
+				return typesWithPlans.includes(caseData.appealTypeCode);
 			},
 			isEscaped: true
 		},

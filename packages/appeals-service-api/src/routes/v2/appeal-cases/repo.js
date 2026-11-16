@@ -2,7 +2,8 @@ const { createPrismaClient } = require('#db-client');
 const {
 	CASE_TYPES,
 	CASE_RELATION_TYPES,
-	LISTED_RELATION_TYPES
+	LISTED_RELATION_TYPES,
+	GROUP_C_PROCESS_CODES
 } = require('@pins/common/src/database/data-static');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { subYears } = require('date-fns');
@@ -332,7 +333,17 @@ class AppealCaseRepository {
 				if (!leadEnforcementAppealCaseNotYetCreated) appealLinking = false;
 			}
 
-			const linkAppealCaseToExistingAppeal = submissionId && appealLinking;
+			let existingAppeal = null;
+			if (submissionId) {
+				existingAppeal = await this.dbClient.appeal.findFirst({
+					where: {
+						id: submissionId,
+						AppealCase: null
+					}
+				});
+			}
+
+			const linkAppealCaseToExistingAppeal = Boolean(existingAppeal && appealLinking);
 
 			let appealClause;
 
@@ -633,7 +644,7 @@ class AppealCaseRepository {
 	 */
 	async listByLpaCode({ lpaCode, decidedOnly, caseStatus }) {
 		/** @type {AppealCaseWhereInput[]}	*/
-		const AND = [{ LPACode: lpaCode }];
+		const AND = [{ LPACode: lpaCode }, { appealTypeCode: { notIn: GROUP_C_PROCESS_CODES } }];
 		addDecidedClauseToQuery(AND, decidedOnly);
 		if (caseStatus) {
 			addCaseStatusToQuery(AND, caseStatus);
@@ -659,7 +670,7 @@ class AppealCaseRepository {
 	 */
 	async countByLpaCode({ lpaCode, decidedOnly }) {
 		/** @type {AppealCaseWhereInput[]}	*/
-		const AND = [{ LPACode: lpaCode }];
+		const AND = [{ LPACode: lpaCode }, { appealTypeCode: { notIn: GROUP_C_PROCESS_CODES } }];
 
 		if (decidedOnly) {
 			const fiveYearsAgo = subYears(new Date(), 5);

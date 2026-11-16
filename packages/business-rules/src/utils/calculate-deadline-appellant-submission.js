@@ -1,4 +1,4 @@
-const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { CASE_TYPES, GROUP_C_PROCESS_CODES } = require('@pins/common/src/database/data-static');
 const deadlineDate = require('../rules/appeal/deadline-date');
 
 /**
@@ -15,6 +15,10 @@ const deadlineDate = require('../rules/appeal/deadline-date');
  * @throws {BusinessRulesError}
  */
 const calculateDeadlineFromAppellantSubmission = ({ appellantSubmission }) => {
+	if (GROUP_C_PROCESS_CODES.includes(appellantSubmission?.appealTypeCode)) {
+		return null;
+	}
+
 	return deadlineDate({
 		decisionDate: appellantSubmission.applicationDecisionDate,
 		appealType: CASE_TYPES[appellantSubmission.appealTypeCode].id.toString(),

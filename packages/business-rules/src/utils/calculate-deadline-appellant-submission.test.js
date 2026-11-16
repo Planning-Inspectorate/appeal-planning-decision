@@ -2,6 +2,7 @@ const {
 	calculateDeadlineFromAppellantSubmission
 } = require('./calculate-deadline-appellant-submission');
 const { APPLICATION_DECISION } = require('../constants');
+const { GROUP_C_PROCESS_CODES } = require('@pins/common/src/database/data-static');
 
 describe('calculateDeadlineFromAppellantSubmission', () => {
 	describe('householder appeal', () => {
@@ -180,6 +181,23 @@ describe('calculateDeadlineFromAppellantSubmission', () => {
 
 			expect(result).toBeInstanceOf(Date);
 			expect(result.toISOString()).toEqual('2020-07-01T22:59:59.999Z');
+		});
+	});
+
+	describe('Group C appeals', () => {
+		it.each(GROUP_C_PROCESS_CODES)('returns null for %s', (appealTypeCode) => {
+			const result = calculateDeadlineFromAppellantSubmission({
+				appellantSubmission: {
+					appealTypeCode,
+					applicationDecisionDate: new Date('2020-01-01'),
+					applicationDecision: APPLICATION_DECISION.REFUSED,
+					isListedBuilding: null,
+					enforcementEffectiveDate: null,
+					hasContactedPlanningInspectorate: null
+				}
+			});
+
+			expect(result).toBeNull();
 		});
 	});
 });
