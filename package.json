@@ -103,7 +103,7 @@
 	},
 	"dependencies": {
 		"@azure/app-configuration": "^1.13.1",
-		"@azure/functions": "^4.17.0",
+		"@azure/functions": "^4.17.1",
 		"@azure/identity": "^4.13.3",
 		"@azure/service-bus": "^7.10.0",
 		"@azure/storage-blob": "^12.29.1",
