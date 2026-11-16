@@ -18,8 +18,8 @@ jest.mock('@pins/common/src/lib/getAzureBlobPathFromUri', () =>
 
 const mockAppend = jest.fn();
 
-jest.mock('archiver', () =>
-	jest.fn().mockReturnValue({
+jest.mock('#lib/create-archive', () =>
+	jest.fn().mockResolvedValue({
 		pipe: jest.fn(),
 		append: jest.fn().mockImplementation((...params) => mockAppend(...params)),
 		finalize: jest.fn()
