@@ -10,6 +10,10 @@ const {
  */
 
 const validationErrorHandler = (req, res, next) => {
+	if (req.body === undefined || req.body === null) {
+		req.body = {};
+	}
+
 	let errors = validationResult(req);
 
 	if (errors.isEmpty()) {

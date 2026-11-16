@@ -26,14 +26,14 @@
 		"archiver": "*",
 		"body-parser": "*",
 		"express": "*",
-		"express-async-errors": "*",
 		"express-oauth2-jwt-bearer": "*",
 		"lodash.kebabcase": "*",
 		"multer": "*",
 		"pino": "*",
 		"pino-http": "*",
 		"swagger-jsdoc": "*",
-		"swagger-ui-express": "*"
+		"swagger-ui-express": "*",
+		"mime-types": "*"
 	},
 	"devDependencies": {
 		"jest": "*",

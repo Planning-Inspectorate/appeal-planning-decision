@@ -17,7 +17,7 @@ describe('validators/validation-error-handler', () => {
 			},
 			expected: (req, res, next) => {
 				expect(next).toHaveBeenCalled();
-				expect(req.body).toBeUndefined();
+				expect(req.body).toEqual({});
 			}
 		},
 		{
