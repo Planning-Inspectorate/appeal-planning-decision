@@ -8,10 +8,8 @@ const { parseHtml } = require('#tests/html-parser');
 const escapeHtml = require('escape-html');
 const crypto = require('crypto');
 
-const nock = require('nock');
-nock.disableNetConnect();
-nock.enableNetConnect('127.0.0.1');
-const mockExternalRequests = nock(apiBaseUrl);
+let nock;
+let mockExternalRequests;
 const path = require('path');
 const testFileUploadPath = path.join(__dirname, 'fixtures', 'test.pdf');
 
@@ -98,7 +96,13 @@ const {
 describe('Dynamic forms journey tests', () => {
 	let clock, today, future;
 
-	beforeAll(() => {
+	beforeAll(async () => {
+		const nockModule = await import('nock');
+		nock = nockModule.default;
+		nock.disableNetConnect();
+		nock.enableNetConnect('127.0.0.1');
+		mockExternalRequests = nock(apiBaseUrl);
+
 		clock = fakeTimers.install({ now: new Date('2025-07-31T12:00:00Z'), toFake: ['Date'] });
 		today = new Date('2025-07-31T12:00:00Z');
 		future = new Date();
