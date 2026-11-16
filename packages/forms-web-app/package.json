@@ -21,10 +21,10 @@
 		"start:dev:server:debug": "nodemon --inspect=0.0.0.0 src/server.js --watch src --watch ../dynamic-forms/src --watch ../business-rules/src --watch ../common/src --ext js,ts,json",
 		"lint": "eslint ./",
 		"lint:fix": "eslint ./ --fix",
-		"test": "cross-env NODE_OPTIONS=\"--expose-gc\" jest --logHeapUsage --ci --verbose",
-		"test:cov": "cross-env NODE_OPTIONS=\"--expose-gc\" jest --logHeapUsage --ci --verbose --coverage",
-		"test:update": "jest --updateSnapshot",
-		"test:watch": "jest --watchAll --runInBand"
+		"test": "cross-env NODE_OPTIONS=\"--expose-gc --experimental-vm-modules\" jest --logHeapUsage --ci --verbose",
+		"test:cov": "cross-env NODE_OPTIONS=\"--expose-gc --experimental-vm-modules\" jest --logHeapUsage --ci --verbose --coverage",
+		"test:update": "cross-env NODE_OPTIONS=\"--experimental-vm-modules\" jest --updateSnapshot",
+		"test:watch": "cross-env NODE_OPTIONS=\"--experimental-vm-modules\" jest --watchAll --runInBand"
 	},
 	"dependencies": {
 		"@ministryofjustice/frontend": "*",
