@@ -37,7 +37,6 @@
 		"date-fns": "*",
 		"date-fns-tz": "*",
 		"express": "*",
-		"express-async-errors": "*",
 		"express-oauth2-jwt-bearer": "*",
 		"express-openapi-validator": "*",
 		"express-validator": "*",
@@ -49,7 +48,8 @@
 		"prettier": "*",
 		"swagger-jsdoc": "*",
 		"swagger-typescript-api": "*",
-		"swagger-ui-express": "*"
+		"swagger-ui-express": "*",
+		"mime-types": "*"
 	},
 	"devDependencies": {
 		"cross-env": "*",

@@ -19,7 +19,8 @@
 		"cors": "*",
 		"express": "*",
 		"pino": "*",
-		"puppeteer-core": "*"
+		"puppeteer-core": "*",
+		"mime-types": "*"
 	},
 	"devDependencies": {
 		"cross-env": "*",

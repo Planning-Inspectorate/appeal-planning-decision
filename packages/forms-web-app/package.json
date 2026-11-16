@@ -41,7 +41,6 @@
 		"date-fns-tz": "*",
 		"escape-html": "*",
 		"express": "*",
-		"express-async-errors": "*",
 		"express-fileupload": "*",
 		"express-session": "*",
 		"express-validator": "*",
@@ -54,7 +53,8 @@
 		"nunjucks": "*",
 		"nunjucks-date-filter": "*",
 		"pino": "*",
-		"pino-http": "*"
+		"pino-http": "*",
+		"mime-types": "*"
 	},
 	"devDependencies": {
 		"@testing-library/dom": "*",

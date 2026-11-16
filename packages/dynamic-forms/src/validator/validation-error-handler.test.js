@@ -71,4 +71,16 @@ describe('./src/dynamic-forms/validator/validation-error-handler.js', () => {
 		expect(expressValidationErrorsToGovUkErrorList).toHaveBeenCalledTimes(1);
 		expect(next).toHaveBeenCalledTimes(1);
 	});
+
+	it('initializes the body when the request has no parsed body', () => {
+		const req = {};
+		const next = jest.fn();
+
+		validationResult.mockReturnValue({ isEmpty: () => true });
+
+		validationErrorHandler(req, {}, next);
+
+		expect(req.body).toEqual({});
+		expect(next).toHaveBeenCalledWith();
+	});
 });

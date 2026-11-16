@@ -26,7 +26,6 @@ const {
 const navigationHistoryMiddleware = require('./middleware/navigation-history');
 const navigationHistoryToNunjucksMiddleware = require('./middleware/navigation-history-to-nunjucks');
 const { mapToErrorSummary } = require('#utils/filters/map-to-error-summary');
-require('express-async-errors');
 const SessionHelper = require('./middleware/session-helper');
 
 const config = require('./config');

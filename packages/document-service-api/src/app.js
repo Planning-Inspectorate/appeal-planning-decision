@@ -5,7 +5,6 @@ const { pinoHttp } = require('pino-http');
 const { randomUUID } = require('node:crypto');
 const logger = require('./lib/logger');
 const routes = require('./routes');
-require('express-async-errors');
 const app = express();
 
 // https://github.com/nodejs/node/issues/47130 http clients don't handle keepAlive correctly so sticking with false (the default before node 19)

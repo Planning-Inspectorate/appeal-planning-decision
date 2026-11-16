@@ -7,7 +7,6 @@ const logger = require('./lib/logger');
 const routes = require('./routes');
 const apiErrorHandler = require('./errors/apiErrorHandler');
 const { openApiValidationErrorHandler } = require('./validators/validate-open-api');
-require('express-async-errors');
 require('./controllers/appeals-for-submission-to-horizon-scheduler')();
 const app = express();
 

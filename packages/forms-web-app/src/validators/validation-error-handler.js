@@ -4,6 +4,9 @@ const {
 } = require('../lib/express-validation-errors-to-govuk-error-list');
 
 const validationErrorHandler = (req, res, next) => {
+	if (req.body === undefined || req.body === null) {
+		req.body = {};
+	}
 	const errors = validationResult(req);
 
 	if (errors.isEmpty()) {

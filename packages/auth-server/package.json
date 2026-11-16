@@ -27,7 +27,8 @@
 		"joi": "*",
 		"oidc-provider": "*",
 		"pino": "*",
-		"pino-http": "*"
+		"pino-http": "*",
+		"mime-types": "*"
 	},
 	"devDependencies": {
 		"cross-env": "*",
