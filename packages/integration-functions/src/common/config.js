@@ -10,7 +10,8 @@ module.exports = {
 				APPEAL_SERVICE_USER: process.env.SB_TOPIC_NAME_APPEAL_SERVICE_USER || 'appeal-service-user',
 				LISTED_BUILDING: process.env.SB_TOPIC_NAME_LISTED_BUILDING || 'listed-building',
 				APPEAL_REPRESENTATION:
-					process.env.SB_TOPIC_NAME_APPEAL_REPRESENTATION || 'appeal-representation'
+					process.env.SB_TOPIC_NAME_APPEAL_REPRESENTATION || 'appeal-representation',
+				APPEAL_GROUP_C: process.env.SB_TOPIC_NAME_APPEAL_GROUP_C || 'appeal-group-c'
 			},
 			SUBSCRIPTION_NAME: {
 				APPEAL_HAS: process.env.SB_SUBSCRIPTION_NAME_APPEAL_HAS || 'appeal-has-fo-sub',
@@ -23,7 +24,8 @@ module.exports = {
 				LISTED_BUILDING:
 					process.env.SB_SUBSCRIPTION_NAME_LISTED_BUILDING || 'listed-building-fo-sub',
 				APPEAL_REPRESENTATION:
-					process.env.SB_SUBSCRIPTION_NAME_APPEAL_REPRESENTATION || 'appeal-representation-fo-sub'
+					process.env.SB_SUBSCRIPTION_NAME_APPEAL_REPRESENTATION || 'appeal-representation-fo-sub',
+				APPEAL_GROUP_C: process.env.SB_SUBSCRIPTION_NAME_APPEAL_GROUP_C || 'appeal-group-c-fo-sub'
 			},
 			LISTED_BUILDING: {
 				TOPIC_NAME: 'listed-building',

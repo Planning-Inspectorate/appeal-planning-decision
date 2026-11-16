@@ -142,13 +142,90 @@ const CASE_TYPES = Object.freeze({
 		expedited: false,
 		usesEnforcementContact: true,
 		hasAppellantStatementJourney: true
+	},
+	G: {
+		id: 1004,
+		key: APPEAL_CASE_TYPE.G,
+		type: 'Planning obligation',
+		processCode: 'G',
+		friendlyUrl: 'planning-obligation',
+		expedited: false,
+		usesEnforcementContact: false,
+		hasAppellantStatementJourney: false
+	},
+	L: {
+		id: 1013,
+		key: APPEAL_CASE_TYPE.L,
+		type: 'Lawful development certificate (Group C)',
+		processCode: 'L',
+		friendlyUrl: 'ldc-group-c',
+		expedited: false,
+		usesEnforcementContact: false,
+		hasAppellantStatementJourney: false
+	},
+	Q: {
+		id: 1014,
+		key: APPEAL_CASE_TYPE.Q,
+		type: 'Hedgerow replacement',
+		processCode: 'Q',
+		friendlyUrl: 'hedgerow-replacement',
+		expedited: false,
+		usesEnforcementContact: false,
+		hasAppellantStatementJourney: false
+	},
+	TPO: {
+		id: 1015,
+		key: APPEAL_CASE_TYPE.TPO,
+		type: 'Tree preservation order',
+		processCode: 'TPO',
+		friendlyUrl: 'tree-preservation-order',
+		expedited: false,
+		usesEnforcementContact: false,
+		hasAppellantStatementJourney: false
+	},
+	TRN: {
+		id: 1016,
+		key: APPEAL_CASE_TYPE.TRN,
+		type: 'Tree replacement',
+		processCode: 'TRN',
+		friendlyUrl: 'tree-replacement',
+		expedited: false,
+		usesEnforcementContact: false,
+		hasAppellantStatementJourney: false
+	},
+	HH: {
+		id: 1017,
+		key: APPEAL_CASE_TYPE.HH,
+		type: 'High hedges',
+		processCode: 'HH',
+		friendlyUrl: 'high-hedges',
+		expedited: false,
+		usesEnforcementContact: false,
+		hasAppellantStatementJourney: false
+	},
+	HR: {
+		id: 1018,
+		key: APPEAL_CASE_TYPE.HR,
+		type: 'Highways Act',
+		processCode: 'HR',
+		friendlyUrl: 'highways-act',
+		expedited: false,
+		usesEnforcementContact: false,
+		hasAppellantStatementJourney: false
+	},
+	ENV: {
+		id: 1019,
+		key: APPEAL_CASE_TYPE.ENV,
+		type: 'Environmental',
+		processCode: 'ENV',
+		friendlyUrl: 'environmental',
+		expedited: false,
+		usesEnforcementContact: false,
+		hasAppellantStatementJourney: false
 	}
-	// { key: 'G', type: 'Discontinuance notice appeal' },
-	// { key: 'L', type: 'Community infrastructure levy' },
-	// { id: 1004, key: 'Q', type: 'Planning obligation appeal' },
-	// { key: 'S', type: 'Affordable housing obligation appeal' },
-	// { key: 'V', type: 'Call-in application' },
 });
+
+const GROUP_C_PROCESS_CODES = Object.freeze(['G', 'L', 'Q', 'TPO', 'TRN', 'HH', 'HR', 'ENV']);
 
 /**
  * @param {any} value value to lookup
@@ -296,5 +373,6 @@ module.exports = {
 	LPAQ_VALIDATION_OUTCOMES,
 	CASE_RELATION_TYPES,
 	LISTED_RELATION_TYPES,
+	GROUP_C_PROCESS_CODES,
 	caseTypeLookup
 };

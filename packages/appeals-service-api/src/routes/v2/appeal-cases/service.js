@@ -5,7 +5,7 @@ const {
 const { AppealCaseRepository } = require('./repo');
 const { Prisma } = require('@pins/database/src/client/client');
 const ApiError = require('#errors/apiError');
-const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { CASE_TYPES, GROUP_C_PROCESS_CODES } = require('@pins/common/src/database/data-static');
 const {
 	sendSubmissionConfirmationEmailToAppellantV2,
 	sendSubmissionReceivedEmailToLpaV2
@@ -215,7 +215,7 @@ const mapCommonDataModelToAppealCase = (
 	},
 	siteAddressPostcode: siteAddressPostcode,
 	siteAddressPostcodeSanitized: sanitizePostcode(siteAddressPostcode),
-	LPACode: lpaCode,
+	LPACode: lpaCode || 'UNASSIGNED',
 	caseSpecialisms: caseSpecialisms ? JSON.stringify(caseSpecialisms) : null,
 	caseValidationInvalidDetails: caseValidationInvalidDetails
 		? JSON.stringify(caseValidationInvalidDetails)
@@ -325,6 +325,15 @@ const mapCommonDataModelToAppealCase = (
 		significantChangesAffectingApplicationLpa?.find(
 			(/** @type {any} */ c) => c.value === 'court-judgement'
 		)?.comment || null
+});
+
+/**
+ * @param {String} caseProcessCode
+ * @param {any} dataModel
+ * @returns {Omit<AppealCaseCreateInput, 'Appeal'>}
+ */
+const mapGroupCDataModelToAppealCase = (caseProcessCode, dataModel) => ({
+	...mapCommonDataModelToAppealCase(caseProcessCode, dataModel)
 });
 
 /**
@@ -623,9 +632,10 @@ const mapS78DataModelToAppealCase = (caseProcessCode, dataModel) => ({
 async function putCase(caseReference, data) {
 	try {
 		const mappedData = getMappedData(data);
+		const isGroupC = GROUP_C_PROCESS_CODES.includes(data.caseType);
 		const result = await repo.putByCaseReference({
 			caseReference,
-			submissionId: data.submissionId,
+			submissionId: isGroupC ? null : data.submissionId,
 			mappedData
 		});
 		await repo.putRelationsByCaseReference(caseReference, {
@@ -728,6 +738,18 @@ const getMappedData = (data) => {
 				CASE_TYPES.ENFORCEMENT_LISTED.processCode,
 				data
 			);
+		}
+		case CASE_TYPES.G.key:
+		case CASE_TYPES.L.key:
+		case CASE_TYPES.Q.key:
+		case CASE_TYPES.TPO.key:
+		case CASE_TYPES.TRN.key:
+		case CASE_TYPES.HH.key:
+		case CASE_TYPES.HR.key:
+		case CASE_TYPES.ENV.key: {
+			const groupCValidator = getValidator('appeal-group-c');
+			if (!groupCValidator(data)) throw ApiError.badRequest('Payload was invalid');
+			return mapGroupCDataModelToAppealCase(data.caseType, data);
 		}
 		default:
 			throw Error(`putCase: unhandled casetype: ${data.caseType}`);

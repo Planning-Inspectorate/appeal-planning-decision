@@ -202,4 +202,28 @@ describe('selectedAppeal Controller Tests', () => {
 			headlineData: 'Headline Data'
 		});
 	});
+
+	it('should render successfully when LPA is undefined', async () => {
+		getDepartmentFromCode.mockResolvedValue(undefined);
+		isChildLinkedAppeal.mockReturnValue(false);
+		isEnforcementChildLinkedAppeal.mockReturnValue(false);
+		getAppealStatus.mockReturnValue('In Progress');
+		formatCommentHeadlineText.mockReturnValue('Headline Text');
+		formatCommentDeadlineText.mockReturnValue('Deadline Text');
+		formatCommentDecidedData.mockReturnValue('Decided Data');
+		formatCommentInquiryText.mockReturnValue([]);
+		formatCommentHearingText.mockReturnValue([]);
+		formatHeadlineData.mockReturnValue('Headline Data');
+
+		await selectedAppeal(req, res);
+
+		expect(formatHeadlineData).toHaveBeenCalledWith({
+			caseData: req.appealCase,
+			lpaName: undefined
+		});
+		expect(res.render).toHaveBeenCalledWith(
+			'comment-planning-appeal/appeals/_appealNumber/index',
+			expect.any(Object)
+		);
+	});
 });
