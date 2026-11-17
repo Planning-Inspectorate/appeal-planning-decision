@@ -298,9 +298,13 @@ const calculateAppealDueDeadline = (appealSubmission) => {
 	if (isAppealSubmission(appealSubmission)) {
 		return calculateDeadlineFromBeforeYouStart({ appeal: appealSubmission.appeal });
 	} else if (isV2Submission(appealSubmission)) {
-		return calculateDeadlineFromAppellantSubmission({
-			appellantSubmission: appealSubmission.AppellantSubmission
-		});
+		try {
+			return calculateDeadlineFromAppellantSubmission({
+				appellantSubmission: appealSubmission.AppellantSubmission
+			});
+		} catch {
+			return null;
+		}
 	}
 };
 
