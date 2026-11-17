@@ -17,7 +17,7 @@ COPY packages/dynamic-forms /opt/packages/dynamic-forms
 
 # install from root
 WORKDIR /opt
-RUN npm ci --workspaces --if-present
+RUN npm ci --workspaces --if-present --ignore-scripts
 
 # build web
 WORKDIR /opt/packages/forms-web-app
