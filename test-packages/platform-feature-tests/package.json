@@ -37,8 +37,8 @@
 		"mochawesome": "^8.0.1",
 		"mochawesome-merge": "^4.3.0",
 		"mochawesome-report-generator": "^6.2.0",
-		"puppeteer": "^24.9.0",
-		"puppeteer-core": "^24.9.0",
+		"puppeteer": "^25.17.0",
+		"puppeteer-core": "^25.17.0",
 		"webpack": "^5.105.0"
 	},
 	"cypress-cucumber-preprocessor": {
