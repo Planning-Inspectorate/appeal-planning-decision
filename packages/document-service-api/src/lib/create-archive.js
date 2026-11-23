@@ -1,6 +1,7 @@
 const createArchive = async (...args) => {
 	// esm only
-	const { default: archiver } = await import('archiver');
+	const archiverModule = await import('archiver');
+	const archiver = archiverModule.default;
 	return archiver(...args);
 };
 
