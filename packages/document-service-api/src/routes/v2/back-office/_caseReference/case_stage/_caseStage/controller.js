@@ -1,5 +1,5 @@
 const blobClient = require('#lib/back-office-storage-client');
-const createArchive = require('#lib/create-archive');
+const archiver = require('archiver');
 const { DocumentsRepository } = require('../../../../../../db/repos/repository');
 const repo = new DocumentsRepository();
 const logger = require('#lib/logger');
@@ -117,7 +117,7 @@ async function getDocumentsByCaseReferenceAndCaseStage(req, res) {
 		id_token
 	);
 
-	const archive = await createArchive('zip', {
+	const archive = archiver('zip', {
 		zlib: { level: 1 } // Sets the compression level.
 	});
 

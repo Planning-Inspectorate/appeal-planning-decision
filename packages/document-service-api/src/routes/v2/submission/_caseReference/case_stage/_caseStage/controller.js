@@ -1,6 +1,6 @@
 const kebabCase = require('lodash.kebabcase');
 const blobClient = require('#lib/front-office-storage-client');
-const createArchive = require('#lib/create-archive');
+const archiver = require('archiver');
 const { DocumentsRepository } = require('../../../../../../db/repos/repository');
 const repo = new DocumentsRepository();
 const { storage } = require('#config/config');
@@ -80,7 +80,7 @@ async function getDocumentsByCaseReferenceAndCaseStage(req, res) {
 
 	const blobCollection = await getBlobCollection(caseStage, caseReference);
 
-	const archive = await createArchive('zip', {
+	const archive = archiver('zip', {
 		zlib: { level: 1 } // Sets the compression level.
 	});
 

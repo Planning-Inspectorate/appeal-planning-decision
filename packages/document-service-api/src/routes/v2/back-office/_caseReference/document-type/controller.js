@@ -1,5 +1,5 @@
 const blobClient = require('#lib/back-office-storage-client');
-const createArchive = require('#lib/create-archive');
+const archiver = require('archiver');
 const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 const { DocumentsRepository } = require('../../../../../db/repos/repository');
 const repo = new DocumentsRepository();
@@ -131,7 +131,7 @@ async function getDocumentsByCaseReference(req, res) {
 		filter
 	);
 
-	const archive = await createArchive('zip', {
+	const archive = archiver('zip', {
 		zlib: { level: 1 } // Sets the compression level.
 	});
 
