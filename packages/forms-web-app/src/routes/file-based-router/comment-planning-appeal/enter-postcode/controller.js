@@ -4,7 +4,13 @@ const { resetInterestedPartySession } = require('../../../../services/interested
 /** @type {import('express').RequestHandler} */
 const enterPostcodeGet = (req, res) => {
 	resetInterestedPartySession(req);
-	res.render(`comment-planning-appeal/enter-postcode/index`);
+	const previousUrlBYS =
+		req?.session?.navigationHistory?.length > 1 &&
+		req?.session?.navigationHistory[1]?.trim() === '/before-you-start';
+	const backLink = previousUrlBYS ? 'https://www.gov.uk/' : req?.session?.navigationHistory[1];
+	res.render(`comment-planning-appeal/enter-postcode/index`, {
+		backLink: backLink
+	});
 };
 
 /** @type {import('express').RequestHandler} */
