@@ -78,8 +78,24 @@ describe('format-case-type:', () => {
 		it('returns escaped links for document, or awaiting review for unredacted docs', () => {
 			const doc1 = { documentType: 'a', id: '1', filename: 'test>1', redacted: true };
 			const doc2 = { documentType: 'a', id: '2', filename: 'test>2', redacted: false };
+
 			expect(formatDocumentDetails([doc1, doc2], 'a')).toEqual(
 				'<a href="/published-document/1" class="govuk-link">test&gt;1</a>\ntest&gt;2 - awaiting review'
+			);
+		});
+
+		it('links redacted documents and owned unredacted documents, but keeps other unredacted documents awaiting review', () => {
+			const doc1 = { documentType: 'a', id: '1', filename: 'test1', redacted: true };
+			const doc2 = { documentType: 'a', id: '2', filename: 'test2', redacted: false };
+			const doc3 = {
+				documentType: 'a',
+				id: '3',
+				filename: 'test3',
+				redacted: false,
+				userOwned: true
+			};
+			expect(formatDocumentDetails([doc1, doc2, doc3], 'a')).toEqual(
+				'<a href="/published-document/1" class="govuk-link">test1</a>\ntest2 - awaiting review\n<a href="/published-document/3" class="govuk-link">test3</a>'
 			);
 		});
 	});

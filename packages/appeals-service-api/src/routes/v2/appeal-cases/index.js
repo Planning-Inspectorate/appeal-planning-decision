@@ -2,7 +2,7 @@ const express = require('express');
 const { list, getByCaseReference, putByCaseReference, getCount } = require('./controller');
 
 const { checkCaseAccess } = require('./_caseReference/case-auth-middleware');
-const { checkAuthTokens } = require('../token-middleware');
+const { checkAuthTokens } = require('#middleware/token-middleware');
 
 const asyncHandler = require('@pins/common/src/middleware/async-handler');
 const { openApiValidatorMiddleware } = require('../../../validators/validate-open-api');

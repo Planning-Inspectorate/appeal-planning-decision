@@ -1,4 +1,4 @@
-const { checkAuthTokens } = require('../../token-middleware');
+const { checkAuthTokens } = require('#middleware/token-middleware');
 const ApiError = require('#errors/apiError');
 const { AppealCaseRepository } = require('../repo');
 const { LPAQuestionnaireSubmissionRepository } = require('./lpa-questionnaire-submission/repo');
@@ -27,16 +27,21 @@ async function assertCanAccessCase(req, res, next) {
 		const { caseReference } = req.params;
 		const { lpaCode } = req.id_token || {};
 
+		if (!caseReference) {
+			throw new ApiError(400, { errors: ['Case reference is required as url param'] });
+		}
+
 		if (lpaCode) {
 			await submissionRepo.lpaCanModifyCase({
 				caseReference,
 				userLpa: lpaCode
 			});
 			req.appealUserRoles = [];
+			req.isLpa = true;
 		} else {
 			const result = await caseRepo.userCanModifyCase({
 				caseReference,
-				userId: req.auth?.payload.sub
+				userId: req.userId
 			});
 			req.appealUserRoles = result.roles;
 		}

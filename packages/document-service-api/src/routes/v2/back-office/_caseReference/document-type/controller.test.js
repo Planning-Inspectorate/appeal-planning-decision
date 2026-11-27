@@ -71,6 +71,13 @@ jest.mock('../../../../../db/repos/repository', () => ({
 				documentType: documentTypes[3],
 				filename: 'document4.pdf',
 				redacted: true
+			},
+			{
+				id: 'doc5',
+				documentURI,
+				documentType: documentTypes[0],
+				filename: 'owner-unredacted-document.pdf',
+				redacted: false
 			}
 		])
 	}))
@@ -140,16 +147,30 @@ describe('/v2/back-office/{caseReference}/document-type', () => {
 	it('should return status of 200', async () => {
 		checkDocAccess.mockImplementation(() => true);
 		await getDocumentsByCaseReference(req, res);
-		expect(mockAppend).toHaveBeenCalledTimes(3);
+		expect(mockAppend).toHaveBeenCalledTimes(5);
 		expect(res.status).toHaveBeenCalledWith(200);
 	});
 
-	it('should expect 1 blob stream to be appended, 3 not included due to access rules', async () => {
+	it('should only append documents permitted by access rules', async () => {
 		checkDocAccess.mockImplementation(
 			(params) => params.documentWithAppeal.documentType === testDocumentTypes[0]
 		);
 		await getDocumentsByCaseReference(req, res);
+		expect(mockAppend).toHaveBeenCalledTimes(2);
+		expect(mockAppend).toHaveBeenCalledWith(
+			{ stream: documentURI },
+			{ name: 'appellant-costs-application/owner-unredacted-document.pdf' }
+		);
+	});
+
+	it('should include unredacted documents when owner authorization allows access', async () => {
+		checkDocAccess.mockImplementation(({ documentWithAppeal }) => documentWithAppeal.id === 'doc5');
+		await getDocumentsByCaseReference(req, res);
 		expect(mockAppend).toHaveBeenCalledTimes(1);
+		expect(mockAppend).toHaveBeenCalledWith(
+			{ stream: documentURI },
+			{ name: 'appellant-costs-application/owner-unredacted-document.pdf' }
+		);
 		expect(res.status).toHaveBeenCalledWith(200);
 	});
 

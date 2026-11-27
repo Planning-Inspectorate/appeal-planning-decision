@@ -58,7 +58,6 @@ async function getBlobCollection(
 	});
 
 	return allDocuments
-		.filter((document) => document.redacted)
 		.filter((document) =>
 			checkDocAccess({
 				logger,

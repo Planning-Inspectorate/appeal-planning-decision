@@ -16,25 +16,26 @@ module.exports = class Repo {
 	/**
 	 * Get appeals for the given user
 	 *
-	 * @param {{ caseReference: string, userId: string, role: string }} params
+	 * @param {{ caseReference: string, userId: string, appealUserRoles: Array<import('@pins/database/src/client/client').AppealToUser> }} params
 	 * @returns {Promise<AppealCase|null>}
 	 */
-	async get({ caseReference, role, userId }) {
+	async get({ caseReference, appealUserRoles, userId }) {
 		try {
 			/**
 			 * @type {import('@pins/database/src/client/client').Prisma.AppealToUserWhereInput}
 			 */
 			const where = {};
-			if (role === APPEAL_USER_ROLES.APPELLANT || role === APPEAL_USER_ROLES.AGENT) {
-				// if appellant or agent, search for both as we don't know the role before we fetch the appeal
-				// and access is equivalent
-				where.OR = [
-					{ userId, role: APPEAL_USER_ROLES.APPELLANT },
-					{ userId, role: APPEAL_USER_ROLES.AGENT }
-				];
-			} else {
-				where.userId = userId;
-				where.role = role;
+			const roles = appealUserRoles.map(({ role }) => role);
+			where.OR = roles.map((role) => ({ userId, role }));
+			const hasAppellantRole = roles.includes(APPEAL_USER_ROLES.APPELLANT);
+			const hasAgentRole = roles.includes(APPEAL_USER_ROLES.AGENT);
+
+			// Appellant and agent have equivalent access, so include the other role when either is present.
+			if (hasAppellantRole && !hasAgentRole) {
+				where.OR.push({ userId, role: APPEAL_USER_ROLES.AGENT });
+			}
+			if (hasAgentRole && !hasAppellantRole) {
+				where.OR.push({ userId, role: APPEAL_USER_ROLES.APPELLANT });
 			}
 
 			return await this.dbClient.appealCase.findUnique({

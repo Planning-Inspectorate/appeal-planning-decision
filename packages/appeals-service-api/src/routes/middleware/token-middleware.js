@@ -5,6 +5,14 @@ const { validateToken } = require('@pins/common/src/middleware/validate-token');
 const config = require('../../configuration/config');
 
 /**
+ * @type {import('express').Handler}
+ */
+function attachUserId(req, _, next) {
+	req.userId = req.auth?.payload.sub;
+	return next();
+}
+
+/**
  * @param {Object} [options]
  * @param {boolean} [options.enforceUserLoggedIn]
  * @returns {import('express').Handler[]}
@@ -20,7 +28,8 @@ function checkAuthTokens({ enforceUserLoggedIn = true } = {}) {
 			reqPropertyName: 'id_token',
 			jwksUri: `${config.auth.authServerUrl}${AUTH.JWKS_ENDPOINT}`,
 			enforceToken: enforceUserLoggedIn
-		})
+		}),
+		attachUserId
 	];
 }
 
