@@ -13,7 +13,6 @@ const {
 const { rules } = require('@pins/business-rules');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
-jest.mock('../../../../src/services/task.service');
 jest.mock('../../../../src/lib/logger');
 jest.mock('@pins/business-rules/src/utils/calculate-deadline-before-you-start');
 
